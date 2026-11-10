@@ -403,7 +403,22 @@ async function renderCapture(st) {
   } catch (e) { r = { status: 'error', error: e.message }; }
   if (!still()) return;
   box.innerHTML = '';
-  if (r.status === 'error') { box.append(el('div', 'none', `캡처하지 못했어요: ${r.error}`)); return; }
+  if (r.status === 'error') {
+    const p = pair();
+    if (!(STATIC && p && p.has_harness && p.publisher[S.v])) { box.append(el('div', 'none', `캡처하지 못했어요: ${r.error}`)); return; }
+    // 공유용 화면에 찍어 둔 캡처가 없으면: 두 화면을 겹쳐 같은 곳은 검게, 다른 곳만 밝게 보여 준다 (브라우저가 바로 계산)
+    const note = el('div', 'shot-head');
+    note.append(chip('찍어 둔 화면 비교가 없어 겹쳐서 보여 줘요'), el('span', 'muted', `${r.error} · 검은 곳은 같고, 밝게 보이는 곳이 달라요 (바뀐 곳 개수는 안 나와요)`));
+    const pn = pane('차이만 밝게', 'var(--accent)', `하네스와 퍼블리셔 ${verLabel()}를 겹침`, [renderUrl('harness'), renderUrl('publisher')], p.width);
+    const top = $('iframe.overlay-top', pn);
+    top.style.opacity = 1;
+    top.style.mixBlendMode = 'difference';
+    pn.style.cssText = 'flex:1;min-height:0;border:0;border-radius:0';
+    box.append(note, pn);
+    hookScroll();
+    requestAnimationFrame(fitAll);
+    return;
+  }
 
   const head = el('div', 'shot-head');
   const [, hh] = r.harness_size, [, ph] = r.publisher_size;
@@ -550,7 +565,7 @@ function renderDetails() {
   if (m.summary) req.append(el('p', null, m.summary));
   if (S.d.folder) {
     const row = el('p', 'muted', S.d.folder.split('/').slice(-2).join(' / ') + ' ');
-    row.append(reveal('Finder에서 열기', { kind: 'request' }));
+    row.append(reveal(STATIC ? 'NAS 경로 복사' : 'Finder에서 열기', { kind: 'request' }));
     req.append(row);
   }
   const inputs = m.shadow?.inputs || [];
@@ -561,7 +576,7 @@ function renderDetails() {
       li.append(reveal(n, { kind: 'input', name: n }, true));
       ul.append(li);
     });
-    req.append(el('p', 'muted', `요청서·자료 ${inputs.length}개 (누르면 Finder에서 보여요)`), ul);
+    req.append(el('p', 'muted', `요청서·자료 ${inputs.length}개 (${STATIC ? '누르면 NAS 경로를 복사해요' : '누르면 Finder에서 보여요'})`), ul);
   }
   const paths = m.paths || [];
   if (paths.length) {
@@ -574,7 +589,7 @@ function renderDetails() {
       li.append(btn);
       ul.append(li);
     });
-    req.append(el('p', 'muted', `요청서에 적힌 경로 ${paths.length}개 (누르면 Finder에서 열려요)`), ul);
+    req.append(el('p', 'muted', `요청서에 적힌 경로 ${paths.length}개 (${STATIC ? '누르면 NAS 경로를 복사해요' : '누르면 Finder에서 열려요'})`), ul);
   }
   if (m.open_questions?.length) {
     const ul = el('ul');
@@ -699,9 +714,71 @@ function renderDetails() {
   }
 }
 
+/* 공유용 화면: 웹 페이지는 Finder를 열 수 없어서, 누르면 NAS 경로를 복사한다 (Finder에서 ⌘⇧G → 붙여넣기).
+   NAS를 Finder로 연결하면 /Volumes/lotte_dfs 에 붙는다. 다른 곳에 붙였으면 한 번 물어 이 브라우저에 기억한다. */
+function nasRoot() {
+  try { return localStorage.getItem('nasRoot') || '/Volumes/lotte_dfs'; } catch { return '/Volumes/lotte_dfs'; }
+}
+/* 공유용 화면 머리줄의 'NAS 위치' 설정: 누르면 입력칸으로 바뀌고, Enter로 이 브라우저에 저장한다 */
+function nasSetting() {
+  const btn = el('button', 'btn', `NAS 위치 ${nasRoot()}`);
+  btn.title = '내 맥에서 NAS가 붙은 폴더 (경로 복사에 써요). 눌러서 바꿀 수 있어요';
+  btn.onclick = () => {
+    const input = el('input', 'memo');
+    input.value = nasRoot();
+    input.placeholder = '/Volumes/lotte_dfs';
+    input.style.width = '260px';
+    const done = save => {
+      if (save) {
+        const v = input.value.trim().replace(/\/+$/, '');
+        try { v ? localStorage.setItem('nasRoot', v) : localStorage.removeItem('nasRoot'); } catch { /* 저장이 막힌 브라우저 */ }
+        toast(`NAS 위치를 ${nasRoot()} 로 저장했어요 (이 브라우저에만)`);
+      }
+      btn.textContent = `NAS 위치 ${nasRoot()}`;
+      input.replaceWith(btn);
+    };
+    input.onkeydown = e => { if (e.key === 'Enter') done(true); else if (e.key === 'Escape') done(false); };
+    input.onblur = () => done(false);
+    btn.replaceWith(input);
+    input.focus();
+    input.select();
+  };
+  return btn;
+}
+if (STATIC) $('.top-right').prepend(nasSetting());
+
+function nasRel(what) {
+  const d = S.d, m = d.meta || {};
+  if (what.kind === 'request') return d.folder;
+  if (what.kind === 'input') return `${d.folder}/${what.name}`;
+  if (what.kind === 'publisher') {
+    const v = d.versions.find(x => x.latest);
+    return v && v.zips && v.zips[0] ? `${d.folder}/${v.zips[0]}` : d.folder;
+  }
+  if (what.kind === 'path') return ((m.paths || [])[what.index] || {}).rel;
+  if (what.kind === 'base') return (((m.base || {}).by_lang || {})[what.lang] || {}).rel || (m.base || {}).rel;
+  return null;
+}
+function nasPath(label, what, asText) {
+  const b = el('button', asText ? 'linkbtn' : 'btn small-btn', label);
+  b.title = 'NAS 경로 복사 (Finder에서 ⌘⇧G → 붙여넣기)';
+  b.onclick = async () => {
+    const rel = nasRel(what);
+    if (!rel) return toast('이 항목은 NAS 경로를 몰라요');
+    const path = `${nasRoot()}/${rel}`;
+    try {
+      await navigator.clipboard.writeText(path);
+      toast('경로를 복사했어요. Finder에서 ⌘⇧G를 누르고 붙여 넣어 주세요');
+    } catch {
+      toast(path);
+    }
+  };
+  return b;
+}
+
 /* Finder로 열기: 무엇을 열지만 보내고, 경로는 서버가 그 건의 기록에서 정한다 */
 function reveal(label, what, asText = false) {
-  if (STATIC) return el('span', asText ? '' : 'muted', label);        // 공유용 화면: Finder는 못 연다
+  if (STATIC) return nasPath(label, what, asText);
   const b = el('button', asText ? 'linkbtn' : 'btn small-btn', label);
   b.title = 'Finder에서 보기';
   b.onclick = async () => {
