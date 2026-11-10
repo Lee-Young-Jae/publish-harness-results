@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 상단 갭 */
+		var fixGap = $('#lotteHeader').find('nav.gnb').length ? 80 : 65;
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top - 1, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+						}
+					}
+				}
+			}
+
+		});
+
+		/* URL에 해시있을 경우 앵커 및 탭 이동 합니다. */
+		var hashTarget = location.hash;
+		if (hashTarget) {
+
+			$('._evt_nav').find('a').each(function(i, v) {
+				if (hashTarget == $(this).attr('href')) {
+					$(this).trigger('click');
+				}
+			});
+		}
+
+		/* BEAUTY 브랜드 롤링 (가운데 카드 확대, 자동 롤링, 브랜드 탭 연동) */
+		(function() {
+			var $wrap = $('._beauty_slider');
+			if (!$wrap.length) {
+				return;
+			}
+
+			var $track = $wrap.find('._track');
+			var $tabs = $('._beauty_tab ._tab');
+			var $origin = $track.children('._card');
+			var total = $origin.length;
+
+			/* 시안 값: 양옆 카드 272px, 가운데 카드 340px, 간격 32px */
+			var SIDE = 272, ACTIVE = 340, GAP = 32, SPEED = 500, DELAY = 3000;
+
+			$track.prepend($origin.clone().addClass('_clone')).append($origin.clone().addClass('_clone'));
+
+			var $cards = $track.children('._card');
+			var cur = total;
+			var autoTimer = null;
+			var loopTimer = null;
+
+			function getX(i) {
+				var center = i * (SIDE + GAP) + GAP / 2 + ACTIVE / 2;
+				return $wrap.width() / 2 - center;
+			}
+
+			function setPos(i, anim) {
+				if (!anim) {
+					$track.addClass('_no_trans');
+				}
+
+				$cards.removeClass('_active').eq(i).addClass('_active');
+				$track.css('transform', 'translateX(' + getX(i) + 'px)');
+
+				var real = ((i - total) % total + total) % total;
+				$tabs.removeClass('_active').eq(real).addClass('_active');
+
+				if (!anim) {
+					$track[0].offsetHeight;
+					$track.removeClass('_no_trans');
+				}
+			}
+
+			function go(i) {
+				cur = i;
+				setPos(cur, true);
+
+				clearTimeout(loopTimer);
+				loopTimer = setTimeout(function() {
+					if (cur < total) {
+						cur += total;
+						setPos(cur, false);
+					} else if (cur >= total * 2) {
+						cur -= total;
+						setPos(cur, false);
+					}
+				}, SPEED + 30);
+			}
+
+			function stop() {
+				clearInterval(autoTimer);
+			}
+
+			function start() {
+				stop();
+				autoTimer = setInterval(function() {
+					go(cur + 1);
+				}, DELAY);
+			}
+
+			$tabs.on('click', function(e) {
+				e.preventDefault();
+				go(total + $tabs.index(this));
+				start();
+			});
+
+			$wrap.on('mouseenter', stop).on('mouseleave', start);
+
+			$(window).on('resize._beautySlider', function() {
+				setPos(cur, false);
+			});
+
+			setPos(cur, false);
+			$wrap.addClass('_init');
+			start();
+		})();
+
+		/* ALL CATEGORY 사은품 스와이프 (행사 내용 2개 이상) */
+		$('._gift_swipe').each(function() {
+			var $swipe = $(this);
+			var $item = $swipe.closest('._item');
+			var $list = $swipe.find('._gift_list');
+			var len = $list.children('._gift').length;
+			var $cond = $item.find('._cond_list ._cond');
+			var idx = 0;
+
+			function move(i) {
+				idx = (i + len) % len;
+				$list.css('transform', 'translateX(' + (-100 * idx) + '%)');
+				$cond.removeClass('_active').eq(idx).addClass('_active');
+			}
+
+			$item.find('._btn_prev').on('click', function(e) {
+				e.preventDefault();
+				move(idx - 1);
+			});
+
+			$item.find('._btn_next').on('click', function(e) {
+				e.preventDefault();
+				move(idx + 1);
+			});
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-jp-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansJP-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansJP-Regular.ttf') format('truetype'),
+		local('NotoSansJP Regular'), local('NotoSansJP-Regular'), local('NotoSansCJKJP-Regular');
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansJP-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansJP-Medium.ttf') format('truetype'),
+		local('NotoSansJP Medium'), local('NotoSansJP-Medium'), local('NotoSansCJKJP-Medium');
+	}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:'Pretendard JP', 'Noto Sans Regular';}
+	.evWrap img {display:block;}
+	.evWrap a {display:block; text-decoration:none; color:inherit;}
+	.evWrap button {margin:0; padding:0; border:0; background:none; font:inherit; cursor:pointer;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	/* KV */
+	._evt_header {width:100%;}
+	._evt_header ._area_wrap {position:relative; width:100%;}
+	._evt_header ._visual {display:flex; justify-content:center; width:100%; height:750px; background:linear-gradient(180deg, #000000 0%, #56160E 100%);}
+	._evt_header ._kv_txt {position:absolute; left:0; top:0; width:100%; height:100%; color:#fff; text-align:center; pointer-events:none;}
+	._evt_header ._kv_sub {position:absolute; left:0; top:503px; width:100%; font-size:30px; font-weight:700; letter-spacing:-0.75px; line-height:26.6902px;}
+	._evt_header ._kv_main {position:absolute; left:50%; top:562px; transform:translateX(-50%); font-size:80px; font-weight:800; letter-spacing:-0.02em; line-height:102px; white-space:nowrap;}
+	._evt_header ._kv_period {position:absolute; left:100%; top:18px; margin-left:60px; font-size:20.0517px; font-weight:600; letter-spacing:-0.501294px; line-height:20.584px; text-align:left;}
+	._evt_header ._kv_period ._d {display:block; white-space:nowrap;}
+	._evt_header ._kv_period ._week {display:inline-block; margin-left:1px; font-size:9.25465px; letter-spacing:-0.231366px; vertical-align:top;}
+	._evt_header ._kv_period ._line {display:block; width:8px; height:1.54244px; margin:12px 0 8px 2px; background:#fff;}
+
+	/* 앵커 탭 */
+	._info_nav_flex {width:100%; height:60px;}
+	._info_nav_flex ._nav_wrap {width:100%; height:60px; background:#870000; z-index:10;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:65px; width:100%; z-index:100;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; width:100%; height:100%; margin:0 auto;}
+	._info_nav_flex ._nav_wrap ._nav {flex:0 0 auto; position:relative; width:auto; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:flex; align-items:center; justify-content:center; width:auto; height:100%; padding:0 32px; font-size:20px; font-weight:600; letter-spacing:0; color:rgba(255,255,255,0.6);}
+	._info_nav_flex ._nav_wrap ._nav span {display:flex; align-items:center; justify-content:center; width:auto; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#fff;}
+	._info_nav_flex ._nav_wrap ._nav._current span::after {content:''; position:absolute; left:32px; right:32px; bottom:0; height:4px; background:#fff;}
+
+	/* 공통 섹션 */
+	._evt_content {position:relative; width:100%; overflow:hidden;}
+	._evt_content ._evt_content_wrap {position:relative; width:100%; margin:0 auto; padding:120px 0; z-index:1;}
+	._evt_content ._set_ank {position:absolute; left:0; top:0;}
+	._evt_content ._sec_title {width:100%; font-size:46px; font-weight:800; letter-spacing:-0.92px; line-height:55px; text-align:center;}
+
+	/* BEAUTY */
+	._evt_content._evt_content_1 {background:#000; color:#fff;}
+	._evt_content_1 ._bg_layer {position:absolute; left:0; top:0; width:100%; height:100%; overflow:hidden; z-index:0;}
+	._evt_content_1 ._bg_layer img {position:absolute; max-width:none;}
+	._evt_content_1 ._bg_layer ._bg_1 {left:calc(50% - 1009px); top:0; width:1121px;}
+	._evt_content_1 ._bg_layer ._bg_2 {left:calc(50% - 969px); top:0; width:2201px;}
+	._evt_content_1 ._bg_layer ._bg_3 {left:50%; top:-185px; width:763px; margin-left:-385px;}
+
+	._beauty_tab {width:100%; margin-top:50px;}
+	._beauty_tab ._tab_rows {display:flex; flex-direction:column; align-items:center; gap:12px;}
+	._beauty_tab ._tab_row {display:flex; justify-content:center; gap:10px;}
+	._beauty_tab ._tab {display:flex; align-items:center; justify-content:center; height:41px; padding:10px 16px; border-radius:100px; background:#6D0C0C; font-size:18px; font-weight:700; letter-spacing:-0.36px; color:rgba(255,255,255,0.6); white-space:nowrap; transition:background 0.3s, color 0.3s;}
+	._beauty_tab ._tab._active {background:#fff; color:#6D0C0C;}
+
+	._beauty_slider {position:relative; width:100%; margin-top:60px; overflow:hidden; opacity:0;}
+	._beauty_slider._init {opacity:1;}
+	._beauty_slider ._track {display:flex; align-items:center; width:max-content; transition:transform 0.5s ease;}
+	._beauty_slider ._track._no_trans,
+	._beauty_slider ._track._no_trans * {transition:none !important;}
+	._beauty_slider ._card {flex:0 0 auto; width:272px; margin:0 16px; border-radius:14.4px; overflow:hidden; background:#fff; transition:width 0.5s ease, border-radius 0.5s ease;}
+	._beauty_slider ._card._active {width:340px; border-radius:18px;}
+	._beauty_slider ._card ._thumb {position:relative; display:block; width:100%; aspect-ratio:272 / 314; overflow:hidden; background:#D0D1D3;}
+	._beauty_slider ._card ._thumb._ratio_mo {aspect-ratio:384 / 387;}
+	._beauty_slider ._card ._thumb img {width:100%;}
+	._beauty_slider ._card ._thumb ._gift_layer {position:absolute; max-width:none;}
+	._beauty_slider ._card ._thumb ._gift_byredo {left:3.30882%; top:76.43312%; width:117.27941%;}
+	._beauty_slider ._card ._thumb ._gift_bioderma {left:26.82292%; top:74.41860%; width:70.3125%;}
+	._beauty_slider ._card ._info {display:block; padding:14.3158px 17.3835px 16.3609px 17.3835px; background:#fff; color:#323232; text-align:left; font-family:-apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; word-break:break-word; transition:padding 0.5s ease;}
+	._beauty_slider ._card ._brand {display:block; font-size:16px; font-weight:700; letter-spacing:0; line-height:20.4511px; transition:font-size 0.5s ease, line-height 0.5s ease;}
+	._beauty_slider ._card ._cond {display:block; margin-top:4.8px; font-size:14.4px; font-weight:500; letter-spacing:-0.432px; line-height:19.2px; transition:font-size 0.5s ease, line-height 0.5s ease, margin 0.5s ease;}
+	._beauty_slider ._card._active ._info {padding:17.8947px 21.7293px 20.4511px 21.7293px;}
+	._beauty_slider ._card._active ._brand {font-size:20px; line-height:25.5639px;}
+	._beauty_slider ._card._active ._cond {margin-top:6px; font-size:18px; letter-spacing:-0.54px; line-height:24px;}
+	/* 사은품마다 요건이 다를 때: 요건 문구를 사은품 칸 수만큼 나란히 */
+	._beauty_slider ._card ._cond_split {display:flex; gap:4.8px;}
+	._beauty_slider ._card ._cond_split > span {flex:1 1 0;}
+
+	/* FASHION & LIFESTYLE */
+	._evt_content._evt_content_2 {background:linear-gradient(180deg, #AA0405 0%, rgba(26,13,13,0.2) 100%), #700000; color:#fff;}
+	._fl_list {display:flex; flex-wrap:wrap; gap:40px 30px; width:810px; margin:60px auto 0 auto;}
+	._fl_list ._item {position:relative; width:390px;}
+	._fl_list ._thumb {display:block; width:390px; overflow:hidden;}
+	._fl_list ._thumb img {width:100%;}
+	._fl_list ._info {display:block; margin-top:20px; text-align:center; word-break:break-word;}
+	._fl_list ._brand {display:block; font-size:20px; font-weight:700; letter-spacing:0; line-height:24px;}
+	._fl_list ._cond {display:block; margin-top:8px; font-size:18px; font-weight:500; letter-spacing:-0.54px; line-height:24px;}
+
+	/* ALL CATEGORY */
+	._evt_content._evt_content_3 {background:#E5E5E5; color:#000;}
+	._all_list {display:flex; flex-wrap:wrap; gap:32px 24px; width:1060px; margin:60px auto 0 auto;}
+	._all_list ._item {position:relative; width:247px;}
+	._all_list ._thumb {display:block; width:247px; height:204px; overflow:hidden; background:#fff;}
+	._all_list ._thumb img {width:100%;}
+	._all_list ._gift_swipe {position:absolute; left:0; top:121px; width:247px; height:83px; overflow:hidden; background:#fff;}
+	._all_list ._gift_list {display:flex; width:100%; height:100%; transition:transform 0.4s ease;}
+	._all_list ._gift {flex:0 0 100%; width:100%; height:100%; overflow:hidden;}
+	._all_list ._gift img {width:100%;}
+	._all_list ._gift._gift_first img {margin-top:-121px; clip-path:inset(0 24px 0 24px);}
+	._all_list ._btn_prev,
+	._all_list ._btn_next {position:absolute; top:150px; display:flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:3px; background:#666; z-index:5;}
+	._all_list ._btn_prev {left:0;}
+	._all_list ._btn_next {right:0;}
+	._all_list ._btn_prev svg,
+	._all_list ._btn_next svg {display:block;}
+	._all_list ._info {display:block; margin-top:16px; text-align:center; word-break:break-word;}
+	._all_list ._brand {display:block; font-size:18px; font-weight:700; letter-spacing:0; line-height:21px;}
+	._all_list ._cond {display:block; margin-top:4px; font-size:16px; font-weight:500; letter-spacing:-0.48px; line-height:23px;}
+	._all_list ._cond_list ._cond {display:none;}
+	._all_list ._cond_list ._cond._active {display:block;}
+
+	._all_notice {width:100%; margin-top:60px; font-size:18px; font-weight:500; letter-spacing:-0.36px; color:#6F6F6F; text-align:center;}
+
+</style>
+<div class="evWrap" data-ipg-id="mkt_j_26110001">
+
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<div class="_visual"><img src="IMAGE_URL_필요_1" alt="일문 PC KV 이미지 (NAS KV 폴더 일문 PC KV, 1920x750)"></div>
+			<!-- KV 이미지에 문구가 들어 있으면 아래 _kv_txt 블록은 지웁니다. -->
+			<div class="_kv_txt">
+				<p class="_kv_sub">ショッピングをもっと特別にする特典</p>
+				<p class="_kv_main">ブランドノベルティプレゼント
+					<span class="_kv_period">
+						<span class="_d">11.6<span class="_week">(FRI)</span></span>
+						<span class="_line"></span>
+						<span class="_d">11.30<span class="_week">(MON)</span></span>
+					</span>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _nav_1 _current">
+					<a href="#_evtContent_1" class="_fn_goto"><span>ビューティー</span></a>
+				</div>
+				<div class="_nav _nav_2">
+					<a href="#_evtContent_2" class="_fn_goto"><span>ファッション &amp; ライフスタイル</span></a>
+				</div>
+				<div class="_nav _nav_3">
+					<a href="#_evtContent_3" class="_fn_goto"><span>全カテゴリー</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ビューティー -->
+	<div class="_evt_content _evt_content_1">
+		<div class="_bg_layer">
+			<img class="_bg_1" src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000e969548f01ba9e18f6c2f9dd3f0428be.webp" alt="">
+			<img class="_bg_2" src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000953caa76d35cdc1791ca1bf80ec96465.webp" alt="">
+			<img class="_bg_3" src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000008e614582ca7dd0fc57d19934bc5e7f99.webp" alt="">
+		</div>
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_1"></div>
+
+			<h3 class="_sec_title">ビューティー</h3>
+
+			<!-- 브랜드 탭: 시트(일문) 순서대로, 아래 카드 순서와 같게 -->
+			<div class="_beauty_tab">
+				<div class="_tab_rows">
+					<div class="_tab_row">
+						<button type="button" class="_tab _active">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+					</div>
+					<div class="_tab_row">
+						<button type="button" class="_tab">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+						<button type="button" class="_tab">브랜드명</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="_beauty_slider">
+				<div class="_track">
+
+					<!-- 01 다이슨 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000a262861599d1c3521873dba8b9a3da69.webp" alt=""></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 02 바이레도 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb">
+								<img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000b54e21e6a41e59d7d12d4c0dcdd692f7.webp" alt="">
+								<img class="_gift_layer _gift_byredo" src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000045a1ce74392ebe1afaaa97e68ca71641.webp" alt="">
+							</span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 03 바이오더마 (PC 시안은 빈 틀, 국모 시안 카드 이미지 사용) -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb _ratio_mo">
+								<img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000047f68dc619c3cfdb6bd7a7479d895e8b.webp" alt="">
+								<img class="_gift_layer _gift_bioderma" src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000007ae1c6a8200589fde67e0aacfc64d423.webp" alt="">
+							</span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 04 슈에무라 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000e06a788ff21858f762f95e2e2182e9c2.webp" alt=""></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 05 아쿠아디파르마 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000dc4f9551b26a00965f2fba8adfc0155c.webp" alt=""></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 06 김정문알로에 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000bbabbbb45416cefb252a1a2d23e14d10.webp" alt=""></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 07 설화수 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000bdceb9fbdcd47c27ed5acbe1a19dee68.webp" alt=""></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 08 브랜드 미정 (시안 빈 틀) -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="IMAGE_URL_필요_2" alt="BEAUTY 8번째 브랜드 이미지 + 사은품 이미지 (시안 빈 틀)"></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 09 톰 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000ca4e12e81e17e1a672851ac50c7c77bd.webp" alt=""></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+					<!-- 10 헤라 -->
+					<div class="_card">
+						<a href="#" class="_link">
+							<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000005092b6e56c678741d943607ae55ba9a8.webp" alt=""></span>
+							<span class="_info">
+								<span class="_brand">[브랜드명]</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ファッション & ライフスタイル -->
+	<div class="_evt_content _evt_content_2">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_2"></div>
+
+			<h3 class="_sec_title">ファッション &amp; ライフスタイル</h3>
+
+			<div class="_fl_list">
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000075b20f36e8a1389289713e3a2861f61.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">[브랜드명]</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000a5c3c2bf87ec2862d5d300f65079c1f1.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">[브랜드명]</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000000b7a25df55e410fab4f3666e338797f.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">[브랜드명]</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000001042ac1b3eaa02562a9e1d39e25a454f.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">[브랜드명]</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- 全カテゴリー -->
+	<div class="_evt_content _evt_content_3">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_3"></div>
+
+			<h3 class="_sec_title">全カテゴリー</h3>
+
+			<div class="_all_list">
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000006f7ae91150d50b8668c942fe693af33d.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000006f7ae91150d50b8668c942fe693af33d.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_3" alt="리츄얼스 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">리츄얼스</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000008d3d9154cf7c4d9ab335534d320842d9.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">몰튼 브라운</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000093f59e5ae369fbd08bffec5e9b5cdb60.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000093f59e5ae369fbd08bffec5e9b5cdb60.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_4" alt="산타마리아노벨라 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">산타마리아노벨라</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<!-- 스킨수티컬즈: PC 시안에만 있음(국모 시안·요청 28개에는 없음). 전시하려면 주석을 풉니다.
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000a5e47108492f90302aef9fd6e32a6849.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000a5e47108492f90302aef9fd6e32a6849.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_5" alt="스킨수티컬즈 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">스킨수티컬즈</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+				-->
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000d30036a91f479a33139f91575d964f21.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">클라랑스</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000d6e6cd43c8d43f610dd54308b33224ff.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">헬레나 루빈스타인</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000009eb3420a8e962bb15c9ad3d93a56c22b.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">듀이셀</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000030fc22fba1574f7336a78c3ed3bde3d8.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000030fc22fba1574f7336a78c3ed3bde3d8.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_6" alt="릴리바이레드 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">릴리바이레드</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000009b29491fc7c1671e65808e75ebb61dbe.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000009b29491fc7c1671e65808e75ebb61dbe.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_7" alt="메디큐브 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">메디큐브</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000414b12e317f4084bd34e6abae98ca989.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">쁘리마쥬</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000005bae3214e34e30eecb0d535eaf3b02e3.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">벤튼</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000007a8c38cb80c959870b893a708dcfcae8.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000007a8c38cb80c959870b893a708dcfcae8.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_8" alt="삐아 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">삐아</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000143e38cac729655e76c62278b16b7f66.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">연작</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000031a0b3de234d1ffa21be14886b542e73.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">정샘물</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000005f95140bef05c260cb30d8dc9b2e32ac.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">플르부아</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000009c308b7ab91ff63bd3968163bfb1a07.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">더후</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000004facdca9a8b3fb004466afb83e3e2cb.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">로우로우</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000057b6db0acb3bb357f1f6f3894d8c6452.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">브랜든</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000541d2a90881d314af91ff7c3cb2836ef.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">헤지스 패션</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000003220105530ed3f910ae942de384f49f5.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">닥스</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000574e8c6828a39a49ae24d6a8b014862a.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000574e8c6828a39a49ae24d6a8b014862a.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_9" alt="아떼 바네사브루노 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">아떼 바네사브루노</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000594608fc4211c48dd18c5c66a4c2fc97.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">질스튜어트</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000009ab45c096f058210ca86fd72805b869e.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">팩세이프</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000e1c63332b46b4e7087a1726408494ca0.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">헤지스</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000005b98e02214012ee1d77276c2e7738569.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">톰포드</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000012e12eb368c095a4a7950af86d061f3d.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000012e12eb368c095a4a7950af86d061f3d.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_10" alt="엔젯오리진 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">엔젯오리진</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<div class="_item _swipe">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000d27f1d8c02673bb2ba2eb492df5e4ce0.webp" alt=""></span>
+						<span class="_gift_swipe">
+							<span class="_gift_list">
+								<span class="_gift _gift_first"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000d27f1d8c02673bb2ba2eb492df5e4ce0.webp" alt=""></span>
+								<span class="_gift"><img src="IMAGE_URL_필요_11" alt="오쏘몰 두 번째 행사 사은품 이미지 (247x83)"></span>
+							</span>
+						</span>
+						<span class="_info">
+							<span class="_brand">오쏘몰</span>
+							<span class="_cond_list">
+								<span class="_cond _active">$00 이상 구매 시<br>사은품 증정</span>
+								<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+							</span>
+						</span>
+					</a>
+					<button type="button" class="_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6L6 11" stroke="white" stroke-width="1.5"/></svg></button>
+					<button type="button" class="_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="white" stroke-width="1.5"/></svg></button>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000427b847bb22a276c5a6b3ed79c811dcc.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">오늘와인</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+				<div class="_item">
+					<a href="#" class="_link">
+						<span class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000095c0a1d060add16e9f2204da36c019cd.webp" alt=""></span>
+						<span class="_info">
+							<span class="_brand">워터프루프</span>
+							<span class="_cond">$00 이상 구매 시<br>사은품 증정</span>
+						</span>
+					</a>
+				</div>
+
+			</div>
+
+			<p class="_all_notice">※ なくなり次第、予告なく終了となりますのでご了承ください。</p>
+		</div>
+	</div>
+
+</div>
+</div></div></section></article></div></body></html>

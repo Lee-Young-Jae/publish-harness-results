@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.evWrap {position:relative; width:100%; min-width:1200px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular', sans-serif;}
+	.evWrap * {box-sizing:border-box;}
+	.evWrap img {display:block; margin:0 auto;}
+	.evWrap a {display:block; text-decoration:none;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	/* 섹션 (1920px 기준, 화면 가운데 정렬) */
+	._evt_sec {position:relative; width:1920px; left:50%; margin-left:-960px;}
+	._evt_sec ._visual img {width:1920px;}
+	._evt_sec ._set_ank {position:absolute; left:0; top:0; width:1px; height:1px;}
+	._evt_sec ._set_ank._ank_join {top:1271px;}
+
+	/* 이미지 위 버튼 영역 */
+	._evt_sec ._btn_link {position:absolute; z-index:2;}
+	._evt_sec ._btn_select {left:773px; top:364px; width:374px; height:66px;}
+	._evt_sec ._btn_apply {left:773px; top:2930px; width:374px; height:66px;}
+	._evt_sec ._btn_victoria {left:773px; top:628px; width:374px; height:66px;}
+	._evt_sec ._btn_koreanair {left:773px; top:634px; width:374px; height:66px;}
+	._evt_sec ._btn_vietbenefit {left:738px; top:535px; width:444px; height:66px;}
+	._evt_sec ._btn_kakao {left:738px; top:2072px; width:444px; height:66px;}
+
+	/* 플로팅 탭 메뉴 */
+	._info_nav_flex {position:relative; width:100%; height:88px;}
+	._info_nav_flex ._nav_wrap {width:100%; height:88px; background:#305830; z-index:100;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:80px;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; align-items:flex-start; height:100%; padding:30px 50px 0; font-size:0;}
+	._info_nav_flex ._nav {position:relative; height:58px; margin-left:80px;}
+	._info_nav_flex ._nav:first-child {margin-left:0;}
+	._info_nav_flex ._nav a {position:relative; display:block; height:100%; color:rgba(255,255,255,0.5); font-size:24px; font-weight:600; line-height:29px; letter-spacing:-0.48px; text-align:center; white-space:nowrap;}
+	._info_nav_flex ._nav a::after {content:''; position:absolute; left:0; right:0; bottom:0; height:4px; background:transparent;}
+	._info_nav_flex ._nav._current a {color:#FFFFFF; font-weight:700;}
+	._info_nav_flex ._nav._current a::after {background:#FFFFFF;}
+
+	/* 멜버른 카드 롤링 */
+	._evt_sec._mel_rolling {padding-bottom:120px; background:#FFFFFF;}
+	._mel_rolling ._mel_swiper {position:relative; width:100%; overflow:hidden;}
+	._mel_rolling ._mel_swiper .swiper-wrapper {display:flex; position:relative; width:100%; height:543px; box-sizing:content-box;}
+	._mel_rolling ._mel_swiper .swiper-slide {flex-shrink:0; width:480px; height:543px; margin-right:20px;}
+	._mel_rolling ._mel_swiper .swiper-slide img {width:480px; height:543px;}
+	._mel_rolling ._mel_pagination {display:flex; justify-content:center; height:8px; margin-top:80px; font-size:0;}
+	._mel_rolling ._mel_pagination .swiper-pagination-bullet {display:block; width:8px; height:8px; margin:0 0 0 8px; border-radius:50%; background:#000000; opacity:0.3; cursor:pointer;}
+	._mel_rolling ._mel_pagination .swiper-pagination-bullet:first-child {margin-left:0;}
+	._mel_rolling ._mel_pagination .swiper-pagination-bullet-active {opacity:1;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_26100008">
+
+	<!-- KV -->
+	<div class="_evt_sec _evt_kv">
+		<div class="_evt_hide">
+			WISH DESTINATION<br />
+			Make a Wish, We'll Take You There<br />
+			롯데면세점 겨울여행제
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000f6661882143e77860694f8f724697b6a.webp" alt="WISH DESTINATION 롯데면세점 겨울여행제" /></div>
+	</div>
+
+	<!-- 소개 -->
+	<div class="_evt_sec _evt_intro">
+		<div class="_evt_hide">
+			롯데면세점이 준비한 역대급 크리스마스 경품 선물!<br />
+			올 겨울, 선물 스케일이 다르多!<br />
+			대항항공 직항으로 만나는 여름의 멜버른, 비엣베네핏과 더 특별해지는 베트남 여행,<br />
+			그리고 제주항공과 꿈꾸는 다음 여행
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000dfbdc47cc3590621674f8668e8ac50b5.webp" alt="롯데면세점이 준비한 역대급 크리스마스 경품 선물! 올 겨울, 선물 스케일이 다르多!" /></div>
+		<a href="#_evtAnk_join" class="_btn_link _btn_select _ev_anchor" data-target="_evtAnk_join" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '나의 다음 여행지 선택하기');"><span class="_evt_hide">나의 다음 여행지 선택하기</span></a>
+	</div>
+
+	<!-- 플로팅 탭 메뉴 -->
+	<div class="_info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _current"><a href="#_evtAnk_onepass" class="_ev_anchor" data-target="_evtAnk_onepass" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', 'ONE PASS');">ONE PASS</a></div>
+				<div class="_nav"><a href="#_evtAnk_melbourne" class="_ev_anchor" data-target="_evtAnk_melbourne" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '멜버른');">멜버른</a></div>
+				<div class="_nav"><a href="#_evtAnk_vietnam" class="_ev_anchor" data-target="_evtAnk_vietnam" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '베트남');">베트남</a></div>
+				<div class="_nav"><a href="#_evtAnk_shopping" class="_ev_anchor" data-target="_evtAnk_shopping" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '쇼핑 혜택');">쇼핑 혜택</a></div>
+				<div class="_nav"><a href="#_evtAnk_wish" class="_ev_anchor" data-target="_evtAnk_wish" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '2027 여행 소원');">2027 여행 소원</a></div>
+				<div class="_nav"><a href="#_evtAnk_guide" class="_ev_anchor" data-target="_evtAnk_guide" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '이용 안내');">이용 안내</a></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ONE PASS 영역 -->
+	<div class="_evt_sec _evt_onepass">
+		<div class="_set_ank" id="_evtAnk_onepass"></div>
+		<div class="_evt_hide">
+			A Pass to Your Next Journey<br />
+			출국 전부터, 여행지까지 계속되는 혜택<br />
+			Q. 롯데면세점 ONE PASS 란?<br />
+			A. 국내 쇼핑부터 해외여행까지, 롯데면세점의 다양한 혜택을 연결하는 프로모션 입니다.<br />
+			출국 전 ONE PASS 이미지를 저장하거나 촬영해두세요. 해외 롯데면세점 참여 매장에서 결제 전 제시하면, 해당 매장의 행사 조건에 따라 추가 쇼핑 혜택을 이용할 수 있어요.<br />
+			ONE PASS+ 이용 방법 확인하기!<br />
+			STEP 1 매장의 QR을 스캔 후 랜딩 이미지 캡쳐 or 원패스 이미지를 사진 촬영 후 저장하세요!<br />
+			STEP 2 롯데면세점 해외점을 방문하세요<br />
+			STEP 3 결제 전 ONE PASS 화면을 보여주세요<br />
+			STEP 4 국가별 특별 혜택을 받으세요<br />
+			AUSTRALIA 멜버른・브리즈번 공항점 / 시드니 시내점 AU$150 이상 구매 시 AU$15 할인<br />
+			VIETNAM 다낭・나트랑・하노이 공항점 3개점 전용 10% 할인 적용<br />
+			※ 참여 매장 · 기간 · 구매 조건은 혜택별로 다릅니다.<br />
+			※ 항공권 경품과 비엣베네핏 제휴 혜택은 각 이벤트 안내에 따라 별도 참여·신청이 필요합니다.
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000006de90cf59f82d6a2c5e291d25c8280a2.webp" alt="출국 전부터, 여행지까지 계속되는 혜택 ONE PASS" /></div>
+	</div>
+
+	<!-- 쇼핑 혜택 영역 -->
+	<div class="_evt_sec _evt_shopping">
+		<div class="_set_ank" id="_evtAnk_shopping"></div>
+		<div class="_evt_hide">
+			The Winter Shopping Edit<br />
+			떠나기 전, 겨울 쇼핑부터<br />
+			나를 위한 선물부터 함께 떠나는 사람의 선물까지. 롯데면세점에서 여행 준비와 쇼핑 혜택을 함께 챙기세요.<br />
+			LDF PAYBACK 페이백 최대 177만원 #롯데면세점 #WISH DESTINATION #경품이벤트<br />
+			기간 : 2026. 11. 1 ~ 11. 8 / 대상 : 내국인(KOR) 오프라인 회원 / 대상점 : 명동본점, 제주점 / 대상 카테고리 : 패션, 시계 &amp; 보석<br />
+			기간 : 2026. 11. 1 ~ 11. 8 / 대상 : 내국인(KOR) 오프라인 회원 / 대상점 : 부산점, 월드타워점 / 대상 카테고리 : 전 카테고리<br />
+			단위 : 만원
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000ccdbc6f7e7b4e6f7db98c2a499e393cd.webp" alt="LDF PAYBACK 페이백 최대 177만원" /></div>
+	</div>
+
+	<!-- 이용 안내 영역 -->
+	<div class="_evt_sec _evt_guide">
+		<div class="_set_ank" id="_evtAnk_guide"></div>
+		<div class="_set_ank _ank_join" id="_evtAnk_join"></div>
+		<div class="_evt_hide">
+			Find Your Winter<br />
+			당신의 겨울은 어떤 여행인가요?<br />
+			나를 위한 선물부터 함께 떠나는 사람의 선물까지. 롯데면세점에서 여행 준비와 쇼핑 혜택을 함께 챙기세요.<br />
+			HOW TO JOIN 항공권 경품 공통 이벤트 항공권 경품, 한눈에 보기<br />
+			대한항공 서울-멜버른 왕복 항공권 5매 (빅토리아주 관광청 제휴 한국 고객 대상)<br />
+			비엣베네핏 베트남 제주항공 왕복 항공권 10매 (베트남 여행의 기회!)<br />
+			제주항공 국제선 왕복 항공권 6매 / 제주항공 싱가포르 왕복 항공권 2매 / 제주항공 마카오 왕복 항공권 2매<br />
+			구매 · 응모기간 : 2026. 11. 01 ~ 2026. 12. 13<br />
+			행사 내용 : 11월1일부터 12월13일까지 롯데면세점 시내점에서 $300 이상 구매하고, 하단 응모하기 버튼을 클릭하여 경품 응모하기!<br />
+			참여 방법 : 01 롯데면세점에서 쇼핑하기 - 행사 기간 내 롯데면세점에서 구매 / 02 하단 응모하기 클릭 - 버튼을 클릭하여 응모 페이지로 이동해 주세요. / 03 당첨자 발표 - 2027년 1월 이내 *온라인 게시 및 고객 개별 연락 예정
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000073508b64af90222758299996f5cadf3a.webp" alt="당신의 겨울은 어떤 여행인가요? 항공권 경품, 한눈에 보기" /></div>
+		<!-- 응모하기 : 응모 기능(스크립트·URL) 확인 후 연결 -->
+		<a href="#" class="_btn_link _btn_apply _ev_fn_apply" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '응모하기');"><span class="_evt_hide">응모하기</span></a>
+	</div>
+
+	<!-- 멜버른 영역 -->
+	<div class="_evt_sec _evt_melbourne">
+		<div class="_set_ank" id="_evtAnk_melbourne"></div>
+		<div class="_evt_hide">
+			Destination 01 MELBOURNE AUSTRALIA<br />
+			올겨울, 여름의 멜버른으로<br />
+			빅토리아주 관광청 X 롯데면세점<br />
+			예술과 미식, 취향 따라 즐기는 도시<br />
+			트램이 오가는 거리와 고풍스러운 건축물, 개성 있는 카페와 갤러리, 다채로운 미식까지. 호주 빅토리아주의 주도 멜버른에서 도시의 매력과 여유로운 여름을 함께 즐겨보세요.
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000075b0cd90241af8b298e8486c6f96239b.webp" alt="Destination 01 MELBOURNE 올겨울, 여름의 멜버른으로" /></div>
+		<a href="https://kr.visitmelbourne.com/" target="_blank" class="_btn_link _btn_victoria" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '빅토리아주 관광청');"><span class="_evt_hide">빅토리아주 관광청</span></a>
+	</div>
+
+	<!-- 멜버른 영역 : 카드 롤링 -->
+	<div class="_evt_sec _mel_rolling">
+		<div class="_mel_swiper swiper swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000002b8b42b9aa2a729568b3b6fcd2f75a4a.webp" alt="플린더스 스트리트 역 Flinders Street Station - 멜버른을 상징하는 기차역. 고풍스러운 건축물 앞에서 여행의 첫 장면을 남겨보세요." /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000000da9523f4200a82a642fb2fc22c33f3e.webp" alt="페더레이션 광장 Federation Square - 도시의 문화와 일상이 만나는 광장. 잠시 걸음을 멈추고 멜버른의 분위기를 느껴보세요." /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000009ce02a3b743590e3da6f8b650ef31d7c.webp" alt="야라강 Yarra River - 멜버른 도심을 가로지르며 주요 명소를 잇는 강. 멜버른의 대표적인 포토 스팟." /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000c1077bc55acbd1ab0051e5fdfa547784.webp" alt="호시어레인 Hosier Lane - 드라마 ‘미안하다, 사랑한다’의 촬영지 그래피티 사진 명소" /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/2026103000000000088da700cf5abdd2e4458832f84a61090.webp" alt="빅토리아 주립 도서관 Yarra River - 도서관의 상징인 거대한 팔각형 돔 구조의 열람실" /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000f453592becca5934c5b4fd3309523583.webp" alt="디그레이브스 스트리트 Yarra River - 아침을 깨우는 테라스 카페와 미식이 가득한 거리" /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000006365cd374f264956d1ea15725649f33f.webp" alt="로열 아케이드 Yarra River - 19세기 빅토리아 시대의 고풍스러운 분위기를 고스란히 간직하고 있어 멜버른의 헤리티지를 느낄 수 있습니다." /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000008a069e98a1e7ceff826d5ec0b33e233b.webp" alt="퀸 빅토리아 마켓 Queen Victoria Market - 남반구에서 가장 큰 규모를 자랑하는 야외 시장 중 하나" /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000006cb9c3a349b7123dc25ad246297da774.webp" alt="사우스 멜버른 마켓 Yarra River - 멜버른에서 가장 오래된 실내 시장으로 활기찬 장터 분위기를 느껴보세요." /></div>
+				<div class="swiper-slide"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000f7a10999a8a6134b02076b718731ec92.webp" alt="빅토리아 국립 박물관 National Gallery Victoria - 호주 최대 규모 국립 미술관 다채로운 작품을 자랑하며, 호주 원주민의 현대 미술 작품을 만나보세요." /></div>
+			</div>
+		</div>
+		<div class="_mel_pagination"></div>
+	</div>
+
+	<!-- 멜버른 영역 : 대한항공 운항 스케줄 -->
+	<div class="_evt_sec _evt_koreanair">
+		<div class="_evt_hide">
+			SEOUL ←&gt; MELBOURNE<br />
+			대한항공으로, 멜버른까지 한 번에<br />
+			서울-멜버른 신규 직항 운항 스케쥴<br />
+			운항 기간 2026. 12. 18 ~ 2027. 03. 14<br />
+			인천 → 멜버른 KE409 출발 08:00 도착 20:30 운항요일 수 / 금 / 일<br />
+			멜버른 → 인천 KE410 출발 22:00 도착 07:35+1 운항요일 수 / 금 / 일<br />
+			※ 도착시간의 +1은 다음 날 도착을 의미합니다.<br />
+			※ 스케줄은 사전 고지 없이 변경될 수 있으니 예약 시 재확인해 주세요.<br />
+			서울-멜버른 신규 직항 기념 대한항공 서울-멜버른 왕복 항공권 증정 4매<br />
+			직항 운항 기간 2026. 12. 18 ⏤ 2027. 03. 14<br />
+			유의사항 : 한국 고객 대상 · 응모 방법과 경품 이용 조건은 확정 후 안내됩니다.
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000804b0946f83f7b534d2a957822c8cd84.webp" alt="대한항공으로, 멜버른까지 한 번에 서울-멜버른 신규 직항 운항 스케쥴" /></div>
+		<a href="https://www.koreanair.com/contents/promotion/list/2026/mel2026?pageNum=1" target="_blank" class="_btn_link _btn_koreanair" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '대한항공 항공편 스케쥴');"><span class="_evt_hide">대한항공 항공편 스케쥴</span></a>
+	</div>
+
+	<!-- 베트남 영역 -->
+	<div class="_evt_sec _evt_vietnam">
+		<div class="_set_ank" id="_evtAnk_vietnam"></div>
+		<div class="_evt_hide">
+			Destination 02 VIETNAM<br />
+			베트남으로 떠나고, 다낭에서 더 누리고.<br />
+			롯데면세점 X 비엣베네핏
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000c6ebb23fe28216cc3bea292af3f74495.webp" alt="Destination 02 VIETNAM 베트남으로 떠나고, 다낭에서 더 누리고." /></div>
+		<a href="https://www.vietbenefit.com/landing-page/2655" target="_blank" class="_btn_link _btn_vietbenefit" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '비엣베네핏 베트남 여행 혜택 확인하기');"><span class="_evt_hide">비엣베네핏 베트남 여행 혜택 확인하기</span></a>
+	</div>
+
+	<div class="_evt_sec _evt_vietnam_benefit">
+		<div class="_evt_hide">
+			도착부터 여행의 끝까지, 비엣베네핏과 함께.<br />
+			편안한 숙박부터 공항 패스트트랙, 현지 투어까지. 롯데면세점 쇼핑 후 다낭에서 누리는 혜택을 만나보세요.<br />
+			제휴 행사 기간 2026. 11. 01 ~ 12. 31<br />
+			행사 기간 : 2026. 11. 01 ~ 2026. 12. 31<br />
+			신청 방법 : 01 롯데면세점에서 쇼핑하기 - $300 이상 구매 시 패스트트랙 대상 자격 부여 / 02 카카오채널 친구 추가 - ‘비엣베네핏 다낭' 채널 추가 - 채널 접속 후 1:1 문의하기 클릭 / 03 영수증 인증 · 혜택 신청 - 구매영수증 또는 캡처본 1:1 채팅으로 전송하여 인증하기 / 04 혜택 수령 · 예약 완료 - 확인 완료 후, 담당자가 원하시는 혜택 예약과 적용을 도와드립니다.<br />
+			유의사항 및 개인정보 수집·제3자 제공 동의
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000003da89f9292129fc0843e414cf36caed9.webp" alt="도착부터 여행의 끝까지, 비엣베네핏과 함께." /></div>
+		<a href="https://pf.kakao.com/_XPMan" target="_blank" class="_btn_link _btn_kakao" onclick="ga_evtTagScript('PC_이벤트', '주말카드사더블증정', '비엣베네핏 카카오 채널 혜택 이용하기');"><span class="_evt_hide">비엣베네핏 카카오 채널 혜택 이용하기</span></a>
+	</div>
+
+	<!-- 2027 여행 소원 영역 -->
+	<div class="_evt_sec _evt_wish">
+		<div class="_set_ank" id="_evtAnk_wish"></div>
+		<div class="_evt_hide">
+			Destination 03<br />
+			2027, 당신의 여행 위시리스트는?<br />
+			가고 싶은 여행지와 그곳에서 이루고 싶은 소원을 남겨보세요. 제주항공과 함께 꿈꾸는 다음 여행.<br />
+			제주항공 왕복 항공권 10매 - 희망 국제선 6매 · 싱가포르 2매 · 마카오 2매<br />
+			희망 국제선 6매 / SINGAPORE 도시의 밤을 따라, 싱가포르 왕복 항공권 2매 / MACAO 색다른 풍경을 만나는 마카오 왕복 항공권 2매<br />
+			제주항공 항공권은 왕복 기준 총 10매(국제선 6매 · 싱가포르 2매 · 마카오 2매)입니다<br />
+			유류할증료 · 공항세 본인 부담 / 성수기 이용 불가 / 대상 노선 및 예약 조건 별도 확인
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/202610300000000003672fc5aae2c3dd5daf994cabcfd498b.webp" alt="2027, 당신의 여행 위시리스트는? 제주항공 왕복 항공권 10매" /></div>
+	</div>
+
+	<!-- 하단 유의사항 -->
+	<div class="_evt_sec _evt_notice">
+		<div class="_evt_hide">
+			유의사항<br />
+			항공권 경품 및 제휴 혜택 안내<br />
+			대한항공 서울 – 멜버른 왕복 항공권은 한국 고객 대상 4매입니다.<br />
+			표기된 직항 운항기간은 경품 응모기간이나 경품 항공권 이용 가능 기간을 뜻하지 않습니다.<br />
+			2027 여행 소원 이벤트의 제주항공 경품은 왕복 10매이며 국제선 6매 · 싱가포르 2매 · 마카오 2매로 구성됩니다.<br />
+			경품 유의사항
+		</div>
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261030/20261030000000000fc2a24d9b9888c9fd0813d595b17a877.webp" alt="유의사항" /></div>
+	</div>
+
+	<script type="text/javascript">
+		$(function() {
+			var $wrap = $('.evWrap[data-ipg-id="mkt_26100008"]');
+			var $navFlex = $wrap.find('._info_nav_flex');
+			var $navWrap = $navFlex.find('._nav_wrap');
+			var $navs = $navFlex.find('._nav');
+			var fixTop = 80; /* 사이트 상단 고정 헤더 높이 */
+
+			function navHeight() {
+				return $navWrap.outerHeight();
+			}
+
+			/* 앵커 이동 (플로팅바 높이만큼 보정) */
+			$wrap.find('._ev_anchor').on('click', function(e) {
+				e.preventDefault();
+				var $target = $('#' + $(this).data('target'));
+				if (!$target.length) return;
+				$('html, body').stop().animate({scrollTop: $target.offset().top - fixTop - navHeight() + 1}, 400);
+			});
+
+			/* 응모하기 : 응모 기능 확인 전 자리만 둠 */
+			$wrap.find('._ev_fn_apply').on('click', function(e) {
+				e.preventDefault();
+			});
+
+			/* 탭 고정 + 활성 표시 */
+			function onScroll() {
+				var st = $(window).scrollTop();
+				var navTop = $navFlex.offset().top;
+				var wrapBottom = $wrap.offset().top + $wrap.outerHeight();
+				var nh = navHeight();
+
+				if (st + fixTop >= navTop && st + fixTop + nh < wrapBottom) {
+					$navFlex.addClass('_fixed');
+				} else {
+					$navFlex.removeClass('_fixed');
+				}
+
+				var pos = st + fixTop + nh + 2;
+				var currentIdx = 0, maxTop = -1;
+				$navs.each(function(i) {
+					var $target = $('#' + $(this).find('a').data('target'));
+					if (!$target.length) return;
+					var t = $target.offset().top;
+					if (t <= pos && t > maxTop) {
+						maxTop = t;
+						currentIdx = i;
+					}
+				});
+				$navs.removeClass('_current').eq(currentIdx).addClass('_current');
+			}
+			$(window).on('scroll resize', onScroll);
+			onScroll();
+
+			/* 멜버른 카드 롤링 */
+			function initMelSwiper() {
+				new Swiper($wrap.find('._mel_swiper')[0], {
+					slidesPerView: 'auto',
+					centeredSlides: true,
+					spaceBetween: 20,
+					speed: 500,
+					pagination: {
+						el: $wrap.find('._mel_pagination')[0],
+						clickable: true
+					}
+				});
+			}
+			if (typeof Swiper === 'undefined') {
+				var s = document.createElement('script');
+				s.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';
+				s.onload = initMelSwiper;
+				document.head.appendChild(s);
+			} else {
+				initMelSwiper();
+			}
+		});
+	</script>
+</div>
+</div></div></section></article></div></body></html>

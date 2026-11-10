@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 상단 갭 */
+		var fixGap = $('#lotteHeader').find('nav.gnb').length ? 80 : 65;
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var goPosition = $target.offset().top - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav:visible');
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+				$('._set_ank').each(function(i, v) {
+					if ($(this).offset().top - (fixGap + navHeight) <= scrollTop && ($(this).offset().top + $(this).parent().height()) - navHeight >= scrollTop) {
+						if (!$('._evt_nav').find('._nav').eq(i).is('._current')) {
+							$('._evt_nav').find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+						}
+					}
+				});
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+						}
+					}
+				}
+			}
+		});
+
+		/* 레이어 열기 */
+		$('.evWrap ._ev_fn_layer').on('click', function(e) {
+			e.preventDefault();
+
+			if ($(this).data('login')) {
+				var _eventLoginCheck = loginCheck(null, 'N');
+
+				if (!_eventLoginCheck) {
+					checkLoginThen();
+					return false;
+				}
+			}
+
+			var $evtWrap = $('.evWrap');
+			var $target = $($(this).attr('href'));
+
+			var setPos = {
+				left: $(this).offset().left,
+				top: $(this).offset().top - $evtWrap.offset().top,
+				right: $(this).offset().left + $(this).width(),
+				bottom: ($(this).offset().top - $evtWrap.offset().top) + $(this).height(),
+				screenCenter: function() {
+					var evtWidth = $evtWrap.width() / 2;
+					var layerWidth = parseInt($target.width()) > 1 ? parseInt($target.width()) / 2 : 550 / 2;
+
+					return evtWidth - layerWidth;
+				},
+				screenMiddle: function() {
+					var winGap = 160;
+					var wrapGap = 50;
+					/*
+						winGap = 창으로 부터의 상단을 기준으로 마진 (기본은 면세점 GNB 높이. 상단 행사 네비에 가려질 경우 행사 네비 높이 만큼 증가 시킴)
+						wrapGap = 영역으로의 상단을 기준으로 마진
+					*/
+
+					var winPos = $(window).scrollTop() - $evtWrap.offset().top;
+					var winHeight = winPos < 0 ? $(window).innerHeight() + winPos : $(window).innerHeight();
+
+					var wrapHeight = $evtWrap.height();
+					var wrapPosTop = $evtWrap.offset().top;
+					var wrapPosBottom = wrapHeight;
+
+					var targetHeight = $target.height();
+					var targetPosTop = (winPos + (winHeight / 2)) - (targetHeight / 2);
+					var targetPosBottom = targetPosTop + targetHeight;
+
+					if (winHeight > (targetHeight + winGap)) {
+						if (winPos > 0) {
+							if (targetPosBottom > (wrapPosBottom - wrapGap)) {
+
+								$('html, body').scrollTop(wrapPosBottom - targetHeight);
+
+								return wrapPosBottom - targetHeight - wrapGap;
+							} else {
+								return targetPosTop + (winGap / 2);
+							}
+						} else {
+							return (winHeight / 2) - (targetHeight / 2);
+						}
+					} else {
+						if (targetHeight > wrapHeight) {
+							return winGap;
+						} else {
+							if (winPos > 0) {
+								if ((winPos + winGap + (winGap / 2) + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winPos + winGap + (winGap / 2);
+								}
+							} else {
+								if ((winGap + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winGap;
+								}
+							}
+						}
+					}
+				}
+			};
+
+			if ($target.length > 0) {
+
+				$evtWrap.find('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+				var resultTop = setPos.screenMiddle();
+				var resultLeft = setPos.screenCenter();
+
+				if (!$(this).is('.active')) {
+					$target.css({display: 'block', top: resultTop, left: resultLeft, marginLeft: 0, opacity: 0}).addClass('active').animate({
+						opacity: 1
+					}, 0, function() {});
+					$('#evDimmed').css({display: 'block'});
+				}
+			}
+		});
+
+		/* 레이어 닫기 */
+		$('.evWrap ._ev_layer ._close').on('click', function(e) {
+			e.preventDefault();
+			var $evtWrap = $('.evWrap');
+
+			$(this).closest('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+			$('#evDimmed').css({display: 'none'});
+		});
+		$('#evDimmed').on('click', function(e) {
+			e.preventDefault();
+			$('.evWrap ._ev_layer:visible').find('._close').trigger('click');
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:local('NotoSansKR Regular'), local('NotoSansKR-Regular'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:local('NotoSansKR Medium'), local('NotoSansKR-Medium'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	/* ----------------------- */
+	/* ★★★★ 100% 레이아웃일 때. 기본 1020px  */
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; background-color:#fff; font-family:Pretendard, 'Noto Sans Regular', sans-serif;}
+	.evWrap * {box-sizing:border-box;}
+	.evWrap p, .evWrap ul, .evWrap ol, .evWrap li, .evWrap h3 {margin:0; padding:0; list-style:none;}
+	.evWrap img {display:block;}
+	.evWrap a {display:block; text-decoration:none;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._nowrap {white-space:nowrap;}
+
+	/* ----------------------- */
+	/* ★★★★ 컬러 */
+	._init_color {color:#B19B72 !important;}
+	._init_bg {background:#3A2F2C !important;}
+
+	/* KV */
+	._info_header {position:relative; width:100%; height:840px; background:#FBFAF7 linear-gradient(to bottom, #FCFBF8 0%, #F5EFE1 100%);}
+	._info_header ._logo {position:absolute; left:50%; top:55px; width:130px; margin-left:-65px; z-index:1;}
+	._info_header ._logo img {width:100%;}
+	._info_header ._date {position:absolute; left:0; top:116px; width:100%; font-size:26px; font-weight:600; line-height:39px; text-align:center; color:#000; z-index:1;}
+	._info_header ._title {position:absolute; left:0; top:171px; width:100%; font-size:62px; font-weight:700; line-height:75px; text-align:center; color:#000; white-space:nowrap; z-index:1;}
+	._info_header ._sub {position:absolute; left:0; top:337px; width:100%; font-size:30px; font-weight:400; line-height:36px; text-align:center; color:#000; white-space:nowrap; z-index:1;}
+	._info_header ._visual {position:absolute; left:50%; top:375px; width:709px; margin-left:-363px;}
+	._info_header ._visual img {width:100%;}
+	._info_header ._join {position:absolute; left:0; top:751px; width:100%; text-align:center; z-index:2;}
+	._info_header ._join a {display:inline-block; font-size:26px; font-weight:400; line-height:39px; color:#555; text-decoration:underline; text-underline-offset:4px;}
+
+	/* TAB */
+	._info_nav_flex {width:100%; height:60px;}
+	._info_nav_flex ._nav_wrap {width:100%; max-width:1920px; height:60px; background:#3A2F2C; z-index:100;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:50%; top:80px; transform:translateX(-50%);}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; gap:90px; width:100%; height:100%; margin:0 auto;}
+	._info_nav_flex ._nav_wrap ._nav {position:relative; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:flex; align-items:center; height:100%; font-size:20px; font-weight:600; line-height:30px; color:rgba(255, 255, 255, 0.5); white-space:nowrap;}
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#fff;}
+	._info_nav_flex ._nav_wrap ._nav._current a::after {content:''; position:absolute; left:0; bottom:0; width:100%; height:3px; background:#fff;}
+
+	/* 컨텐츠 */
+	._nav_content {position:relative; width:100%; padding-top:120px; color:#000;}
+	._nav_content a {color:inherit;}
+	._nav_content ._nav_content_wrap {width:790px; margin:0 auto;}
+
+	._nav_content ._set_ank {position:absolute; top:0; left:0; width:1px; height:1px; overflow:hidden;}
+
+	._nav_content ._anchor {display:flex; justify-content:center; font-size:16px; font-weight:600; line-height:24px;}
+	._nav_content ._anchor span {display:inline-flex; align-items:center; height:32px; padding:0 13px; border-radius:999px; color:#fff;}
+
+	._nav_content ._content_header {width:100%; margin-top:34px; text-align:center;}
+	._nav_content ._content_header ._sub {font-size:24px; font-weight:600; line-height:36px;}
+	._nav_content ._content_header ._title {margin-top:10px; font-size:46px; font-weight:800; line-height:56px;}
+
+	/* 쿠폰 */
+	._nav_content ._coupon_grp {display:flex; justify-content:center; gap:30px; width:100%; margin-top:60px;}
+	._nav_content ._coupon {display:flex; gap:2px; width:380px; height:164px;}
+	._nav_content ._coupon ._cp_body {display:flex; flex-direction:column; justify-content:center; flex:1; padding:0 30px; background:#B19B72; border-radius:0 12px 12px 0; color:#fff;}
+	._nav_content ._coupon ._cp_name {font-size:16px; font-weight:600; line-height:24px;}
+	._nav_content ._coupon ._cp_price {display:flex; align-items:baseline; line-height:1;}
+	._nav_content ._coupon ._cp_price strong {font-size:56px; font-weight:700; line-height:68px;}
+	._nav_content ._coupon ._cp_price ._unit {font-size:26px; font-weight:700;}
+	._nav_content ._coupon ._cp_price ._max {margin-left:5px; font-size:16px; font-weight:700;}
+	._nav_content ._coupon ._cp_price._bold strong,
+	._nav_content ._coupon ._cp_price._bold ._unit {font-weight:800;}
+	._nav_content ._coupon ._cp_desc {font-size:14px; font-weight:500; line-height:21px; color:rgba(255, 255, 255, 0.6);}
+	._nav_content ._coupon ._cp_stub {display:flex; align-items:center; justify-content:center; width:70px; background:#B19B72; border-radius:12px 0 0 12px;}
+	._nav_content ._coupon ._cp_stub span {writing-mode:vertical-rl; font-size:20px; font-weight:500; letter-spacing:1px; color:rgba(255, 255, 255, 0.6);}
+
+	/* 정보표 */
+	._nav_content ._info_table {width:622px; margin:52px auto 0;}
+	._nav_content ._info_table > ul > li {display:flex; padding:14px 0; border-bottom:1px solid #E0E0E0;}
+	._nav_content ._info_table > ul > li:last-child {padding-bottom:0; border-bottom:0;}
+	._nav_content ._info_table ._label {flex-shrink:0; width:108px; font-size:18px; font-weight:600; line-height:27px;}
+	._nav_content ._info_table ._item {flex:1; font-size:18px; font-weight:400; line-height:27px;}
+	._nav_content ._info_table ._item ._line {display:block;}
+	._nav_content ._info_table ._item ._line ~ ._line {margin-top:2px;}
+	._nav_content ._info_table ._item ._em {display:inline-block; margin-left:8px; font-size:16px; font-weight:500; line-height:24px; color:#888; vertical-align:top;}
+	._nav_content ._info_table ._item ._line._note {font-size:16px; line-height:24px; color:#888;}
+	._nav_content ._info_table ._item ._line._note._regular {font-weight:400;}
+	._nav_content ._info_table ._item ._line._note._medium {font-weight:500;}
+
+	/* 안내문 */
+	._nav_content ._caution_table {width:622px; margin:46px auto 0;}
+	._nav_content ._caution_table > ul > li {position:relative; padding-left:6px; font-size:16px; font-weight:400; line-height:24px; color:#888; word-break:keep-all;}
+	._nav_content ._caution_table > ul > li ~ li {margin-top:4px;}
+	._nav_content ._caution_table > ul > li::before {content:''; position:absolute; left:0; top:11px; width:2px; height:2px; border-radius:100%; background:currentColor;}
+
+	/* 텍스트 링크 */
+	._nav_content ._link_set {width:622px; margin:14px auto 0;}
+	._nav_content ._link_set a {display:inline-flex; align-items:center; gap:8px; font-size:16px; font-weight:500; line-height:24px; color:#000; text-decoration:underline; text-underline-offset:3px;}
+	._nav_content ._link_set a::after {content:''; width:6px; height:11px; background:transparent url("data:image/svg+xml,%3Csvg width='8' height='14' viewBox='0 0 8 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0.927083L5.95768 7.07617L0.0110677 12.9264L0.946615 13.877L7.83463 7.09896L0.957682 0L0 0.927083Z' fill='%23000000'/%3E%3C/svg%3E%0A") 0 0 / cover no-repeat;}
+
+	/* 쿠폰번호 입력 */
+	._nav_content ._code_inp {width:324px; margin:50px auto 0;}
+	._nav_content ._code_inp input {width:100%; height:50px; padding:0; border:1px solid #BBBBBB; box-sizing:border-box; text-align:center; font-size:16px; font-weight:500; font-family:Pretendard, 'Noto Sans Regular', sans-serif; color:#000; border-radius:0;}
+	._nav_content ._code_inp input::placeholder {color:#888;}
+	._nav_content ._code_inp input::-webkit-input-placeholder {color:#888;}
+	._nav_content ._code_inp input:-ms-input-placeholder {color:#888;}
+	._nav_content ._code_inp input:-moz-placeholder {color:#888;}
+
+	/* 버튼 */
+	._nav_content ._btn_set {width:324px; margin:16px auto 0;}
+	._nav_content ._btn_set ._area_wrap {width:100%; height:50px; background:#000; text-align:center; line-height:1;}
+	._nav_content ._btn_set ._area_wrap > a {display:flex; align-items:center; justify-content:center; gap:8px; width:100%; height:100%;}
+	._nav_content ._btn_set ._name {font-size:18px; font-weight:600; line-height:27px; color:#fff;}
+	._nav_content ._btn_set ._sign {display:block; width:12px; height:15px;}
+	._nav_content ._btn_set ._sign svg {display:block; width:100%; height:100%;}
+	._nav_content ._btn_set._link_btn ._sign {transform:rotate(-90deg);}
+	._nav_content ._btn_set._line ._area_wrap {background:#fff; border:1px solid #999;}
+	._nav_content ._btn_set._line ._name {color:#000;}
+	._nav_content ._btn_set._issue_btn {margin-top:60px;}
+	._nav_content ._btn_set._first {margin-top:64px;}
+
+	/* 하단 배너 */
+	._nav_content ._banner_set {width:692px; margin:60px auto 0;}
+	._nav_content ._banner_set ._item ~ ._item {margin-top:22px;}
+	._nav_content ._banner_set ._item img {width:100%;}
+	._nav_content ._banner_set ._wedding {display:flex; align-items:center; justify-content:space-between; height:130px; padding:0 40px; border:1px solid #E0E0E0; background:#fff;}
+	._nav_content ._banner_set ._wedding ._txt {font-size:22px; font-weight:600; line-height:33px; color:#000;}
+	._nav_content ._banner_set ._wedding ._icon {width:98px; flex-shrink:0;}
+	._nav_content ._banner_set ._wedding ._icon img {width:100%;}
+
+	._nav_content_area {width:100%; padding-top:120px;}
+
+	/* 유의사항 */
+	._notice {width:100%; padding:60px 0 80px; background:#F5F5F5; color:#666;}
+	._notice ._notice_wrap {width:790px; margin:0 auto;}
+	._notice ._notice_item ~ ._notice_item {margin-top:40px;}
+	._notice ._notice_title {font-size:18px; font-weight:700; line-height:27px; color:#000;}
+	._notice ul {margin-top:12px;}
+	._notice ul li {position:relative; padding-left:10px; font-size:14px; font-weight:400; line-height:22px; word-break:keep-all;}
+	._notice ul li ~ li {margin-top:4px;}
+	._notice ul li::before {content:''; position:absolute; left:0; top:10px; width:3px; height:3px; border-radius:100%; background:currentColor;}
+
+	/* 레이어 */
+	._ev_layer {display:none; position:absolute; left:50%; margin-left:-275px; z-index:60;}
+	._ev_layer * {box-sizing:border-box;}
+	._ev_layer ._layer_wrap {position:relative; width:550px;}
+	._ev_layer ._layer_header {height:100px; background:#000;}
+	._ev_layer ._layer_header ._title {position:relative; left:55px; top:31px; font-size:28px; font-weight:400; line-height:38px; color:#fff; letter-spacing:-0.8px;}
+	._ev_layer ._layer_content {width:100%; min-height:660px; padding:50px 55px; background:#fff; color:#000;}
+	._ev_layer ._layer_sec ~ ._layer_sec {margin-top:40px;}
+	._ev_layer ._sec_title {font-size:20px; font-weight:700; line-height:30px;}
+	._ev_layer ._layer_sec ul {margin-top:12px;}
+	._ev_layer ._layer_sec ul li {position:relative; padding-left:14px; font-size:18px; font-weight:400; line-height:27px; word-break:keep-all;}
+	._ev_layer ._layer_sec ul li ~ li {margin-top:6px;}
+	._ev_layer ._layer_sec ul._dash li::before {content:'-'; position:absolute; left:0; top:0;}
+	._ev_layer ._layer_sec ul._dot li {color:#666;}
+	._ev_layer ._layer_sec ul._dot li::before {content:''; position:absolute; left:3px; top:12px; width:3px; height:3px; border-radius:100%; background:currentColor;}
+	._ev_layer ._close {position:absolute; right:33px; top:33px; width:35px; height:35px; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34.414' height='34.414' viewBox='0 0 34.414 34.414'%3E%3Cg transform='translate(-680.793 -40.793)'%3E%3Cline x2='33' y2='33' transform='translate(681.5 41.5)' fill='none' stroke='%23d1d1d1' stroke-width='2'/%3E%3Cline x1='33' y2='33' transform='translate(681.5 41.5)' fill='none' stroke='%23d1d1d1' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E%0A") 0 0 no-repeat; background-size:34.414px 34.414px;}
+
+	#evDimmed {display:none; position:absolute; left:0; right:0; top:0; bottom:0; background:#000; opacity:0.7; z-index:50;}
+</style>
+
+<div class="evWrap" data-ipg-id="mkt_26100003">
+
+	<!-- KV -->
+	<div class="_info_header">
+		<div class="_logo"><img src="IMAGE_URL_필요_1" alt="롯데백화점 로고" /></div>
+		<div class="_date">2026.1.1 ~ 12.31</div>
+		<div class="_title">롯데백화점<br>웨딩멤버스+ 고객 혜택</div>
+		<div class="_sub">롯데면세점과 롯데백화점이 준비한 아주 특별한 웨딩 선물</div>
+		<div class="_visual"><img src="IMAGE_URL_필요_2" alt="편지봉투, 리본, 꽃 오브제" /></div>
+		<div class="_join"><a href="#">롯데백화점 웨딩 멤버스+ 가입하기 &gt;</a></div>
+	</div>
+
+	<!-- TAB -->
+	<div class="_info_nav_flex _evt_nav">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _current"><a href="#_evtContent_1" class="_fn_goto">온라인 혜택</a></div>
+				<div class="_nav"><a href="#_evtContent_2" class="_fn_goto">오프라인 혜택</a></div>
+				<div class="_nav"><a href="#_evtContent_3" class="_fn_goto">롯데백화점 혜택</a></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 온라인 혜택 -->
+	<div class="_nav_content _nav_content_1">
+		<div class="_set_ank" id="_evtContent_1">&nbsp;</div>
+		<div class="_nav_content_wrap">
+
+			<div class="_anchor">
+				<span class="_init_bg">온라인 혜택</span>
+			</div>
+
+			<div class="_content_header">
+				<p class="_sub">웨딩멤버스+ 전용</p>
+				<p class="_title">온라인 혜택</p>
+			</div>
+
+			<div class="_coupon_grp">
+				<div class="_coupon">
+					<div class="_cp_body">
+						<p class="_cp_name">제휴쿠폰</p>
+						<p class="_cp_price _bold"><span class="_unit">$</span><strong>56</strong><span class="_max">최대</span></p>
+						<p class="_cp_desc">$100/$180/$300/$550 이상 구매 시<br>$5/$9/$15/$27 할인</p>
+					</div>
+					<div class="_cp_stub"><span>COUPON</span></div>
+				</div>
+				<div class="_coupon">
+					<div class="_cp_body">
+						<p class="_cp_name">GOLD 등급</p>
+						<p class="_cp_price"><strong>15</strong><span class="_unit">%</span><span class="_max">최대</span></p>
+						<p class="_cp_desc">추가 할인</p>
+					</div>
+					<div class="_cp_stub"><span>COUPON</span></div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">행사대상</div>
+						<div class="_item">롯데백화점 웨딩멤버스+ 회원</div>
+					</li>
+					<li>
+						<div class="_label">쿠폰혜택</div>
+						<div class="_item">ID당 1일 1회 참여 가능<span class="_em">※ 회원가 기준</span></div>
+					</li>
+					<li>
+						<div class="_label">등급혜택</div>
+						<div class="_item">기간 내 ID당 1회</div>
+					</li>
+					<li>
+						<div class="_label">사용기간</div>
+						<div class="_item">발급당일</div>
+					</li>
+					<li>
+						<div class="_label">혜택기간</div>
+						<div class="_item">등업 발급일 ~ 2026.12.31</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="_caution_table">
+				<ul>
+					<li>상기 할인율의 예시이며, 브랜드(상품)별 기본 혜택 최대 적용률 및 등급 할인율은 상이합니다.</li>
+					<li>회원가는 추가할인 (제휴쿠폰, 기본 혜택, 결제쿠폰) 적용 전 금액입니다.</li>
+					<li>등업 신청 완료 후 재로그인 하셔야 등급이 적용 됩니다.</li>
+				</ul>
+			</div>
+
+			<!-- 난수 인풋 -->
+			<div class="_code_inp">
+				<div class="_area_wrap">
+					<!--
+						★★ 고정 난수 일 떄 data-algnnum="Y" 속성 추가
+						★ 입력 자리수 명확하지 않으면 입력하지 않음
+						★ 대문자 치환 css와 스크립트로 적용되어 있습니다. 대문자 확인
+					-->
+					<input type="text" name="cooperationEvt" id="cooperationEvt" maxlength="" value="" placeholder="쿠폰번호를 입력해 주세요" style="text-transform:uppercase;" />
+				</div>
+			</div>
+
+			<!-- 오퍼코드 서밋 버튼 -->
+			<div class="_btn_set _submit_btn">
+				<div class="_area_wrap">
+					<a href="#" class="_ev_fn_submit">
+						<span class="_name">혜택 받기</span>
+						<span class="_sign"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M7.99902 0C8.81402 0 9.47461 0.661425 9.47461 1.47754L9.47461 15.0996L13.4785 11.0918C14.0548 10.5148 14.9892 10.5147 15.5654 11.0918C16.1416 11.6689 16.1416 12.6046 15.5654 13.1816L9.30469 19.4512C9.13707 19.619 8.93812 19.7355 8.72754 19.8057C8.51247 19.9283 8.26422 20 7.99902 20C7.66349 19.9999 7.35527 19.8862 7.10742 19.6973C6.95804 19.6266 6.8169 19.5319 6.69336 19.4082L0.432617 13.1387C-0.143675 12.5616 -0.143675 11.6259 0.432617 11.0488C1.00892 10.4719 1.94328 10.4718 2.51953 11.0488L6.52344 15.0576L6.52344 1.47754C6.52344 0.661541 7.18418 0.00018799 7.99902 0Z" fill="#B19B72"/></svg></span>
+					</a>
+					<script>
+						(function() {
+							$('._ev_fn_submit').on('click', function(e) {
+								e.preventDefault();
+
+								/* 면세점 함수 호출 */
+								fn_event_submit();
+							});
+						})();
+					</script>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- 오프라인 혜택 -->
+	<div class="_nav_content _nav_content_2">
+		<div class="_set_ank" id="_evtContent_2">&nbsp;</div>
+		<div class="_nav_content_wrap">
+
+			<div class="_anchor">
+				<span class="_init_bg">오프라인 혜택</span>
+			</div>
+
+			<div class="_content_header">
+				<p class="_sub">웨딩멤버스+ 전용</p>
+				<p class="_title">오프라인 더블 혜택</p>
+			</div>
+
+			<div class="_coupon_grp">
+				<div class="_coupon">
+					<div class="_cp_body">
+						<p class="_cp_name">PRE-LDF PAY</p>
+						<p class="_cp_price"><strong>1만</strong><span class="_unit">원</span><span class="_max">최대</span></p>
+						<p class="_cp_desc">$50 이상 구매 시</p>
+					</div>
+					<div class="_cp_stub"><span>COUPON</span></div>
+				</div>
+				<div class="_coupon">
+					<div class="_cp_body">
+						<p class="_cp_name">스타라운지 일일이용권</p>
+						<p class="_cp_price"><strong>1매</strong><span class="_max">최대</span></p>
+						<p class="_cp_desc">명동본점, 월드타워점 중 택1</p>
+					</div>
+					<div class="_cp_stub"><span>COUPON</span></div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">행사대상</div>
+						<div class="_item">롯데백화점 웨딩멤버스+ 고객</div>
+					</li>
+					<li>
+						<div class="_label">행사내용</div>
+						<div class="_item">
+							<span class="_line">PRE-LDF PAY: 1인 1회 발급 및 사용가능<span class="_em">※ 오프라인 전용</span></span>
+							<span class="_line">스타라운지: 본인 및 동반 1인 1시간 이용, 무료음료 2잔 제공</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">사용기간</div>
+						<div class="_item">증정 당일</div>
+					</li>
+					<li>
+						<div class="_label">참여방법</div>
+						<div class="_item">
+							<span class="_line">1. 이벤트 하단 ‘e-쿠폰 발급받기’ 버튼 클릭</span>
+							<span class="_line">2. 롯데면세점 오프라인점 증정데스크 방문</span>
+							<span class="_line">3. 직원에게 e-쿠폰 및 구매 영수증 제시 후 혜택 받기</span>
+							<span class="_line _note _regular">※ 롯데면세점 오프라인 웨딩바우처와 중복 수령 가능</span>
+							<span class="_line _note _medium">※ 여권(사본) 및 웨딩홀 계약서(사본 혹은 모바일 청접장) 지참</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="_link_set">
+				<a href="#_evLayer_1" class="_ev_fn_layer">스타라운지 수령 장소 및 사용 장소 확인하기</a>
+			</div>
+
+			<!-- 오프라인 e-쿠폰 발급 버튼 -->
+			<div class="_btn_set _issue_btn">
+				<div class="_area_wrap">
+					<a href="#" class="_ev_fn_ecoupon">
+						<span class="_name">e-쿠폰 발급 받기</span>
+					</a>
+					<script>
+						(function() {
+							$('._ev_fn_ecoupon').on('click', function(e) {
+								e.preventDefault();
+
+								/* ★ 오프라인 e-쿠폰 발급 함수 · 오퍼번호 확인 후 연결 필요 (기준 페이지에 발급 스크립트 없음) */
+							});
+						})();
+					</script>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- 롯데백화점 혜택 -->
+	<div class="_nav_content _nav_content_3">
+		<div class="_set_ank" id="_evtContent_3">&nbsp;</div>
+		<div class="_nav_content_wrap">
+
+			<div class="_anchor">
+				<span class="_init_bg">롯데백화점 혜택</span>
+			</div>
+
+			<div class="_content_header">
+				<p class="_sub">웨딩멤버스+ 신규 고객</p>
+				<p class="_title">마일리지 적립</p>
+			</div>
+
+			<div class="_coupon_grp">
+				<div class="_coupon">
+					<div class="_cp_body">
+						<p class="_cp_name">롯데백화점 웨딩마일리지</p>
+						<p class="_cp_price"><strong>10만</strong><span class="_unit">점</span><span class="_max">최대</span></p>
+					</div>
+					<div class="_cp_stub"><span>COUPON</span></div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">행사대상</div>
+						<div class="_item">행사기간 내 롯데백화점 웨딩멤버스+ 신규가입 고객</div>
+					</li>
+					<li>
+						<div class="_label">행사내용</div>
+						<div class="_item">기간 내 ID당 1회 적립 가능</div>
+					</li>
+					<li>
+						<div class="_label">참여방법</div>
+						<div class="_item">
+							<span class="_line">1. 하단 ‘웨딩멤버스+ 가입하기’를 통해 신규가입</span>
+							<span class="_line _note _medium">※ 반드시 해당 링크를 통해 가입하셔야 정상 지급 가능합니다.</span>
+							<span class="_line">2. 웨딩마일리지 10만점 적립</span>
+							<span class="_line _note _medium">※ 가입 승인 후 익일 초 적립됩니다.</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="_btn_set _link_btn _first">
+				<div class="_area_wrap">
+					<a href="#">
+						<span class="_name">웨딩멤버스+ 가입하기</span>
+						<span class="_sign"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M7.99902 0C8.81402 0 9.47461 0.661425 9.47461 1.47754L9.47461 15.0996L13.4785 11.0918C14.0548 10.5148 14.9892 10.5147 15.5654 11.0918C16.1416 11.6689 16.1416 12.6046 15.5654 13.1816L9.30469 19.4512C9.13707 19.619 8.93812 19.7355 8.72754 19.8057C8.51247 19.9283 8.26422 20 7.99902 20C7.66349 19.9999 7.35527 19.8862 7.10742 19.6973C6.95804 19.6266 6.8169 19.5319 6.69336 19.4082L0.432617 13.1387C-0.143675 12.5616 -0.143675 11.6259 0.432617 11.0488C1.00892 10.4719 1.94328 10.4718 2.51953 11.0488L6.52344 15.0576L6.52344 1.47754C6.52344 0.661541 7.18418 0.00018799 7.99902 0Z" fill="#B19B72"/></svg></span>
+					</a>
+				</div>
+			</div>
+			<div class="_btn_set _link_btn _line">
+				<div class="_area_wrap">
+					<a href="#">
+						<span class="_name">웨딩멤버스+ 자세히 보기</span>
+						<span class="_sign"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M7.99902 0C8.81402 0 9.47461 0.661425 9.47461 1.47754L9.47461 15.0996L13.4785 11.0918C14.0548 10.5148 14.9892 10.5147 15.5654 11.0918C16.1416 11.6689 16.1416 12.6046 15.5654 13.1816L9.30469 19.4512C9.13707 19.619 8.93812 19.7355 8.72754 19.8057C8.51247 19.9283 8.26422 20 7.99902 20C7.66349 19.9999 7.35527 19.8862 7.10742 19.6973C6.95804 19.6266 6.8169 19.5319 6.69336 19.4082L0.432617 13.1387C-0.143675 12.5616 -0.143675 11.6259 0.432617 11.0488C1.00892 10.4719 1.94328 10.4718 2.51953 11.0488L6.52344 15.0576L6.52344 1.47754C6.52344 0.661541 7.18418 0.00018799 7.99902 0Z" fill="#B19B72"/></svg></span>
+					</a>
+				</div>
+			</div>
+
+			<!-- 하단 배너 -->
+			<div class="_banner_set">
+				<div class="_item">
+					<a href="#" class="_wedding">
+						<span class="_txt">롯데면세점 웨딩회원에게 드리는<br>다양한 혜택을 만나보세요!</span>
+						<span class="_icon"><img src="IMAGE_URL_필요_3" alt="롯데면세점 웨딩회원 W 로고" /></span>
+					</a>
+				</div>
+				<div class="_item">
+					<a href="#"><img src="IMAGE_URL_필요_4" alt="온라인 주류관 오픈" /></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content_area"></div>
+
+	<!-- 유의사항 -->
+	<div class="_notice">
+		<div class="_notice_wrap">
+			<div class="_notice_item">
+				<h3 class="_notice_title">유의사항</h3>
+				<ul>
+					<li>본 이벤트는 PC, 모바일에서 동시에 진행됩니다.</li>
+					<li>쿠폰번호 입력 시, 반드시 공란 없이 입력 부탁드립니다.</li>
+					<li>발급 받은 스페셜쿠폰의 사용 및 확인은 모바일에서만 가능합니다.</li>
+					<li>다운로드 후 사용하지 않는 쿠폰은 복구되지 않습니다.</li>
+					<li>본 이벤트는 사전 공지 없이 당사의 사정에 따라 변경 또는 조기 종료될 수 있습니다.</li>
+					<li>회원가는 추가할인(제휴쿠폰, 기본 혜택, 결제쿠폰) 적용 전 금액입니다. (회원가 = 정상가 - 회원할인)</li>
+					<li>발급 받은 쿠폰의 다운로드/사용/확인은 '마이롯데'에서 확인 가능합니다.</li>
+					<li>롯데백화점 웨딩멤버스 전용 제휴쿠폰은 기타 제휴쿠폰과 중복 사용 불가하며, 주문 1건당 1개의 제휴쿠폰만 사용(적용) 가능합니다.</li>
+					<li>일부 브랜드 및 특정 상품은 브랜드 정책에 따라 쿠폰이 적용되지 않습니다.</li>
+					<li>롯데백화점 웨딩멤버스 신규가입 혜택은 본 페이지 내 링크를 통해 가입한 회원을 대상으로 합니다.</li>
+					<li>롯데면세점 온라인 웨딩회원 가입은 청첩장 승인 시점을 기준으로 합니다.</li>
+					<li>롯데면세점 웨딩회원 승인은 L.Point 통합회원과 롯데인터넷면세점회원 계정 모두 보유 시 한 계정에만 적용 가능합니다. (1회 등록 후 다른 계정으로 변경 불가)</li>
+					<li>웨딩멤버스 관련 문의는 롯데백화점 전점 고객상담실 또는 롯데웨딩 홈페이지 Q&amp;A를 참고하시기 바랍니다.</li>
+				</ul>
+			</div>
+			<div class="_notice_item">
+				<h3 class="_notice_title">스타라운지 유의사항</h3>
+				<ul>
+					<li>여권 지참 필수입니다.</li>
+					<li>스타라운지 이용시간은 1시간입니다.</li>
+					<li>라운지 행사 시 입장 및 휴게에 제한이 있을 수 있습니다.</li>
+					<li>라운지 내/외부 음식물 반입 및 취식이 불가합니다.</li>
+					<li>반려동물 동반 시 라운지 입장이 불가합니다.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- 레이어팝업 : 스타라운지 수령 장소 및 사용 장소 -->
+	<div class="_ev_layer" id="_evLayer_1">
+		<div class="_layer_wrap">
+			<div class="_layer_header">
+				<h3 class="_title">스타라운지 수령 장소 및 사용 장소</h3>
+			</div>
+			<div class="_layer_content">
+				<div class="_layer_sec">
+					<p class="_sec_title">스타라운지 쿠폰 수령 장소</p>
+					<ul class="_dash">
+						<li>명동본점: 11층 서비스 데스크</li>
+						<li>월드타워점: 9층 서비스 데스크</li>
+					</ul>
+				</div>
+				<div class="_layer_sec">
+					<p class="_sec_title">스타라운지 이용권 수령 장소</p>
+					<ul class="_dash">
+						<li>명동본점: 14층 엔제리너스 스타라운지점</li>
+						<li>월드타워점: 스타라운지(잠실 에비뉴엘 8층)</li>
+					</ul>
+				</div>
+				<div class="_layer_sec">
+					<p class="_sec_title">스타라운지 이용 유의 사항</p>
+					<ul class="_dot">
+						<li>여권 지참 필수입니다.</li>
+						<li>스타라운지 이용시간은 1시간입니다.</li>
+						<li>라운지 행사 시 입장 및 휴게에 제한이 있을 수 있습니다.</li>
+						<li>라운지 내/외부 음식물 반입 및 취식이 불가합니다.</li>
+						<li>반려동물 동반 시 라운지 입장이 불가합니다.</li>
+					</ul>
+				</div>
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div id="evDimmed"></div>
+
+</div>
+</div></div></section></article></div></body></html>

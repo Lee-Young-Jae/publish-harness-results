@@ -1,0 +1,3247 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if (fixGap != ldfHeaderH() + ldfHeaderY()) {
+				fixGap = ldfHeaderH() + ldfHeaderY();
+				$nav.find('._nav_wrap').css('top', fixGap);
+			}
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+
+							clearTimeout(fnTimer);
+							fnTimer = setTimeout(function() {
+								if (typeof _evtNavSwipe != 'undefined') {
+									_evtNavSwipe.slideTo(i, 500);
+								}
+							}, 300);
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+
+						}
+					}
+				}
+			}
+
+		});
+
+		/* TAB 스와이프 */
+		try {
+			var _evtNavSwipe = $('._evt_nav').length ? new Swiper('._evt_nav ._nav_wrap ._nav_inner', {
+				slidesPerView: 'auto',
+				centerInsufficientSlides: true,
+				spaceBetween: 0,
+				freeMode: true,
+
+				/* nav 4개 이상일 시 → allowTouchMove: true */
+				allowTouchMove: true,
+			}) : false;
+
+			var _evtNavSwipeTimer = null;
+			$(window).on('resize._evtNavSwiper', function(e) {
+				if (_evtNavSwipe) {
+					clearTimeout(_evtNavSwipeTimer);
+					_evtNavSwipeTimer = setTimeout(function() {
+						_evtNavSwipe.update();
+					}, 150);
+				}
+			}).trigger('resize._evtNavSwiper');
+		} catch (e) {
+			console.error(e);
+		}
+
+		function screenPxTvw(px, str, psd) {
+			var screen = psd ? 750 : $(window).width();
+			var vw;
+
+			if (typeof px !== 'string') {
+				vw = (px / screen) * 100;
+			} else {
+				return '';
+			}
+
+			if (str) {
+				return Number(vw.toFixed(5));
+			} else {
+				return Number(vw.toFixed(5)) + 'vw';
+			}
+		}
+
+		/*
+			전체 상품 리스트 데이터
+			"empty" 속성을 지정하면 빈 아이템을 삽입할 수 있습니다.
+			{empty: true}
+
+			"add" 속성을 지정하면 상품 정보에 임의의 값을 넣을 수 있습니다.
+			{prdNo:'20000840454', prdOptNo:'20001083758', add: {
+					prdBg: 'url'
+				},
+			},
+
+			"custom" 속성을 지정하면 상품 정보를 임의의 값으로 대체할 수 있습니다.
+			{prdNo:'20000840454', prdOptNo:'20001083758', custom: {
+					brndNm: '골든블랑', prdNm: '골든블랑 크레망 골든블랑 로제 750ml',
+				},
+			},
+
+			"cate" 속성을 지정하면 소팅용 그룹 값을 지정할 수 있습니다.
+			{prdNo:'20000840454', prdOptNo:'20001083758', cate: 'filterGroupName'},
+
+			"hide" 속성의 값을 true로 지정하면 해당 값은 화면에 노출되지 않습니다.
+			{prdNo:'20000840454', prdOptNo:'20001083758', hide: {
+					dscntRt:true, saleUntPrc:true, dscntAmt:true
+				},
+			},
+
+			"change" 속성의 값을 지정하면 해당 값으로 변경됩니다. * custom은 공통 데이터가 변환되고 change는 개별 상품 건에 대해서 변환됩니다.
+			{prdNo:'20000840454', prdOptNo:'20001083758', change: {
+					dscntRt:'00', saleUntPrc:'000.00', dscntAmt:'100'
+				},
+			},
+
+			"addClass" 속성의 값을 지정하면 임의 클래스를 지정할 수 있습니다.
+			{prdNo:'20000957656', prdOptNo:'20001275616', addClass: '_className'},
+
+			"addAttr" 속성의 값을 지정하면 임의 속성을 지정할 수 있습니다. 단일 셀일때는 ._item_obj에, 다중 셀일 때는 ._item에 적용됩니다.
+			{prdNo:'20000726986', prdOptNo:'20000898595', addAttr: [
+					{'data-end-time': '2025/07/17 23:59:59'},
+				]
+			},
+
+			"imgSizeX" 속성의 값을 지정하면 썸네일 이미지의 가로 사이즈(px)를 제어할 수 있습니다. * 숫자와 '100%'만 가능합니다.
+			{prdNo:'20000726986', prdOptNo:'20000898595', imgSizeX: 300},
+		 */
+		var allPrdCode = [
+			{
+				"new_in": [
+					{prdNo:'20001065190', prdOptNo:'20001476840',
+						add: {
+							bg: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211434290813cef48b24af443599b8d8209699161eb.webp',
+							flag: '乐天独家入驻',
+							subject: 'NORDISK',
+							desc: '兼具潮流感与实用性<br>KARINA同款今冬必备好物',
+							linkBrand: 'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081490',
+						},
+						change: {
+							prdImgUrl: '',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001068833', prdOptNo:'20001484450',
+						add: {
+							bg: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/2026102114344099525ac28dfed63410b88ba2d7b04872605.webp',
+							flag: '乐天独家入驻',
+							subject: 'JOOLZ',
+							desc: '带娃更省心<br>荷兰高端婴儿车',
+							linkBrand: 'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081742',
+						},
+						change: {
+							prdImgUrl: '',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001061412', prdOptNo:'20001468565',
+						add: {
+							bg: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/2026102114345061835ccd9d5551e42a4a6f003cbae7ee955.webp',
+							flag: '乐天独家入驻',
+							subject: 'MEDALIST',
+							desc: '日本国民级能量果冻<br>无咖啡因、低热量，助力恢复疲劳',
+							linkBrand: 'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081088',
+						},
+						change: {
+							prdImgUrl: '',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001009526', prdOptNo:'20001372325',
+						add: {
+							bg: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211435052814aafa665bd1e409aa9b53613b2cbb43d.webp',
+							flag: '乐天独家入驻',
+							subject: 'ANOTHERCELL',
+							desc: '于熟悉日常发掘美学<br>兼具美感与实用性的轻珠宝',
+							linkBrand: 'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074796',
+						},
+						change: {
+							prdImgUrl: '',
+							prdNm: '',
+						},
+					},
+
+				],
+				"new_prd": [
+					{prdNo:'20001067474', prdOptNo:'20001481461',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021143539972ad16bdd505d8449e94d53838ec5b6817.webp',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001070577', prdOptNo:'20001488544',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211435511401e972094e9384b3f875ddd317cbbe9dd.webp',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20000984407', prdOptNo:'20001327050',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/2026102114360603665f0eff3749843ada55829bdd3a084ea.webp',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001057013', prdOptNo:'20001461650',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021143616748c31b6d53790b4c2f867d44e65c75a18d.webp',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001064463', prdOptNo:'20001475412',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021143628666eaea254ac344458d912da7d87c6f26c0.webp',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001070214', prdOptNo:'20001487474',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/2026102114364133116457e42a4af44d4825e6e4b48ccf742.webp',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001065432', prdOptNo:'20001477549',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021143651338783a028e870948118d15d6294af23b79.webp',
+							prdNm: '',
+						},
+					},
+					{prdNo:'20001066627', prdOptNo:'20001480092',
+						change: {
+							prdImgUrl: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021143701191f6f1ce59ce0645e5a40210017f84dcf8.webp',
+							prdNm: '',
+						},
+					},
+				],
+			}
+		];
+
+		/*
+			면세점 API 호출용 데이터 생성
+		 */
+		var ajaxData = function() {
+
+			var prdInfoArr = [];
+
+			for (var key in allPrdCode[0]) {
+				if (allPrdCode[0].hasOwnProperty(key)) {
+
+					var items = allPrdCode[0][key];
+
+					if (Array.isArray(items)) {
+						for (var i = 0; i < items.length; i++) {
+
+							var item = items[i];
+							var ajaxItem = {};
+
+							for (var prop in item) {
+								if (item.hasOwnProperty(prop) && prop !== 'custom' && prop !== 'add' && prop !== 'cate' && prop !== 'empty' && prop !== 'hide' && prop !== 'change' && prop !== 'addClass' && prop !== 'addAttr') {
+									ajaxItem[prop] = item[prop];
+								}
+							}
+
+							prdInfoArr.push(ajaxItem);
+
+						}
+					}
+				}
+			}
+
+			return prdInfoArr;
+
+		}();
+
+		window['_evtPrdAllCode'] = {
+			prdInfo: ajaxData,
+		};
+
+		/*
+			면세점 API 호출 후 실행할 함수
+		 */
+		window['_evtMakePrdList'] = function(ajaxRowData) {
+
+			var $eventArea = $('.evWrap');
+			var realPrdData = {};
+
+			/*
+				호출된 데이터를 바로 출력할 수 없기에 다시 한번 매칭용 데이터로 가공합니다.
+				응답으로 받은 상품 리스트는 지정한 순서를 보장하지 않아 따로 매칭데이터가 필요합니다.
+			 */
+			$.each(ajaxRowData, function(idx, val) {
+
+				var prdId = 'prd_' + val.prdNo + '_' + (val.prdOptNo ? val.prdOptNo : '0'); /* 상품No와 옵션No로 구분됩니다. */
+
+				if (!(prdId in realPrdData)) {
+					realPrdData[prdId] = val;
+				} else {
+					realPrdData['prd_unknown_idx_' + idx] = val;
+				}
+			});
+
+			/* HTML 구조 생성 */
+			$('._AUTO_SET').each(function(idx, val) {
+				var $this = $(this);
+				var $setWrap = $this.find('._AUTO_ITEM_WRAP').removeClass('_AUTO_ITEM_WRAP');
+				var $setHtml = $('<div />');
+				var $setHtmlTemp;
+
+				var rowIdx = typeof $this.data('rowIdx') != 'undefined' ? $this.data('rowIdx') : idx;
+				var itemCnt = 0;
+
+				/* 임의 변경된 데이터를 찾아야 하기 때문에 원본 상품데이터를 돌려 상품을 출력합니다. */
+				if (allPrdCode[0][rowIdx]) {
+
+					/*
+						한 열에 대한 스와이프가 필요한 경우, 그리고 슬라이드가 column 배치 상태일 때
+						data-col-change 속성이 있는 경우 세로 열 배치에서 가로 행 배치로 변환합니다.
+
+						변환 전: data-row-items="3" 일 때
+						1 | 4 | 7,
+						2 | 5 | 8,
+						3 | 6 | 9, ...
+
+						변환 후: data-row-items="3" 이고, data-col-change="3" 이면
+						1 | 2 | 3,
+						4 | 5 | 6,
+						7 | 8 | 9, ...
+					 */
+					if ($this.find('._AUTO_ITEM_OBJ').data('colChange')) {
+						var colData = [];
+						var colCnt = 0;
+
+						var rowLen = $this.find('._AUTO_ITEM_OBJ').data('rowItems');
+						var colLen = $this.find('._AUTO_ITEM_OBJ').data('colChange');
+
+						$.each(allPrdCode[0][rowIdx], function(cidx, cval) {
+
+							colData[(cidx%colLen * rowLen) + colCnt] = cval;
+
+							if (cidx%colLen * rowLen == (rowLen * (colLen - 1))) {
+								colCnt++;
+							}
+
+						});
+						allPrdCode[0][rowIdx] = colData;
+					}
+
+					$.each(allPrdCode[0][rowIdx], function(ckey, cval) {
+
+						var $setItemHtml = $this.find('._AUTO_ITEM').clone().removeClass('_AUTO_ITEM');
+
+						var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+						var cateStr = '0';
+
+						function setHtmlItem() {
+
+							if ('add' in cval) { /* 임의 추가된 항목을 삽입 합니다. */
+								$.each(cval.add, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							if ('custom' in cval) { /* 임의 변경된 항목에 대해 값을 갱신 합니다. */
+								$.each(cval.custom, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							if ('cate' in cval) { /* 필터 그룹 지정시 인덱스 및 문자열을 지정합니다. */
+								cateStr = cval.cate;
+							}
+
+							$setItemHtml.find('[data-auto-ipg]').each(function(i, v) {
+
+								var autoType = $(this).data().autoIpg;
+								var prdData = realPrdData[prdCode];
+
+								function createText(currentData, dataName, $ele) {
+									if (currentData.hide && currentData.hide[dataName]) {
+										$ele.parent().html('').addClass('_disabled');
+									} else {
+										if (currentData.change && currentData.change[dataName]) {
+											$ele.html(currentData.change[dataName]);
+										} else {
+											if (prdData[dataName] == '0') { /* 데이터값이 0인 경우 숨김 처리 */
+												$ele.parent().html('').addClass('_disabled');
+											} else {
+												$ele.html(prdData[dataName]);
+											}
+										}
+									}
+								}
+
+								switch (autoType) {
+									case 'flag' :
+									$(this).html(realPrdData[prdCode].flag);
+
+									break;
+								case 'bg' :
+									$(this).attr('src', realPrdData[prdCode].bg);
+
+									break;
+								case 'subject' :
+									$(this).html(realPrdData[prdCode].subject);
+
+									break;
+								case 'desc' :
+									$(this).html(realPrdData[prdCode].desc);
+
+									break;
+								case 'img' :
+									var dataName = 'prdImgUrl';
+
+									if (cval.change && cval.change[dataName]) {
+										$(this).attr('src', cval.change[dataName]);
+									} else {
+										$(this).attr('src', realPrdData[prdCode].prdImgUrl + '/dims/resize/460x460');
+									}
+
+									if (cval.imgSizeX) {
+										$(this).css('width', cval.imgSizeX);
+									}
+
+									if (cval.imgSizeX) {
+
+										var imgWidth = screenPxTvw(cval.imgSizeX, false, true);
+
+										if (cval.imgSizeX == '100%') {
+											imgWidth = '100%';
+										}
+
+										$(this).css('width', imgWidth);
+									}
+
+									break;
+								case 'link' :
+									$(this).attr('href', 'https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo='+ realPrdData[prdCode].prdNo +'&prdOptNo=' + realPrdData[prdCode].prdOptNo + '&adltPrdYn=N');
+									break;
+								case 'linkBrand' :
+									$(this).attr('href', realPrdData[prdCode].linkBrand);
+									break;
+								case 'brand' :
+									var dataName = 'brndNm';
+
+									/* 항목별로 적용할 수 있습니다. */
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdName' :
+									var dataName = 'prdNm';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPer' :
+									var dataName = 'dscntRt';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdDel' :
+									var dataName = 'saleUntPrc';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPrice' :
+									var dataName = 'dscntAmt';
+									createText(cval, dataName, $(this));
+									break;
+								default:
+
+								}
+
+							});
+						}
+
+						function addRowItem(hide, empty) {
+
+							if ($this.find('._AUTO_ITEM_OBJ').data('rowItems')) {
+								if (itemCnt % $this.find('._AUTO_ITEM_OBJ').data('rowItems') == 0) {
+									$setHtmlTemp = $this.find('._AUTO_ITEM_OBJ').clone().removeClass('_AUTO_ITEM_OBJ').addClass('_item_row').html('');
+									$setItemHtml.appendTo($setHtmlTemp);
+									$setHtml.append($setHtmlTemp);
+
+									$setHtmlTemp.attr({
+										'data-item-cate': cateStr,
+										'data-item-idx': $setHtml.find('._item_obj').length,
+									});
+
+								} else {
+									$setItemHtml.appendTo($setHtmlTemp);
+								}
+
+								if (hide) {
+									$setItemHtml.addClass('_delete');
+								}
+
+								if (empty) {
+									$setItemHtml.addClass('_empty');
+								}
+
+								if ('addAttr' in cval) {
+									$.each(cval.addAttr, function(i, v) {
+										$.each(v, function(k, kv) {
+											$setItemHtml.attr(String(k), String(kv));
+										});
+									});
+								}
+
+							} else {
+								$setHtmlTemp = $this.find('._AUTO_ITEM_OBJ').clone().removeClass('_AUTO_ITEM_OBJ').addClass('_item_single').html('');
+								$setItemHtml.appendTo($setHtmlTemp);
+								$setHtml.append($setHtmlTemp);
+
+								$setHtmlTemp.attr({
+									'data-item-cate': cateStr,
+									'data-item-idx': $setHtml.find('._item_obj').length,
+								});
+
+								if (hide) {
+									$setHtmlTemp.addClass('_delete');
+								}
+
+								if (empty) {
+									$setHtmlTemp.addClass('_empty');
+								}
+
+								if ('addAttr' in cval) {
+									$.each(cval.addAttr, function(i, v) {
+										$.each(v, function(k, kv) {
+											$setHtmlTemp.attr(String(k), String(kv));
+										});
+									});
+								}
+							}
+
+							if ('addClass' in cval) {
+								$setItemHtml.addClass(cval.addClass);
+							}
+
+						}
+
+						if (!cval.empty) {
+
+							if (prdCode in realPrdData) {
+
+								setHtmlItem();
+
+								addRowItem();
+
+								itemCnt++;
+
+							} else {
+
+								var prdCodeDepth = prdCode.split('_').slice(0, 2).join('_');
+
+								var defaultItemIf = false;
+
+								$.each(realPrdData, function(k, v) { /* 상품 옵션 코드가 없을 경우 첫번째 옵션코드를 임의로 선택합니다. */
+									if (k.indexOf(prdCodeDepth) === 0) {
+										defaultItemIf = true;
+										prdCode = k;
+										return false;
+									}
+								});
+
+								if (defaultItemIf) {
+
+									setHtmlItem();
+
+									addRowItem();
+
+									itemCnt++;
+
+								} else {
+
+									$setItemHtml.html('');
+
+									addRowItem(true, false);
+
+									itemCnt++;
+
+								}
+
+								console.error('누락된 상품이 존재합니다.\ncate:' + rowIdx + '\nidx:' + ckey + '\nprdNo:' + cval.prdNo);
+
+							}
+
+						} else {
+
+							$setItemHtml.html('');
+
+							addRowItem(false, true);
+
+							itemCnt++;
+						}
+
+					});
+
+					$setWrap.html($setHtml.html());
+
+					$this.addClass('_init');
+
+				} else {
+					console.error('누락된 리스트 항목이 존재합니다.\nidx:' + idx, val);
+				}
+
+			});
+
+			$.each($eventArea.find('._main_prd_list'), function(idx, val) {
+
+				var nowIdx = idx;
+
+				var $this = $(this);
+
+				if (!window['_productMainSlider_' + nowIdx]) {
+					window['_productMainSlider_' + nowIdx] = new Swiper($this.find('._list_slider')[0], {
+						effect: 'slide',
+						speed: 600,
+						slidesPerView: 'auto',
+						centeredSlides: false,
+						watchOverflow: true,
+						loop: false,
+					});
+				}
+
+			});
+
+			$.each($eventArea.find('._prd_list'), function(idx, val) {
+
+				var nowIdx = idx;
+
+				var $this = $(this);
+
+				if (!window['_productSlider_' + nowIdx]) {
+					window['_productSlider_' + nowIdx] = new Swiper($this.find('._list_slider')[0], {
+						effect: 'slide',
+						speed: 600,
+						slidesPerView: 'auto',
+						centeredSlides: false,
+						watchOverflow: true,
+						loop: false,
+						on: {
+							init: function() {
+
+								var _this = this;
+								var maxHeight = 0;
+
+								function resizeItems() {
+									$(_this.$el[0]).find('._item').each(function(cidx, cval) {
+										maxHeight = $(this)[0].offsetHeight > maxHeight ? $(this)[0].offsetHeight : maxHeight;
+									});
+
+									$(_this.$el[0]).find('._item').css('height', screenPxTvw(maxHeight));
+								}
+
+								try {
+									document.fonts.ready.then(resizeItems);
+								} catch (e) {
+									resizeItems();
+								}
+							},
+						},
+					});
+				}
+
+			});
+
+			var brandIndicator = document.querySelectorAll('._brand_prd_indicator');
+
+			$.each($eventArea.find('._brand_prd_list'), function(idx, val) {
+
+				var nowIdx = idx;
+
+				var $this = $(this);
+
+				if (!window['_productBrandSlider_' + nowIdx]) {
+					window['_productBrandSlider_' + nowIdx] = new Swiper($this.find('._list_slider')[0], {
+						effect: 'slide',
+						speed: 600,
+						autoplay: {
+							delay: 3000,
+							disableOnInteraction: false,
+						},
+						slidesPerView: 'auto',
+						centeredSlides: true,
+						loop: true,
+						on: {
+							init: function(swiper) {
+								var _anchor = brandIndicator[nowIdx].querySelectorAll('a');
+								var _currentAnchor = _anchor[this.realIndex];
+								_currentAnchor.classList.add('current');
+								_anchor.forEach(el => {
+									if(el != _currentAnchor) el.classList.remove('current');
+								});
+							},
+							slideChange: function(swiper) {
+								var _anchor = brandIndicator[nowIdx].querySelectorAll('a');
+								var _currentAnchor = _anchor[this.realIndex];
+								_currentAnchor.classList.add('current');
+								_anchor.forEach(el => {
+									if(el != _currentAnchor) el.classList.remove('current');
+								});
+							},
+						},
+					});
+				}
+			});
+
+			brandIndicator.forEach(function(el, idx){
+				var brandIndicatorAnchor = el.querySelectorAll('a');
+				var brandIndicatorLength = brandIndicatorAnchor.length;
+				var currentSwiper = window['_productBrandSlider_' + idx];
+
+				brandIndicatorAnchor.forEach(function(anchor, i){
+					anchor.addEventListener('click', function(){
+						var currentIdx = currentSwiper.activeIndex;
+						currentSwiper.update();
+						/*currentSwiper.slideTo(currentIdx >= brandIndicatorLength ? brandIndicatorLength + i : i);*/
+						currentSwiper.slideTo(brandIndicatorLength + i);
+					});
+				});
+			});
+		};
+
+		setDataPriceInfo(_evtPrdAllCode, _evtMakePrdList);
+		
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard;}
+	.evWrap * {margin:0; padding:0; box-sizing:border-box;}
+	.evWrap a {text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._header {width:100%;}
+	._header ._area_wrap {width:100%; position:relative;}
+	._header ._visual {display:flex; justify-content:center; width:100%; background-color:#000;}
+	._header ._visual video {width:100%; object-fit: contain;}
+	._header ._text {width:100%; position:absolute; bottom:9.6vw; left:50%; transform:translateX(-50%); color:#FFA578; font-size:3.73333vw; line-height:1.4; letter-spacing:0; text-align:center;}
+
+	._info_nav_flex {width:100%; height:11.73333vw;}
+	._info_nav_flex ._nav_wrap {width:100%; height:11.73333vw; background:#B80000; z-index:10;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; width:100%; height:100%; margin:0 auto;}
+	._info_nav_flex ._nav_wrap ._nav {flex:0 0 auto; position:relative; padding:0 10.66667vw; width:auto; height:100%; color:#888;}
+	._info_nav_flex ._nav_wrap ._nav a {display:flex; align-items:center; justify-content:center; width:auto; height:100%; padding:0; font-size:3.46667vw; font-weight:600; letter-spacing:0; color:rgba(255,255,255,0.6);}
+	._info_nav_flex ._nav_wrap ._nav span {position:relative; display:flex; align-items:center; justify-content:center; width:auto; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#fff;}
+	._info_nav_flex ._nav_wrap ._nav._current span::after {content:''; position:absolute; left:0; right:0; bottom:0; height:0.8vw; background:#fff;}
+
+	/* ★★★★ 50 px 단위 고정 필수 ★★★★ */
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:50px;/* <<<<<50 px 단위 고정 */ width:100%; z-index:100;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+
+	._evt_content {width:100%; background:#fff;}
+	._evt_content ._evt_content_wrap {position:relative; width:100%; margin:0 auto; padding:16vw 0;}
+	._evt_content ._evt_content_wrap::before {content:''; display:block; width:100%; overflow:hidden;}
+	._evt_content:not(._evt_content_1) ._evt_content_wrap {max-width:86.66667vw;}
+	._evt_content._evt_content_4 ._evt_content_wrap {padding-bottom:8vw; max-width:90.93333vw;}
+	._evt_content ._set_ank {position:absolute; left:0; top:0;}
+
+	._evt_content._evt_content_1 {width:100%; min-height:104.66667vw; background:transparent url('https://static.lottedfs.com/contents/images/ckeditor-img/20260813/20260813172758675f942b7e3d14d43a18c234c40a3d21492.webp') center 0 / cover no-repeat;}
+	._evt_content._evt_content_2 {background:#141414;}
+	._evt_content._evt_content_3 {background:#F5F5F5;}
+	._evt_content._evt_content_4 {background:#610000; padding-bottom:84.93333vw; position:relative;}
+	._evt_content._evt_content_4::after {display:block; content:''; position:absolute; bottom:0; left:0; width:100%; height:76.93333vw; background:#610000 url('https://static.lottedfs.com/contents/images/ckeditor-img/20260814/20260814153405868b46c67cf8dd7420489402925b3b43db2.webp') center / cover no-repeat;}
+
+	._evt_notice {width:100%; background-color:#141414; padding:8vw 6.66667vw;}
+	._evt_notice ._notice_top_wrap {width:100%;}
+	._evt_notice ._notice_top {width: 100%; margin:0 auto;}
+	._evt_notice ._toggle_btn {position:relative; width:100%; padding-right:6.66667vw; font-size:4.53333vw; font-weight:600; color:#fff; text-align:left; background:transparent;}
+	._evt_notice ._toggle_btn::after {content:''; position:absolute; right:0; top:50%; width:3.6vw; height:2vw; margin-top:-1.73333vw; background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20260814/20260814154243845e2046b9a3b8445f49de5a544370a5455.webp') 50% 50% no-repeat; background-size:contain;transform:rotate(180deg)}
+	._evt_notice ._toggle_btn._off::after {transform:rotate(0deg);}
+	._evt_notice ._notice_list {width:100%; margin-top:3.2vw;}
+	._evt_notice ._notice_list._off {display:none;}
+	._evt_notice ._notice_list li {padding-left:4.66667vw; position:relative; font-size:3.2vw; line-height:1.4; color:#B8B8B8;}
+	._evt_notice ._notice_list li ~ li {margin-top:2vw;}
+	._evt_notice ._notice_list li::before {content:''; position:absolute; left:1.6vw; top:1.86667vw; width:0.8vw; height:0.8vw; background:#666; border-radius: 50%;}
+
+	._page_title {display:flex; align-items:center; gap:2vw; width:100%; color:#fff;}
+	._page_title._col {flex-direction:column; width:100%;}
+	._page_title ._anchor_tit {font-size:3.73333vw; font-weight:500;}
+	._page_title ._main {font-size:8vw; font-weight:800;}
+
+	._evt_content._evt_content_3 ._page_title {color:#000;}
+	._evt_content._evt_content_4 ._page_title {margin-bottom:5.33333vw;}
+	._evt_content._evt_content_3 ._page_title ._main,
+	._evt_content._evt_content_4 ._page_title ._main {font-size:6.13333vw;}
+
+	._main_prd_list {position:relative; width:100%; margin-top:16vw;}
+	._main_prd_list ._list_slider {width:100%; opacity:0;}
+	._main_prd_list ._list_slider._init {opacity:1;}
+	._main_prd_list ._list_slider ._item_obj {display:flex; width:auto !important;}
+	._main_prd_list ._list_slider ._item_obj._col {flex-direction:column; row-gap:16vw;}
+	._main_prd_list ._list_slider ._item_obj ._item ._item_wrap {position:relative; width:86.66667vw;}
+	._main_prd_list ._list_slider ._item_obj ._item ._flag {position:absolute; top:1.33333vw; right:1.33333vw; display:flex; align-items:center; width:auto; height:6.66667vw; padding:0 1.33333vw; background-color:#000; color:#fff; font-size:3.46667vw; font-weight:500; letter-spacing:-0.06667vw; border-radius:0.53333vw; z-index:1;}
+	._main_prd_list ._list_slider ._item_obj ._item ._bg {position:relative; width:100%;}
+	._main_prd_list ._list_slider ._item_obj ._item ._bg img {display:block; width:100%;}
+	._main_prd_list ._list_slider ._item_obj ._item ._info_box a {display:block; width:100%; height:100%;}
+	._main_prd_list ._list_slider ._item_obj ._item ._info_box ._subject {display:flex; justify-content: space-between; align-items:baseline; font-size:5.33333vw; font-weight:700; color:#fff; padding-top:4.26667vw;}
+	._main_prd_list ._list_slider ._item_obj ._item ._info_box ._subject em {width:100%; word-break: break-all;}
+	._main_prd_list ._list_slider ._item_obj ._item ._info_box ._subject::after {content:''; width:10.8vw; height:2.53333vw; flex-shrink: 0; background: transparent url("data:image/svg+xml,%3Csvg width='81' height='19' viewBox='0 0 81 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M79.8839 10.089C80.372 9.60081 80.372 8.80936 79.8839 8.3212L71.9289 0.36625C71.4408 -0.121906 70.6493 -0.121906 70.1612 0.366249C69.673 0.854405 69.673 1.64586 70.1612 2.13402L77.2322 9.20508L70.1612 16.2762C69.673 16.7643 69.673 17.5558 70.1612 18.0439C70.6493 18.5321 71.4408 18.5321 71.9289 18.0439L79.8839 10.089ZM0 9.20508L-1.09278e-07 10.4551L79 10.4551L79 9.20509L79 7.95509L1.09278e-07 7.95508L0 9.20508Z' fill='white'/%3E%3C/svg%3E%0A") 0 0 / cover no-repeat;}
+	._main_prd_list ._list_slider ._item_obj ._item ._info_box ._desc {display:flex; margin-top:2.66667vw; font-size:3.73333vw; line-height:1.4; letter-spacing:-0.02em; color:#fff;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box {position:absolute; left:0; bottom:-0.13333vw; display:flex; align-items:center; width:100%; height:18.66667vw; backdrop-filter:blur(4vw); background:rgba(42, 42, 42, 0.6);}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box a {display:flex; align-items:center; gap:2.13333vw; width:100%; height:100%; padding:3.2vw;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._col {display:flex;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._row {display:flex; flex-direction:column;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._thumb {display:flex; justify-content:center; width:12.13333vw; border-radius:0.8vw; overflow:hidden;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._thumb img {max-width:100%;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._product {display:-webkit-box; padding-right:1.33333vw; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; text-overflow:ellipsis; line-height:1.2; word-break:keep-all; font-size:3.73333vw; letter-spacing:-0.02em; color:#fff;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._price {display:flex; gap:1.6vw;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._price ._per {position:relative; left:0.13333vw; top:0.13333vw; font-size:3.46667vw; font-weight:700; letter-spacing:-0.02em; color:#FE223A;}
+	._main_prd_list ._list_slider ._item_obj ._item ._prd_box ._price ._final {position:relative; top:0.13333vw; font-size:3.46667vw; letter-spacing:-0.02em; color:#fff;}
+
+	._prd_list {position:relative; width:100%; margin-top:8vw;}
+	._prd_list ._list_slider {width:100%; opacity:0;}
+	._prd_list ._list_slider._init {opacity:1;}
+	._prd_list ._list_slider ._item_obj {display:flex; flex-direction:column; gap:6.66667vw; width:auto !important; margin-right:4vw;}
+	._prd_list ._list_slider ._item_obj:last-child {margin-right:0;}
+	._prd_list ._list_slider ._item_obj ._item {width:41.33333vw;}
+	._prd_list ._list_slider ._item_obj ._item a {position:relative; display:block;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box {display:flex;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._row {display:flex; flex-direction:column;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._thumb {display:flex; justify-content:center; align-items:center; width:41.33333vw; height:41.73333vw; border-radius:1.6vw; overflow:hidden;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._thumb img {width:100%; height:auto;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._brand {display:block; margin-top:2.66667vw; font-size:3.46667vw; font-weight:700; letter-spacing:-0.02em; color:#222;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._product {display:-webkit-box; min-height:8.13333vw; margin-top:1.2vw; font-size:3.2vw; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; text-overflow:ellipsis; line-height:1.4; word-break:keep-all; letter-spacing:-0.02em; color:#222;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._price {display:block; margin-top:2.8vw; display:flex; gap:1.86667vw;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._price ._per {position:relative; display:block; font-size:3.73333vw; letter-spacing:-0.02em; color:#DE0018; font-weight:700;}
+	._prd_list ._list_slider ._item_obj ._item ._prd_box ._price ._final {position:relative; display:block; font-size:3.73333vw; letter-spacing:-0.02em; color:#222; font-weight:700;}
+
+	._brand_prd_list {position:relative; width:100%; margin-top:8vw;}
+	._brand_prd_list ._list_slider {width:100%;}
+	._brand_prd_list ._list_slider ._item_obj {display:flex; width:auto; margin-right:2.66667vw;}
+	._brand_prd_list ._list_slider ._item_obj:last-child {margin-right:0;}
+	._brand_prd_list ._list_slider ._item_obj ._item ._item_wrap {width:46.13333vw; height:52vw;}
+	._brand_prd_list ._list_slider ._item_obj ._item a {position:relative; display:block; width:100%; height:100%;}
+	._brand_prd_list ._list_slider ._item_obj ._item ._thumb {display:flex; justify-content:center; align-items:center; width:100%; height:100%; overflow:hidden; border-radius:2.66667vw;}
+	._brand_prd_list ._list_slider ._item_obj ._item ._thumb img {width:100%;}
+	._brand_prd_list ._list_slider ._item_obj ._item ._brand_name {position:absolute; bottom:4.53333vw; left:3.73333vw; right:3.73333vw; display:flex; flex-direction:column; padding-right:5.33333vw; line-height:1.4; color:#fff; font-size:3.33333vw; font-weight:500;}
+	._brand_prd_list ._list_slider ._item_obj ._item ._brand_name .__en {font-weight:700; font-size:3.46667vw;}
+	._brand_prd_list ._list_slider ._item_obj ._item ._brand_name::after {content:''; position:absolute; bottom:0; right:0; width:4vw; height:4vw; background: transparent url('https://static.lottedfs.com/contents/images/ckeditor-img/20260814/20260814140746030799a50454bef43b09d9a57302fd69cb9.webp') 0 0 / cover no-repeat;}
+
+	._brand_prd_list ._brand_prd_indicator {display:flex; width:100%; max-width:82.66667vw; justify-content: center; align-items: center; flex-wrap: wrap; gap:1.6vw 1.86667vw; margin: 0 auto 8vw;}
+	._brand_prd_list ._brand_prd_indicator a {display:flex; align-items:center; width:auto; height:7.6vw; padding:0 3.2vw; background-color:#171717; color:#757575; font-size:3.2vw; font-weight:700; border-radius:13.33333vw;}
+	._brand_prd_list ._brand_prd_indicator a.current {background-color:#fff; color:#C20E17;}
+
+	._brand_list {width:100%; margin-top:8vw;}
+	._brand_list ._brand_nav {width:100%;}
+	._brand_list ._brand_nav ._brand_nav_slider {width:100%; padding:0 2.13333vw;}
+	._brand_list ._brand_nav ._item {width:auto; margin-left:2vw;}
+	._brand_list ._brand_nav ._item:first-child {margin-left:0;}
+	._brand_list ._brand_nav ._item button {display:flex; justify-content:center; align-items:center; min-height:8vw; padding:0 2.93333vw; border-radius:13.33333vw; border:0.13333vw solid #fff; background:transparent; font-family:inherit; font-size:3.46667vw; font-weight:500; letter-spacing:-0.02em; color:#fff;}
+	._brand_list ._brand_nav ._item button._current {background:#fff; color:#610000; font-weight:600;}
+	._brand_list ._brand_item {margin:8vw 0 0 0; padding:0 2.13333vw;}
+	._brand_list ._brand_item ._list_item {position:relative; display:none; margin:0;}
+	._brand_list ._brand_item ._list_item._current {display:block;}
+	._brand_list ._brand_item ._list_item ._list_slider {width:100%;}
+
+	/*
+	._brand_list ._brand_item ._list_item ._list_slider ._item_wrap {display:flex; flex-wrap:wrap; gap:2.66667vw 0; width:100% !important; padding:0;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item {width:41.2vw; min-height:10.93333vw; padding-bottom:1.33333vw; margin: 0 2.13333vw;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item a {display:block; height:100%; padding:3.2vw; border-radius:2.13333vw; background-color:#7D0000;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item ._brand_en {position:relative; display:block; padding-right:4.53333vw; font-size:3.46667vw; font-weight:600; color:#fff; word-break:keep-all;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item ._brand_en::after {content:''; position:absolute; right:0.53333vw; top:0.93333vw; width:3.73333vw; height:3.73333vw; background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20260814/20260814153248456c6cce61805714e009940cddb59a06819.webp') 0 0 no-repeat; background-size:100% auto;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item ._brand {display:block; margin-top:0.66667vw; font-size:2.93333vw; color:rgba(255,255,255,0.7); word-break:keep-all;}
+	*/
+
+	._brand_list ._brand_item ._list_item ._list_slider ._item_wrap {display:flex; flex-wrap:wrap; flex-direction:column; gap:1.33333vw 2.66667vw; width:auto; padding:0; margin-right:2.66667vw;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item_wrap:last-child {margin-right:0;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item {width:41.33333vw; height:13.33333vw; border-radius:2.13333vw; background:#7D0000;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item a {position:relative; display:flex; align-items:center; gap:1.6vw; width:100%; height:100%; padding:0 6vw 0 2.66667vw;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item a::after {content:''; position:absolute; right:2.66667vw; top:4.8vw; width:3.73333vw; height:3.73333vw; background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261419341217f6114dd09264f17b0cfacafe5d169fc.webp') 0 0 no-repeat; background-size:100% 100%;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item ._img {flex:0 0 auto; display:flex; justify-content:center; align-items:center; width:8vw; height:8vw; border-radius:1.33333vw; overflow:hidden;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item ._img img {display:block; width:100%;}
+	._brand_list ._brand_item ._list_item ._list_slider ._item ._name {word-break:keep-all; color:#fff; font-size:3.2vw; font-weight:600; letter-spacing:-0.025em; line-height:1.2;}
+
+	._brand_list ._brand_item ._list_item ._slider_current {display:none; position:relative; width:100%; margin-top:8.53333vw; text-align:center;}
+	._brand_list ._brand_item ._list_item ._slider_current .swiper-pagination-bullet {width:2vw; height:2vw; margin:0 1.66667vw; border-radius:100%; background:#000; opacity:0.2;}
+	._brand_list ._brand_item ._list_item ._slider_current .swiper-pagination-bullet.swiper-pagination-bullet-active {opacity:1;}
+
+	._evt_content_gap {padding-bottom:16vw;}
+
+</style>
+<div class="evWrap" data-ipg-id="prd_c_26080011">
+
+	<div class="_header">
+		<div class="_area_wrap">
+			<div class="_visual">
+				<!-- <img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/202608141309381967bb1adb338314b83bfa07b16b590f225.webp" alt="ONLY AT LOTTE DUTY FREE LOTTE ONLY"> -->
+				<video type="video/mp4" src="https://static.lottedfs.com/contents/images/common-img/mnreg-img/20260818101326838f16612362d3e49a698588ce1fa4aeceb.mp4" autoplay loop muted playsinline></video>
+				<span class="_evt_hide">ONLY AT LOTTE DUTY FREE LOTTE ONLY</span>
+				<span class="_evt_hide">只在乐天免税店！<br>独家品牌和精选单品</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _nav _nav_1 _current">
+						<a href="#_evtContent_1" class="_fn_goto"><span>BEST</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_2">
+						<a href="#_evtContent_2" class="_fn_goto"><span>NEW IN</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_3">
+						<a href="#_evtContent_4" class="_fn_goto"><span>INDEX</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_1">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_1">&nbsp;</div>
+
+			<div class="_page_title _col">
+				<div class="_anchor_tit">BEST</div>
+				<div class="_main">独家畅销品牌</div>
+			</div>
+
+			<div class="_brand_prd_list">
+				<div class="_brand_prd_indicator">
+					<span><a href="javascript:void(0);">METROCITY</a></span>
+					<span><a href="javascript:void(0);">MOONYA MOONYA</a></span>
+					<span><a href="javascript:void(0);">HAZZYS FASHION</a></span>
+					<span><a href="javascript:void(0);">DYSON</a></span>
+					<span><a href="javascript:void(0);">LG PRA.L</a></span>
+					<span><a href="javascript:void(0);">TOD'S</a></span>
+					<!-- <span><a href="javascript:void(0);">GOLDEN GOOSE</a></span> -->
+					<span><a href="javascript:void(0);">DELIGHT PROJECT</a></span>
+					<span><a href="javascript:void(0);">WHIPPED</a></span>
+					<span><a href="javascript:void(0);">CUREL</a></span>
+				</div>
+				<div class="_list_slider">
+					<div class="swiper-wrapper">
+
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10004375">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021143926450e0745955539d43939b83236a094fcb7c.webp" alt="METROCITY">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">METROCITY</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081324">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260923/2026092315235643107b1eb9abaa64def85e29d5284055b2a.webp" alt="MOONYA MOONYA">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">MOONYA MOONYA</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080822">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260923/202609231524109777c733ede72b34b7cbb227e44b18383d0.webp" alt="HAZZYS FASHION">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">HAZZYS FASHION</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10056494">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/202608141404298946b91851dba4246698d188c42b463d0ee.webp" alt="DYSON">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">DYSON</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10077003">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/202608141404443853faeee8cfbf349b1b2c5d429b645851e.webp" alt="LG PRA.L">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">LG PRA.L</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10037813">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/202608141404597218e80ca826e354698b78cbaf9a2391340.webp" alt="TOD'S">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">TOD'S</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10019672">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/20260814140512152dd27ccf21c804634a07a9dc1ff3f84cb.webp" alt="GOLDEN GOOSE">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">GOLDEN GOOSE</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div> -->
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10077032">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/202608141405298879c677577d54a4175b393f7461c978f37.webp" alt="DELIGHT PROJECT">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">DELIGHT PROJECT</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075088">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/20260814140540770e568cc8ac2174890828b698dfd854b40.webp" alt="WHIPPED">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">WHIPPED</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide _item_obj">
+							<div class="_item">
+								<div class="_item_wrap">
+									<a href="https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10031376">
+										<span class="_thumb">
+											<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/202608141405523191e3c7bb9702a4ff8ba80e54457f0b6e3.webp" alt="CUREL">
+										</span>
+										<span class="_brand_name">
+											<span class="__en">CUREL</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_2">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_2">&nbsp;</div>
+
+			<div class="_page_title _col">
+				<div class="_anchor_tit">NEW IN</div>
+				<div class="_main">本月最新资讯</div>
+			</div>
+
+			<div class="_main_prd_list">
+				<div class="_list_slider _AUTO_SET" data-row-idx="new_in">
+					<div class="swiper-wrapper _AUTO_ITEM_WRAP">
+						<div class="swiper-slide _item_obj _col _AUTO_ITEM_OBJ" data-row-items="4">
+							<div class="_item _AUTO_ITEM">
+								<div class="_item_wrap">
+									<div class="_flag"><span data-auto-ipg="flag"></span></div>
+									<div class="_bg">
+										<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="bg">
+										<div class="_prd_box">
+											<a href="#" data-auto-ipg="link">
+												<span class="_col">
+													<span class="_thumb">
+														<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+													</span>
+												</span>
+												<span class="_col">
+													<span class="_row">
+														<span class="_product"><span data-auto-ipg="prdName"></span></span>
+														<span class="_price">
+															<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+															<span class="_final">$<span data-auto-ipg="prdPrice"></span></span>
+														</span>
+													</span>
+												</span>
+											</a>
+										</div>
+									</div>
+									<div class="_info_box">
+										<a href="#" data-auto-ipg="linkBrand">
+											<span class="_subject"><em data-auto-ipg="subject"></em></span>
+											<span class="_desc"><em data-auto-ipg="desc"></em></span>
+										</a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_3">
+		<div class="_evt_content_wrap">
+
+			<div class="_page_title">
+				<div class="_main">独家商品</div>
+			</div>
+
+			<div class="_prd_list">
+				<div class="_list_slider _AUTO_SET" data-row-idx="new_prd">
+					<div class="swiper-wrapper _AUTO_ITEM_WRAP">
+						<div class="swiper-slide _item_obj _AUTO_ITEM_OBJ" data-row-items="4" data-col-change="2">
+							<div class="_item _AUTO_ITEM">
+								<div class="_item_wrap">
+									<a href="#" data-auto-ipg="link">
+
+										<span class="_prd_box">
+											<span class="_row">
+												<span class="_thumb">
+													<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+												</span>
+												<span class="_brand"><span data-auto-ipg="brand"></span></span>
+												<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												<span class="_price">
+													<span class="_final">$<span data-auto-ipg="prdPrice"></span></span>
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+												</span>
+											</span>
+										</span>
+
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_4">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_4">&nbsp;</div>
+
+			<div class="_page_title _col">
+				<div class="_anchor_tit">INDEX</div>
+				<div class="_main">独家品牌合集</div>
+			</div>
+
+			<div class="_brand_list">
+
+				<div class="_brand_nav">
+					<div class="_brand_nav_slider">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide _item"><button type="button" class="_current" data-filter-list="0"><span>护肤/彩妆</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="1"><span>香水/美体/美发</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="2"><span>箱包/钱包</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="3"><span>腕表/首饰</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="4"><span>眼镜/配件</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="5"><span>时装/鞋子</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="6"><span>运动/休闲</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="7"><span>保健/加工食品/酒类</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="8"><span>数码/生活/健康</span></button></div>
+							<div class="swiper-slide _item"><button type="button" data-filter-list="9"><span>儿童/婴儿</span></button></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="_brand_item">
+					<!-- div class="_list_item">
+						<div class="_item">
+							<a href="#">
+								<span class="_brand_en">JACQUEMUS</span>
+								<span class="_brand">자크뮈스</span>
+							</a>
+						</div>
+					</div -->
+				</div>
+
+			</div>
+
+			<script>
+				(function() {
+
+					var brandListData = [
+						/* 0 스킨케어/메이크업 */
+						[
+							{
+								brandEn:'GAMARDE',
+								brand:'갸마르드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261103107941979117b7bb046279868b15b95561128.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065892',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065892',
+							},
+							{
+								brandEn:'COU<br>RCELLES',
+								brand:'꾸셀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261103328374a6b521228f0402c94ad5fa559051b98.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10024013',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10024013',
+							},
+							{
+								brandEn:'NACIFIC',
+								brand:'네시픽',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261104036815e8a30618dda46959d69b7d2d47ec180.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10063832',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10063832',
+							},
+							{
+								brandEn:'NONOER',
+								brand:'노노어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110416232e6927d5fd2df4639901bed19073d7c97.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075946',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075946',
+							},
+							{
+								brandEn:'NO PROB',
+								brand:'노프랍',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611042856926694806a26440169a50db76db70d31a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10076048',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10076048',
+							},
+							{
+								brandEn:'DR.PHAMOR',
+								brand:'닥터파모르',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110455595963dc3a6cd744ef498cd2e133098e5a2.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10001775',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10001775',
+							},
+							{
+								brandEn:'DR<br>HAUSCHKA',
+								brand:'닥터하우쉬카',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110507578be577a88e6094a85850f9cdbf26527e1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10058098',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10058098',
+							},
+							{
+								brandEn:'THE<br>MAQUEEN',
+								brand:'더마퀸',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611051936662031cb083eb4e16b1eb335c51442031.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071460',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071460',
+							},
+							{
+								brandEn:'DIRT PHOBIA',
+								brand:'더트포비아',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110531238a7d56d67c5d44869abac62156120ab30.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10059809',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10059809',
+							},
+							{
+								brandEn:'DEJUVENT',
+								brand:'데쥬벤트',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261105429469c5ee34d5f4b46c896bbb2e22e1e4b15.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10077076',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10077076',
+							},
+							{
+								brandEn:'DEARDOT',
+								brand:'디어닷',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611055529250b93321b07c41e489a962f88426ca1d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073999',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073999',
+							},
+							{
+								brandEn:'DIFFERN<br>DEEPER',
+								brand:'디퍼앤디퍼',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261106071141ec12e72aece475ca7dc70ea14b1b34e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072928',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072928',
+							},
+							{
+								brandEn:'LANBELLE',
+								brand:'랑벨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110618806b8fe0622965948b8b2cd5001f238ca51.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10064707',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10064707',
+							},
+							{
+								brandEn:'RUBY-CELL',
+								brand:'루비셀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110633772e48518e052db41d2b839f8bcc76c106d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065485',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065485',
+							},
+							{
+								brandEn:'LEADERS COSMETIC',
+								brand:'리더스 코스메틱',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261106456071319aaa69b954cde933bad45fc85d4ea.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10004231',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10004231',
+							},
+							{
+								brandEn:'REVCELL',
+								brand:'리브이셀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110658450494b7465d87b48028c0b4e4e9c956c06.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10077084',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10077084',
+							},
+							{
+								brandEn:'RITUALS',
+								brand:'리츄얼스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260914/20260914145237508872d01b6e1254fb2940b1d661901f24f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080910',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080910',
+							},
+							{
+								brandEn:'MARIO BADESCU',
+								brand:'마리오 바데스쿠',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611071575628e7a50658cc42df93ad1bfa705bc19b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072806',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072806',
+							},
+							{
+								brandEn:'VARA',
+								brand:'바라',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611073862423a11ff0319344f38568b6db4f0085d1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073084',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073084',
+							},
+							{
+								brandEn:'BAREN',
+								brand:'바렌',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611075496705f4a019b31f4d398c710b9015aa3758.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072372',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072372',
+							},
+							{
+								brandEn:'BOLCA',
+								brand:'볼카',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110808617e047ee55469b4e7aaabaa8c2439f8d6e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10059233',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10059233',
+							},
+							{
+								brandEn:'VUDE',
+								brand:'뷰드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110820778207d1a3cb9844d8ca00e243505ff8d74.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075011',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075011',
+							},
+							{
+								brandEn:'BR<br>WATERFULL',
+								brand:'비알워터풀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261108314075bcc3cdc80a04762ada47c84a0a7978f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10061838',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10061838',
+							},
+							{
+								brandEn:'BRTC',
+								brand:'비알티씨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261108426549ccc8d12567049b58d10af7bd9b5f58b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10022554',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10022554',
+							},
+							{
+								brandEn:'SAINT FRAN',
+								brand:'세인트프랑',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261108545091507027d35c54b3e8ba9c21308ab024f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072095',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072095',
+							},
+							{
+								brandEn:'CELLBYCELL',
+								brand:'셀바이셀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261109161444ea074e3f51e4e6ab7ceeed002ba3e01.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10061495',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10061495',
+							},
+							{
+								brandEn:'SHIONLE',
+								brand:'션리',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110930541228a01ba75c84845a5205049127cf7fb.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10050864',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10050864',
+							},
+							{
+								brandEn:'SONBODA',
+								brand:'손보다',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110944642c5ad1164b4f5431b9aed594f143d7f13.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10068378',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10068378',
+							},
+							{
+								brandEn:'STRIDEX',
+								brand:'스트라이덱스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826110956142e371d8e0f59e4b5e934bbc2b1fa65221.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075954',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075954',
+							},
+							{
+								brandEn:'SPA CEYLON',
+								brand:'스파실론',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111007291abe70203dd4542febaf7e735e256ea24.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071717',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071717',
+							},
+							{
+								brandEn:'SIORIS',
+								brand:'시오리스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111018027ebc8b8fd18e0467896f788ff0e62aa8b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072680',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072680',
+							},
+							{
+								brandEn:'SUNNICORN',
+								brand:'써니콘',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261110284487cac1b21b09f4922a589cf8af4e767f0.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10068967',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10068967',
+							},
+							{
+								brandEn:'CNEWLAB',
+								brand:'씨뉴랩',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111040138c80c9fb334044883b76f7fb999ae71af.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072256',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072256',
+							},
+							{
+								brandEn:'CLIV',
+								brand:'씨엘포',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261110525455c61141c54964c5391af5d8fa62ef406.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10022564',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10022564',
+							},
+							{
+								brandEn:'IRECIPE',
+								brand:'아이레시피',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261111040708691323765fa400db8c82d9559f80fe0.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073389',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073389',
+							},
+							{
+								brandEn:'AMPLEN',
+								brand:'앰플엔',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261111184525b92901a1e9e4732b9d733d2dd824ef0.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065514',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065514',
+							},
+							{
+								brandEn:'YADAH',
+								brand:'야다',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261111305362c54cef93e274c8d8e182eed9659fc3d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10051324',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10051324',
+							},
+							{
+								brandEn:'ESSENHERB',
+								brand:'에센허브',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261111431995630c2d9d2ac4b1fb23ecddea6c31f67.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075138',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075138',
+							},
+							{
+								brandEn:'S.NATURE',
+								brand:'에스네이처',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021153200363b5d2c0d6f94f4ea58b9cf88278341a8f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080313',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080313',
+							},
+							{
+								brandEn:'EQUMAL',
+								brand:'에크멀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261112094702ed5c01f3e764def981a6c8c70e960cd.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10055361',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10055361',
+							},
+							{
+								brandEn:'ELLEYBEAR',
+								brand:'엘리베어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111222772a0f2f41ff59d41ea9264e4bebfde1518.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065318',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065318',
+							},
+							{
+								brandEn:'LG PRA L',
+								brand:'엘지 프라엘',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111234287b733659cdc2b438c93c8ea77231ad275.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10077003',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10077003',
+							},
+							{
+								brandEn:'OHGNUS',
+								brand:'오그너스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611124541994056c4c8eaa44ab89051d95ffeaa59a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10058573',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10058573',
+							},
+							{
+								brandEn:'OMITTED',
+								brand:'오미티드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611125667567791de086cd413587dc75478f54776c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10078838',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10078838',
+							},
+							{
+								brandEn:'O.P.I',
+								brand:'오피아이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261113104898ae81c7b8a3642e598a47340438709b5.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070175',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070175',
+							},
+							{
+								brandEn:'ULTRA XECOND SKIN',
+								brand:'울트라 세컨 스킨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261113218134964c0adf24a4090823c98bd8f20b8d3.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072063',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072063',
+							},
+							{
+								brandEn:'WINONA',
+								brand:'위노나',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611133424765c2e9e80e2043d6b1fb53490f7b414c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10077126',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10077126',
+							},
+							{
+								brandEn:'USOLAB',
+								brand:'유쏘랩',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111345848f0517bd257f24c7aa72c1935e6c67c91.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10053393',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10053393',
+							},
+							{
+								brandEn:'IPKN',
+								brand:'입큰',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611135940302be86a6fea94a6eb6755e4747a8ff87.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065338',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065338',
+							},
+							{
+								brandEn:'JAVIN DE SEOUL',
+								brand:'자빈드서울',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/2026102115323084573fc28a1676f4a88bd0d5574d0a856ad.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10039401',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10039401',
+							},
+							{
+								brandEn:'KAREN MURRELL',
+								brand:'카렌 머렐',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261114115503703cadc3a0745719d3b21a07b97acdc.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072790',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072790',
+							},
+							{
+								brandEn:'CUREL',
+								brand:'큐렐',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111424242f5cbc60e19864c9b921d07091cdd29d5.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10031376',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10031376',
+							},
+							{
+								brandEn:'CRAZY MONKEY',
+								brand:'크레이지몽키',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111436143d69e0190ba544781993b50d56fd858b4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10001567',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10001567',
+							},
+							{
+								brandEn:'FINDIVE',
+								brand:'파인다이브',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261114476784fe4253cd84a4776add0f221216b56c1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073546',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073546',
+							},
+							{
+								brandEn:'EIGHT ME IN',
+								brand:'팔색미인',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260914/202609141453049958b8d83b9d3be4680a53b6196f8be720b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081498',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081498',
+							},
+							{
+								brandEn:'FORMULIER',
+								brand:'포뮬리에',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111459397b63deb5700dc481898e84a76b70db5b5.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071846',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071846',
+							},
+							{
+								brandEn:'FOELLIE',
+								brand:'포엘리에',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611151095261eb3b6e71da4b8d94798ad1fe4e4ff4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070336',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070336',
+							},
+							{
+								brandEn:'POND\'S',
+								brand:'폰즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260914/2026091414532122155cd5bc2e6d84515acb17972bbc60ad9.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081394',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081394',
+							},
+							{
+								brandEn:'FROM THE <br>SKIN',
+								brand:'프롬더스킨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111529477e4a7127bf6604cb682876f5e35615727.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073705',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073705',
+							},
+							{
+								brandEn:'PICIBERRY',
+								brand:'피치베리',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261115412299dff5635d5154e289311523116b1cae4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10060700',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10060700',
+							},
+							{
+								brandEn:'FIXSEOUL',
+								brand:'픽스서울',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611160306865da2768b1a242ddb83df66d418986b5.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10067981',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10067981',
+							},
+							{
+								brandEn:'SKYLAKE',
+								brand:'하늘호수',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261116163097be76d21f8e541d0a198e791a260d002.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10002975',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10002975',
+							},
+							{
+								brandEn:'HEVEBLUE',
+								brand:'헤브블루',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611163909272f63a5530674c42b4c9f0b0fcb47dd3.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10067046',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10067046',
+							},
+							{
+								brandEn:'WHIPPED',
+								brand:'휩드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611165049262197fd0b37b4a37a8f06a8056af3669.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075088',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075088',
+							},
+						],
+						/* 1 향수/바디/헤어 */
+						[
+							{
+								brandEn:'GOLDFIELD<br>&BANKS',
+								brand:'골드필드앤<br>뱅크스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261118116924606dfecfd13418196f1543340d08ae5.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079889',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079889',
+							},
+							{
+								brandEn:'NICHIC',
+								brand:'니치크',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261118255003b0a33d76c7c48c5a3ffaa3d65165b67.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10066974',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10066974',
+							},
+							{
+								brandEn:'LEONOR GREYL',
+								brand:'레오놀그렐',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261118377356d11b71202f548fd89e9298d8a25e59a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10027607',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10027607',
+							},
+							{
+								brandEn:'LINDEN LEAVES',
+								brand:'린든리브즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111849448bbb1bab169ac4fefb91da12b3349f9f5.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072798',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072798',
+							},
+							{
+								brandEn:'MAKE ON',
+								brand:'메이크온',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611190086992d0437e92af498a946e16fa429a6c9c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10004271',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10004271',
+							},
+							{
+								brandEn:'MOEV',
+								brand:'모에브',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261119119696ca8bd4b087745e7b603c765df256c0b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073636',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073636',
+							},
+							{
+								brandEn:'MONCLOS',
+								brand:'몽클로스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111922663aa2abe2b1daf4d0bbe8980f9ed718d99.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10061384',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10061384',
+							},
+							{
+								brandEn:'VASELINE',
+								brand:'바세린',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111934651e51744ac93ca40c4b3642b9dd1ad5175.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10005455',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10005455',
+							},
+							{
+								brandEn:'BLISHEDAWN',
+								brand:'블리쉐던',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111946680d7080b3f95af4c7f94bd0df40e8a7044.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075380',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075380',
+							},
+							{
+								brandEn:'SOSPIRO',
+								brand:'소스피로',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826111958222359a41e0ab1149e7bec0b0b76e2c5a79.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079897',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079897',
+							},
+							{
+								brandEn:'SNUGGLE',
+								brand:'스너글',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611200885561e0565d46e44d86a5059283dc205c39.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075828',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075828',
+							},
+							{
+								brandEn:'STEPHANE HUMBERT <br>LUCAS',
+								brand:'스테판움<br>베르루카',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611202058242eb2274c8de4ae8aa666546d6247785.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079905',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079905',
+							},
+							{
+								brandEn:'ORGAN TALE',
+								brand:'오르간테일',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261120337974791b0a7235c43c2b1b79cbbfc5d0644.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10069256',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10069256',
+							},
+							{
+								brandEn:'Obra',
+								brand:'오브라',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261120449679070b3cabcc649c08e00dc1add3e61b0.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10069569',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10069569',
+							},
+							{
+								brandEn:'WILD PRAIRIE SOAP',
+								brand:'와일드프레리솝',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112056284e90d59aa5414475b9fe2eafcaddd8c9f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065591',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065591',
+							},
+							{
+								brandEn:'YUGEN',
+								brand:'유겐',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112107433d1485264116240dc8110cd15129b2170.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10059595',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10059595',
+							},
+							{
+								brandEn:'CHWI',
+								brand:'취',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261121293003e2092c15165429199d8b16efdfac9ab.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075364',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075364',
+							},
+							{
+								brandEn:'KSKINNY',
+								brand:'케이스키니',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261121403916279022d31994ab2b1036d3ee05e8f03.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074603',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074603',
+							},
+							{
+								brandEn:'KEIKO <br>MECHERI',
+								brand:'케이코메쉐리',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611215334961b99b96981f45d7b92847a1bd338efe.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10069262',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10069262',
+							},
+							{
+								brandEn:'KENT BRUSH',
+								brand:'켄트 브러쉬',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261122054791b345dbc777643388eab7a5714e39f09.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10064697',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10064697',
+							},
+							{
+								brandEn:'TEABLESS',
+								brand:'티블레스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261122164171b4c1e63fd9e407c81d2f29b9d90475c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10040586',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10040586',
+							},
+							{
+								brandEn:'PRANAROM',
+								brand:'프라나롬',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261122272968c2d4c576a00434f8cff3cbf8797391c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10066465',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10066465',
+							},
+							{
+								brandEn:'HAYASHI',
+								brand:'하야시',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611223854552c4124379de48d1877045b494861524.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10012832',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10012832',
+							},
+							{
+								brandEn:'HANPU <br>BAMBOO WIPES',
+								brand:'한포대나무속살',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611225121230684eaf90d24b7f843ceb51aa70550d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10059223',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10059223',
+							},
+						],
+						/* 2 가방/지갑 */
+						[
+							/* {
+								brandEn:'RAINS',
+								brand:'레인스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112316147d9d5ce1055dc47c6b195057c3176cb04.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10027787',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10027787',
+							}, */
+							{
+								brandEn:'LONNE<br>BYRON',
+								brand:'론네바이론',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611232768871f081f9a6d14eefba2da914ff657e7d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080869',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080869',
+							},
+							{
+								brandEn:'LE MASQUE',
+								brand:'르마스크',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261123388989df80f9395324ca68579e6a6ad4948da.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10044104',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10044104',
+							},
+							{
+								brandEn:'LEMEME',
+								brand:'르메메',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112353036b7bf5b757fc348e1b136b4b528de94d8.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10069276',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10069276',
+							},
+							{
+								brandEn:'MAI PASSPORT',
+								brand:'마이패스포트',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611240521724e2c0f2a8a840db951af403437b779d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071596',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071596',
+							},
+							/* {
+								brandEn:'MOIETOII',
+								brand:'모이에토이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261124160618c4b57e62a2b4f95902b02721710bbdd.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073453',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073453',
+							}, */
+							{
+								brandEn:'vey',
+								brand:'베이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112427197b1ab983ff96344229e53f3986cb0f34c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10069098',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10069098',
+							},
+							{
+								brandEn:'BORNEAT',
+								brand:'보닛',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112438531bec5db7d76b34c349bfa2106c940ea73.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080663',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080663',
+							},
+							{
+								brandEn:'BRIGHTON',
+								brand:'브라이튼',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261124500745eec14f3af614db487982bbca6a1351d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071329',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071329',
+							},
+							{
+								brandEn:'HABI<br>TOMENT',
+								brand:'아비투먼트',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611250307718d5e4ab56f342ed947899849c65085c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075421',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075421',
+							},
+							{
+								brandEn:'YEUN WOO',
+								brand:'연우',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112513959517f3285317a49d38f5fd5662d474aee.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10005631',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10005631',
+							},
+							{
+								brandEn:'OFFLIN',
+								brand:'오플린',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112525917214c84d5918744e49c28f9442d36ab72.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074482',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074482',
+							},
+							{
+								brandEn:'JOYGRYSON',
+								brand:'조이그라이슨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112537341195c1d9674e94aefb0c8ebefdb8e9fb4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075471',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075471',
+							},
+							{
+								brandEn:'CATH KIDSTON',
+								brand:'캐스 키드슨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112549095eda117eef77f4c4fbd2500d96a4b0a2c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080840',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080840',
+							},
+							{
+								brandEn:'CRASH BAGGAGE',
+								brand:'크래쉬배기지',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261126005477f50d80577c347159ff18a40c3c0d70c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10067070',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10067070',
+							},
+							{
+								brandEn:'TUO',
+								brand:'투오',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261126115612e795f7719e145b4a10185f87d1d550c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071749',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071749',
+							},
+							{
+								brandEn:'TREMO',
+								brand:'트레모',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021153439155610059205baa40d08d2096acf31b6253.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080940',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080940',
+							},
+							{
+								brandEn:'PACSAFE',
+								brand:'팩세이프',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112622665b079899a2efe495e9a9923ff1cd37241.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080927',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080927',
+							},
+							/*{
+								brandEn:'POSH PROJECTS',
+								brand:'포쉬프로젝트',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261126336335f7af51f47a24b98a732b95fa7796a54.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070101',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070101',
+							},*/
+							{
+								brandEn:'PIQUADRO',
+								brand:'피콰드로',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112655892b8550309066c48e3a999f49b0668df54.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10046494',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10046494',
+							},
+						],
+						/* 3 시계/주얼리 */
+						[
+							{
+								brandEn:'MAMAN ET FILLE',
+								brand:'마망에필레',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261127315360ec4d2967a3c4589b04d759885ae6602.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10066285',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10066285',
+							},
+							/*{
+								brandEn:'MCCOII',
+								brand:'맥코이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112757552fb9f37ba67c74fafa300054ea7154df0.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073158',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073158',
+							},
+							{
+								brandEn:'MONDAY EDITION',
+								brand:'먼데이 에디션',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261128084113edb50ec7c824c589d6e3962a9dd5014.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071725',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071725',
+							},*/
+							{
+								brandEn:'ANOTHERCELL',
+								brand:'어나더셀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211535150935ec8ef301b2847f285817c8d8e679e7b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074796',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074796',
+							},
+							{
+								brandEn:'J.ROSA',
+								brand:'제이로사',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261128199974dc131460c6f4cee80099c5819e1156f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10067844',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10067844',
+							},
+							{
+								brandEn:'TANI BY MINETANI',
+								brand:'타니 바이 미네타니',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826112832787c3e215be6efd451fb393dbb441af20eb.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10068127',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10068127',
+							},
+						],
+						/* 4 아이웨어/잡화 */
+						[
+							{
+								brandEn:'NEW BALANCE EYEWEAR',
+								brand:'뉴발란스<br>아이웨어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021153648101c83ebd5422cb46febed5e533eb0734aa.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074546',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074546',
+							},
+							{
+								brandEn:'LORNA MURRAY',
+								brand:'로나머레이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131302933385c562325c24f7a99caec3875cbcba4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10059585',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10059585',
+							},
+							{
+								brandEn:'MUUT',
+								brand:'뭍 아이웨어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082611291568936a4247cb52743459a8863e8faa8d96d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080777',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080777',
+							},
+							{
+								brandEn:'BABY BANZ',
+								brand:'베이비반즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261129265443abb050b1f7046bba046cc12091bd577.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10000863',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10000863',
+							},
+							{
+								brandEn:'UNDER<br>CONTROL',
+								brand:'언더컨트롤',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261129383075648f6bd34434e679f2f117d72562cd2.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10064448',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10064448',
+							},
+							{
+								brandEn:'PONPISH',
+								brand:'폰피쉬',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211537085716ae27f5b7b2c4942b8fda969631dc7e1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075243',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075243',
+							},
+						],
+						/* 5 패션/슈즈 */
+						[
+							/*
+							{
+								brandEn:'GOLDEN GOOSE',
+								brand:'골든구스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125721023d792b60c884744048f97d83b64a56af1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10019672',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10019672',
+							},
+							*/
+							{
+								brandEn:'GOAL STUDIO',
+								brand:'골스튜디오',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125735481bb696d8bf10841029c7a2a910340248d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079971',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079971',
+							},
+							{
+								brandEn:'KHALON GOLF',
+								brand:'깔롱골프',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082612574967716138a5e12ea4d51a391ba16d545a93c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10076668',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10076668',
+							},
+							{
+								brandEn:'NORDISK',
+								brand:'노르디스크',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211539224043f87ce2f124f46b5b370cf0866c38a79.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081490',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081490',
+							},
+							{
+								brandEn:'THEZAM',
+								brand:'더잠',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125801525a6055949349744f286ddcba122f2d987.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074896',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074896',
+							},
+							{
+								brandEn:'DAVE&DAZE',
+								brand:'데이브앤데이즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261258132740a91ec5b53934f23bf6e92ce5dc2464e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10047712',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10047712',
+							},
+							{
+								brandEn:'LONNEBYRON',
+								brand:'론네바이론',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021153830842cd047aab18084ffeb9ccc8273dc7585a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080869',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080869',
+							},
+							{
+								brandEn:'LUNALUZ',
+								brand:'루나루즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125824896d05454b2bfb84361bda926eb894bb9ba.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075838',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075838',
+							},
+							{
+								brandEn:'MACMOC',
+								brand:'마크모크',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261258366128bb862dbc3884215ac6211f34097b032.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070107',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070107',
+							},
+							{
+								brandEn:'BODY BLUE',
+								brand:'바디 블루',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125847545275f58cf018b440ca7bc28ec008f6e87.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072645',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072645',
+							},
+							/* {
+								brandEn:'BUTTERO',
+								brand:'부테로',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125858190c532e56c2cc34209b1775c07fdfcc141.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10060928',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10060928',
+							}, */
+							/* {
+								brandEn:'ANACONDA<br>INNERWEAR',
+								brand:'아나콘다<br>이너웨어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125909897dd71ef9b53664a11b2e8cf2d71f25603.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079823',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079823',
+							}, */
+							{
+								brandEn:'AKAW',
+								brand:'아카우',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261259233888b6f362a433f4791bb5884b33ae4f233.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10044391',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10044391',
+							},
+							{
+								brandEn:'ACT+',
+								brand:'액트플러스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261259370894c84d8261c4c4eb6b1bc04e2771bb180.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070414',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070414',
+							},
+							{
+								brandEn:'8FTER',
+								brand:'엣프터',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826125948868d4913fa2a5b941f78ee37f4dee9ba3ad.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072212',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072212',
+							},
+							{
+								brandEn:'OSTKAKA',
+								brand:'오스트카카',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130000089df1b3dc324b74e19bf530f3c55281f4b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10069282',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10069282',
+							},
+							{
+								brandEn:'ISABEL MARANT',
+								brand:'이자벨마랑',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261300137577f00a42ff4df405598599edbe583afd4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073202',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073202',
+							},
+							{
+								brandEn:'GENERAL IDEA',
+								brand:'제너럴아이디어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261300261865c9348d5cdf34d5ea834490f4e985212.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074538',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074538',
+							},
+							{
+								brandEn:'CLOVE',
+								brand:'클로브',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613003737928a9a5c6a8a449a890eb21056c6107eb.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080219',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080219',
+							},
+							{
+								brandEn:'QISE',
+								brand:'키세',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130047576eda6128c0034427db90fee2d3f752208.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073132',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073132',
+							},
+							{
+								brandEn:'TATA<br>COLLECTIVE',
+								brand:'타타컬렉티브',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261300579489aa928b0eab14178b51ab7e4bef2edab.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075327',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075327',
+							},
+							{
+								brandEn:'TOD\'S',
+								brand:'토즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130109589c86f4686063e4c7cbe635f9ac7bb89f1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10037813',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10037813',
+							},
+							{
+								brandEn:'FUNFROM<br>FUN',
+								brand:'펀프롬펀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261301212488542420de1e54099b31f641bb6f03a4e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074422',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074422',
+							},
+							{
+								brandEn:'PITH SPORTS',
+								brand:'피스스포츠',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130151083ac1d9ff8dd7a4e1486e89e6fe88dd4bf.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080785',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080785',
+							},
+							{
+								brandEn:'HAZZYS FASHION',
+								brand:'헤지스 패션',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211540002141e479407ec8c4cfebaf9caf8fe84b774.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080822',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080822',
+							},
+							{
+								brandEn:'HENRY COTTON\'S',
+								brand:'헨리코튼',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613020368653c48c0889ca42b093496ba3c6921ba8.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10066768',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10066768',
+							},
+							{
+								brandEn:'XEXYMIX INNERWEAR',
+								brand:'젝시믹스 이너웨어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261027/20261027113142319b769930fa49442729cff3e84f1d7b493.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10082024',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10082024',
+							},
+							{
+								brandEn:'BEANPOLE LADIES',
+								brand:'빈폴 레이디스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261029/202610291344328959cd6bc2ecd714b6fb1040dbb72183341.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081725',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081725',
+							},
+						],
+						/* 6 스포츠/레저 */
+						[
+							{
+								brandEn:'NAGE',
+								brand:'나쥬',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613024386657e8dcae9b434cb4969ea52dddfa6477.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074227',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074227',
+							},
+							{
+								brandEn:'NOITOW',
+								brand:'노이토',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130258877d4056635765d46a2a0ec78f00454888d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079852',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079852',
+							},
+							{
+								brandEn:'DELIGHT<br>POOL',
+								brand:'딜라잇풀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261303358605d11237e21a14b2194693d8857c472a7.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10076165',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10076165',
+							},
+							{
+								brandEn:'REEBOK',
+								brand:'리복',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130349305592d78db45d64f78a34ac4c61be82ee1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073210',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073210',
+							},
+							{
+								brandEn:'LIEWOOD',
+								brand:'리우드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613042863345d39de3ce4949109021ed36d504de26.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10059153',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10059153',
+							},
+							{
+								brandEn:'MARK & LONA',
+								brand:'마크앤로나',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261304412010aed1304323e4bc28f668b1563ea0567.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10052844',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10052844',
+							},
+							{
+								brandEn:'MAYBEACH',
+								brand:'메이비치',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613045238119104011549c4230ba3b1593bb93fbde.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10078874',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10078874',
+							},
+							{
+								brandEn:'VENDIS',
+								brand:'벤디스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130503992aab9e1e971c24d91a496fc7c20370fc4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073031',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073031',
+							},
+							{
+								brandEn:'SIDE KICK',
+								brand:'사이드킥',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130515723d4b026758c6f45e29160a0bd3d837661.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074702',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074702',
+							},
+							{
+								brandEn:'CELLVERINE',
+								brand:'셀버린',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613052667708bce9af04704a5d96093de36d1fea7a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073381',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073381',
+							},
+							/* {
+								brandEn:'OERI',
+								brand:'오에리',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613053796081a4baa0436645c39c55c5042b85eec3.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073729',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073729',
+							}, */
+							{
+								brandEn:'EVOKY',
+								brand:'이보키',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613054824132f0b163e1794bfa9c0a6641c0fd2793.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074206',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074206',
+							},
+							{
+								brandEn:'JIJIVISHA',
+								brand:'지지비샤',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613060013594d5f811b0a345e38e63f653468d196d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10078865',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10078865',
+							},
+							{
+								brandEn:'KEELOW',
+								brand:'키로우',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613061105834c3bbd1cd6d4b208f663604a764bb0c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073536',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073536',
+							},
+						],
+						/* 7 건강/식품/주류 */
+						[
+							{
+								brandEn:'GUOTAI',
+								brand:'구오타이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261306460769e7a0b8f044b40139e9d37067edca82e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10056176',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10056176',
+							},
+							{
+								brandEn:'GUJEON<br>NOKYONG',
+								brand:'구전녹용',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613065722473dfa755f3ad4bb9bd81e470ee83c0e7.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10068693',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10068693',
+							},
+							{
+								brandEn:'GLASGOW',
+								brand:'글래스고',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261307079261a688171dd0b49f1953db80d52426d81.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070455',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070455',
+							},
+							{
+								brandEn:'NATURESQUE',
+								brand:'네이처레스큐',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130719150ef2dbd3590214cbcabf7e62ac7f67d2d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074575',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074575',
+							},
+							{
+								brandEn:'DR.DIET',
+								brand:'닥터디엣',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130730756ed4a55bf87ed4f2cb05f7694ba41655c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10069292',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10069292',
+							},
+							{
+								brandEn:'DAEBAK FOOD',
+								brand:'대박푸드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130742882cc06fd495a1c40a5a8ce48be4f559a3d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10053380',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10053380',
+							},
+							{
+								brandEn:'DROPS',
+								brand:'드롭스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130754495bcf142159afa4d63ab31f2d6430cf43b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10046608',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10046608',
+							},
+							{
+								brandEn:'DELIGHT PROJECT',
+								brand:'딜라이트<br>프로젝트',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613080599314029b7ea6a24a47baee6131f37bafb2.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10077032',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10077032',
+							},
+							{
+								brandEn:'RYUKA',
+								brand:'류카',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130816977d2b45b09564e4c97b920e91dd3e5aaac.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075759',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075759',
+							},
+							{
+								brandEn:'LITTLE CALI COFFEE',
+								brand:'리틀캘리커피',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261308277262666a75d80934cf9b686005bd3c9af56.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065799',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065799',
+							},
+							{
+								brandEn:'MEDALIST',
+								brand:'메달리스트',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/2026102115405447138b12c65ad1241499b51b9ddc08e1187.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081088',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081088',
+							},
+							{
+								brandEn:'BABYRAK',
+								brand:'베이비락',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130838695b94fdac9f6e84444912aaebc96d64a87.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070085',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070085',
+							},
+							{
+								brandEn:'OWLS STORE ROOM',
+								brand:'부엉이곳간',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130850908b37d6c557d6c438c9f8a5c1415035311.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10042892',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10042892',
+							},
+							{
+								brandEn:'SANSAM101',
+								brand:'산삼101',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130902406aa2e46a7b3904dd6a9561bb03484da4e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070592',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070592',
+							},
+							{
+								brandEn:'SEJA COFFEE',
+								brand:'세자커피',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130913400af467ab0d4d04e9e96055729e04344ec.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079810',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079810',
+							},
+							{
+								brandEn:'SONGGANG<br>DANG',
+								brand:'송강당',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130924797db12d5043de34160aaf1c75bc028dbf6.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10003599',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10003599',
+							},
+							{
+								brandEn:'SHAKEBABY',
+								brand:'쉐이크베이비',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130937596e4c7319fceb34a69a54fa556c0cdcf64.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079872',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079872',
+							},
+							{
+								brandEn:'AKI SAKE',
+								brand:'아키 사케',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261309485049be1fc78f508419aabfa43fe0eb3f52f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075275',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075275',
+							},
+							{
+								brandEn:'APTAMIL',
+								brand:'압타밀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826130959436e63fff20c60f4a67ab20063b2d864f3e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072709',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072709',
+							},
+							{
+								brandEn:'YOUNGLONG',
+								brand:'영롱',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131010741144ca57507e74c0ebf0313b43cb82f83.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071785',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071785',
+							},
+							{
+								brandEn:'LEE GYONG-JAI',
+								brand:'이경제',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261310223516fe6e3ee144c491aaa43d261b0f70b06.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10063489',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10063489',
+							},
+							{
+								brandEn:'IWASAKE',
+								brand:'이와사케',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261310487585410184554ec4eb3ae9e7d25ea7cab86.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080286',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080286',
+							},
+							{
+								brandEn:'ZAKSIM LAB',
+								brand:'작심랩',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613105982419b560d39474400ba930a131d18537be.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10052342',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10052342',
+							},
+							{
+								brandEn:'CAFE385',
+								brand:'카페385',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261311223362114f5ee8595444cb57b047cc257d278.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073627',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073627',
+							},
+							{
+								brandEn:'KUJIRA',
+								brand:'쿠지라',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131133169a248592ffddd4ef5afcb52c4c1fb6df2.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072845',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072845',
+							},
+							{
+								brandEn:'CRAFTBROS',
+								brand:'크래프트브로스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261311439305e6ece74923b4bafb5b8a595edbc36d6.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071820',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071820',
+							},
+							{
+								brandEn:'HEALTH<br>&BEAUTY',
+								brand:'헬스앤뷰티',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261311562598f1f7e4f8a3d4110a573a72c0e938340.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065995',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065995',
+							},
+						],
+						/* 8 디지털/리빙 */
+						[
+							{
+								brandEn:'NEWNESS',
+								brand:'뉴니스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613124086200e6836f8bf2437ab0b2e7ebfba8ed15.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10076251',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10076251',
+							},
+							/* {
+								brandEn:'DECORART',
+								brand:'데코아르',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261312520444d9734d519ff48f9b021422c7a1d49d1.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073054',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073054',
+							}, */
+							{
+								brandEn:'RENOVERA',
+								brand:'리노베라',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131315511001a666d80424d96870e4f08c8363a48.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10029917',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10029917',
+							},
+							/* {
+								brandEn:'LIVINGC<br>REATOR',
+								brand:'리빙크리에이터',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261313269655cdc921b55c44eae893a3f156e73f195.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072762',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072762',
+							}, */
+							{
+								brandEn:'BAS',
+								brand:'바스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211541456094ec372b6b2cf40a3b1da2ab4889472e8.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081800',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081800',
+							},
+							{
+								brandEn:'BELKIN',
+								brand:'벨킨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613133844875b70e52bb0647689f720cd075f0bc40.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074611',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074611',
+							},
+							{
+								brandEn:'BLOM',
+								brand:'블롬',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131437083c6998d1ecd1d4d1aad7225b450884bb6.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073245',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073245',
+							},
+							{
+								brandEn:'SABRE',
+								brand:'사브르',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613145130277b0c77ee29e4701b08c6f3b0af2e680.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071830',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071830',
+							},
+							{
+								brandEn:'SUIZ',
+								brand:'수이즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131503345cdb9e6b157d8429fb1d0ac9fd088250e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071538',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071538',
+							},
+							{
+								brandEn:'SWING GIRLS',
+								brand:'스윙걸스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261315149119e7640895bc641fba0a19fbccaa2b541.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10068752',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10068752',
+							},
+							{
+								brandEn:'AFFETTO',
+								brand:'아페토',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131526342acff3cdc1a524b41a0c1847ffc49b7c4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10060641',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10060641',
+							},
+							{
+								brandEn:'JANEKE',
+								brand:'야네케',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613153978234d02a395d004a1099a6a6b22846c989.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10070934',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10070934',
+							},
+							{
+								brandEn:'AAUXX',
+								brand:'억스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131551031bf66779b440145588e48828c8a30cd28.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10047600',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10047600',
+							},
+							{
+								brandEn:'EDELKO<br>CHEN',
+								brand:'에델코첸',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613160301258e4ca4ed9cc4e9cbf0b0f48d07c2983.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10072754',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10072754',
+							},
+							{
+								brandEn:'ECONER',
+								brand:'에코너',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261316138918bdca95ea3244378abf10fa463b4867f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074694',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074694',
+							},
+							{
+								brandEn:'EXGEL',
+								brand:'엑스젤',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131625529796b009041e34591bc8ead53e0a74cc9.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10047567',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10047567',
+							},
+							{
+								brandEn:'OH LOLLY DAY',
+								brand:'오롤리데이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131649029af20fc7da5634b87a441614453f4c72c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073291',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073291',
+							},
+							{
+								brandEn:'WANGTA',
+								brand:'왕타',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261317003307c2c27fa7e85418b923a53bf4d9bf8a7.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074149',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074149',
+							},
+							{
+								brandEn:'WKND VIBES',
+								brand:'위켄드바이브',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131711139db4407dc47394c988c4719f898a310e7.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071301',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071301',
+							},
+							{
+								brandEn:'WINSAF',
+								brand:'윈세프',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613172223435e1b24c992a48d5b25eae811eb3fa0a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10076877',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10076877',
+							},
+							{
+								brandEn:'IROHA',
+								brand:'이로하',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131733176e9f6a060b03e4b29b4b3bbb3ce98c60c.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10028393',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10028393',
+							},
+							{
+								brandEn:'CHOGONG',
+								brand:'조공',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131755391afa0e9ee5fca4eadbbcc3c39e4e762e4.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073576',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073576',
+							},
+							{
+								brandEn:'GITIS',
+								brand:'지티스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613180580585db37121af14fb6848e3d18e31d419b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10071544',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10071544',
+							},
+							{
+								brandEn:'KARA YOUNG',
+								brand:'카라영',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613181704726ab680a71ff4bb6a63bf32bde8eb61b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10044088',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10044088',
+							},
+							{
+								brandEn:'TheraICE',
+								brand:'테라아이스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131839778c7b14eb583cb4430a765f5b0242dd6bc.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10068729',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10068729',
+							},
+							/* {
+								brandEn:'TAIL HIGH',
+								brand:'테일하이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261318505053755627fb50a4854ab9537e018528664.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10079207',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10079207',
+							}, */
+							{
+								brandEn:'TENGA',
+								brand:'텐가',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131900928555241c51dc6403cbc136e76e8335c62.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10028383',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10028383',
+							},
+							{
+								brandEn:'TWOHIM',
+								brand:'투힘',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131912136505f2745d410478b98155e431632c34d.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10027571',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10027571',
+							},
+							{
+								brandEn:'FACTORY NORMAL',
+								brand:'팩토리 노멀',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131923929624b025d29014e74837064e812fe169a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10044152',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10044152',
+							},
+							{
+								brandEn:'PENGSOO',
+								brand:'펭수',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613193545146071a70d82143fc81e385bfa418e492.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10063913',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10063913',
+							},
+							{
+								brandEn:'HOUSWEET',
+								brand:'하우스윗',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826131948210bd25903d03864938b407e68bdff49d47.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10045890',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10045890',
+							},
+							{
+								brandEn:'HAYDAY<br>MOOD',
+								brand:'헤이데이무드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261320004286a580ad3f5e349fba217ef4b396b4771.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074330',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074330',
+							},
+						],
+						/* 9 키즈/베이비 */
+						[
+							{
+								brandEn:'NATIVE',
+								brand:'네이티브',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/202610211544194930d5177726cf242ba98e028920898014f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10014847',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10014847',
+							},
+							{
+								brandEn:'LUCKY BAMBINE',
+								brand:'럭키밤비네',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132040320b67a2d8c285046b5a742ef65b162df44.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074595',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074595',
+							},
+							{
+								brandEn:'RECIPEBOX',
+								brand:'레시피박스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132051413d4bb2d1ffdda451c853beae69e4c9954.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10078894',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10078894',
+							},
+							{
+								brandEn:'RUNIDUCK',
+								brand:'루니덕',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132102132514f603bd76547e08e06b61c721bd58f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074458',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074458',
+							},
+							{
+								brandEn:'LITTLE CLOUD',
+								brand:'리틀클라우드',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021154318458de9127e8cde2481ba9be0094d1cc8012.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080852',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080852',
+							},
+							{
+								brandEn:'MY LITTLE TIGER',
+								brand:'마이리틀타이거',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132124038ab2cf829bb794787b78707af0a83f7aa.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10064036',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10064036',
+							},
+							{
+								brandEn:'MARY MEYER',
+								brand:'메리메이어',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132134189044e5db5be3c4210af2cb43f77280eca.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10076596',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10076596',
+							},
+							{
+								brandEn:'MONGCOOL',
+								brand:'몽쿨',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132144664c736ef9ccc404e908fa307a35ede4b70.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073655',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073655',
+							},
+							{
+								brandEn:'MOONYA MOONYA',
+								brand:'무냐무냐',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021154347119a9a9bbced7d746ff9eed80a9c9474feb.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081324',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081324',
+							},
+							{
+								brandEn:'MIKI HOUSE',
+								brand:'미키하우스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132238207201f4360ccb34655a12f2baaba3db606.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080128',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080128',
+							},
+							{
+								brandEn:'BEBELUNE',
+								brand:'베베룬',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132251576c2160a94a7e04951b8fae6515d8f631f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10065381',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10065381',
+							},
+							{
+								brandEn:'BUGABOO',
+								brand:'부가부',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/2026082613230396529e2b8fb2df140f08247c1a076c75535.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10073584',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10073584',
+							},
+							/*{
+								brandEn:'ATTIRABBIT',
+								brand:'아띠래빗',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261323174067b1aeafc9f4b447d9e4b3558b283b084.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075337',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075337',
+							},
+							{
+								brandEn:'ATTIPAS',
+								brand:'아띠빠스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261323298962c04d9c5d1fc41aa9d92db063b89426b.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075397',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075397',
+							},*/
+							{
+								brandEn:'I LOVE J',
+								brand:'아이러브제이',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132340878f3f07ea9464545ddaf7b20a2d91ff37e.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074853',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074853',
+							},
+							{
+								brandEn:'ODDBI',
+								brand:'오드비',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/202608261324129477ccabb53f7ed4e8094a8c9a8a1597144.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10062626',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10062626',
+							},
+							{
+								brandEn:'JOOLZ',
+								brand:'줄즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021154246260aea8b3a31edb4a26acecb16f23c9e1a6.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081742',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081742',
+							},
+							{
+								brandEn:'KIMUZ',
+								brand:'키머즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132424898be7474d16e7e429e9f0677c9475d886a.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10075962',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10075962',
+							},
+							{
+								brandEn:'TERNX',
+								brand:'턴엑스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021154519054285dc13f4b7840a296b3bc194a55a187.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081126',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081126',
+							},
+							{
+								brandEn:'PALMPALS',
+								brand:'팜팔스',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261021/20261021154447507d6243ee3b8934fe482a99a2b9e0f03e9.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10080761',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10080761',
+							},
+							{
+								brandEn:'FIRGI',
+								brand:'퍼기',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20260826/20260826132435240a19fc79dfae341349ced3d3ecf47d31f.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10074999',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10074999',
+							},
+							{
+								brandEn:'BEANPOLE KIDS',
+								brand:'빈폴 키즈',
+								img:'https://static.lottedfs.com/contents/images/ckeditor-img/20261029/20261029134653896ebdb236569534c0c9c8b2e41ece415c5.webp',
+								linkPc:'https://chn.lottedfs.cn/kr/display/brand?dispShopNo=10081717',
+								linkMo:'https://m.chn.lottedfs.cn/kr/display/brand?dispShopNo=10081717',
+							},
+						],
+					];
+
+					var brandRowCol = [
+						{
+							col:13,
+							row: 5,
+						},
+						{
+							col:5,
+							row: 5,
+						},
+						{
+							col:4,
+							row: 5,
+						},
+						{
+							col:2,
+							row: 3,
+						},
+						{
+							col:2,
+							row: 2,
+						},
+						{
+							col:5,
+							row: 5,
+						},
+						{
+							col:3,
+							row: 5,
+						},
+						{
+							col:6,
+							row: 5,
+						},
+						{
+							col:7,
+							row: 5,
+						},
+						{
+							col:4,
+							row: 5,
+						},
+
+					];
+
+					$.each(brandListData, function(idx, val) {
+						var $brandList = $('._brand_item');
+						var $listItem = $('<div class="_list_item '+ (idx == 0 ? '_current' : '_disabled') +'" data-list-id="idx_'+ idx +'"><div class="_list_slider"><div class="swiper-wrapper"></div></div></div>');
+
+						var listHtmlStr = '';
+						var listItemCnt = 0;
+
+						/*
+						var list = val;
+
+						var rowLen = brandRowCol[idx].row;
+						var colLen = brandRowCol[idx].col;
+
+						var grid = new Array(rowLen * colLen).fill({empty: true});
+
+						for (var i = 0; i < list.length; i++) {
+
+							var row = Math.floor(i / colLen);
+							var col = i % colLen;
+
+							var newIndex = col * rowLen + row;
+
+							grid[newIndex] = list[i];
+						}
+
+						val = grid;
+						*/
+
+						$.each(val, function(cidx, cval) {
+							if (!cval.hide) {
+								var itemLen = brandRowCol[idx].row;
+
+								if (listItemCnt % itemLen == 0) {
+									listHtmlStr += '<div class="swiper-slide _item_wrap">';
+								}
+
+								listHtmlStr += '<div class="_item">';
+								listHtmlStr += '<a href="'+ cval.linkMo +'"><span class="_img"><img src="'+ cval.img +'" alt=""></span><span class="_name">'+ cval.brandEn +'</span></a>';
+								listHtmlStr += '</div>';
+
+								if (listItemCnt % itemLen == (itemLen - 1) || listItemCnt == (val.length - 1)) {
+									listHtmlStr += '</div>';
+								}
+
+								listItemCnt++;
+
+							}
+						});
+
+						$listItem.find('.swiper-wrapper').append($(listHtmlStr));
+
+						$brandList.append($listItem);
+
+					});
+
+					$(function() {
+						var brandNavSlider = new Swiper($('._brand_nav_slider')[0], {
+							effect: 'slide',
+							speed: 600,
+							slidesPerView: 'auto',
+							freeMode: true,
+							watchOverflow: true,
+						});
+
+						$('._brand_nav button').on('click', function(e) {
+
+							var listId = $(this).data('filterList');
+
+							$(this).addClass('_current').closest('._item').siblings().find('button').removeClass('_current');
+							$('._list_item[data-list-id="idx_'+ listId +'"]').addClass('_current').siblings().removeClass('_current');
+
+							window['_brandSlider_'+ listId].update();
+							window['_brandSlider_'+ listId].slideTo(0);
+
+							brandNavSlider.slideTo($(this).index('._brand_nav button'));
+						});
+					});
+
+					$('._list_item').each(function(idx, val) {
+						var nowIdx = idx;
+
+						var $this = $(this);
+
+						if ($this.find('.swiper-slide').length > 1) {
+							$(this).append('<div class="_slider_current"></div>');
+						}
+
+						window['_brandSlider_' + nowIdx] = new Swiper($this.find('._list_slider')[0], {
+							effect: 'slide',
+							speed: 600,
+							slidesPerView: 'auto',
+							centeredSlides: false,
+							watchOverflow: true,
+							loop: false,
+							/*
+							pagination: {
+								el: $this.find('._slider_current')[0],
+								type: 'bullets',
+								clickable: true,
+							},
+							*/
+						});
+					});
+
+				})();
+			</script>
+
+		</div>
+	</div>
+
+	<div class="_evt_notice">
+		<div class="_notice_top_wrap">
+			<div class="_notice_top _off">
+				<button type="button" class="_toggle_btn">注意事项</button>
+			</div>
+		</div>
+		<ul class="_notice_list _off">
+			<li>进行法定成年认证后可进入酒类商品详细页面购买。</li>
+			<li>过量饮酒有可能导致中风、记忆力减退或阿尔兹海默症。</li>
+			<li>孕期饮酒会增加畸形儿出生的风险。</li>
+			<li>酒类不包含在800美金基本免税额度以内，免税额度另行计算。<br />-酒类免税额度 : 总容量在2L以下，总价格在400美金以内 (瓶数无限制)。</li>
+			<li>若超过免税范围，将会被征收关税等。（网上及实体店合算）</li>
+			<li>由于酒类商品的特殊性，只有在提货处确认产品存在质量问题时才可进行交换或退货。</li>
+			<li>根据本公司及品牌政策可能随时变动或提早结束。</li>
+		</ul>
+		<script>
+			(function($){
+				$('._evt_notice ._toggle_btn').on('click', function(e) {
+					e.preventDefault();
+					$(this).toggleClass('_off');
+					$('._evt_notice ._notice_list').toggleClass('_off');
+				});
+			})(jQuery);
+		</script>
+	</div>
+
+</div></div></div></section></div></article></div></body></html>

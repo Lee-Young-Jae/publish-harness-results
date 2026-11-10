@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		var allPrdCode = [
+			{
+				"prd_1": [
+					{prdNo:'20000613207', prdOptNo:'20000751065'},
+					{prdNo:'20000974988', prdOptNo:'20001308048'},
+					{prdNo:'20000801462', prdOptNo:'20001014415'},
+					{prdNo:'20000932206', prdOptNo:'20001231632'},
+					{prdNo:'20000841552', prdOptNo:'20001085242'},
+				],
+				"prd_2": [
+					{prdNo:'20000986828', prdOptNo:'20001331442',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201710003471cb63abb44444b4991334572496210f4.webp',
+						},
+					},
+					{prdNo:'20000952499', prdOptNo:'20001267120',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020171015568f224c478205e4196abe3813dd6fe5b2b.webp',
+						},
+					},
+					{prdNo:'10002324380', prdOptNo:'10002324380',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020171025666562fba62ce7843c5ba2c41b159116a43.webp',
+						},
+					},
+				],
+				"prd_3": [
+					{prdNo:'10002345924', prdOptNo:'10002345924',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201710471991ef66bc8f9424a85b5adb34ff4b3d2a4.webp',
+						},
+					},
+					{prdNo:'20000841549', prdOptNo:'20001085239',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201710583182a40f6776cee420096225285bb8407f0.webp',
+						},
+					},
+					{prdNo:'20000932206', prdOptNo:'20001231632',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201711106249218ec4dab3b428e9042e0ec2c0725ae.webp',
+						},
+					},
+				],
+				"prd_4": [
+					{prdNo:'10001413802', prdOptNo:'10001413802',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201711225532109c5f44d2a4fbfa5c469ad0fe59979.webp',
+						},
+					},
+					{prdNo:'20000842021', prdOptNo:'20001086054',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020171142676c5689b8000f74d1eb7147d1911941ece.webp',
+						},
+					},
+					{prdNo:'20000841552', prdOptNo:'20001085242',
+						change: {
+							prdImgUrl : 'https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020171153381c51b96c130794b6e8c5b826c3aba3508.webp',
+						},
+					},
+				],
+				"prd_5": [
+					{prdNo:'20000952499', prdOptNo:'20001267120',
+						change: {
+							prdNm : '시카비오 크림+ 100ml',
+						},
+					},
+				],
+			}
+		];
+
+		/*
+			면세점 API 호출용 데이터 생성
+		 */
+		var ajaxData = function() {
+
+			var prdInfoArr = [];
+
+			for (var key in allPrdCode[0]) {
+				if (allPrdCode[0].hasOwnProperty(key)) {
+
+					var items = allPrdCode[0][key];
+
+					if (Array.isArray(items)) {
+						for (var i = 0; i < items.length; i++) {
+
+							var item = items[i];
+							var ajaxItem = {};
+
+							for (var prop in item) {
+								var excluded = ['custom', 'add', 'cate', 'empty', 'hide', 'change', 'addClass', 'addAttr', 'imgSizeX', 'noDims', 'showDate', 'wait'];
+
+								if (item.hasOwnProperty(prop) && !excluded.includes(prop)) {
+									ajaxItem[prop] = item[prop];
+								}
+							}
+
+							if (Object.keys(ajaxItem).length > 0) {
+								prdInfoArr.push(ajaxItem);
+							}
+
+							/* prdInfoArr.push(ajaxItem); */
+
+						}
+					}
+				}
+			}
+
+			return prdInfoArr;
+
+		}();
+
+		window['_evtPrdAllCode'] = {
+			prdInfo: ajaxData,
+		};
+
+		/*
+			면세점 API 호출 후 실행할 함수
+		 */
+		window['_evtMakePrdList'] = function(ajaxRowData) {
+
+			var $eventArea = $('.evWrap');
+			var realPrdData = {};
+
+			/*
+				호출된 데이터를 바로 출력할 수 없기에 다시 한번 매칭용 데이터로 가공합니다.
+				응답으로 받은 상품 리스트는 지정한 순서를 보장하지 않아 따로 매칭데이터가 필요합니다.
+			 */
+			$.each(ajaxRowData, function(idx, val) {
+
+				var prdId = 'prd_' + val.prdNo + '_' + (val.prdOptNo ? val.prdOptNo : '0'); /* 상품No와 옵션No로 구분됩니다. */
+
+				if (!(prdId in realPrdData)) {
+					realPrdData[prdId] = val;
+				} else {
+					realPrdData['prd_unknown_idx_' + idx] = val;
+				}
+			});
+
+			/* HTML 구조 생성 */
+			$('._AUTO_SET').each(function(idx, val) {
+				var $this = $(this);
+				var $setWrap = $this.find('._AUTO_ITEM_WRAP').removeClass('_AUTO_ITEM_WRAP');
+				var $setHtml = $('<div />');
+				var $setHtmlTemp;
+
+				var rowIdx = typeof $this.data('rowIdx') != 'undefined' ? $this.data('rowIdx') : idx;
+				var itemCnt = 0;
+				var prevCate = null;
+
+				var fixedInfo = false;
+
+				/* 임의 변경된 데이터를 찾아야 하기 때문에 원본 상품데이터를 돌려 상품을 출력합니다. */
+				if (allPrdCode[0][rowIdx]) {
+
+					/*
+						한 열에 대한 스와이프가 필요한 경우, 그리고 슬라이드가 column 배치 상태일 때
+						data-col-change 속성이 있는 경우 세로 열 배치에서 가로 행 배치로 변환합니다.
+
+						변환 전: data-row-items="3" 일 때
+						1 | 4 | 7,
+						2 | 5 | 8,
+						3 | 6 | 9, ...
+
+						변환 후: data-row-items="3" 이고, data-col-change="3" 이면
+						1 | 2 | 3,
+						4 | 5 | 6,
+						7 | 8 | 9, ...
+					 */
+					if ($this.find('._AUTO_ITEM_OBJ').data('colChange')) {
+						var colData = [];
+						var colCnt = 0;
+
+						var rowLen = $this.find('._AUTO_ITEM_OBJ').data('rowItems');
+						var colLen = $this.find('._AUTO_ITEM_OBJ').data('colChange');
+
+						var itemLen = allPrdCode[0][rowIdx].length;
+						var actualColLen = Math.min(colLen, Math.ceil(itemLen / rowLen));
+
+						$.each(allPrdCode[0][rowIdx], function(cidx, cval) {
+
+							colData[(cidx % actualColLen * rowLen) + colCnt] = cval;
+
+							if ((cidx % actualColLen * rowLen) == (rowLen * (actualColLen - 1))) {
+								colCnt++;
+							}
+
+						});
+
+						$.each(colData, function(cidx, cval) {
+
+							if (!cval) {
+								colData[cidx] = {empty:true};
+							}
+
+						});
+
+						allPrdCode[0][rowIdx] = colData;
+					}
+
+					if (!$this.find('._AUTO_ITEM_OBJ').data('position')) {
+						/*
+							누락된 상품이 있는지 검사
+							아래 영역은 빈 상품을 제거할 때 사용됩니다.
+							상품의 정렬 순서가 빈 요소 상태로라도 보장되어야 할 경우에는 사용하지 말아주세요.
+						 */
+						$.each(allPrdCode[0][rowIdx], function(ckey, cval) {
+
+							if (cval?.empty || !cval) {
+								return true;
+							}
+
+							var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+							if (!(prdCode in realPrdData)) {
+								console.error('누락된 상품이 존재합니다.\ncate:' + rowIdx + '\nidx:' + ckey + '\nprdNo:' + cval.prdNo);
+							}
+						});
+
+						/*
+							상품 정보를 불러올 수 없는 경우 상품 데이터에서 제거 합니다.
+							아래 영역은 빈 상품을 제거할 때 사용됩니다.
+							상품의 정렬 순서가 빈 요소 상태로라도 보장되어야 할 경우에는 사용하지 말아주세요.
+						 */
+						allPrdCode[0][rowIdx] = allPrdCode[0][rowIdx].filter(function(cval){
+
+							if (cval.empty) {
+								return true;
+							}
+
+							var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+							return (prdCode in realPrdData);
+						});
+					}
+
+					/*
+						날짜 설정으로 상품을 노출하거나 제거할 수 있습니다.
+						data-show-date="true"
+
+						{prdNo:'20000446879', prdOptNo:'20000484357',
+							showDate:{
+								start: '2025/11/02 00:00:00',
+								end: '2025/11/03 23:59:59',
+							}
+						},
+
+					 */
+					if ($this.find('._AUTO_ITEM_OBJ').data('showDate')) {
+
+						allPrdCode[0][rowIdx] = allPrdCode[0][rowIdx].filter(function(cval){
+
+							if (cval.showDate) {
+								var nowDate = new Date();
+								var startDate = new Date(cval.showDate.start);
+								var endDate = new Date(cval.showDate.end);
+
+								if (nowDate > startDate && nowDate < endDate) {
+									return true;
+								} else {
+									return false;
+								}
+							} else {
+								return true;
+							}
+
+						});
+
+					}
+
+					if ($this.find('._AUTO_ITEM_OBJ').data('fixedinfo')) {
+						/*
+							임의 셋팅된 상품정보가 실제 노출되는 상품 API 객체가 없을 경우 출력 리스트에서 제거됩니다.
+							출력 리스트에서 유지하려면 이 옵션을 적용해주세요.
+							실제 API 객체가 없을 경우 부모요소 ._remove_sec를 찾아 html 제거합니다.
+							prd_25120002 행사 참고
+						 */
+						fixedInfo = true;
+					}
+
+					$.each(allPrdCode[0][rowIdx], function(ckey, cval) {
+
+						var $setItemHtml = $this.find('._AUTO_ITEM').clone().removeClass('_AUTO_ITEM');
+
+						var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+						var cateStr = '0';
+
+						if ('cate' in cval) { /* 필터 그룹 지정시 인덱스 및 문자열을 지정합니다. */
+							cateStr = cval.cate;
+						}
+
+						if (prevCate !== null && prevCate !== cateStr) {/* cate가 변경되면 새로운 슬라이드부터 시작 */
+							itemCnt = 0;
+						}
+
+						prevCate = cateStr;
+
+						function setHtmlItem() {
+
+							if ('add' in cval) { /* 임의 추가된 항목을 삽입 합니다. */
+								$.each(cval.add, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							if ('custom' in cval) { /* 임의 변경된 항목에 대해 값을 갱신 합니다. */
+								$.each(cval.custom, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							$setItemHtml.find('[data-auto-ipg]').each(function(i, v) {
+
+								var autoType = $(this).data().autoIpg;
+								var prdData = realPrdData[prdCode];
+
+								function createText(currentData, dataName, $ele) {
+									if (currentData.hide && currentData.hide[dataName]) {
+										$ele.parent().html('').addClass('_disabled');
+									} else {
+										if (currentData.change && currentData.change[dataName]) {
+											$ele.html(currentData.change[dataName]);
+										} else {
+											if (prdData[dataName] == '0') { /* 데이터값이 0인 경우 숨김 처리 */
+												$ele.parent().html('').addClass('_disabled');
+											} else {
+												if (prdData[dataName]) {
+													$ele.html(prdData[dataName]);
+												} else {
+													$ele.closest('._remove_sec').remove();
+												}
+											}
+										}
+									}
+								}
+
+								switch (autoType) {
+								case 'img' :
+									if (cval?.change && cval?.change?.prdImgUrl) {
+										$(this).attr('src', cval.change.prdImgUrl);
+									} else {
+										if (cval.noDims) {
+											$(this).attr('src', realPrdData[prdCode].prdImgUrl);
+										} else {
+											if (realPrdData[prdCode].prdImgUrl) {
+												$(this).attr('src', realPrdData[prdCode].prdImgUrl + '/dims/resize/460x460');
+											} else {
+												$(this).attr('src', 'https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png');
+
+											}
+										}
+									}
+
+									if (cval.imgSizeX) {
+										$(this).css('width', cval.imgSizeX);
+									}
+
+									break;
+								case 'link' :
+									if (cval.wait) {
+										$(this).attr({href: '#', onclick: 'alert("'+ cval.wait +'"); return false;'});
+									} else {
+										$(this).attr('href', 'https://kor.lottedfs.com/kr/product/productDetail?prdNo='+ realPrdData[prdCode].prdNo +'&prdOptNo=' + realPrdData[prdCode].prdOptNo + '&adltPrdYn=' + realPrdData[prdCode].adltPrdYn);
+									}
+									break;
+								case 'brand' :
+									var dataName = 'brndNm';
+
+									/* 항목별로 적용할 수 있습니다. */
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdName' :
+									var dataName = 'prdNm';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPer' :
+									var dataName = 'dscntRt';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdDel' :
+									var dataName = 'saleUntPrc';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPrice' :
+									var dataName = 'dscntAmt';
+									createText(cval, dataName, $(this));
+									break;
+								default:
+
+								}
+
+							});
+						}
+
+						function addRowItem(hide, empty) {
+
+							if ($this.find('._AUTO_ITEM_OBJ').data('rowItems')) {
+								if (itemCnt % $this.find('._AUTO_ITEM_OBJ').data('rowItems') == 0) {
+									$setHtmlTemp = $this.find('._AUTO_ITEM_OBJ').clone().removeClass('_AUTO_ITEM_OBJ').addClass('_item_row').html('');
+									$setItemHtml.appendTo($setHtmlTemp);
+									$setHtml.append($setHtmlTemp);
+
+									$setHtmlTemp.attr({
+										'data-item-cate': cateStr,
+										'data-item-idx': $setHtml.find('._item_obj').length,
+									});
+
+								} else {
+									$setItemHtml.appendTo($setHtmlTemp);
+								}
+
+								if (hide) {
+									$setItemHtml.addClass('_delete');
+								}
+
+								if (empty) {
+									$setItemHtml.addClass('_empty');
+								}
+
+								if ('addAttr' in cval) {
+									$.each(cval.addAttr, function(i, v) {
+										$.each(v, function(k, kv) {
+											$setItemHtml.attr(String(k), String(kv));
+										});
+									});
+								}
+
+							} else {
+								$setHtmlTemp = $this.find('._AUTO_ITEM_OBJ').clone().removeClass('_AUTO_ITEM_OBJ').addClass('_item_single').html('');
+								$setItemHtml.appendTo($setHtmlTemp);
+								$setHtml.append($setHtmlTemp);
+
+								$setHtmlTemp.attr({
+									'data-item-cate': cateStr,
+									'data-item-idx': $setHtml.find('._item_obj').length,
+								});
+
+								if (hide) {
+									$setHtmlTemp.addClass('_delete');
+								}
+
+								if (empty) {
+									$setHtmlTemp.addClass('_empty');
+								}
+
+								if ('addAttr' in cval) {
+									$.each(cval.addAttr, function(i, v) {
+										$.each(v, function(k, kv) {
+											$setHtmlTemp.attr(String(k), String(kv));
+										});
+									});
+								}
+							}
+
+							if ('addClass' in cval) {
+								$setItemHtml.addClass(cval.addClass);
+							}
+
+						}
+
+						if (!cval.empty) {
+
+							if (prdCode in realPrdData) {
+
+								setHtmlItem();
+
+								addRowItem();
+
+								itemCnt++;
+
+							} else {
+
+								var prdCodeDepth = prdCode.split('_').slice(0, 2).join('_');
+
+								var defaultItemIf = false;
+
+								$.each(realPrdData, function(k, v) { /* 상품 옵션 코드가 없을 경우 첫번째 옵션코드를 임의로 선택합니다. */
+									if (k.indexOf(prdCodeDepth) === 0) {
+										defaultItemIf = true;
+										prdCode = k;
+										return false;
+									}
+								});
+
+								if (defaultItemIf) {
+
+									setHtmlItem();
+
+									addRowItem();
+
+									itemCnt++;
+
+									return;
+
+								} else {
+
+									if (fixedInfo) {
+										realPrdData[prdCode] = {};
+										setHtmlItem();
+										addRowItem();
+									} else {
+										$setItemHtml.html('');
+										addRowItem(true, false);
+									}
+
+									itemCnt++;
+
+								}
+
+								console.error('누락된 상품이 존재합니다.\ncate:' + rowIdx + '\nidx:' + ckey + '\nprdNo:' + cval.prdNo);
+
+							}
+
+						} else {
+
+							$setItemHtml.html('');
+
+							addRowItem(false, true);
+
+							itemCnt++;
+						}
+
+					});
+
+					$setWrap.html($setHtml.html());
+
+					$this.addClass('_init');
+
+				} else {
+					console.error('누락된 리스트 항목이 존재합니다.\nidx:' + idx, val);
+				}
+
+			});
+
+			/* 상품 슬라이드 실행 */
+			$.each($eventArea.find('._sec_item_list'), function(idx, val) {
+
+				var nowIdx = idx;
+
+				var $this = $(this);
+
+				if ($this.find('._item').length < 6) {
+					$this.find('._slide_btn_next, ._slide_btn_prev').remove();
+				}
+
+				if (!window['_productSlider_' + nowIdx]) {
+					window['_productSlider_' + nowIdx] = new Swiper($this.find('._list_slider')[0], {
+						effect: 'slide',
+						speed: 600,
+						slidesPerView: 'auto',
+						loop: false,
+						navigation: {
+							nextEl: $this.find('._slide_btn_next')[0],
+							prevEl: $this.find('._slide_btn_prev')[0],
+						},
+					});
+				}
+
+			});
+
+			var prdGroupSlider = new Swiper('._prd_slider', {
+				effect: 'slide',
+				speed: 600,
+				slidesPerView: 'auto',
+				centeredSlides: true,
+				loop: true,
+				navigation: {
+					nextEl: '._prd_slider ._slide_btn_next',
+					prevEl: '._prd_slider ._slide_btn_prev',
+				},
+			});
+
+		};
+
+		try {
+			setDataPriceInfo(_evtPrdAllCode, _evtMakePrdList);
+		} catch (e) {
+			console.error('API 호출 함수가 존재하지 않습니다.\n로컬 테스트 함수를 적용해주세요.');
+		}
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular'; word-break:break-word;}
+	html[lang="ko"] .evWrap {word-break:keep-all;}
+	.evWrap img {display:block;}
+	.evWrap a {display:block;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._evt_header {width:100%;}
+	._evt_header ._area_wrap {position:relative; width:100%;}
+	._evt_header ._visual {display:flex; justify-content:center; width:100%;}
+
+	._nav_content {position:relative; width:100%; color:#000;}
+	._nav_content ._nav_content_wrap {width:100%; height:100%; padding:120px 0 117px 0;}
+
+	._api_prd_sec {width:100%; margin-top:59px;}
+	._api_prd_sec ._sec_area_wrap {width:100%;}
+	._api_prd_sec ._sec_item_list {position:relative; width:100%;}
+	._api_prd_sec ._sec_item_list ._list_slider {position:relative; width:1160px; margin:0 auto; overflow:hidden; opacity:0;}
+	._api_prd_sec ._sec_item_list ._list_slider._init {opacity:1;}
+	._api_prd_sec ._sec_item_list ._list_slider ._list_slider_wrap {}
+	._api_prd_sec ._sec_item_list ._list_slider ._item_obj {display:flex; gap:15px; width:100%; margin-right:15px;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item_obj:last-child {margin-right:0;}
+	._api_prd_sec ._sec_item_list ._list_slider ._empty {display:none;}
+	._api_prd_sec ._sec_item_list ._list_slider ._delete {display:none;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item {flex:0 0 220px; position:relative; width:220px;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._thumb {display:flex; justify-content:center; align-items:center; width:220px; height:220px; border-radius:12px; background:#fff; overflow:hidden;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._thumb img {display:block; width:80%;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item._full_thumb ._thumb img {width:100%; height:100%; object-fit:cover;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._brand {display:block; margin-top:15px; font-size:18px; line-height:1.2; font-weight:700; letter-spacing:-0.03em; color:#000;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._product {display:-webkit-box; min-height:43px; margin-top:10px; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; text-overflow:ellipsis; font-size:18px; font-weight:400; color:#000; line-height:1.2; letter-spacing:-0.03em;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._price_wrap {display:flex; gap:9px; margin-top:12px; align-items:center;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._per {display:block; font-size:22px; font-weight:700; color:#FF4343;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._price {position:relative; top:0; display:block; font-size:22px; font-weight:500; color:#161616;}
+
+	._api_prd_sec ._sec_item_list ._slide_btn_prev {position:absolute; left:50%; top:50%; display:flex; justify-content:center; align-items:center; width:40px; height:40px; margin:-80px 0 0 -630px; cursor:pointer;}
+	._api_prd_sec ._sec_item_list ._slide_btn_next {position:absolute; right:50%; top:50%; display:flex; justify-content:center; align-items:center; width:40px; height:40px; margin:-80px -630px 0 0; cursor:pointer;}
+	._api_prd_sec ._sec_item_list ._slide_btn {cursor:pointer; transition:opacity 0.3s ease;}
+	._api_prd_sec ._sec_item_list ._slide_btn.swiper-button-disabled {opacity:0.2;}
+
+	._sec_title {text-align:center; color:inherit;}
+	._sec_title ._idx {display:flex; justify-content:center;}
+	._sec_title ._idx > span {display:flex; justify-content:center; align-items:center; width:44px; height:44px; border-radius:100%; font-size:22px; font-weight:600; color:#fff;}
+	._sec_title ._main {margin-top:10px; font-size:50px; font-weight:700; letter-spacing:-0.03em;}
+	._sec_title ._sub {margin-top:9px; font-size:22px; line-height:1.2; letter-spacing:-0.03em; font-weight:400;}
+
+	._prd_desc {position:relative; display:flex; flex-direction:column; justify-content:center; margin-top:40px; padding:50px 0; text-align:center;}
+	._prd_desc ._sub {position:relative; font-size:24px; line-height:35px; z-index:5;}
+	._prd_desc ._main {position:relative; font-size:24px; line-height:35px; z-index:5;}
+	._prd_desc ._main > span {font-weight:600;}
+	._prd_desc ._bg {position:absolute; left:50%;}
+
+	._prd_slider {position:relative; width:1200px; margin:49px auto 0 auto; overflow:hidden;}
+	._prd_slider ._prd_group {width:1000px; margin:0 14px;}
+	._prd_slider ._prd_group ._prd_header {position:relative; width:100%;}
+	._prd_slider ._prd_group ._prd_header ._layout {}
+	._prd_slider ._prd_group ._prd_header ._text {font-size:16px; line-height:1.2;}
+	._prd_slider ._prd_group ._prd_header ._text ._main {position:absolute; line-height:25px; letter-spacing:-0.03em; background:rgba(255,255,255,0.5);}
+	._prd_slider ._prd_group ._prd_header ._text ._main ._header {display:flex; align-items:center; width:348px; min-height:54px; padding:14px 24px 13px 24px; border:1px solid #000;}
+	._prd_slider ._prd_group ._prd_header ._text ._main ._body {display:flex; align-items:center; width:348px; min-height:114px; padding:19px 14px 19px 24px; border:1px solid #000; border-top:none;}
+	._prd_slider ._prd_group ._prd_header ._text ._prd {position:absolute; display:flex; align-items:center; min-height:41px; padding:10px 14px 10px 10px; border:1px solid #000; background:rgba(255,255,255,0.5);}
+	._prd_slider ._prd_group ._prd_header ._text ._prd::after {content:''; position:absolute; left:-6px; top:-6px; width:11px; height:11px; border:1px solid #000; background:#fff;}
+	._prd_slider ._prd_group ._prd_header ._text ._prd::before {content:''; position:absolute; right:-6px; top:-6px; width:11px; height:11px; border:1px solid #000; background:#fff;}
+	._prd_slider ._prd_group ._prd_header ._text ._prd > span::after {content:''; position:absolute; left:-6px; bottom:-6px; width:11px; height:11px; border:1px solid #000; background:#fff;}
+	._prd_slider ._prd_group ._prd_header ._text ._prd > span::before {content:''; position:absolute; right:-6px; bottom:-6px; width:11px; height:11px; border:1px solid #000; background:#fff;}
+
+	._prd_slider ._prd_group._prd_group_1 ._prd_header ._text ._main {left:80px; top:35px;}
+	._prd_slider ._prd_group._prd_group_1 ._prd_header ._text ._prd._prd_1 {left:274px; top:318px;}
+	._prd_slider ._prd_group._prd_group_1 ._prd_header ._text ._prd._prd_2 {left:710px; top:113px;}
+	._prd_slider ._prd_group._prd_group_1 ._prd_header ._text ._prd._prd_3 {left:660px; top:298px;}
+
+	._prd_slider ._prd_group._prd_group_2 ._prd_header ._text ._main {left:80px; top:35px;}
+	._prd_slider ._prd_group._prd_group_2 ._prd_header ._text ._prd._prd_1 {left:258px; top:332px;}
+	._prd_slider ._prd_group._prd_group_2 ._prd_header ._text ._prd._prd_2 {left:690px; top:105px;}
+	._prd_slider ._prd_group._prd_group_2 ._prd_header ._text ._prd._prd_3 {left:625px; top:295px;}
+
+	._prd_slider ._prd_group._prd_group_3 ._prd_header ._text ._main {left:80px; top:35px;}
+	._prd_slider ._prd_group._prd_group_3 ._prd_header ._text ._prd._prd_1 {left:274px; top:318px;}
+	._prd_slider ._prd_group._prd_group_3 ._prd_header ._text ._prd._prd_2 {left:710px; top:113px;}
+	._prd_slider ._prd_group._prd_group_3 ._prd_header ._text ._prd._prd_3 {left:660px; top:298px;}
+
+	._prd_slider ._prd_group ._inner_prd {width:100%; margin-top:60px; padding:0 5px; opacity:0; transition:opacity 0.6s;}
+	._prd_slider ._prd_group ._inner_prd ._inner_wrap {display:flex; gap:25px; width:100%;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj {flex:0 0 313px;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item {}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._item_wrap {}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item a {display:flex; gap:20px;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._thumb {flex:0 0 auto; width:100px; height:100px;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._thumb img {display:block; width:100%;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._info_wrap {display:flex; flex-direction:column;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._product {display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1; padding-top:5px; overflow:hidden; text-overflow:ellipsis; font-size:18px; line-height:1.2; letter-spacing:-0.03em; color:#161616;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._price_wrap {display:flex; gap:6px; margin-top:5px;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._price_wrap ._per {font-size:22px; font-weight:700; line-height:1.2; color:#FF4343;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._price_wrap ._price {font-size:22px; font-weight:500; line-height:1.2; color:#161616;}
+	._prd_slider ._prd_group ._inner_prd ._item_obj ._item ._icon {margin-top:14px;}
+	._prd_slider ._prd_group.swiper-slide-active,
+	._prd_slider ._prd_group.swiper-slide-duplicate-active {opacity:1;}
+	._prd_slider ._prd_group.swiper-slide-active ._inner_prd,
+	._prd_slider ._prd_group.swiper-slide-duplicate-active ._inner_prd {opacity:1;}
+	._prd_slider ._slide_btn_prev {position:absolute; left:0; top:50%; width:32px; height:32px; margin-top:-97px; z-index:10; cursor:pointer;}
+	._prd_slider ._slide_btn_next {position:absolute; right:0; top:50%; width:32px; height:32px; margin-top:-97px; z-index:10; cursor:pointer;}
+
+	._single_prd {width:1000px; margin:47px auto 0 auto;}
+	._single_prd ._area_wrap {display:flex; width:100%;}
+	._single_prd ._prd_img {position:relative; display:flex; justify-content:center; align-items:center; width:500px; min-height:350px; padding:17px 0 6px 0; border:1px solid #F5B7E5; background:#FFFEFF;}
+	._single_prd ._prd_img ._txt {position:absolute; display:flex; align-items:center; min-height:48px; padding:5px 16px; border:1px solid #000; border-radius:24px; background:#FEFFF9; font-size:18px; font-weight:500; line-height:31px; letter-spacing:-0.03em; color:#000;}
+	._single_prd ._prd_img ._txt._txt_1 {left:100px; top:77px;}
+	._single_prd ._prd_img ._txt._txt_2 {left:281px; top:155px;}
+	._single_prd ._prd_img ._txt._txt_3 {left:112px; top:236px;}
+	._single_prd ._prd_info {display:flex; width:500px; min-height:350px; border:1px solid #F5B7E5; border-left:none; background:#FFD8F5;}
+	._single_prd ._prd_info ._info {width:100%; height:100%;}
+	._single_prd ._prd_info ._info ._info_wrap {width:100%; height:100%;}
+	._single_prd ._prd_info ._info ._item_obj {width:100%; height:100%;}
+	._single_prd ._prd_info ._info ._item_obj ._item {width:100%; height:100%;}
+	._single_prd ._prd_info ._info ._item_obj ._item ._item_wrap {width:100%; height:100%;}
+	._single_prd ._prd_info ._info ._item_obj ._item a {display:flex; flex-direction:column; justify-content:center; width:100%; height:100%; padding:10px 10px 10px 40px;}
+	._single_prd ._prd_info ._info ._item_obj ._item ._product {position:relative; top:1px; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; text-overflow:ellipsis; font-size:28px; font-weight:700; line-height:42px; letter-spacing:-0.02em; color:#323232;}
+	._single_prd ._prd_info ._info ._item_obj ._item ._price_wrap {display:flex; gap:7px; margin-top:13px;}
+	._single_prd ._prd_info ._info ._item_obj ._item ._price_wrap ._per {font-size:30px; font-weight:700; color:#FF4343;}
+	._single_prd ._prd_info ._info ._item_obj ._item ._price_wrap ._price {font-size:30px; font-weight:500; color:#161616;}
+	._single_prd ._prd_info ._info ._item_obj ._item ._icon {margin-top:79px;}
+
+	._gift_guide {display:flex; justify-content:center; gap:60px; width:100%; height:650px; margin-top:60px;}
+	._gift_guide ._caution {flex:0 0 auto; position:relative; width:600px; height:650px;}
+	._gift_guide ._caution ._txt {position:absolute; left:70px; top:285px; right:70px; bottom:0; display:flex; justify-content:center; flex-direction:column; text-align:center; z-index:5;}
+	._gift_guide ._caution ._txt ._main {font-size:24px; font-weight:700; letter-spacing:-0.02em; color:#FFB534;}
+	._gift_guide ._caution ._txt ._sub {margin-top:14px; font-size:18px; line-height:27px; letter-spacing:-0.02em; color:#323232;}
+	._gift_guide ._guide {position:relative; width:390px;}
+	._gift_guide ._guide ._txt {position:relative; left:-1px; top:-4px; display:flex; align-items:center; width:100%; height:77px; padding:0 20px; border-radius:8px; background:#FFB534; font-size:18px; font-weight:600; line-height:26px; color:#fff; text-align:center; filter:drop-shadow(0 0 3.006px rgba(0, 0, 0, 0.25)); z-index:10;}
+	._gift_guide ._guide ._txt::after {content:''; position:absolute; left:50%; bottom:-20px; width:34px; height:26px; margin-left:-16px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26' viewBox='0 0 34 26' fill='none'%3E%3Cpath d='M18.1511 25.2043C17.5554 26.0888 16.2536 26.0888 15.6579 25.2043L0.258932 2.34281C-0.413545 1.34443 0.301829 5.01147e-05 1.50556 5.02199e-05L32.3034 5.29124e-05C33.5072 5.30176e-05 34.2225 1.34444 33.55 2.34281L18.1511 25.2043Z' fill='%23FFB534'/%3E%3C/svg%3E") 0 0 no-repeat;}
+	._gift_guide ._guide ._txt > span {flex:1 1 auto;}
+	._gift_guide ._guide ._layout {position:relative; left:-20px; top:29px;}
+
+	._nav_content._nav_content_1 {background:#FFFAFB;}
+	._nav_content._nav_content_1 ._sec_title ._idx > span {background:#D75153;}
+
+	._nav_content._nav_content_2 {background:#FEFFEE;}
+	._nav_content._nav_content_2 ._nav_content_wrap {padding:120px 0 120px 0;}
+	._nav_content._nav_content_2 ._sec_title ._idx > span {background:#E6B874;}
+	._nav_content._nav_content_2 ._prd_desc ._main span {color:#E89139;}
+	._nav_content._nav_content_2 ._prd_desc ._bg {top:-41px; margin-left:-355px;}
+
+	._nav_content._nav_content_3 {background:#FFF3FC;}
+	._nav_content._nav_content_3 ._nav_content_wrap {padding:120px 0 120px 0;}
+	._nav_content._nav_content_3 ._sec_title ._idx > span {background:#93319B;}
+	._nav_content._nav_content_3 ._prd_desc ._main span {color:#93319B;}
+	._nav_content._nav_content_3 ._prd_desc ._bg {top:-41px; margin-left:-355px;}
+
+	._nav_content._nav_content_4 {background:#FFF7EC;}
+	._nav_content._nav_content_4 ._nav_content_wrap {padding:120px 0 120px 0;}
+	._nav_content._nav_content_4 ._sec_title ._idx > span {background:#FFB534;}
+
+</style>
+<div class="evWrap" data-ipg-id="prd_26100005">
+
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<div class="_visual"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201425369325ec26cbe88e14dc9861dbfcaa533d1fe.webp" alt=""></div>
+			<div class="_evt_hide">
+				YOUR BIODERMA ESSENTIALS 수분부터 장벽케어까지, 바이오더마가 제안하는 F/W 루틴
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_1 _set_ank" id="_evtContent_1">
+		<div class="_nav_content_wrap">
+
+			<div class="_sec_title">
+				<div class="_idx"><span>01</span></div>
+				<div class="_main">F/W ESSENTIAL 5</div>
+				<div class="_sub">수분부터 장벽케어까지 F/W 시즌 필수템</div>
+			</div>
+
+			<div class="_api_prd_sec">
+				<div class="_sec_area_wrap">
+
+					<div class="_sec_item_list">
+						<div class="_list_slider _AUTO_SET" data-row-idx="prd_1">
+							<div class="swiper-wrapper _AUTO_ITEM_WRAP">
+								<div class="swiper-slide _item_obj _AUTO_ITEM_OBJ" data-row-items="5">
+									<div class="_item _AUTO_ITEM">
+										<div class="_item_wrap">
+											<a href="#" data-auto-ipg="link">
+												<span class="_thumb">
+													<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+												</span>
+												<span class="_brand">[<span data-auto-ipg="brand"></span>]</span>
+												<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												<span class="_price_wrap">
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+													<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+												</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="_slide_btn _slide_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M27.5 33L16.5 22L27.5 11" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+						<div class="_slide_btn _slide_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M16.5 33L27.5 22L16.5 11" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_2 _set_ank" id="_evtContent_2">
+		<div class="_nav_content_wrap">
+
+			<div class="_sec_title">
+				<div class="_idx"><span>02</span></div>
+				<div class="_main">PERFECT PAIRING</div>
+				<div class="_sub">가을철 완벽 케어를 위한 베스트 조합</div>
+			</div>
+
+			<div class="_prd_desc">
+				<div class="_sub">여행 후 피부 고민부터 기내 건조함까지!</div>
+				<div class="_main"><span>시너지 효과를 높여주는 바이오더마 꿀조합 3</span></div>
+				<div class="_bg"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201431234782927b31b2cd44c0f9c1db42a9347d1d3.webp" alt=""></div>
+			</div>
+
+			<div class="_prd_slider">
+				<div class="swiper-wrapper">
+
+					<div class="swiper-slide _prd_group _prd_group_1">
+
+						<div class="_prd_header">
+							<div class="_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/2026102016194746945c10140d1fe458abbd7f7fc2e0199eb.webp" alt="PAIRING 01."></div>
+							<div class="_text">
+								<div class="_main">
+									<div class="_header">가을볕 철벽 방어 : 자외선 차단 + 보습</div>
+									<div class="_body">여행 중 햇빛에 무방비로 노출되는 피부...! <br>여름만큼 강한 가을볕 막아주고, 건조해지기 쉬운 <br>얼굴과 손 보습 함께 챙기는 조합.</div>
+								</div>
+								<div class="_prd _prd_1"><span>시카비오 크림+ 100ml</span></div>
+								<div class="_prd _prd_2"><span>시카비오 크림+ SPF+ 40ml</span></div>
+								<div class="_prd _prd_3"><span>아토덤 핸드 & 네일크림 50ml</span></div>
+							</div>
+						</div>
+
+						<div class="_inner_prd _AUTO_SET" data-row-idx="prd_2">
+							<div class="_inner_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<div class="_item_wrap">
+											<a href="#" data-auto-ipg="link">
+												<span class="_thumb">
+													<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+												</span>
+												<span class="_info_wrap">
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+													<span class="_price_wrap">
+														<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+														<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+													</span>
+													<span class="_icon"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260812/2026081214394175140de7fde73a8483abfe1baff9326ebaf.webp" alt=""></span>
+												</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="swiper-slide _prd_group _prd_group_2">
+
+						<div class="_prd_header">
+							<div class="_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020162005628cae0868df3bb485aaf5a0b30a9cc5591.webp" alt="PAIRING 02."></div>
+							<div class="_text">
+								<div class="_main">
+									<div class="_header">긴 비행도 집처럼 : 기내 수분 장벽 세트</div>
+									<div class="_body">비행기를 타는 순간 초고속으로 건조해지는 피부. <br>속수분을 채우고 얼굴과 입술의 보습까지 꽉<br>잡아주는 비행 필승 조합.</div>
+								</div>
+								<div class="_prd _prd_1"><span>아토덤 립스틱</span></div>
+								<div class="_prd _prd_2"><span>하이드라비오 에센스 로션 200ml</span></div>
+								<div class="_prd _prd_3"><span>아토덤 울트라 크림 200ml</span></div>
+							</div>
+						</div>
+
+						<div class="_inner_prd _AUTO_SET" data-row-idx="prd_3">
+							<div class="_inner_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<div class="_item_wrap">
+											<a href="#" data-auto-ipg="link">
+												<span class="_thumb">
+													<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+												</span>
+												<span class="_info_wrap">
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+													<span class="_price_wrap">
+														<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+														<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+													</span>
+													<span class="_icon"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260812/2026081214394175140de7fde73a8483abfe1baff9326ebaf.webp" alt=""></span>
+												</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="swiper-slide _prd_group _prd_group_3">
+
+						<div class="_prd_header">
+							<div class="_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201623444757644b16a4542402bad826199c215869d.webp" alt="PAIRING 03."></div>
+							<div class="_text">
+								<div class="_main">
+									<div class="_header">귀국 후 루틴 : 애프터 트립 리페어</div>
+									<div class="_body">여행지의 자외선, 낯선 환경, 긴 이동까지 견뎌낸<br>내 피부. 부드럽게 클렌징하고 수분을 가득 채운 뒤,<br>건조하고 예민한 부위 집중 리페어 조합.</div>
+								</div>
+								<div class="_prd _prd_1"><span>센시비오 H2O 500ml</span></div>
+								<div class="_prd _prd_2"><span>하이드라비오 토너 500ml</span></div>
+								<div class="_prd _prd_3"><span>시카비오 포마드 100ml</span></div>
+							</div>
+						</div>
+
+						<div class="_inner_prd _AUTO_SET" data-row-idx="prd_4">
+							<div class="_inner_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<div class="_item_wrap">
+											<a href="#" data-auto-ipg="link">
+												<span class="_thumb">
+													<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+												</span>
+												<span class="_info_wrap">
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+													<span class="_price_wrap">
+														<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+														<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+													</span>
+													<span class="_icon"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260812/2026081214394175140de7fde73a8483abfe1baff9326ebaf.webp" alt=""></span>
+												</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="_slide_btn _slide_btn_prev"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260812/2026081215032084636696221c6664cec9dcfe28694f47beb.webp" alt=""></div>
+				<div class="_slide_btn _slide_btn_next"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260812/20260812150234081b71c1c259c674f5fbc3759fd3e2d3063.webp" alt=""></div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_3 _set_ank" id="_evtContent_3">
+		<div class="_nav_content_wrap">
+
+			<div class="_sec_title">
+				<div class="_idx"><span>03</span></div>
+				<div class="_main">SEASON SPOTLIGHT</div>
+				<div class="_sub"> 피부의 근본적인 손상 개선을 위한 리페어 보습 솔루션</div>
+			</div>
+
+			<div class="_prd_desc">
+				<div class="_sub">자외선에 손상되고, 전문 관리에 자극받은 우리의 지친 피부.</div>
+				<div class="_main">리페어 & 진정 솔루션, <span>시카비오 크림+</span>을 만나보세요.</div>
+				<div class="_bg"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020145436230525790ab19444e068837a6460544c01a.webp" alt=""></div>
+			</div>
+
+			<div class="_single_prd">
+				<div class="_area_wrap">
+					<div class="_prd_img">
+						<div class="_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020153108393f2b29b07d59b419e862686d5e95ec0b0.webp" alt=""></div>
+						<div class="_txt _txt_1">속 손상 케어</div>
+						<div class="_txt _txt_2">리페어 보습</div>
+						<div class="_txt _txt_3">데일리 진정</div>
+					</div>
+					<div class="_prd_info">
+						<div class="_info _AUTO_SET" data-row-idx="prd_5">
+							<div class="_info_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<div class="_item_wrap">
+											<a href="#" data-auto-ipg="link">
+												<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												<span class="_price_wrap">
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+													<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+												</span>
+												<span class="_icon"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/20261020145608109aeb92c5ae1df4cceaeefefede6f20cd1.webp" alt="SHOP"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_4 _set_ank" id="_evtContent_4">
+		<div class="_nav_content_wrap">
+
+			<div class="_sec_title">
+				<div class="_idx"><span>04</span></div>
+				<div class="_main">SPECIAL GIFT</div>
+				<div class="_sub">바이오더마 구매 상품 및 금액별 특별 혜택</div>
+			</div>
+
+			<div class="_gift_guide">
+				<div class="_caution">
+					<div class="_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/2026102014571383027d3b6d1fa594c0e9dd981b313fd09ba.webp" alt=""></div>
+					<div class="_txt">
+						<div class="_main">서두르세요!</div>
+						<div class="_sub">재고가 소진되면 프로모션이 종료됩니다.<br>센시비오부터 세비엄까지,<br>구매 상품 및 금액에 따라 드리는 <br>바이오더마 베스트 라인업을 경험해보세요. </div>
+					</div>
+				</div>
+				<div class="_guide">
+					<div class="_txt"><span>사은품은 바이오더마 상품별 상세페이지에서<br>확인 가능해요!</span></div>
+					<div class="_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261020/202610201457374247fe416f2bae545a78ea779ff8668d89f.webp" alt=""></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div></div></div></section></article></div></body></html>
