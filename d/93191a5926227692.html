@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		var allPrdCode = [
+			{
+				"prd_1": [
+					{prdNo:'20001028277', prdOptNo:'20001405091'},
+					{prdNo:'20001028218', prdOptNo:'20001404966'},
+					{prdNo:'20000939709', prdOptNo:'20001244888'},
+					{prdNo:'20000939662', prdOptNo:'20001244763'},
+					{prdNo:'20000946008', prdOptNo:'20001256135'},
+					{prdNo:'20000958945', prdOptNo:'20001277541'},
+					{prdNo:'20000984696', prdOptNo:'20001327650'},
+					{prdNo:'20000972827', prdOptNo:'20001303399'},
+					{prdNo:'20000844153', prdOptNo:'20001089018'},
+					{prdNo:'20001009923', prdOptNo:'20001373004'},
+				],
+				"prd_2": [
+					{prdNo:'20001075282', prdOptNo:'20001497364'},
+					{prdNo:'20001075313', prdOptNo:'20001497439'},
+					{prdNo:'20001075322', prdOptNo:'20001497465'},
+					{prdNo:'20001075340', prdOptNo:'20001497525'},
+					{prdNo:'20001068828', prdOptNo:'20001484445'},
+					{prdNo:'20001068829', prdOptNo:'20001484446'},
+					{prdNo:'20001072941', prdOptNo:'20001492478'},
+					{prdNo:'20001073945', prdOptNo:'20001494634'},
+				],
+				"prd_3": [
+					{prdNo:'20001028221', prdOptNo:'20001404970'},
+					{prdNo:'20001067907', prdOptNo:'20001482676'},
+					{prdNo:'20001003533', prdOptNo:'20001361517'},
+					{prdNo:'20000942724', prdOptNo:'20001251493'},
+					{prdNo:'20000967923', prdOptNo:'20001294329'},
+					{prdNo:'20000837795', prdOptNo:'20001079417'},
+					{prdNo:'20001044080', prdOptNo:'20001438120'},
+				],
+				"prd_4": [
+					{prdNo:'20001028277', prdOptNo:'20001405091'},
+					{prdNo:'20000939709', prdOptNo:'20001244888'},
+					{prdNo:'20000946008', prdOptNo:'20001256135'},
+					{prdNo:'20000984696', prdOptNo:'20001327650'},
+					{prdNo:'20000844153', prdOptNo:'20001089018'},
+					{prdNo:'20001019042', prdOptNo:'20001388893'},
+				],
+			}
+		];
+
+		/*
+			면세점 API 호출용 데이터 생성
+		 */
+		var ajaxData = function() {
+
+			var prdInfoArr = [];
+
+			for (var key in allPrdCode[0]) {
+				if (allPrdCode[0].hasOwnProperty(key)) {
+
+					var items = allPrdCode[0][key];
+
+					if (Array.isArray(items)) {
+						for (var i = 0; i < items.length; i++) {
+
+							var item = items[i];
+							var ajaxItem = {};
+
+							for (var prop in item) {
+								var excluded = ['custom', 'add', 'cate', 'empty', 'hide', 'change', 'addClass', 'addAttr', 'imgSizeX', 'noDims', 'showDate', 'wait'];
+
+								if (item.hasOwnProperty(prop) && !excluded.includes(prop)) {
+									ajaxItem[prop] = item[prop];
+								}
+							}
+
+							if (Object.keys(ajaxItem).length > 0) {
+								prdInfoArr.push(ajaxItem);
+							}
+
+							/* prdInfoArr.push(ajaxItem); */
+
+						}
+					}
+				}
+			}
+
+			return prdInfoArr;
+
+		}();
+
+		window['_evtPrdAllCode'] = {
+			prdInfo: ajaxData,
+		};
+
+		/*
+			면세점 API 호출 후 실행할 함수
+		 */
+		window['_evtMakePrdList'] = function(ajaxRowData) {
+
+			var $eventArea = $('.evWrap');
+			var realPrdData = {};
+
+			/*
+				호출된 데이터를 바로 출력할 수 없기에 다시 한번 매칭용 데이터로 가공합니다.
+				응답으로 받은 상품 리스트는 지정한 순서를 보장하지 않아 따로 매칭데이터가 필요합니다.
+			 */
+			$.each(ajaxRowData, function(idx, val) {
+
+				var prdId = 'prd_' + val.prdNo + '_' + (val.prdOptNo ? val.prdOptNo : '0'); /* 상품No와 옵션No로 구분됩니다. */
+
+				if (!(prdId in realPrdData)) {
+					realPrdData[prdId] = val;
+				} else {
+					realPrdData['prd_unknown_idx_' + idx] = val;
+				}
+			});
+
+			/* HTML 구조 생성 */
+			$('._AUTO_SET').each(function(idx, val) {
+				var $this = $(this);
+				var $setWrap = $this.find('._AUTO_ITEM_WRAP').removeClass('_AUTO_ITEM_WRAP');
+				var $setHtml = $('<div />');
+				var $setHtmlTemp;
+
+				var rowIdx = typeof $this.data('rowIdx') != 'undefined' ? $this.data('rowIdx') : idx;
+				var itemCnt = 0;
+
+				var fixedInfo = false;
+
+				/* 임의 변경된 데이터를 찾아야 하기 때문에 원본 상품데이터를 돌려 상품을 출력합니다. */
+				if (allPrdCode[0][rowIdx]) {
+
+					/*
+						한 열에 대한 스와이프가 필요한 경우, 그리고 슬라이드가 column 배치 상태일 때
+						data-col-change 속성이 있는 경우 세로 열 배치에서 가로 행 배치로 변환합니다.
+
+						변환 전: data-row-items="3" 일 때
+						1 | 4 | 7,
+						2 | 5 | 8,
+						3 | 6 | 9, ...
+
+						변환 후: data-row-items="3" 이고, data-col-change="3" 이면
+						1 | 2 | 3,
+						4 | 5 | 6,
+						7 | 8 | 9, ...
+					 */
+					if ($this.find('._AUTO_ITEM_OBJ').data('colChange')) {
+						var colData = [];
+						var colCnt = 0;
+
+						var rowLen = $this.find('._AUTO_ITEM_OBJ').data('rowItems');
+						var colLen = $this.find('._AUTO_ITEM_OBJ').data('colChange');
+
+						var itemLen = allPrdCode[0][rowIdx].length;
+						var actualColLen = Math.min(colLen, Math.ceil(itemLen / rowLen));
+
+						$.each(allPrdCode[0][rowIdx], function(cidx, cval) {
+
+							colData[(cidx % actualColLen * rowLen) + colCnt] = cval;
+
+							if ((cidx % actualColLen * rowLen) == (rowLen * (actualColLen - 1))) {
+								colCnt++;
+							}
+
+						});
+
+						$.each(colData, function(cidx, cval) {
+
+							if (!cval) {
+								colData[cidx] = {empty:true};
+							}
+
+						});
+
+						allPrdCode[0][rowIdx] = colData;
+					}
+
+					if (!$this.find('._AUTO_ITEM_OBJ').data('position')) {
+						/*
+							누락된 상품이 있는지 검사
+							아래 영역은 빈 상품을 제거할 때 사용됩니다.
+							상품의 정렬 순서가 빈 요소 상태로라도 보장되어야 할 경우에는 사용하지 말아주세요.
+						 */
+						$.each(allPrdCode[0][rowIdx], function(ckey, cval) {
+
+							if (cval?.empty || !cval) {
+								return true;
+							}
+
+							var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+							if (!(prdCode in realPrdData)) {
+								console.error('누락된 상품이 존재합니다.\ncate:' + rowIdx + '\nidx:' + ckey + '\nprdNo:' + cval.prdNo);
+							}
+						});
+
+						/*
+							상품 정보를 불러올 수 없는 경우 상품 데이터에서 제거 합니다.
+							아래 영역은 빈 상품을 제거할 때 사용됩니다.
+							상품의 정렬 순서가 빈 요소 상태로라도 보장되어야 할 경우에는 사용하지 말아주세요.
+						 */
+						allPrdCode[0][rowIdx] = allPrdCode[0][rowIdx].filter(function(cval){
+
+							if (cval.empty) {
+								return true;
+							}
+
+							var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+							return (prdCode in realPrdData);
+						});
+					}
+
+					/*
+						날짜 설정으로 상품을 노출하거나 제거할 수 있습니다.
+						data-show-date="true"
+
+						{prdNo:'20000446879', prdOptNo:'20000484357',
+							showDate:{
+								start: '2025/11/02 00:00:00',
+								end: '2025/11/03 23:59:59',
+							}
+						},
+
+					 */
+					if ($this.find('._AUTO_ITEM_OBJ').data('showDate')) {
+
+						allPrdCode[0][rowIdx] = allPrdCode[0][rowIdx].filter(function(cval){
+
+							if (cval.showDate) {
+								var nowDate = new Date();
+								var startDate = new Date(cval.showDate.start);
+								var endDate = new Date(cval.showDate.end);
+
+								if (nowDate > startDate && nowDate < endDate) {
+									return true;
+								} else {
+									return false;
+								}
+							} else {
+								return true;
+							}
+
+						});
+
+					}
+
+					if ($this.find('._AUTO_ITEM_OBJ').data('fixedinfo')) {
+						/*
+							임의 셋팅된 상품정보가 실제 노출되는 상품 API 객체가 없을 경우 출력 리스트에서 제거됩니다.
+							출력 리스트에서 유지하려면 이 옵션을 적용해주세요.
+							실제 API 객체가 없을 경우 부모요소 ._remove_sec를 찾아 html 제거합니다.
+							prd_25120002 행사 참고
+						 */
+						fixedInfo = true;
+					}
+
+					$.each(allPrdCode[0][rowIdx], function(ckey, cval) {
+
+						var $setItemHtml = $this.find('._AUTO_ITEM').clone().removeClass('_AUTO_ITEM');
+
+						var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+						var cateStr = '0';
+
+						if ('cate' in cval) { /* 필터 그룹 지정시 인덱스 및 문자열을 지정합니다. */
+							cateStr = cval.cate;
+						}
+
+						function setHtmlItem() {
+
+							if ('add' in cval) { /* 임의 추가된 항목을 삽입 합니다. */
+								$.each(cval.add, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							if ('custom' in cval) { /* 임의 변경된 항목에 대해 값을 갱신 합니다. */
+								$.each(cval.custom, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							$setItemHtml.find('[data-auto-ipg]').each(function(i, v) {
+
+								var autoType = $(this).data().autoIpg;
+								var prdData = realPrdData[prdCode];
+
+								function createText(currentData, dataName, $ele) {
+									if (currentData.hide && currentData.hide[dataName]) {
+										$ele.parent().html('').addClass('_disabled');
+									} else {
+										if (currentData.change && currentData.change[dataName]) {
+											$ele.html(currentData.change[dataName]);
+										} else {
+											if (prdData[dataName] == '0') { /* 데이터값이 0인 경우 숨김 처리 */
+												$ele.parent().html('').addClass('_disabled');
+											} else {
+												if (prdData[dataName]) {
+													$ele.html(prdData[dataName]);
+												} else {
+													$ele.closest('._remove_sec').remove();
+												}
+											}
+										}
+									}
+								}
+
+								switch (autoType) {
+								case 'img' :
+									if (cval?.change && cval?.change?.prdImgUrl) {
+										$(this).attr('src', cval.change.prdImgUrl);
+									} else {
+										if (cval.noDims) {
+											$(this).attr('src', realPrdData[prdCode].prdImgUrl);
+										} else {
+											if (realPrdData[prdCode].prdImgUrl) {
+												$(this).attr('src', realPrdData[prdCode].prdImgUrl + '/dims/resize/460x460');
+											} else {
+												$(this).attr('src', 'https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png');
+
+											}
+										}
+									}
+
+									if (cval.imgSizeX) {
+										$(this).css('width', cval.imgSizeX);
+									}
+
+									break;
+								case 'link' :
+									if (cval.wait) {
+										$(this).attr({href: '#', onclick: 'alert("'+ cval.wait +'"); return false;'});
+									} else {
+										$(this).attr('href', 'https://eng.lottedfs.com/kr/product/productDetail?prdNo='+ realPrdData[prdCode].prdNo +'&prdOptNo=' + realPrdData[prdCode].prdOptNo + '&adltPrdYn=' + realPrdData[prdCode].adltPrdYn);
+									}
+									break;
+								case 'brand' :
+									var dataName = 'brndNm';
+
+									/* 항목별로 적용할 수 있습니다. */
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdName' :
+									var dataName = 'prdNm';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPer' :
+									var dataName = 'dscntRt';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdDel' :
+									var dataName = 'saleUntPrc';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPrice' :
+									var dataName = 'dscntAmt';
+									createText(cval, dataName, $(this));
+									break;
+								default:
+
+								}
+
+							});
+						}
+
+						function addRowItem(hide, empty) {
+
+							if ($this.find('._AUTO_ITEM_OBJ').data('rowItems')) {
+								if (itemCnt % $this.find('._AUTO_ITEM_OBJ').data('rowItems') == 0) {
+									$setHtmlTemp = $this.find('._AUTO_ITEM_OBJ').clone().removeClass('_AUTO_ITEM_OBJ').addClass('_item_row').html('');
+									$setItemHtml.appendTo($setHtmlTemp);
+									$setHtml.append($setHtmlTemp);
+
+									$setHtmlTemp.attr({
+										'data-item-cate': cateStr,
+										'data-item-idx': $setHtml.find('._item_obj').length,
+									});
+
+								} else {
+									$setItemHtml.appendTo($setHtmlTemp);
+								}
+
+								if (hide) {
+									$setItemHtml.addClass('_delete');
+								}
+
+								if (empty) {
+									$setItemHtml.addClass('_empty');
+								}
+
+								if ('addAttr' in cval) {
+									$.each(cval.addAttr, function(i, v) {
+										$.each(v, function(k, kv) {
+											$setItemHtml.attr(String(k), String(kv));
+										});
+									});
+								}
+
+							} else {
+								$setHtmlTemp = $this.find('._AUTO_ITEM_OBJ').clone().removeClass('_AUTO_ITEM_OBJ').addClass('_item_single').html('');
+								$setItemHtml.appendTo($setHtmlTemp);
+								$setHtml.append($setHtmlTemp);
+
+								$setHtmlTemp.attr({
+									'data-item-cate': cateStr,
+									'data-item-idx': $setHtml.find('._item_obj').length,
+								});
+
+								if (hide) {
+									$setHtmlTemp.addClass('_delete');
+								}
+
+								if (empty) {
+									$setHtmlTemp.addClass('_empty');
+								}
+
+								if ('addAttr' in cval) {
+									$.each(cval.addAttr, function(i, v) {
+										$.each(v, function(k, kv) {
+											$setHtmlTemp.attr(String(k), String(kv));
+										});
+									});
+								}
+							}
+
+							if ('addClass' in cval) {
+								$setItemHtml.addClass(cval.addClass);
+							}
+
+						}
+
+						if (!cval.empty) {
+
+							if (prdCode in realPrdData) {
+
+								setHtmlItem();
+
+								addRowItem();
+
+								itemCnt++;
+
+							} else {
+
+								var prdCodeDepth = prdCode.split('_').slice(0, 2).join('_');
+
+								var defaultItemIf = false;
+
+								$.each(realPrdData, function(k, v) { /* 상품 옵션 코드가 없을 경우 첫번째 옵션코드를 임의로 선택합니다. */
+									if (k.indexOf(prdCodeDepth) === 0) {
+										defaultItemIf = true;
+										prdCode = k;
+										return false;
+									}
+								});
+
+								if (defaultItemIf) {
+
+									setHtmlItem();
+
+									addRowItem();
+
+									itemCnt++;
+
+								} else {
+
+									if (fixedInfo) {
+										realPrdData[prdCode] = {};
+										setHtmlItem();
+										addRowItem();
+									} else {
+										$setItemHtml.html('');
+										addRowItem(true, false);
+									}
+
+									itemCnt++;
+
+								}
+
+								console.error('누락된 상품이 존재합니다.\ncate:' + rowIdx + '\nidx:' + ckey + '\nprdNo:' + cval.prdNo);
+
+							}
+
+						} else {
+
+							$setItemHtml.html('');
+
+							addRowItem(false, true);
+
+							itemCnt++;
+						}
+
+					});
+
+					$setWrap.html($setHtml.html());
+
+					$this.addClass('_init');
+
+				} else {
+					console.error('누락된 리스트 항목이 존재합니다.\nidx:' + idx, val);
+				}
+
+			});
+
+			/* 상품 슬라이드 실행 */
+			$.each($eventArea.find('._sec_item_list'), function(idx, val) {
+
+				var nowIdx = idx;
+
+				var $this = $(this);
+
+				if ($this.find('._item').length < 6) {
+					$this.find('._slide_btn_next, ._slide_btn_prev').remove();
+				}
+
+				if (!window['_productSlider_' + nowIdx]) {
+					window['_productSlider_' + nowIdx] = new Swiper($this.find('._list_slider')[0], {
+						effect: 'slide',
+						speed: 600,
+						slidesPerView: 'auto',
+						loop: false,
+						navigation: {
+							nextEl: $this.find('._slide_btn_next')[0],
+							prevEl: $this.find('._slide_btn_prev')[0],
+						},
+					});
+				}
+
+			});
+		};
+
+		try {
+			setDataPriceInfo(_evtPrdAllCode, _evtMakePrdList);
+		} catch (e) {
+			console.error('API 호출 함수가 존재하지 않습니다.\n로컬 테스트 함수를 적용해주세요.');
+		}
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular'; word-break:break-word;}
+	html[lang="ko"] .evWrap {word-break:keep-all;}
+	.evWrap img {display:block;}
+	.evWrap a {display:block;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._evt_header {width:100%;}
+	._evt_header ._area_wrap {position:relative; width:100%;}
+	._evt_header ._visual {display:flex; justify-content:center; width:100%;}
+
+	._prd_cate_list {position:relative; padding:120px 0 40px 0; background:#890002;}
+
+	._nav_content {position:relative; width:100%; color:#fff;}
+	._nav_content ._nav_content_wrap {width:100%; height:100%; padding:120px 0;}
+	._prd_cate_list ._nav_content ._nav_content_wrap {padding:0 0 76px 0;}
+
+	._api_prd_sec {width:100%; margin-top:54px;}
+	._api_prd_sec ._sec_area_wrap {width:100%;}
+	._api_prd_sec ._sec_item_list {position:relative; width:100%;}
+	._api_prd_sec ._sec_item_list ._list_slider {position:relative; width:1160px; margin:0 auto; overflow:hidden; opacity:0;}
+	._api_prd_sec ._sec_item_list ._list_slider._init {opacity:1;}
+	._api_prd_sec ._sec_item_list ._list_slider ._list_slider_wrap {}
+	._api_prd_sec ._sec_item_list ._list_slider ._item_obj {display:flex; gap:15px; width:auto; margin-right:15px;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item_obj:last-child {margin-right:0;}
+	._api_prd_sec ._sec_item_list ._list_slider ._empty {display:none;}
+	._api_prd_sec ._sec_item_list ._list_slider ._delete {display:none;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item {flex:0 0 220px; position:relative; width:220px;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._thumb {display:flex; justify-content:center; align-items:center; width:220px; height:220px; border-radius:12px; background:#fff; overflow:hidden;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._thumb img {display:block; width:80%;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item._full_thumb ._thumb img {width:100%; height:100%; object-fit:cover;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._brand {display:block; margin-top:15px; font-size:18px; line-height:1.2; font-weight:700; letter-spacing:-0.03em; color:#fff;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._product {display:-webkit-box; min-height:43px; margin-top:9px; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; text-overflow:ellipsis; font-size:18px; font-weight:400; color:#fff; line-height:1.2; letter-spacing:-0.03em;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._price_wrap {display:flex; gap:9px; margin-top:12px; align-items:center;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._per {display:block; font-size:22px; font-weight:700; color:#FFDB5A;}
+	._api_prd_sec ._sec_item_list ._list_slider ._item ._price {position:relative; top:0; display:block; font-size:22px; font-weight:500; color:#fff;}
+
+	._api_prd_sec ._sec_item_list ._slide_btn_prev {position:absolute; left:50%; top:50%; display:flex; justify-content:center; align-items:center; width:50px; height:50px; margin:-38px 0 0 -655px; cursor:pointer;}
+	._api_prd_sec ._sec_item_list ._slide_btn_next {position:absolute; right:50%; top:50%; display:flex; justify-content:center; align-items:center; width:50px; height:50px; margin:-38px -655px 0 0; cursor:pointer;}
+	._api_prd_sec ._sec_item_list ._slide_btn {cursor:pointer; opacity:0.6; transition:opacity 0.3s ease;}
+	._api_prd_sec ._sec_item_list ._slide_btn.swiper-button-disabled {opacity:0.2;}
+
+	._sec_title {position:relative; text-align:center; color:inherit;}
+	._sec_title ._icon {display:flex; justify-content:center; margin-bottom:10px;}
+	._sec_title ._icon ._num {display:flex; justify-content:center; align-items:center; width:44px; height:44px; border-radius:100%; background:#FFFFFF; font-size:22px; font-weight:600; color:#890002;}
+	._sec_title ._main {font-size:50px; font-weight:700;}
+	._sec_title ._sub {margin-top:9px; font-size:22px; line-height:normal; font-weight:400; letter-spacing:-0.03em;}
+	._sec_title ._deco {position:absolute; left:50%;}
+	._nav_content_1 ._sec_title ._deco {top:9px; margin-left:-328px;}
+	._nav_content_2 ._sec_title ._deco {top:29px; margin-left:-470px;}
+	._nav_content_3 ._sec_title ._deco {top:3px; margin-left:-416px;}
+	._nav_content_4 ._sec_title ._deco {top:-19px; margin-left:-391px;}
+
+	._nav_content_5 {color:#000; background:#E0CFB3;}
+	._nav_content_5 ._nav_content_wrap {padding:115px 0 120px 0;}
+	._nav_content_5 ._sec_title ._main {font-size:50px;}
+
+	._shop_list {display:flex; flex-wrap:wrap; gap:20px; width:847px; margin:60px auto 0 auto;}
+
+</style>
+<div class="evWrap" data-ipg-id="prd_e_26110001">
+
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<div class="_visual"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261103/2026110313324370227df7586b6e34c59b272b3800b40153e.webp" alt=""></div>
+			<div class="_visual"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261103/202611031054118310001d0f42537402aa56fbd54a5111b2f.webp" alt=""></div>
+			<div class="_evt_hide">AMOREPACIFIC Winter Beauty Selection From rich moisture care for the cold wind to the 26 Holiday Edition, this month’s AMOREPACIFIC selection</div>
+		</div>
+	</div>
+
+	<div class="_prd_cate_list">
+
+		<div class="_nav_content _nav_content_1 _set_ank" id="_evtContent_1">
+			<div class="_nav_content_wrap">
+
+				<div class="_sec_title">
+					<div class="_icon"><span class="_num">1</span></div>
+					<div class="_main">BEST PAIRING </div>
+					<div class="_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261103/202611031045152965235604ebceb4532b65382c02825b951.webp" alt=""></div>
+				</div>
+
+				<div class="_api_prd_sec">
+					<div class="_sec_area_wrap">
+
+						<div class="_sec_item_list">
+							<div class="_list_slider _AUTO_SET" data-row-idx="prd_1">
+								<div class="swiper-wrapper _AUTO_ITEM_WRAP">
+									<div class="swiper-slide _item_obj _AUTO_ITEM_OBJ">
+										<div class="_item _AUTO_ITEM">
+											<div class="_item_wrap">
+												<a href="#" data-auto-ipg="link">
+													<span class="_thumb">
+														<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+													</span>
+													<span class="_brand">[<span data-auto-ipg="brand"></span>]</span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+													<span class="_price_wrap">
+														<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+														<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+													</span>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="_slide_btn _slide_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M19.7312 0.939137L0.939453 19.745L19.7312 38.5508" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+							<div class="_slide_btn _slide_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M0.939743 38.5511L19.7314 19.7453L0.939745 0.939452" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="_nav_content _nav_content_2 _set_ank" id="_evtContent_2">
+			<div class="_nav_content_wrap">
+
+				<div class="_sec_title">
+					<div class="_icon"><span class="_num">2</span></div>
+					<div class="_main">NEW ARRIVALS & HOLIDAY</div>
+					<div class="_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261103/20261103104646901d310e2354a0e468a96739e71e6a3e050.webp" alt=""></div>
+				</div>
+
+				<div class="_api_prd_sec">
+					<div class="_sec_area_wrap">
+
+						<div class="_sec_item_list">
+							<div class="_list_slider _AUTO_SET" data-row-idx="prd_2">
+								<div class="swiper-wrapper _AUTO_ITEM_WRAP">
+									<div class="swiper-slide _item_obj _AUTO_ITEM_OBJ">
+										<div class="_item _AUTO_ITEM">
+											<div class="_item_wrap">
+												<a href="#" data-auto-ipg="link">
+													<span class="_thumb">
+														<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+													</span>
+													<span class="_brand">[<span data-auto-ipg="brand"></span>]</span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+													<span class="_price_wrap">
+														<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+														<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+													</span>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="_slide_btn _slide_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M19.7312 0.939137L0.939453 19.745L19.7312 38.5508" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+							<div class="_slide_btn _slide_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M0.939743 38.5511L19.7314 19.7453L0.939745 0.939452" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="_nav_content _nav_content_3 _set_ank" id="_evtContent_3">
+			<div class="_nav_content_wrap">
+
+				<div class="_sec_title">
+					<div class="_icon"><span class="_num">3</span></div>
+					<div class="_main">GIFT SELECTION</div>
+					<div class="_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261103/2026110310470238181e91eab2b51487f9df9f1d654aa3f3b.webp" alt=""></div>
+				</div>
+
+				<div class="_api_prd_sec">
+					<div class="_sec_area_wrap">
+
+						<div class="_sec_item_list">
+							<div class="_list_slider _AUTO_SET" data-row-idx="prd_3">
+								<div class="swiper-wrapper _AUTO_ITEM_WRAP">
+									<div class="swiper-slide _item_obj _AUTO_ITEM_OBJ">
+										<div class="_item _AUTO_ITEM">
+											<div class="_item_wrap">
+												<a href="#" data-auto-ipg="link">
+													<span class="_thumb">
+														<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+													</span>
+													<span class="_brand">[<span data-auto-ipg="brand"></span>]</span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+													<span class="_price_wrap">
+														<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+														<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+													</span>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="_slide_btn _slide_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M19.7312 0.939137L0.939453 19.745L19.7312 38.5508" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+							<div class="_slide_btn _slide_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M0.939743 38.5511L19.7314 19.7453L0.939745 0.939452" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="_nav_content _nav_content_4 _set_ank" id="_evtContent_4">
+			<div class="_nav_content_wrap">
+
+				<div class="_sec_title">
+					<div class="_icon"><span class="_num">4</span></div>
+					<div class="_main">SMART DUO SELECTION</div>
+					<div class="_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261103/2026110310471510378f1792e978840e3925d1f04bebb6bd0.webp" alt=""></div>
+				</div>
+
+				<div class="_api_prd_sec">
+					<div class="_sec_area_wrap">
+
+						<div class="_sec_item_list">
+							<div class="_list_slider _AUTO_SET" data-row-idx="prd_4">
+								<div class="swiper-wrapper _AUTO_ITEM_WRAP">
+									<div class="swiper-slide _item_obj _AUTO_ITEM_OBJ">
+										<div class="_item _AUTO_ITEM">
+											<div class="_item_wrap">
+												<a href="#" data-auto-ipg="link">
+													<span class="_thumb">
+														<img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img">
+													</span>
+													<span class="_brand">[<span data-auto-ipg="brand"></span>]</span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+													<span class="_price_wrap">
+														<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+														<span class="_price">$<span data-auto-ipg="prdPrice"></span></span>
+													</span>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="_slide_btn _slide_btn_prev"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M19.7312 0.939137L0.939453 19.745L19.7312 38.5508" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+							<div class="_slide_btn _slide_btn_next"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="40" viewBox="0 0 21 40" fill="none"><path d="M0.939743 38.5511L19.7314 19.7453L0.939745 0.939452" stroke="#FFFFFF" stroke-width="1.87917" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="_nav_content _nav_content_5 _set_ank" id="_evtContent_5">
+		<div class="_nav_content_wrap">
+
+			<div class="_sec_title">
+				<div class="_main">BRAND SHOP</div>
+				<div class="_sub">Jump Straight to the Brand You're Looking For</div>
+			</div>
+
+			<div class="_shop_list">
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10077824"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/202610080937176412ef3e28f482842af9bc16191cb9f581a.webp" alt="SULWHASOO BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10077432"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/2026100809373461597981eacb00041fda0130826f858ecdf.webp" alt="HERA BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10062503"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/20261008093746392b2c3f3d057304708a3a39f047a0fd856.webp" alt="AESTURA BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10002561"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/202610080937589556dcddac457d64619b50d82af2b1a3002.webp" alt="IOPE BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10003969"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/2026100809381887897b53eb24f0f4e9ea368ee982d851bab.webp" alt="LANEIGE BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10003065"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/2026100809384926557284fff99fa4e92b8ef773ac906e137.webp" alt="PRIMERA BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10006395"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/20261008093912094df4a7a16cb194d08acd33ae110e01f1b.webp" alt="MAMONDE BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10019107"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/20261008093926977130c2bedf351469faef3b2f00add1b95.webp" alt="HANYUL BRAND SHOP"></a>
+				</div>
+				<div class="_item">
+					<a href="https://eng.lottedfs.com/kr/display/brand?dispShopNo=10000737"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261008/2026100809394322311384ba2a5d04f25bec8b10044c1e077.webp" alt="AP BEAUTY BRAND SHOP"></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div></div></div></section></article></div></body></html>

@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script>
+	$(document).ready(function() {
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if (fixGap != ldfHeaderH() + ldfHeaderY()) {
+				fixGap = ldfHeaderH() + ldfHeaderY();
+				$nav.find('._nav_wrap').css('top', fixGap);
+			}
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top - 1, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+
+							clearTimeout(fnTimer);
+							fnTimer = setTimeout(function() {
+								if (typeof _evtNavSwipe != 'undefined') {
+									_evtNavSwipe.slideTo(i, 500);
+								}
+							}, 300);
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+
+						}
+					}
+				}
+			}
+
+		});
+
+		/* TAB 스와이프 */
+		try {
+			var _evtNavSwipe = $('._evt_nav').length ? new Swiper('._evt_nav ._nav_wrap ._nav_inner', {
+				slidesPerView: 'auto',
+				centerInsufficientSlides: true,
+				spaceBetween: 0,
+				freeMode: true,
+
+				/* nav 4개 이상일 시 → allowTouchMove: true */
+				allowTouchMove: true,
+			}) : false;
+
+			var _evtNavSwipeTimer = null;
+			$(window).on('resize._evtNavSwiper', function(e) {
+				if (_evtNavSwipe) {
+					clearTimeout(_evtNavSwipeTimer);
+					_evtNavSwipeTimer = setTimeout(function() {
+						_evtNavSwipe.update();
+					}, 150);
+				}
+			}).trigger('resize._evtNavSwiper');
+		} catch (e) {
+			console.error(e);
+		}
+
+		/* 레이어 열기 */
+		$('._ev_fn_layer').on('click', function(e) {
+			e.preventDefault();
+
+			/* 로그인 필요 시 */
+			if ($(this).data('login')) {
+				if (typeof loginCheck == 'function') {
+
+					var _eventLoginCheck = loginCheck(null, 'N');
+
+					if (!_eventLoginCheck) {
+						checkLoginThen();
+						return false;
+					}
+
+				} else {
+					alert('로그인 함수가 존재하지 않습니다.');
+					return false;
+				}
+			}
+
+			/* 레이어 노출 이후 콜백 */
+			var callBackFn = $(this).data('callFn') ? window[$(this).data('callFn')] : false;
+
+			var $evtWrap = $('.evWrap');
+			var $target = $($(this).attr('href'));
+
+			var stickyHeight = $('._evt_nav').length ? $('._evt_nav').height() + 50 : 50; /* 화면에 고정으로 노출되는 헤더 높이 */;
+			var areaGap = 30; /* 레이어 상하단 여백 */
+
+			var gapTop = stickyHeight + areaGap;
+
+			var areaWidth = parseInt($evtWrap.width(), 10);
+			var areaHeight = parseInt($evtWrap.height(), 10);
+			var areaTop = parseInt($evtWrap.offset().top, 10);
+			var areaBottom = parseInt(areaHeight + areaTop, 10);
+
+			var winHeight = parseInt($(window).innerHeight(), 10);
+			var winTop = parseInt($(window).scrollTop(), 10);
+
+			var viewIfTop = winTop > (areaTop - areaGap) ? 1 : 0;
+			var viewIfBottom = (winTop + winHeight) > areaBottom ? 1 : 0;
+
+			var viewYtop = function() {
+				if (viewIfTop) {
+					return winTop - areaTop;
+				} else {
+					return areaGap;
+				}
+			}();
+
+			var viewYbottom = function() {
+				if (viewIfTop) {
+					if (viewIfBottom) {
+						return areaBottom - areaTop;
+					} else {
+						return viewYtop + winHeight;
+					}
+				} else {
+					return viewYtop + (winHeight- areaTop + winTop);
+				}
+			}();
+
+			viewYtop = viewIfTop ? viewYtop + (gapTop) : viewYtop;
+			viewYbottom = viewYbottom ? viewYbottom - (areaGap) : viewYbottom;
+
+			var viewYgap = parseInt((viewYbottom - viewYtop), 10);
+			var viewYhalfGap = viewYgap / 2;
+			var viewYmiddle = viewYbottom - viewYhalfGap;
+			var viewYend = (areaBottom - areaGap) - areaTop;
+
+			var layerWidth = parseInt($target.width(), 10);
+			var layerHeight = parseInt($target.height(), 10);
+			var layerTop = viewYmiddle - (layerHeight / 2);
+			var layerBottom = layerTop + layerHeight;
+
+			var layerYmiddle = function() {
+
+				if (layerHeight + (areaGap*2) < areaHeight) {
+
+					if (layerTop >= areaGap) {
+
+						if (layerHeight < viewYgap) {
+							return layerTop;
+						} else {
+
+							if (viewYend - layerBottom > areaGap) {
+								if (viewIfTop) {
+									$('html, body').scrollTop(layerTop + areaTop - (gapTop));
+								}
+								return layerTop;
+							} else {
+								if (viewIfTop) {
+									$('html, body').scrollTop(viewYend - layerHeight + areaTop- (gapTop));
+								}
+								return viewYend - layerHeight;
+							}
+
+						}
+
+					} else {
+
+						if (viewIfTop) {
+							$('html, body').scrollTop(layerTop + areaTop - (gapTop));
+						}
+						return areaGap;
+
+					}
+
+				} else {
+
+					$evtWrap.data('oriHeight', areaHeight).height(layerHeight + (areaGap*2));
+					if (viewIfTop) {
+						$('html, body').scrollTop(areaTop - (stickyHeight));
+					}
+					return areaGap;
+
+				}
+
+			}();
+
+			var layerXcenter = function() {
+				var areaWhalf = areaWidth / 2;
+				var layerWhalf = layerWidth / 2 > 0 ? layerWidth / 2 : 275 / 2;
+
+				return areaWhalf - layerWhalf;
+			}();
+
+			if ($target.length > 0) {
+
+				$evtWrap.find('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+				if (!$(this).is('.active')) {
+					$target.css({display: 'block', top: layerYmiddle, left: layerXcenter, marginLeft: 0, opacity: 0}).addClass('active').animate({
+						opacity: 1
+					}, 0, function() {
+						if (typeof callBackFn == 'function') {
+							callBackFn(areaTop, areaBottom, viewYtop, viewYmiddle, viewYbottom, layerTop, layerBottom);
+						}
+					});
+					$('#evDimmed').css({display: 'block'});
+				}
+			}
+		});
+
+		/* 레이어 닫기 */
+		$('.evWrap ._ev_layer ._close').on('click', function(e) {
+			e.preventDefault();
+
+			var $evtWrap = $('.evWrap');
+
+			if ($evtWrap.data('oriHeight')) {
+				$evtWrap.css('height', '');
+			}
+
+			$(this).closest('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+			$('#evDimmed').css({display: 'none'});
+		});
+		$('#evDimmed').on('click', function(e) {
+			e.preventDefault();
+			$('.evWrap ._ev_layer:visible').find('._close').trigger('click');
+		});
+
+		$('._cate_tab').each(function(idx, val) {
+
+			var $this = $(this);
+
+			$this.find('button').on('click', function(e) {
+				e.preventDefault();
+
+				if (!$(this).parent().is('._active')) {
+
+					var idx = $(this).parent().index();
+
+					$(this).parent().addClass('_active').siblings().removeClass('_active');
+
+					$this.next('._cate_list').find('._list_obj').eq(idx).addClass('_active').siblings().removeClass('_active');
+				}
+			});
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style>
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular';}
+	.evWrap * {margin:0; padding:0; box-sizing:border-box;}
+	.evWrap a {text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._evt_header {width:100%;}
+	._evt_header ._area_wrap {display:flex; justify-content:center; width:100%;}
+	._evt_header video {display:block; width:100%;}
+
+	._info_nav_flex {width:100%; height:14.66667vw;}
+	._info_nav_flex ._nav_wrap {width:100%; height:14.66667vw; box-sizing:border-box; background:#000; z-index:100;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; width:100%; height:100%; padding:0 4vw; box-sizing:border-box; text-align:center;}
+	._info_nav_flex ._nav_wrap ._nav {position:relative; width:auto; height:100%; padding:0 4vw; color:#888;}
+	._info_nav_flex ._nav_wrap ._nav a {display:block; height:100%; box-sizing:border-box; color:inherit; font-size:4vw; font-weight:600;}
+	._info_nav_flex ._nav_wrap ._nav span {position:relative; display:flex; align-items:center; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav._current span {color:#fff;}
+	._info_nav_flex ._nav_wrap ._nav._current span::before {content:''; position:absolute; left:0; right:0; bottom:0; height:0.8vw; background:#fff; z-index:1;}
+
+	/* ----------------------- */
+	/* ★★★★ 50 px 단위 고정 필수 ★★★★ */
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:50px;/* <<<<<50 px 단위 고정 */ width:100%;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+
+	._nav_content {width:100%; background:#fff;}
+	._nav_content ._nav_content_wrap {position:relative; width:100%; padding-top:16vw; padding-bottom:10.66667vw;}
+
+	._nav_content._nav_content_1 {background:#F3F1FF;}
+	._nav_content._nav_content_1 ._nav_content_wrap {padding-bottom:16vw;}
+
+	._page_title {width:82.66667vw; margin:0 auto; padding-bottom:1.33333vw; border-bottom:0.26667vw solid #000; text-align:center; font-size:5.86667vw; font-weight:800; color:#000; letter-spacing:-0.02em;}
+
+	._cate_title {display:flex; justify-content:center; margin-top:10.66667vw;}
+	._cate_title span {display:flex; justify-content:center; align-items:center; height:7.06667vw; padding:0vw 2.66667vw 0 2.66667vw; border-radius:8vw; font-size:4vw; font-weight:600; color:#fff;}
+
+	._cate_deco {display:flex; justify-content:center; align-items:flex-end; height:8vw; margin-top:5.33333vw;}
+	._cate_deco img {display:block; width:82.66667vw;}
+
+	._main_benefit {display:flex; flex-wrap:wrap; flex-direction:column; gap:4vw; width:82.66667vw; margin:10.66667vw auto 0 auto;}
+	._main_benefit ._item {flex:0 0 auto; position:relative; width:100%; height:32.8vw; border-radius:3.2vw; overflow:hidden; background:#fff;}
+	._main_benefit ._item > a {position:relative; display:flex; flex-direction:column; width:100%; height:100%; padding:8.8vw 1.33333vw 1.33333vw 5.33333vw;}
+	._main_benefit ._item ._label {position:relative; font-size:5.06667vw; font-weight:700; line-height:1.2; letter-spacing:-0.02em; color:#161616; z-index:5;}
+	._main_benefit ._item ._txt {position:relative; margin-top:0.93333vw; font-size:3.46667vw; line-height:1.2; letter-spacing:-0.02em; color:#161616; z-index:5;}
+	._main_benefit ._item ._logo {position:absolute; right:0; bottom:0; width:100%; z-index:0; pointer-events:none;}
+	._main_benefit ._item ._logo img {display:block; width:100%;}
+
+	._cate_benefit + ._cate_benefit {margin-top:26.66667vw;}
+
+	._cate_tab {display:flex; justify-content:center; margin-top:10.66667vw;}
+	._cate_tab ._tab_wrap {display:flex; justify-content:center; border-radius:8.66667vw; padding:0.8vw;}
+	._cate_tab ._item {}
+	._cate_tab ._item button {display:flex; justify-content:center; align-items:center; width:100%; height:100%; margin:0; padding:0; color:inherit; background:transparent;}
+	._cate_tab ._item button span {width:100%; padding:2.93333vw 0 2.93333vw 0; border-radius:26.66667vw; font-size:3.73333vw; font-weight:500; letter-spacing:-0.01em; color:#555; text-align:center; line-height:1.2;}
+	._cate_tab ._item._active button span {color:#fff; font-weight:600; box-shadow:0.26667vw 0.26667vw 0.8vw 0 rgba(0, 0, 0, 0.12);}
+
+	._cate_list {display:flex; justify-content:center; margin-top:10.66667vw;}
+	._cate_tab + ._cate_list {margin-top:7.86667vw;}
+	._cate_list ._list_obj {display:none; flex-wrap:wrap; gap:2.66667vw; width:82.66667vw;}
+	._cate_list ._list_obj._active {display:flex;}
+	._cate_list ._item {flex:0 0 auto; position:relative; width:40vw; height:40vw; border-radius:2.66667vw; overflow:hidden; background:#eee;}
+	._cate_list ._item > a {position:relative; display:flex; flex-direction:column; width:100%; height:100%; padding:4.26667vw 1.33333vw 1.33333vw 3.73333vw;}
+	._cate_list ._item ._label {position:relative; font-size:4vw; font-weight:700; line-height:1.2; letter-spacing:-0.02em; color:#161616; z-index:5;}
+	._cate_list ._item ._txt {position:relative; margin-top:1.06667vw; font-size:3.46667vw; line-height:1.2; letter-spacing:-0.02em; color:#161616; z-index:5;}
+	._cate_list ._item ._logo {position:absolute; right:3.73333vw; bottom:3.86667vw; width:15.06667vw; height:15.06667vw; border-radius:3.06667vw; overflow:hidden; z-index:0; pointer-events:none;}
+	._cate_list ._item ._logo img {display:block; width:100%; height:100%; object-fit:cover;}
+	._cate_list ._item ._coming {position:absolute; left:0; top:0; right:0; bottom:0; display:flex; justify-content:center; align-items:center; font-size:4.26667vw; font-weight:700; letter-spacing:-0.02em; color:#9E9E9E; line-height:1.2; text-align:center;}
+
+	._cate_list_row {display:flex; flex-wrap:wrap; flex-direction:column; gap:4vw; width:82.66667vw; margin:10.66667vw auto 0 auto;}
+	._cate_list_row ._item {flex:0 0 auto; position:relative; width:100%; height:32.8vw; border-radius:3.2vw; overflow:hidden; background:#eee;}
+	._cate_list_row ._item > a {position:relative; display:flex; flex-direction:column; width:100%; height:100%; padding:8.8vw 1.33333vw 1.33333vw 5.33333vw;}
+	._cate_list_row ._item ._label {position:relative; font-size:5.06667vw; font-weight:700; line-height:1.2; letter-spacing:-0.02em; color:#161616; z-index:5;}
+	._cate_list_row ._item ._txt {position:relative; margin-top:0.93333vw; font-size:3.46667vw; line-height:1.2; letter-spacing:-0.02em; color:#161616; z-index:5;}
+	._cate_list_row ._item ._logo {position:absolute; right:0; bottom:0; width:100%; z-index:0; pointer-events:none;}
+	._cate_list_row ._item ._logo img {display:block; width:100%;}
+
+	._ad {display:flex; align-items:center; flex-direction:column; gap:2.66667vw; margin-top:10.66667vw;}
+	._ad ._item {flex:0 0 auto; width:82.66667vw;}
+	._ad ._item a {display:block;}
+	._ad ._item img {display:block;}
+
+	._cate_benefit._cate_benefit_1 ._cate_title span {background:#9A1EEE;}
+
+	._cate_benefit._cate_benefit_2 ._cate_title span {background:#1B256F;}
+	._cate_benefit._cate_benefit_2 ._cate_tab ._tab_wrap {background:#D2D7FF;}
+	._cate_benefit._cate_benefit_2 ._cate_tab ._item {width:27.2vw;}
+	._cate_benefit._cate_benefit_2 ._cate_tab ._item._active button span {background:#1B256F;}
+
+	._cate_benefit._cate_benefit_3 ._cate_title span {background:#1783B1;}
+	._cate_benefit._cate_benefit_3 ._cate_tab ._tab_wrap {background:#D7EBF4;}
+	._cate_benefit._cate_benefit_3 ._cate_tab ._item {width:17.6vw;}
+	._cate_benefit._cate_benefit_3 ._cate_tab ._item button span {font-size:3.06667vw;}
+	._cate_benefit._cate_benefit_3 ._cate_tab ._item._active button span {background:#1783B1;}
+
+	._cate_benefit._cate_benefit_4 ._cate_title span {background:#26A5DC;}
+
+</style>
+<div class="evWrap" data-ipg-id="@혜택 총집합_온라인">
+
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<video muted autoplay playsinline loop>
+				<source type="video/mp4" src="https://static.lottedfs.com/contents/images/common-img/mnreg-img/20260724110527607ad48dc59f8244a9385c2b4b27cff009c.mp4">
+			</video>
+			<div class="_evt_hide">롯데면세점 온라인 혜택 총집합 놓치면 아쉬운 혜택을 한눈에 확인하세요!</div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _nav _nav_1 _current">
+						<a href="#_evtContent_1" class="_fn_goto"><span>이달의 혜택</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_2">
+						<a href="#_evtContent_2" class="_fn_goto"><span>결제혜택</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_3">
+						<a href="#_evtContent_3" class="_fn_goto"><span>제휴혜택</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_4">
+						<a href="#_evtContent_4" class="_fn_goto"><span>회원혜택</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_1 _set_ank" id="_evtContent_1">
+		<div class="_nav_content_wrap">
+
+			<div class="_page_title"><span>이달의 혜택</span></div>
+
+			<div class="_main_benefit">
+
+				<div class="_item">
+					<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1037462">
+						<span class="_label">매일매일 누구나 받는</span>
+						<span class="_txt">오늘의 쿠폰<br>혜택 증정</span>
+						<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723112303820b558381e15224a4c96082938cb39c085.webp" alt=""></span>
+					</a>
+				</div>
+				<div class="_item">
+					<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1041371">
+						<span class="_label">롯데면세점 앱 설치</span>
+						<span class="_txt">신규 앱 설치 고객 대상<br>스페셜쿠폰 $5 증정</span>
+						<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311232420472be8d9e75194caeb8503ab064d60970.webp" alt=""></span>
+					</a>
+				</div>
+				<div class="_item">
+					<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1027463">
+						<span class="_label">매일매일 출석체크</span>
+						<span class="_txt">한 달 내내 출석체크 시<br>캔디 더블 증정!</span>
+						<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723112335753cdcb398a7f6046cdbaf498511f014441.webp" alt=""></span>
+					</a>
+				</div>
+				<div class="_item">
+					<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1041052">
+						<span class="_label">앱 푸시 설정 ON</span>
+						<span class="_txt">앱 푸시 알림 설정 고객<br>반기별 캔디 500개 증정</span>
+						<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723112346815d5fac4da06304b1eb50b62406528c61e.webp" alt=""></span>
+					</a>
+				</div>
+				<div class="_item">
+					<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1039193">
+						<span class="_label">출국정보 입력</span>
+						<span class="_txt">플러스쿠폰<br>$1 증정</span>
+						<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723112357832465ab7a80cb24db88acc88f28f89e8ee.webp" alt=""></span>
+					</a>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_2 _set_ank" id="_evtContent_2">
+		<div class="_nav_content_wrap">
+
+			<div class="_page_title"><span>결제혜택</span></div>
+
+			<div class="_cate_benefit _cate_benefit_1">
+				<div class="_cate_title"><span>카드·간편결제</span></div>
+
+				<div class="_cate_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260722/202607221750402870d4546494df44b72b9300d7fe0482975.webp" alt=""></div>
+
+				<div class="_cate_list _col_4">
+					<div class="_list_obj _active">
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1018543">
+								<span class="_label">카카오페이</span>
+								<span class="_txt">최대 10%<br>결제쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231103146129fe0c447fe26445d869874d875cb0fa2.webp" alt=""></span>
+							</a>
+						</div>
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1043284">
+								<span class="_label">네이버페이</span>
+								<span class="_txt">최대 10%<br>즉시할인</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231104520887faa7a81ca244160939c844820b1eaf8.webp" alt=""></span>
+							</a>
+						</div> -->
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055153">
+								<span class="_label">L.PAY</span>
+								<span class="_txt">최대 10%<br>즉시할인</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231105304088158701aae734c9fbb786ce685dd466a.webp" alt=""></span>
+							</a>
+						</div> -->
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1053822">
+								<span class="_label">페이코</span>
+								<span class="_txt">최대 10%<br>결제쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110506677b7d60b183cf04d36b9ddfcb054980c5d.webp" alt=""></span>
+							</a>
+						</div>
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1053628">
+								<span class="_label">삼성카드</span>
+								<span class="_txt">최대 10%<br>결제쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110554235a657d9605c5d4921ba65f0d8ae068c51.webp" alt=""></span>
+							</a>
+						</div> -->
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1051541">
+								<span class="_label">우리카드</span>
+								<span class="_txt">최대 10%<br>결제쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110621324ff7a545cbf9a4d6e83f943b298ac1da4.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1056005">
+								<span class="_label">KB국민카드</span>
+								<span class="_txt">최대 10%<br>결제쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260915/2026091511012617619d5868074024437a75c988ea7935d12.webp" alt=""></span>
+							</a>
+						</div>
+
+						<div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div>
+
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1041171">
+								<span class="_label">롯데카드</span>
+								<span class="_txt">최대 10%<br>즉시할인</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110542788b96a5c8a4a1043bd9e825e91182efc2d.webp" alt=""></span>
+							</a>
+						</div> -->
+
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055204">
+								<span class="_label">카카오페이 페이-득</span>
+								<span class="_txt">결제쿠폰 + <br>특가 + 쿠폰 할인</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231103146129fe0c447fe26445d869874d875cb0fa2.webp" alt=""></span>
+							</a>
+						</div> -->
+
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055204">
+								<span class="_label">카카오페이 페이-득</span>
+								<span class="_txt">최대 54%<br>특가 할인 </span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231103146129fe0c447fe26445d869874d875cb0fa2.webp" alt=""></span>
+							</a>
+						</div> -->
+
+						<!-- <div class="_item">
+							<a href="#">
+								<span class="_label">토스페이</span>
+								<span class="_txt">##</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231105178971b29c33afeaf4059a1164b243ef9fe97.webp" alt=""></span>
+							</a>
+						</div> -->
+
+						<!-- <div class="_item">
+							<a href="#">
+								<span class="_label">하나 AMEX카드</span>
+								<span class="_txt">##</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311060811185b82ac98d684ecc8ff819882d18a8ea.webp" alt=""></span>
+							</a>
+						</div> -->
+
+						<!-- <div class="_item">
+							<a href="#">
+								<span class="_label">우리카드</span>
+								<span class="_txt">##</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110621324ff7a545cbf9a4d6e83f943b298ac1da4.webp" alt=""></span>
+							</a>
+						</div> -->
+
+						<!-- <div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div> -->
+
+					</div>
+				</div>
+			</div>
+
+			<div class="_ad">
+				<div class="_item">
+					<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1000950"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260722/202607221750577428fe3d5c4107b4a75a5a477225e7b327c.webp" alt=""></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_3 _set_ank" id="_evtContent_3">
+		<div class="_nav_content_wrap">
+
+			<div class="_page_title"><span>제휴혜택</span></div>
+
+			<div class="_cate_benefit _cate_benefit_2">
+				<div class="_cate_title"><span>통신사·금융사</span></div>
+
+				<div class="_cate_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260722/202607221751174825baa4c07c1d14e218d3e8f7c1e8b0314.webp" alt=""></div>
+
+				<div class="_cate_tab">
+					<div class="_tab_wrap">
+						<div class="_item _active">
+							<button type="button"><span>통신사</span></button>
+						</div>
+						<div class="_item">
+							<button type="button"><span>금융사</span></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="_cate_list">
+
+					<!-- 통신사 -->
+					<div class="_list_obj _active">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1052875">
+								<span class="_label">T멤버십</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311064140380a7395a8dc541dba747f9f2c4ba9973.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1040096">
+								<span class="_label">T멤버십</span>
+								<span class="_txt">스페셜쿠폰<br>$12 증정</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110701802ed0ecdf4781a403f81ea0e66af6d47f8.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055252">
+								<span class="_label">T멤버십</span>
+								<span class="_txt">스페셜쿠폰<br>$5 증정</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110701802ed0ecdf4781a403f81ea0e66af6d47f8.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1018167">
+								<span class="_label">KT멤버십</span>
+								<span class="_txt">제휴쿠폰 + <br>GOLD 등업 + 스페셜쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110713684902676a916254b63948fda4f05ca1e3f.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1027135">
+								<span class="_label">U+멤버십</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231107480278397f6c600f249b5b2eca7d7320b7367.webp" alt=""></span>
+							</a>
+						</div>
+
+						<div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div>
+
+						<!-- <div class="_item">
+							<a href="#">
+								<span class="_label">KT 달달혜택</span>
+								<span class="_txt">##</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231107362188ebdb736764548778c5ea711bcecdad0.webp" alt=""></span>
+							</a>
+						</div> -->
+
+					</div>
+
+					<!-- 금융사 -->
+					<div class="_list_obj">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1036601">
+								<span class="_label">신한 SOL</span>
+								<span class="_txt">제휴쿠폰<br>증정</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110832548ca980ef7f6d84a67ba4d5a669102fb05.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1049136">
+								<span class="_label">신한 Tops Club</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311084471871e4999368ef4172b2fd5593f35dd314.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1047885">
+								<span class="_label">KB국민은행</span>
+								<span class="_txt">환전고객 제휴쿠폰 + <br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231108560150de08f21d22b4fff9072d91defe3a570.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1039369">
+								<span class="_label">우리은행</span>
+								<span class="_txt">환전고객 제휴쿠폰 + <br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311090677754583ca9b1a84d169959695a90bc96b6.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1020326">
+								<span class="_label">신한 SOL</span>
+								<span class="_txt">환전고객<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723110918021713f622802e64d199efb6e585405bdbd.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055499">
+								<span class="_label">하나은행</span>
+								<span class="_txt">환전고객 제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260804/20260804092027410361c0d6152e149bb8ddaa503eda15197.webp" alt=""></span>
+							</a>
+						</div>
+						<!-- <div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div> -->
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="_cate_benefit _cate_benefit_3">
+				<div class="_cate_title"><span>여행</span></div>
+
+				<div class="_cate_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260722/20260722175209400096a91954bf946d29aa000060ce14250.webp" alt=""></div>
+
+				<div class="_cate_tab">
+					<div class="_tab_wrap">
+						<div class="_item _active">
+							<button type="button"><span>여행사</span></button>
+						</div>
+						<div class="_item">
+							<button type="button"><span>항공사</span></button>
+						</div>
+						<div class="_item">
+							<button type="button"><span>숙박</span></button>
+						</div>
+						<div class="_item">
+							<button type="button"><span>여행서비스</span></button>
+						</div>
+						<div class="_item">
+							<button type="button"><span>여행자보험/<br>환전</span></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="_cate_list">
+
+					<!-- 여행사 -->
+					<div class="_list_obj _active">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1041079">
+								<span class="_label">마이리얼트립</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311094007144f30bcad2014a6495398abc1391c130.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1043026">
+								<span class="_label">N트래블클럽</span>
+								<span class="_txt">등급별 제휴쿠폰 +<br>등업 혜택</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311102737947a990cf56db48a19c8c465138801312.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1040263">
+								<span class="_label">NOL</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111039674a525a94896d44c8fa1d7e39295c88c43.webp" alt=""></span>
+							</a>
+						</div>
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1039967">
+								<span class="_label">NOL 인터파크투어</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231110506375ccb333731524f35aebfc93163adb3b9.webp" alt=""></span>
+							</a>
+						</div> -->
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1039942">
+								<span class="_label">하나투어</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231111050269350da1bbaf143419785e5cc58ad8e41.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1038287">
+								<span class="_label">트리플</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311111556279e0f3a0c17f478e843c4296c144932e.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1038192">
+								<span class="_label">모두투어</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111126168c4930666c16f4794885b09bf6243b937.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1039446">
+								<span class="_label">클룩</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111137298a9507d1ee6ee48658051a251801f7e75.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1052387">
+								<span class="_label">트래블로카</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231111482966a77c4a08e8c4702b59eb3a05d276590.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1048414">
+								<span class="_label">베나자</span>
+								<span class="_txt">할인쿠폰 +<br>VIP 멤버십 카드</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111203759722e12486d4c4e64ae6508ebbeaf8f89.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div>
+
+					</div>
+
+					<!-- 항공사 -->
+					<div class="_list_obj">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1038227">
+								<span class="_label">트리니티항공</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260909/20260909130754648a6acd66542564763ae5c9be4feaa2c8c.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1039145">
+								<span class="_label">제주항공</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231113095130ff5786ef85a450cabedc347a9b34983.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1048446">
+								<span class="_label">에어부산</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111322705721cec177a654c5fb5f934d142928e66.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1053327">
+								<span class="_label">대한항공</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231112586794582ec4648794b73a058463f9e92eb45.webp" alt=""></span>
+							</a>
+						</div>
+						<!-- <div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div> -->
+
+					</div>
+
+					<!-- 숙박 -->
+					<div class="_list_obj">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1046979">
+								<span class="_label">롯데호텔</span>
+								<span class="_txt">리워즈 고객 대상<br>제휴쿠폰 + 등업 혜택</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111343626c971b60354e0473b8897739e71569b0e.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1044081">
+								<span class="_label">롯데리조트</span>
+								<span class="_txt">STAR 등급 이상<br>리조트 혜택 증정</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111356230f24cc03154934cdfb66c8b50b0efc026.webp" alt=""></span>
+							</a>
+						</div>
+
+					</div>
+
+					<!-- 여행서비스 -->
+					<div class="_list_obj">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1054120">
+								<span class="_label">우버</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111413249b3103d061bbb4309b6d702d70d59cf6a.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1016861">
+								<span class="_label">와이파이도시락</span>
+								<span class="_txt">온라인 예약<br>최대 15% 할인</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231114261160b11ce0281cc4f0c84d04d51e88ef42f.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055053">
+								<span class="_label">mobi</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311143904974065f65fb05497fbf9646d8e202e4cd.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1051270">
+								<span class="_label">롯데렌터카</span>
+								<span class="_txt">최대 10%<br>추가할인</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231114532882864ae5e58f44dacad200bbd52269b40.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1053783">
+								<span class="_label">굿럭</span>
+								<span class="_txt">SILVER 등급 이상<br>할인쿠폰 증정</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111506334815332075c3d4525bf6d76e690c5f369.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1053151">
+								<span class="_label">스위스 여행 특별 할인</span>
+								<span class="_txt">20% 할인 또는<br>발권 수수료 면제</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111518330e0961e15cdac45e6a4c9b2aa23c95e7a.webp" alt=""></span>
+							</a>
+						</div>
+
+						<!-- <div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055636">
+								<span class="_label">모두의주차장</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 주차쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260814/202608140905512540677c570b2dc46b19e20d9800da8e872.webp" alt=""></span>
+							</a>
+						</div> -->
+
+						<!-- <div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div> -->
+
+					</div>
+
+					<!-- 여행자보험/환전 -->
+					<div class="_list_obj">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1038731">
+								<span class="_label">마이뱅크</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 10% 할인</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231115333176ba134fabc09496c9e6b34fbbe9a3f04.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1050876">
+								<span class="_label">네이버페이 손해보험</span>
+								<span class="_txt">네이버페이포인트<br>10% 적립</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111544093a282a9d234f04d0ab6a1c0d3a88ab6a8.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1043962">
+								<span class="_label">카카오페이 손해보험</span>
+								<span class="_txt">해외여행보험<br>10% 환급</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311155504631431675951e45458e4faba18fded5aa.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1032088">
+								<span class="_label">하나은행</span>
+								<span class="_txt">최대 90%<br>환율(spread) 우대</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111605501a8219302217a49578ce4307926f72c4f.webp" alt=""></span>
+							</a>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="_cate_benefit _cate_benefit_4">
+				<div class="_cate_title"><span>쇼핑·일상</span></div>
+
+				<div class="_cate_deco"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260722/2026072217522980767f550c9db7541e2b4eab09ff19590fb.webp" alt=""></div>
+
+				<div class="_cate_list">
+
+					<div class="_list_obj _active">
+
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1038450">
+								<span class="_label">L.POINT</span>
+								<span class="_txt">제휴쿠폰<br>증정</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231116239543e6e2d20bdec47ccb99dd92e2135a303.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1039063">
+								<span class="_label">L.POINT</span>
+								<span class="_txt">GOLD 등업<br>혜택</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111637320b8fc55775e6946a2898afb377ca3ab04.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1054543">
+								<span class="_label">롯데백화점몰</span>
+								<span class="_txt">장바구니 쿠폰 +<br>중복 쿠폰 + 무료배송권</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111649160c31cc66fb0824b27a66231d404765b04.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055174">
+								<span class="_label">롯데마트 제타</span>
+								<span class="_txt">제휴쿠폰 + <br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231117008095b70a90769f84128a3bd6c68f4c370b5.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1054955">
+								<span class="_label">롯데잇츠</span>
+								<span class="_txt">제휴쿠폰 + <br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723111711625969284402abb489cac839288502cb48f.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1040669">
+								<span class="_label">롯데백화점</span>
+								<span class="_txt">웨딩멤버스 제휴쿠폰 + <br>GOLD 등업 + 마일리지</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311172284049b041045ba3418ba276c3fbb9b011ed.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1045765">
+								<span class="_label">우리동네GS</span>
+								<span class="_txt">제휴쿠폰 +<br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231117355117486c3c9859840b4b4c32e719b8c8ad8.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1050241">
+								<span class="_label">카카오 톡학생증</span>
+								<span class="_txt">대학생 인증 시<br>제휴쿠폰 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311174735810350ad62b594e269b87fe37f1b2a548.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055386">
+								<span class="_label">교보문고</span>
+								<span class="_txt">제휴쿠폰 + <br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/202607231117575192962aab6eec94f05887e099b36046849.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055474">
+								<span class="_label">LGE.COM</span>
+								<span class="_txt">제휴쿠폰 + <br>GOLD 등업 + 할인쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260807/202608071546076767f7b87af370e4764ae73d03770bdff72.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1056245">
+								<span class="_label">링글</span>
+								<span class="_txt">수업권 구매 고객<br>제휴쿠폰 + 스페셜쿠폰</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261015/20261015094243570a5f5ade7df144f278dc4b7bdfc22ff3a.webp" alt=""></span>
+							</a>
+						</div>
+						<div class="_item">
+							<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1038917">
+								<span class="_label">긴자 일본직구</span>
+								<span class="_txt">10% 할인쿠폰<br>증정</span>
+								<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311180827755f5dba3b46b4a38a344c968a40fa30f.webp" alt=""></span>
+							</a>
+						</div>
+
+						<!-- <div class="_item">
+							<span class="_coming">COMING<br>SOON</span>
+						</div> -->
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_4 _set_ank" id="_evtContent_4">
+		<div class="_nav_content_wrap">
+
+			<div class="_page_title"><span>회원혜택</span></div>
+
+			<div class="_cate_benefit _cate_benefit_5">
+
+				<div class="_cate_list_row">
+
+					<div class="_item">
+						<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1017432">
+							<span class="_label">신규가입 혜택</span>
+							<span class="_txt">신규가입 시<br>스페셜 혜택 증정</span>
+							<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723112159639cfb49a64b2de423683671356eeb3e0b0.webp" alt=""></span>
+						</a>
+					</div>
+					<div class="_item">
+						<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1042681">
+							<span class="_label">LDF멤버십 등급 개편</span>
+							<span class="_txt">온·오프라인<br>등급 안내</span>
+							<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/20260723112212309480a7d284352485ea70457b31deea61c.webp" alt=""></span>
+						</a>
+					</div>
+					<div class="_item">
+						<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1038282">
+							<span class="_label">웨딩고객 대상</span>
+							<span class="_txt">청첩장 승인 완료 시<br>온·오프라인 혜택 증정</span>
+							<span class="_logo"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260723/2026072311222524667072730a8d44313a453005703506b78.webp" alt=""></span>
+						</a>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div></div></div></section></div></article></div></body></html>

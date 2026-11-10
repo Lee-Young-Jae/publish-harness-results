@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 상단 갭 */
+		var fixGap = $('#lotteHeader').find('nav.gnb').length ? 80 : 65;
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+						}
+					}
+				}
+			}
+
+		});
+
+		/* 레이어 열기 */
+		$('._ev_fn_layer').on('click', function(e) {
+			e.preventDefault();
+
+			/* 로그인 필요 시 */
+			if ($(this).data('login')) {
+				if (typeof loginCheck == 'function') {
+
+					var _eventLoginCheck = loginCheck(null, 'N');
+
+					if (!_eventLoginCheck) {
+						checkLoginThen();
+						return false;
+					}
+
+				} else {
+					alert('로그인 함수가 존재하지 않습니다.');
+					return false;
+				}
+			}
+
+			/* 레이어 노출 이후 콜백 */
+			var callBackFn = $(this).data('callFn') ? window[$(this).data('callFn')] : false;
+
+			var $evtWrap = $('.evWrap');
+			var $target = $($(this).attr('href'));
+
+			var stickyHeight = $('._evt_nav').length ? $('._evt_nav').height() + 65 : 65; /* 화면에 고정으로 노출되는 헤더 높이 */;
+			var areaGap = 50; /* 레이어 상하단 여백 */
+
+			var gapTop = stickyHeight + areaGap;
+
+			var areaWidth = parseInt($evtWrap.width(), 10);
+			var areaHeight = parseInt($evtWrap.height(), 10);
+			var areaTop = parseInt($evtWrap.offset().top, 10);
+			var areaBottom = parseInt(areaHeight + areaTop, 10);
+
+			var winHeight = parseInt($(window).innerHeight(), 10);
+			var winTop = parseInt($(window).scrollTop(), 10);
+
+			var viewIfTop = winTop > (areaTop - areaGap) ? 1 : 0;
+			var viewIfBottom = (winTop + winHeight) > areaBottom ? 1 : 0;
+
+			var viewYtop = function() {
+				if (viewIfTop) {
+					return winTop - areaTop;
+				} else {
+					return areaGap;
+				}
+			}();
+
+			var viewYbottom = function() {
+				if (viewIfTop) {
+					if (viewIfBottom) {
+						return areaBottom - areaTop;
+					} else {
+						return viewYtop + winHeight;
+					}
+				} else {
+					return viewYtop + (winHeight- areaTop + winTop);
+				}
+			}();
+
+			viewYtop = viewIfTop ? viewYtop + (gapTop) : viewYtop;
+			viewYbottom = viewYbottom ? viewYbottom - (areaGap) : viewYbottom;
+
+			var viewYgap = parseInt((viewYbottom - viewYtop), 10);
+			var viewYhalfGap = viewYgap / 2;
+			var viewYmiddle = viewYbottom - viewYhalfGap;
+			var viewYend = (areaBottom - areaGap) - areaTop;
+
+			var layerWidth = parseInt($target.width(), 10);
+			var layerHeight = parseInt($target.height(), 10);
+			var layerTop = viewYmiddle - (layerHeight / 2);
+			var layerBottom = layerTop + layerHeight;
+
+			var layerYmiddle = function() {
+
+				if (layerHeight + (areaGap*2) < areaHeight) { /* 레이어가 행사 영역보다 작을 때 */
+
+					if (layerTop >= areaGap) { /* 레이어 시작이 행사 영역 내부에 존재 할 때 */
+
+						if (layerHeight < viewYgap) { /* 레이어 전체 높이가 보이는 화면 안에 있을 때 */
+							return layerTop;
+						} else { /* 레이어가 보이는 화면 밖으로 넘칠 때 */
+
+							if (viewYend - layerBottom > areaGap) { /* 레이어 끝이 행사 영역 내부에 존재 할 때 */
+								if (viewIfTop) {
+									$('html, body').scrollTop(layerTop + areaTop - (gapTop));
+								}
+								return layerTop;
+							} else { /* 레이어 끝이 행사 영역 밖으로 넘칠 때 */
+								if (viewIfTop) {
+									$('html, body').scrollTop(viewYend - layerHeight + areaTop- (gapTop));
+								}
+								return viewYend - layerHeight;
+							}
+
+						}
+
+					} else { /* 레이어 시작이 행사 영역 밖으로 넘칠 때 */
+
+						if (viewIfTop) {
+							$('html, body').scrollTop(layerTop + areaTop - (gapTop));
+						}
+						return areaGap;
+
+					}
+
+				} else { /* 레이어가 행사 영역보다 클 때 */
+
+					$evtWrap.data('oriHeight', areaHeight).height(layerHeight + (areaGap*2));
+					if (viewIfTop) {
+						$('html, body').scrollTop(areaTop - (stickyHeight));
+					}
+					return areaGap;
+
+				}
+
+			}();
+
+			var layerXcenter = function() {
+				var areaWhalf = areaWidth / 2;
+				var layerWhalf = layerWidth / 2 > 0 ? layerWidth / 2 : 550 / 2;
+
+				return areaWhalf - layerWhalf;
+			}();
+
+			if ($target.length > 0) {
+
+				$evtWrap.find('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+				if (!$(this).is('.active')) {
+					$target.css({display: 'block', top: layerYmiddle, left: layerXcenter, marginLeft: 0, opacity: 0}).addClass('active').animate({
+						opacity: 1
+					}, 0, function() {
+						if (typeof callBackFn == 'function') {
+							callBackFn(areaTop, areaBottom, viewYtop, viewYmiddle, viewYbottom, layerTop, layerBottom);
+						}
+					});
+					$('#evDimmed').css({display: 'block'});
+				}
+			}
+		});
+
+		/* 레이어 닫기 */
+		$('.evWrap ._ev_layer ._close').on('click', function(e) {
+			e.preventDefault();
+
+			var $evtWrap = $('.evWrap');
+
+			if ($evtWrap.data('oriHeight')) {
+				$evtWrap.css('height', '');
+			}
+
+			$(this).closest('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+			$('#evDimmed').css({display: 'none'});
+		});
+		$('#evDimmed').on('click', function(e) {
+			e.preventDefault();
+			$('.evWrap ._ev_layer:visible').find('._close').trigger('click');
+		});
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:300;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.ttf') format('truetype'),
+		local('Roboto Light'), local('Roboto-Light');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.ttf') format('truetype'),
+		local('Roboto Regular'), local('Roboto-Regular');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:500;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.ttf') format('truetype'),
+		local('Roboto Medium'), local('Roboto-Medium');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:700;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.ttf') format('truetype'),
+		local('Roboto Bold'), local('Roboto-Bold');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:900;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.ttf') format('truetype'),
+		local('Roboto Black'), local('Roboto-Black');
+	}
+
+	/* ----------------------- */
+	/* ★★★★ 100% 레이아웃일 때. 기본 1020px  */
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0;}
+	.evWrap img {display:block;}
+	.evWrap a {display:block;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._lan_en {font-family:'Roboto' !important;}
+	._nowrap {white-space:nowrap;}
+
+	._init_color {color:#000; border-color:#ffffff;}
+	._init_bg {background:#ffffff !important;}
+	._init_bg svg path {fill:#ffffff !important;}
+	._init_btn_bg svg rect {fill:#ffffff;}
+	._info_nav_flex ._nav_wrap ._nav._current span::before {background-color:#ffffff;}
+
+	._info_header {position:relative; width:100%;}
+	._info_header ._area_wrap {width:100%; height:100%; background:#fff;}
+	._info_header ._visual {width:100%; height:100%;}
+	._info_header ._visual img {width:1920px; position:relative; left:50%; transform:translateX(-50%);}
+
+	._info_nav_flex {width:100%; height:60px;}
+	._info_nav_flex ._nav_wrap {width:100%; height:60px; border-bottom:1px solid #ccc; background:#000; z-index:10;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:80px; width:100%; z-index:100;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content: center; gap:12px; height:100%; margin:0 auto; text-align:center; font-size:0;}
+	._info_nav_flex ._nav_wrap ._nav {flex:0 0 auto; position:relative; height:100%; padding:0 24px; color:#AFAFAF; text-align:center;}
+	._info_nav_flex ._nav_wrap ._nav a {display:block; width:100%; height:100%; letter-spacing:0; color:inherit; font-size:20px; font-weight:600;}
+	._info_nav_flex ._nav_wrap ._nav span {display:inline-block; height:100%; letter-spacing:0.2px;}
+	._info_nav_flex ._nav_wrap ._nav span::after {content:''; display:inline-block; height:100%; vertical-align:middle;}
+	._info_nav_flex ._nav_wrap ._nav._current span {color:#fff;}
+	._info_nav_flex ._nav_wrap ._nav._current span::before {content:''; position:absolute; left:0; right:0; bottom:-1px; width:100%; height:4px; padding:0; z-index:1;}
+
+
+	._nav_content {position:relative; width:100%; margin-top:0; color:#000; padding:128px 0 0;}
+	._nav_content a {color:inherit;}
+	._nav_content ._nav_content_wrap {width:1200px; margin:0 auto;}
+
+	._nav_content ._set_ank {position:absolute; top:0; left:0;}
+
+	._nav_content ._anchor {width:100%; font-size:16px; font-weight:bold; color:inherit !important; text-align:center; letter-spacing:-0.02em;}
+	._nav_content ._anchor span {padding:7px 14px 6px; border-radius:80px; background:#F7594F; color:#fff;}
+
+	._nav_content ._content_header {width:100%; margin-top:40px;text-align:center;}
+	._nav_content ._content_header ._title {font-size:46px; letter-spacing:0; line-height:1;}
+	._nav_content ._content_header ._desc {margin-bottom:18px; font-size:24px; letter-spacing:0; line-height:1; font-weight:600;}
+
+	._nav_content ._evt_top_bnr {display:flex; flex-direction:column; gap:24px; align-items:center; justify-content: center; margin-top:63px;}
+	._nav_content ._evt_top_bnr ._evt_txt {color:#000; font-size:18px; font-weight:500; text-align:center; letter-spacing:-0.4px;}
+
+	._nav_content ._coupon {display:flex; flex-wrap:wrap; justify-content:center; width:100%; margin-top:60px;}
+	._nav_content ._coupon ._item {position:relative; width:380px;}
+	._nav_content ._coupon ._flag {display:inline-flex; align-items:center; gap:4px; padding:0 14px; height:39px; border-radius:999px; background-color:#3C1E1E; color:#fff; position:absolute; top:-20px; left:50%; transform:translateX(-50%); z-index:5;} /* 2026-05-12 수정 */
+	._nav_content ._coupon ._flag i {position:relative; top:2px; flex:0 0 auto;}
+	._nav_content ._coupon ._flag em {font-size:18px; font-weight:700;white-space: nowrap;}
+	._nav_content ._coupon ._row_break {flex-basis:100%; width:100%; height:0; margin-bottom:-40px;}
+	._nav_content ._coupon ._item ._item_wrap {display:flex; flex-direction:column; justify-content: space-between; padding:20px 0 24px 30px; width:308px; height:165px; border-radius:0 10px 10px 0; background:#FF7779; color:#fff;}
+	._nav_content ._coupon ._item ._title {font-size:16px; font-weight:600; letter-spacing:-0.020em;}
+	._nav_content ._coupon:has(._flag) ._item_wrap ._title {padding-top:12px;}
+	._nav_content ._coupon ._item ._label {position:absolute; right:-165px; top:0; display:flex; align-items:center; justify-content:center; transform:rotate(90deg); transform-origin:0 0; width:165px; height:72px; border-radius:0 0 10px 10px; background:#FF7779; font-size:20px; font-weight:500; letter-spacing:-0.025em; color:rgba(255,255,255,0.5);}
+	._nav_content ._coupon ._item ._amount {display:flex; align-items:baseline; gap:8px; font-size:64px; font-weight:800; line-height:1; letter-spacing:-0.020em; padding-top:12px;}
+	._nav_content ._coupon ._item ._amount ._usd {font-size:26px; font-weight:800; line-height:1;}
+	._nav_content ._coupon ._item ._amount ._per {font-size:26px; font-weight:700; line-height:1;}
+	._nav_content ._coupon ._item ._amount ._krw {font-size:26px; font-weight:700; line-height:1;}
+	._nav_content ._coupon ._item ._amount ._max {position:relative; line-height:1; font-size:20px; font-weight:700; letter-spacing:-0.020em;}
+	._nav_content ._coupon ._item ._note {position:relative; font-size:14px; font-weight:500; letter-spacing:-0.020em; color:rgba(255,255,255,0.5);}
+	._nav_content ._coupon ._item ._coupon_terms {display:flex; justify-content:flex-end; margin-top:28px; padding-right:6px;}
+	._nav_content ._coupon ._item ._coupon_terms a {display:flex; justify-content:flex-end; align-items:center; gap:10px; font-size:16px;}
+	._nav_content ._coupon ._item ._coupon_terms a::after {width:7px; height:12px; background:transparent url("data:image/svg+xml,%3Csvg width='7' height='12' viewBox='0 0 7 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 11L6 6L1 1' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A") center / cover no-repeat; content:'';}
+
+	._nav_content ._info_table {width:605px; margin:60px auto 0;}
+	._nav_content ._info_table > ul {width:100%;}
+	._nav_content ._info_table > ul > li {display:flex; margin-top:17px; padding-bottom:22px;border-bottom:1px solid #E5E5E5;}
+	._nav_content ._info_table > ul > li:first-child {margin-top:0;}
+	._nav_content ._info_table ._label {position:relative; width:160px; flex-shrink: 0;}
+	._nav_content ._info_table ._label ._txt {display:inline-block; font-weight:600; font-size:18px; letter-spacing:-0.1px; vertical-align:top;}
+	._nav_content ._info_table ._item {display:flex; position:relative; width:100%; gap:0;}
+	._nav_content ._info_table ._item._col {flex-direction:column;}
+	._nav_content ._info_table ._item ._txt {display:inline-block; position:relative; top:-1px; font-weight:500; font-size:18px; letter-spacing:0; line-height:28px; vertical-align:top;}
+	._nav_content ._info_table ._item ._point {position:relative;font-weight:700;}
+	._nav_content ._info_table ._item ._point::before {position:absolute;left:-4px;bottom:-5px;content:'';width:calc(100% + 8px);height:18px;background:#FFDCD5;z-index:-1;}
+	._nav_content ._info_table ._item ._em em {display:inline-block; position:relative; font-size:16px; color:#8E8E8E; vertical-align:top;}
+	._nav_content ._info_table ._item ._em._red em {color:#FF0000;}
+	._nav_content ._info_table ._item ._link {position:relative; display:block; font-size:16px; letter-spacing:-0.02em; line-height:normal; }
+	._nav_content ._info_table ._item ._link a {position:relative; display:inline-block;}
+	._nav_content ._info_table ._item ._link a::after {content:''; position:absolute; left:0; bottom:2px; width:100%; height:1px; background:#1a1a1a;}
+	._nav_content ._info_table ._item ._counter {display:flex; flex-direction:column; counter-reset: number 0;}
+	._nav_content ._info_table ._item ._counter li {display:flex; gap:4px; counter-increment: number 1; font-size:18px; color:#000;}
+	._nav_content ._info_table ._item ._counter li::before {content: counter(number)'. ';}
+	._nav_content ._caution {width:100%; max-width:605px; margin:20px auto 0;}
+	._nav_content ._caution dl {display:flex; align-items:center; gap:60px; color:#999;}
+	._nav_content ._caution dl dt {font-size:20px; flex:0 0 auto; font-weight:600;}
+	._nav_content ._caution dl dd {font-size:16px;}
+	._nav_content ._caution dl dd ul {display:flex; flex-direction:column; gap:5px;}
+	._nav_content ._caution dl dd ul li {display:flex; gap:4px; white-space:normal; word-break:keep-all; word-wrap:break-word; overflow-wrap:break-word; line-height:1.2;}
+	._nav_content ._caution dl dd ul li:before {width:2px; height:2px; flex:0 0 auto; border-radius:50%; background-color:currentColor; transform: translateY(6px); content:'';}
+
+	._nav_content ._code_inp {width:100%;}
+	._nav_content ._code_inp input {width:100%; height:50px; line-height:76px; padding:0; border:1px solid #707070; box-sizing:border-box; text-align:center; font-size:18px;}
+	._nav_content ._code_inp input::placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input::-webkit-input-placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input:-ms-input-placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input:-moz-placeholder {color:#9E9E9E;}
+
+	._nav_content ._btn {width:323px; margin:57px auto 0; display:flex; flex-direction:column; gap:15px;}
+	._nav_content ._btn ._btn_wrap {width:100%;}
+	._nav_content ._btn ._btn_wrap a {display:flex;justify-content:center;align-items:center;gap:10px;width:100%;height:50px;font-weight:600;font-size:18px;color:#fff;background:#000;}
+	._nav_content ._btn ._btn_wrap a i {width:15px;height:18px;background:transparent url("data:image/svg+xml,%3Csvg width='15' height='18' viewBox='0 0 15 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13.725 7.47116L12.525 5.9904L8.43751 9.49039V0H6.56249V9.49039L2.475 5.9904L1.27499 7.47116L7.50002 12.7884L13.725 7.47116ZM0 15.3846H15V17.3077H0V15.3846Z' fill='white'/%3E%3C/svg%3E%0A") center / cover no-repeat;}
+	._nav_content ._btn ._btn_wrap._link a i {width:9px;height:15px;background:transparent url("data:image/svg+xml,%3Csvg width='9' height='15' viewBox='0 0 9 15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.8177 7.50991L1.30779 15L0 13.6922L6.1823 7.50991L0 1.32761L1.30779 0L8.8177 7.50991Z' fill='white'/%3E%3C/svg%3E%0A") center / cover no-repeat;}
+
+	._nav_content ._banner {width:100%; margin-top:60px;}
+	._nav_content ._banner ._banner_wrap {display:flex;justify-content:center;align-items:center;}
+
+	._nav_content_area {width:100%; padding-top:50px;}
+
+	._ev_layer {position:absolute; left:50%; margin-left:-230px; z-index:60;}
+	._ev_layer * {box-sizing:border-box;}
+	._ev_layer ._layer_wrap {position:relative; width:460px;}
+	._ev_layer ._layer_header {height:58px; background:#000;}
+	._ev_layer ._layer_header ._title {display:flex; align-items:center; padding:0 58px 0 16px; width:100%; height:100%; font-size:20px; font-weight:600; color:#fff; letter-spacing:-0.8px;}
+	._ev_layer ._layer_content {width:100%; background:#fff; color:#000; font-size: 0; padding:20px 49px 44px 49px;}
+	._ev_layer ._layer_content:has(._layer_benefits) {padding:0;}
+	._ev_layer ._close:not(._layer_content ._close) {position:absolute; right:16px; top:15px; width:28px; height:28px; background: transparent url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21 7L7 21' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M7 7L21 21' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A") center / cover no-repeat;}
+
+	._ev_layer ._layer_benefits {width:100%; overflow:hidden;}
+	._ev_layer ._layer_info {display:flex; flex-direction:column; gap:40px; padding:24px 16px 28px;}
+	._ev_layer ._layer_info ._title {display:flex; flex-direction:column; font-size:32px; gap:10px; color:#000;  text-align:center; letter-spacing:-1px;}
+	._ev_layer ._layer_info ._title strong {font-size:46px;}
+	._ev_layer ._layer_info ._dot {display:flex; flex-direction:column;}
+	._ev_layer ._layer_info ._dot strong {font-size:16px; line-height:26px;}
+	._ev_layer ._layer_info ._dot span {display:flex; align-items:flex-start; gap:5px; font-size:16px; line-height:26px;}
+	._ev_layer ._layer_info ._dot:not(.none) span:before {width:6px; flex: 0 0 auto; content:'ㆍ';}
+	._ev_layer ._layer_info ._dashed {display:flex; flex-direction:column;}
+	._ev_layer ._layer_info ._dashed strong {font-size:16px; line-height:26px;}
+	._ev_layer ._layer_info ._dashed span {display:flex; align-items:flex-start; gap:5px; font-size:16px; line-height:26px;}
+	._ev_layer ._layer_info ._dashed span:before {width:6px; height:2px; background-color:currentColor; flex: 0 0 auto; transform:translateY(12px); content:'';}
+
+	._ev_layer ._barcode_wrap {width:100%; padding:24px 16px 28px;}
+	._ev_layer ._barcode_wrap ._title {display:flex; flex-direction:column; align-items:center; gap:16px; font-size:18px; font-weight:600; letter-spacing:-0.01em; color:#000; text-align:center;}
+	._ev_layer ._barcode_wrap ._title em {color:#DA291C; font-weight:500;}
+	._ev_layer ._barcode_wrap ._barcode_list {width:100%; margin:16px auto 0;}
+	._ev_layer ._barcode_wrap ._barcode_list ul {width:100%;}
+	._ev_layer ._barcode_wrap ._barcode_list ul li {width:100%; display:flex; flex-direction:column; gap:24px; align-items:center;}
+	._ev_layer ._barcode_wrap ._barcode_list ul li ~ li {margin-top:16px;}
+	._ev_layer ._barcode_wrap ._barcode_list ul li strong {font-size:16px; font-weight:400;}
+	._ev_layer ._barcode_wrap ._barcode_list ul li ._barcode_img {display:flex; align-items:center; justify-content:center; width:100%; min-height:200px; padding:0; background-color:#fff;}
+	._ev_layer ._barcode_wrap ._barcode_list ul li ._barcode_img img {width:290px;}
+
+	#evDimmed {display:none; position:absolute; left:0; right:0; top:0; bottom:0; background:#000; opacity:0.7; z-index:50;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_c_26050002">
+
+	<div class="_info_header">
+		<div class="_area_wrap">
+			<div class="_visual">
+				<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260518/20260518164537999f666e9056a154e95af5007366b2ba5d6.webp" alt="完美韩国之旅, K-Visitor Pass 从入境到出境，智能 All-Pass！">
+				<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260520/202605201746459023844b8e9f150453ebd7913decdae3a55.webp" alt="map">
+			</div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _nav_1 _current">
+					<a href="#_evtContent_1" class="_fn_goto"><span>免税店</span></a>
+				</div>
+				<div class="_nav _nav_2">
+					<a href="#_evtContent_2" class="_fn_goto"><span>酒店</span></a>
+				</div>
+				<div class="_nav _nav_3">
+					<a href="#_evtContent_3" class="_fn_goto"><span>便利店</span></a>
+				</div>
+				<div class="_nav _nav_4">
+					<a href="#_evtContent_4" class="_fn_goto"><span>超市</span></a>
+				</div>
+				<div class="_nav _nav_5">
+					<a href="#_evtContent_5" class="_fn_goto"><span>餐饮</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_1">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank" id="_evtContent_1">&nbsp;</div>
+
+			<div class="_anchor _init_color">
+				<span>乐天免税店</span>
+			</div>
+
+			<div class="_content_header">
+				<div class="_desc _nowrap">为开启特别的韩国之旅</div>
+				<div class="_title _nowrap"><strong>乐天免税店 合作优惠券</strong></div>
+			</div>
+
+			<div class="_evt_top_bnr">
+				<div class="_evt_thumb">
+					<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260515/20260515170654707151589a8b3f745fa88b08079ff742bd5.webp" alt="">
+				</div>
+				<div class="_evt_txt">
+					<em>仅限 K-Visitor Pass 活动顾客专享<br>以免税优惠，完成智慧购物。</em>
+				</div>
+			</div>
+
+			<div class="_coupon">
+				<div class="_item">
+					<div class="_item_wrap">
+						<div class="_title">合作优惠券</div>
+						<div class="_label">COUPON</div>
+						<div class="_amount"><em class="_usd">$</em>56<span class="_max">最高</span></div>
+						<div class="_note">购满 $100/$180/$300/$550<br>立减 $5/$9/$15/$27</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动对象</span>
+						</div>
+						<div class="_item _col">
+							<span class="_txt">K-Visitor Pass 合作顾客均可</span>
+							<span class="_em"><em>※ 仅限自由行顾客</em></span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动期间</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">2026.6.2 ~ 2026.12.31</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动内容</span>
+						</div>
+						<div class="_item _col">
+							<span class="_txt">每个ID每日限参与1次</span>
+							<span class="_em"><em>※ 会员价为准</em></span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">使用期限</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">领取当日</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">参与方式</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">登录乐天免税店后，在下方输入优惠码 “KVISITOR” <br>即可领取优惠</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="_btn">
+				<!-- 난수 인풋 -->
+				<div class="_code_inp">
+					<div class="_area_wrap">
+						<!--
+							★★ 고정 난수 일 떄 data-algnnum="Y" 속성 추가
+							★ 입력 자리수 명확하지 않으면 입력하지 않음
+							★ 대문자 치환 css와 스크립트로 적용되어 있습니다. 대문자 확인
+						-->
+						<input type="text" name="cooperationEvt" id="cooperationEvt" maxlength="" value="" placeholder="请输入优惠券码" data-algnnum="Y" style="text-transform:uppercase;" />
+					</div>
+				</div>
+
+				<!-- 인풋 서밋 버튼 -->
+				<div class="_btn_wrap">
+					<a href="#" class="_ev_fn_submit"><span>领取优惠</span> <i></i></a>
+				</div>
+				<script>
+					(function() {
+						$('._ev_fn_submit').on('click', function(e) {
+							e.preventDefault();
+
+							/* 면세점 이벤트 태깅 함수 호출 */
+							ga_evtTagScript('PC_이벤트', 'K비지터패스_롯데면세점', '다운로드');
+
+							/* 면세점 함수 호출 */
+							fn_event_submit();
+						});
+					})();
+				</script>
+			</div>
+
+			<div class="_banner">
+				<div class="_banner_wrap">
+					<a href="https://chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1040962"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260706/202607061615223589774d44a4e9b484791631aa6789e14e1.webp" alt="TODAY’S BENEFITS Enjoy Lotte Duty Free!"></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_2">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank" id="_evtContent_2">&nbsp;</div>
+
+			<div class="_anchor _init_color">
+				<span>乐天酒店</span>
+			</div>
+
+			<div class="_content_header">
+				<div class="_desc _nowrap">旅途劳顿 静享完美休憩</div>
+				<div class="_title _nowrap"><strong>乐天酒店等级优惠</strong></div>
+			</div>
+
+			<div class="_evt_top_bnr">
+				<div class="_evt_thumb">
+					<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260515/20260515175546868a7da27d3eeb34ee89b1d8ba0c658c709.webp" alt="">
+				</div>
+				<div class="_evt_txt">
+					<em>乐享乐天酒店专属礼遇，<br>异乡旅途也能如在家般舒适温馨。</em>
+				</div>
+			</div>
+
+			<div class="_coupon">
+				<div class="_item">
+					<div class="_item_wrap">
+						<div class="_title">客房折扣</div>
+						<div class="_label">COUPON</div>
+						<div class="_amount">35<em class="_per">%</em><span class="_max">最高</span></div>
+						<div class="_note">等级优惠</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动对象</span>
+						</div>
+						<div class="_item _col">
+							<span class="_txt">乐天网上免税店会员</span>
+							<span class="_em"><em>※ 仅限自由行顾客</em></span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动期间</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">2026.6.2 ~ 2026.12.31</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动内容</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">预订乐天酒店时，根据会员等级享最高35%的折扣优惠</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="_caution">
+				<dl>
+					<dt class="_evt_hide">caution</dt>
+					<dd>
+						<ul>
+							<li>详细优惠内容请参考下方活动页面。</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			<div class="_btn">
+				<div class="_btn_wrap _link">
+					<a href="https://chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1048510" onclick="ga_evtTagScript('PC_이벤트', 'K비지터패스_롯데호텔', '다운로드');"><span>查看优惠详情</span> <i></i></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_3">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank" id="_evtContent_3">&nbsp;</div>
+
+			<div class="_anchor _init_color">
+				<span>7-ELEVEN</span>
+			</div>
+
+			<div class="_content_header">
+				<div class="_desc _nowrap">随时消解旅途空腹感</div>
+				<div class="_title _nowrap"><strong>7-11 折扣券</strong></div>
+			</div>
+
+			<div class="_evt_top_bnr">
+				<div class="_evt_thumb">
+					<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260518/20260518091949291fe8e61579db64ec3a976c6b893687227.webp" alt="">
+				</div>
+				<div class="_evt_txt">
+					<em>凭借7-11折扣优惠<br>享受24小时安心无忧的旅程。</em>
+				</div>
+			</div>
+
+			<div class="_coupon">
+				<div class="_item">
+					<div class="_item_wrap">
+						<div class="_title">折扣券</div>
+						<div class="_label">COUPON</div>
+						<div class="_amount"><em class="_krw">&#8361;</em>1,000</div>
+						<div class="_note">购满1万韩元</div>
+					</div>
+					<div class="_coupon_terms"><a href="#ev_layer_01" class="_ev_fn_layer">折扣券注意事项</a></div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动对象</span>
+						</div>
+						<div class="_item _col">
+							<span class="_txt">乐天网上免税店会员</span>
+							<span class="_em"><em>※ 仅限自由行顾客</em></span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动期间</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">2026.6.2 ~ 2026.12.31</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动内容</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">期间内每人限领取及使用1次</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">使用期限</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">领取日起 ~ 2026.12.31</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">参与方式</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">
+								<ul class="_counter">
+									<li>点击下方“立即领取折扣优惠”按钮</li>
+									<li>在7-11活动页面点击 "Get Discount Coupon" 按钮后，确认条形码</li>
+									<li>在7-11门店出示该条形码，即可享受折扣优惠</li>
+								</ul>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="_btn">
+				<div class="_btn_wrap _link">
+					<a href="https://eng.lottedfs.com/kr/event/eventDetail?evtDispNo=1054321" onclick="ga_evtTagScript('PC_이벤트', 'K비지터패스_세븐일레븐', '다운로드');"><span>立即领取折扣优惠</span> <i></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_4">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank" id="_evtContent_4">&nbsp;</div>
+
+			<div class="_anchor _init_color">
+				<span>乐天玛特</span>
+			</div>
+
+			<div class="_content_header">
+				<div class="_desc _nowrap">在酒店即可享受正宗的韩国美食</div>
+				<div class="_title _nowrap"><strong>乐天玛特 折扣券</strong></div>
+			</div>
+
+			<div class="_evt_top_bnr">
+				<div class="_evt_thumb">
+					<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260518/2026051810132195678ee8704ac3541ed966478fae34ed5b9.webp" alt="">
+				</div>
+				<div class="_evt_txt">
+					<em>享乐天玛特折扣福利，<br>体验韩国本土生活方式。</em>
+				</div>
+			</div>
+
+			<div class="_coupon">
+				<div class="_item">
+					<div class="_item_wrap">
+						<div class="_title">折扣券</div>
+						<div class="_label">COUPON</div>
+						<div class="_amount"><em class="_krw">&#8361;</em>5,000</div>
+						<div class="_note">购满10万韩元</div>
+					</div>
+					<div class="_coupon_terms"><a href="#ev_layer_02" class="_ev_fn_layer">折扣券注意事项</a></div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动对象</span>
+						</div>
+						<div class="_item _col">
+							<span class="_txt">乐天网上免税店会员</span>
+							<span class="_em"><em>※ 仅限自由行顾客</em></span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动期间</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">2026.6.2 ~ 2026.9.30</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动内容</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">期间内每人限领取及使用1次. </span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">使用期限</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">领取日起 ~ 2026.9.30</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">参与方式</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">
+								<ul class="_counter">
+									<li>登录乐天免税店后，点击下方“确认条形码”按钮</li>
+									<li>在乐天玛特线下门店结算时出示该条形码，<br>即可享受折扣优惠</li>
+								</ul>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="_btn">
+				<div class="_btn_wrap _link">
+					<a href="#evBarcodeLayer" class="_ev_fn_layer" data-login="Y" onclick="ga_evtTagScript('PC_이벤트', 'K비지터패스_롯데마트', '다운로드');"><span>查看条形码</span> <i></i></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_5">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank" id="_evtContent_5">&nbsp;</div>
+
+			<div class="_anchor _init_color">
+				<span>PLE:EATING 餐区</span>
+			</div>
+
+			<div class="_content_header">
+				<div class="_desc _nowrap">韩国旅行的句号，仁川机场</div>
+				<div class="_title _nowrap"><strong>餐饮折扣优惠</strong></div>
+			</div>
+
+			<div class="_evt_top_bnr">
+				<div class="_evt_thumb">
+					<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260518/2026051810134215722ade176a79f44d4915ea67e77ae9578.webp" alt="">
+				</div>
+				<div class="_evt_txt">
+					<em>出发前，在仁川机场享用丰盛一餐<br>为韩国之旅画上完美句号。</em>
+				</div>
+			</div>
+
+			<div class="_coupon">
+				<div class="_item">
+					<div class="_item_wrap">
+						<div class="_title">菜单折扣</div>
+						<div class="_label">COUPON</div>
+						<div class="_amount">20<em class="_per">%</em><span class="_max">最高</span></div>
+						<div class="_note">不含饮料，酒类</div>
+					</div>
+					<div class="_coupon_terms"><a href="#ev_layer_03" class="_ev_fn_layer">确认适用门店</a></div>
+				</div>
+			</div>
+
+			<div class="_info_table">
+				<ul>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动对象</span>
+						</div>
+						<div class="_item _col">
+							<span class="_txt">乐天网上免税店会员</span>
+							<span class="_em"><em>※ 仅限自由行顾客</em></span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动期间</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">2026.6.2 ~ 2026.12.31</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">活动内容</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">期间内每人限使用 1次</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">参与方式</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">
+								<ul>
+									<li>在仁川机场内 GRS 门店结算时，出示该活动页面<br>即可享受折扣</li>
+								</ul>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content_area">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank">&nbsp;</div>
+		</div>
+	</div>
+
+	<div class="_ev_layer" id="ev_layer_01" style="display:none;">
+		<div class="_layer_wrap">
+			<div class="_layer_header">
+				<span class="_title">7-11 注意事项</span>
+			</div>
+			<div class="_layer_content">
+				<div class="_layer_benefits">
+					<div class="_layer_info">
+						<div class="_dashed">
+							<span>本折扣券不可延长有效期，未使用时不予退款。</span>
+							<span>部分门店（如休息站、度假村等）不适用。</span>
+							<span>购买满 1 万韩元以上时，除烟草及服务类商品<br>（如彩票、便利店现金等）外，均可享受折扣。</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div class="_ev_layer" id="ev_layer_02" style="display:none;">
+		<div class="_layer_wrap">
+			<div class="_layer_header">
+				<span class="_title">乐天玛特 注意事项</span>
+			</div>
+			<div class="_layer_content">
+				<div class="_layer_benefits">
+					<div class="_layer_info">
+						<div class="_dashed">
+							<span>本折扣券每人限使用 1 次。</span>
+							<span>最终结算金额满 10 万韩元以上时方可使用。</span>
+							<span>不可与其他折扣券叠加使用。</span>
+							<span>适用于乐天玛特所有线下门店。<br>（乐天玛特 MAX、乐天超市除外）</span>
+							<span>部分商品不适用折扣。<br>（如酒类、烟草、垃圾袋、部分电子设备等）</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div class="_ev_layer" id="ev_layer_03" style="display:none;">
+		<div class="_layer_wrap">
+			<div class="_layer_header">
+				<span class="_title">PLE:EATING 餐区 适用门店</span>
+			</div>
+			<div class="_layer_content">
+				<div class="_layer_benefits">
+					<div class="_layer_info">
+						<div class="_dot none">
+							<strong>PLE:EATING 共 6 家门店</strong>
+							<span>仁川机场（T1、T2、航站楼共 5 家）+ 金海机场（国际线 1 家）</span>
+						</div>
+						<div class="_dot">
+							<strong>[仁川机场]</strong>
+							<span>PLE:EATING 一号店（T1 免税区域：GATE 30 附近 3 层）</span>
+							<span>PLE:EATING 二号店（航站楼：GATE 118 附近）</span>
+							<span>PLE:EATING 三号店（T2 免税区域：GATE 249 附近 4 层）</span>
+							<span>PLE:EATING 四号店（T2 免税区域：GATE 230 附近 4 层）</span>
+							<span>PLE:EATING Lounge（T1 公共区域 1 楼中央）<br>：暂停运营 26.10.12~26.11.30</span>
+						</div>
+						<div class="_dot none">
+							<strong>[金海机场]</strong>
+							<span>PLE:EATING（国际线一般区域 3 层餐饮区）</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div class="_ev_layer" id="evBarcodeLayer" style="display:none;">
+		<div class="_layer_wrap">
+			<div class="_layer_header">
+				<span class="_title">乐天玛特 折扣券</span>
+			</div>
+			<div class="_layer_content">
+				<div class="_layer_benefits">
+					<div class="_barcode_wrap">
+						<div class="_title">
+							<span>乐天玛特线下门店专用</span>
+						</div>
+						<div class="_barcode_list">
+							<ul>
+								<li>
+									<strong>购满10万韩元以上时立减5,000韩元</strong>
+									<span class="_barcode_img"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260518/20260518110854108ea00f6f0dcf84578a5c16aa828fb9ad4.webp" alt="9 119200 002378"></span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div id="evDimmed" style="display:none;">&nbsp;</div>
+
+</div></div></div></section></article></div></body></html>

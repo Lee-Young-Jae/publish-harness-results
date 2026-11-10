@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e, ele) {
+			e.preventDefault();
+
+			var target = $(this).attr('href');
+
+			if (ele) {
+				target = ele;
+			}
+
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if (fixGap != ldfHeaderH() + ldfHeaderY()) {
+				fixGap = ldfHeaderH() + ldfHeaderY();
+				$nav.find('._nav_wrap').css('top', fixGap);
+			}
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top - 1, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+
+							clearTimeout(fnTimer);
+							fnTimer = setTimeout(function() {
+								if (typeof _evtNavSwipe != 'undefined') {
+									_evtNavSwipe.slideTo(i, 500);
+								}
+							}, 300);
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+
+						}
+					}
+				}
+			}
+
+		});
+
+		/* TAB 스와이프 */
+		try {
+			var _evtNavSwipe = $('._evt_nav').length ? new Swiper('._evt_nav ._nav_wrap ._nav_inner', {
+				slidesPerView: 'auto',
+				spaceBetween: 0,
+				freeMode: true,
+			}) : false;
+
+			var _evtNavSwipeTimer = null;
+			$(window).on('resize._evtNavSwiper', function(e) {
+				if (_evtNavSwipe) {
+					clearTimeout(_evtNavSwipeTimer);
+					_evtNavSwipeTimer = setTimeout(function() {
+						_evtNavSwipe.update();
+					}, 150);
+				}
+			}).trigger('resize._evtNavSwiper');
+		} catch (e) {
+			console.error(e);
+		}
+
+		try {
+			var _imgSlider = new Swiper('._img_slider', {
+				speed: 600,
+				slidesPerView: 1,
+				centeredSlides: false,
+				pagination: {
+					el: '._img_slider_bullets',
+					type: 'bullets',
+					clickable: true,
+				},
+			});
+		} catch (e) {
+			console.error(e);
+		}
+
+		$('._link_1').on('click', function(e) {
+			e.preventDefault();
+			$('._fn_goto').eq(0).trigger('click', ['._cus_ank']);
+		});
+
+		$('._link_2').on('click', function(e) {
+			e.preventDefault();
+			$('._fn_goto').eq(0).trigger('click', ['#_evtContent_7']);
+		});
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular', sans-serif; background:#fff;}
+	.evWrap * {box-sizing:border-box;}
+	.evWrap p, .evWrap ul, .evWrap ol, .evWrap li, .evWrap h3 {margin:0; padding:0;}
+	.evWrap a {text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._info_visual {width:100%;}
+	._info_visual ._visual_wrap {position:relative; width:100%;}
+	._info_visual ._visual {width:100%;}
+	._info_visual ._visual img {display:block; width:100%;}
+	._info_visual ._text {position:absolute; left:0; top:26.66667vw; width:100%; text-align:center; font-size:3.06667vw; font-weight:500; color:#000;}
+
+	._info_nav_flex {width:100%; height:12vw;}
+	._info_nav_flex ._nav_wrap {width:100%; height:12vw; box-sizing:border-box; background:#305830; z-index:100;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; width:100%; height:100%; margin:0 auto; padding:0 1.33333vw; box-sizing:border-box; text-align:center;}
+	._info_nav_flex ._nav_wrap ._nav {width:auto; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:flex; align-items:center; justify-content:center; height:100%; padding:0 5.33333vw 0.53333vw 5.33333vw; box-sizing:border-box; color:rgba(255,255,255,0.5); font-size:3.46667vw; font-weight:600; letter-spacing:-0.02em;}
+	._info_nav_flex ._nav_wrap ._nav._current a::before {content:''; position:absolute; left:5.33333vw; right:5.33333vw; bottom:0.26667vw; height:0.53333vw; background:#fff; z-index:0;}
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#fff; font-weight:700;}
+
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:50%; top:50px;/* <<<<<50 px 단위 고정 */ transform:translateX(-50%);}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+
+	._nav_content {position:relative; width:100%; color:#000; overflow:hidden;}
+	._nav_content ._nav_content_wrap {width:100%; margin:0 auto;}
+
+	._img_layout {display:flex; justify-content:center; width:100%;}
+	._img_layout img {display:block; width:100%;}
+	._img_slider {position:absolute; left:12.66667vw; top:191.73333vw; width:74.66667vw; height:84.53333vw;}
+	._img_slider ._item {margin-left:3.06667vw;}
+	._img_slider ._item:first-child {margin-left:0;}
+	._img_slider_bullets {position:absolute; left:0; top:286.8vw; display:flex; justify-content:center; gap:1.6vw; width:100%;}
+	._img_slider_bullets .swiper-pagination-bullet {width:1.6vw; height:1.6vw; border-radius:100%; background:rgba(0,0,0,0.3); opacity:1;}
+	._img_slider_bullets .swiper-pagination-bullet.swiper-pagination-bullet-active {background:#000;}
+
+	._link {position:absolute; left:0;}
+	._link_1 {top:219.73333vw; left:22.66667vw; width:54.66667vw; height:13.33333vw;}
+	._link_2 {top:452.13333vw; left:22.66667vw; width:54.66667vw; height:13.33333vw;}
+	._link_3 {top:57.46667vw; left:22.8vw; width:54.66667vw; height:13.33333vw;}
+	._link_4 {top:400vw; left:22.8vw; width:54.66667vw; height:13.33333vw;}
+	._link_5 {top:59.2vw; left:13.33333vw; width:73.33333vw; height:13.33333vw;}
+	._link_6 {top:374.66667vw; left:14.66667vw; width:70.66667vw; height:13.33333vw;}
+
+	._cus_ank {position:absolute; left:0; top:110.4vw;}
+
+</style>
+<div class="evWrap" data-ipg-id="mkt_26110002">
+
+	<div class="_info_visual">
+		<div class="_visual_wrap">
+			<div class="_visual"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261102/202611021103000863cd182c880274e15a3d6e2613039d13c.webp" alt=""></div>
+			<a href="#" class="_link _link_1">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _nav _nav_1 _current">
+						<a href="#_evtContent_1" class="_fn_goto"><span><span>ONE PASS</span></span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_2">
+						<a href="#_evtContent_2" class="_fn_goto"><span><span>쇼핑 혜택</span></span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_3">
+						<a href="#_evtContent_3" class="_fn_goto"><span><span>이용 안내</span></span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_4">
+						<a href="#_evtContent_4" class="_fn_goto"><span><span>멜버른</span></span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_5">
+						<a href="#_evtContent_5" class="_fn_goto"><span><span>베트남</span></span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_6">
+						<a href="#_evtContent_6" class="_fn_goto"><span><span>2027 여행 소원</span></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_1 _set_ank" id="_evtContent_1">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261109/2026110911123841521f100786b6c44d1b9051a195ee48a8a.webp" alt=""></div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_2 _set_ank" id="_evtContent_2">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261109/2026110911141054257f7d9f9a56f48e29bfbaf74c8045c6f.webp" alt=""></div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_3 _set_ank" id="_evtContent_3">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261106/20261106151328392fd82d2d570eb419fafe66b9c7fc3ab53.webp" alt=""></div>
+			<div class="_cus_ank">&nbsp;</div>
+			<a href="#" class="_link _link_2">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_4 _set_ank" id="_evtContent_4">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261106/20261106151349661522b2012656b475ab98b5cc7607a801a.webp" alt=""></div>
+			<div class="_img_slider">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/2026110410181646796efaaff227d4f07b97cd3ab507c4b16.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/20261104101834415357f341750b14bdab05beadcd8d860f1.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/20261104101846808c4322ebe762446e0ae909995c1f352ea.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/202611041018582600a243e0bced04188ae93fce4448a0519.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/20261104102016198c89e463e4e2a425fb7d39bca3f6feddd.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/202611041020292098e28a17aa1ed43a5a2ffa22ed25011f0.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/202611041020400067fdce876b50046b4a180ae2988671fd8.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/202611041020558460ebf416dc81d48c19787a56a4e20e34a.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/20261104102108466de88dbf301f846b9be2bb6aecf2e1e98.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261104/2026110410212131017b30dc0dc764e6d8681ff5746738681.webp" alt=""></div>
+					</div>
+				</div>
+			</div>
+			<div class="_img_slider_bullets"></div>
+			<a href="#" class="_link _link_3" onclick="redirectTo('https://kr.visitmelbourne.com/'); return false;">&nbsp;</a>
+			<a href="#" class="_link _link_4" onclick="redirectTo('https://www.koreanair.com/contents/promotion/list/2026/mel2026?pageNum=1'); return false;">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_5 _set_ank" id="_evtContent_5">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261106/202611061515172375e3ebab5fe474061bb89c42f07d3757a.webp" alt=""></div>
+			<a href="#" class="_link _link_5" onclick="redirectTo('https://www.vietbenefit.com/landing-page/2655'); return false;">&nbsp;</a>
+			<a href="#" class="_link _link_6" onclick="redirectTo('https://pf.kakao.com/_XPMan'); return false;">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_6 _set_ank" id="_evtContent_6">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261106/2026110615154710920a60d96910f4d519ec3c5c95e5394bc.webp" alt=""></div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_7 _set_ank" id="_evtContent_7">&nbsp;</div>
+
+</div></div></div></section></div></article></div></body></html>

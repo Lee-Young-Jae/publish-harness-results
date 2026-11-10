@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+		/* 레이어 열기 */
+		$('._ev_fn_layer').on('click', function(e) {
+			e.preventDefault();
+
+			/* 로그인 필요 시 */
+			if ($(this).data('login')) {
+				if (typeof loginCheck == 'function') {
+
+					var _eventLoginCheck = loginCheck(null, 'N');
+
+					if (!_eventLoginCheck) {
+						checkLoginThen();
+						return false;
+					}
+
+				} else {
+					alert('로그인 함수가 존재하지 않습니다.');
+					return false;
+				}
+			}
+
+			/* 레이어 노출 이후 콜백 */
+			var callBackFn = $(this).data('callFn') ? window[$(this).data('callFn')] : false;
+
+			var $evtWrap = $('.evWrap');
+			var $target = $($(this).attr('href'));
+
+			var stickyHeight = $('._evt_nav').length ? $('._evt_nav').height() + 50 : 50; /* 화면에 고정으로 노출되는 헤더 높이 */;
+			var areaGap = 30; /* 레이어 상하단 여백 */
+
+			var gapTop = stickyHeight + areaGap;
+
+			var areaWidth = parseInt($evtWrap.width(), 10);
+			var areaHeight = parseInt($evtWrap.height(), 10);
+			var areaTop = parseInt($evtWrap.offset().top, 10);
+			var areaBottom = parseInt(areaHeight + areaTop, 10);
+
+			var winHeight = parseInt($(window).innerHeight(), 10);
+			var winTop = parseInt($(window).scrollTop(), 10);
+
+			var viewIfTop = winTop > (areaTop - areaGap) ? 1 : 0;
+			var viewIfBottom = (winTop + winHeight) > areaBottom ? 1 : 0;
+
+			var viewYtop = function() {
+				if (viewIfTop) {
+					return winTop - areaTop;
+				} else {
+					return areaGap;
+				}
+			}();
+
+			var viewYbottom = function() {
+				if (viewIfTop) {
+					if (viewIfBottom) {
+						return areaBottom - areaTop;
+					} else {
+						return viewYtop + winHeight;
+					}
+				} else {
+					return viewYtop + (winHeight- areaTop + winTop);
+				}
+			}();
+
+			viewYtop = viewIfTop ? viewYtop + (gapTop) : viewYtop;
+			viewYbottom = viewYbottom ? viewYbottom - (areaGap) : viewYbottom;
+
+			var viewYgap = parseInt((viewYbottom - viewYtop), 10);
+			var viewYhalfGap = viewYgap / 2;
+			var viewYmiddle = viewYbottom - viewYhalfGap;
+			var viewYend = (areaBottom - areaGap) - areaTop;
+
+			var layerWidth = parseInt($target.width(), 10);
+			var layerHeight = parseInt($target.height(), 10);
+			var layerTop = viewYmiddle - (layerHeight / 2);
+			var layerBottom = layerTop + layerHeight;
+
+			var layerYmiddle = function() {
+
+				if (layerHeight + (areaGap*2) < areaHeight) {
+
+					if (layerTop >= areaGap) {
+
+						if (layerHeight < viewYgap) {
+							return layerTop;
+						} else {
+
+							if (viewYend - layerBottom > areaGap) {
+								if (viewIfTop) {
+									$('html, body').scrollTop(layerTop + areaTop - (gapTop));
+								}
+								return layerTop;
+							} else {
+								if (viewIfTop) {
+									$('html, body').scrollTop(viewYend - layerHeight + areaTop- (gapTop));
+								}
+								return viewYend - layerHeight;
+							}
+
+						}
+
+					} else {
+
+						if (viewIfTop) {
+							$('html, body').scrollTop(layerTop + areaTop - (gapTop));
+						}
+						return areaGap;
+
+					}
+
+				} else {
+
+					$evtWrap.data('oriHeight', areaHeight).height(layerHeight + (areaGap*2));
+					if (viewIfTop) {
+						$('html, body').scrollTop(areaTop - (stickyHeight));
+					}
+					return areaGap;
+
+				}
+
+			}();
+
+			var layerXcenter = function() {
+				var areaWhalf = areaWidth / 2;
+				var layerWhalf = layerWidth / 2 > 0 ? layerWidth / 2 : 275 / 2;
+
+				return areaWhalf - layerWhalf;
+			}();
+
+			if ($target.length > 0) {
+
+				$evtWrap.find('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+				if (!$(this).is('.active')) {
+					$target.css({display: 'block', top: layerYmiddle, left: layerXcenter, marginLeft: 0, opacity: 0}).addClass('active').animate({
+						opacity: 1
+					}, 0, function() {
+						if (typeof callBackFn == 'function') {
+							callBackFn(areaTop, areaBottom, viewYtop, viewYmiddle, viewYbottom, layerTop, layerBottom);
+						}
+					});
+					$('#evDimmed').css({display: 'block'});
+				}
+			}
+		});
+
+		/* 레이어 닫기 */
+		$('.evWrap ._ev_layer ._close').on('click', function(e) {
+			e.preventDefault();
+
+			var $evtWrap = $('.evWrap');
+
+			if ($evtWrap.data('oriHeight')) {
+				$evtWrap.css('height', '');
+			}
+
+			$(this).closest('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+			$('#evDimmed').css({display: 'none'});
+		});
+		$('#evDimmed').on('click', function(e) {
+			e.preventDefault();
+			$('.evWrap ._ev_layer:visible').find('._close').trigger('click');
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	/*
+		font-family:Pretendard;
+	*/
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:300;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.ttf') format('truetype'),
+		local('Roboto Light'), local('Roboto-Light');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.ttf') format('truetype'),
+		local('Roboto Regular'), local('Roboto-Regular');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:500;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.ttf') format('truetype'),
+		local('Roboto Medium'), local('Roboto-Medium');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:700;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.ttf') format('truetype'),
+		local('Roboto Bold'), local('Roboto-Bold');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:900;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.ttf') format('truetype'),
+		local('Roboto Black'), local('Roboto-Black');
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular';}
+	.evWrap * {margin:0; padding:0; box-sizing:border-box;}
+	.evWrap a {text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+	._nowrap {white-space: nowrap;}
+
+	._init_btn_bg svg rect {fill:#8EC2F9;}
+	._init_btn_bg svg path {fill:#8EC2F9;}
+
+	._info_header {position:relative; width:100%; color:#000;}
+	._info_header ._area_wrap {width:100%; height:auto;}
+	._info_header ._date {position:absolute; left:0; top:20.53333vw; width: 100%; font-size:5.33333vw; line-height: 1.2; font-weight:700; text-align:center; white-space:nowrap; z-index:1;}
+	._info_header ._title {position:absolute; left:0; top:34.26667vw; width: 100%; font-size:10.66667vw; line-height:1.15; font-weight: 700; text-align:center; white-space:nowrap; z-index:1;}
+	._info_header ._visual {width:100%; height:auto;}
+
+	._evt_content {position:relative; width:100%; color:#000;}
+	._evt_content ._evt_content_wrap {padding: 16vw 11.33333vw;}
+	._evt_content._evt_content_2 {background: #f6f8fa;}
+
+	.evWrap ._cont_label {height: 6.13333vw; border-radius: 133.2vw; background: #000; margin: 0 auto; padding: 0 2vw; width: fit-content; display: flex; justify-content: center; align-items: center;}
+	.evWrap ._cont_label > span {font-size: 3.2vw; line-height: 1.5; font-weight: 600; color: #fff;}
+
+	.evWrap ._cont_label +  ._cont_tit {margin-top: 5.33333vw;}
+	.evWrap ._cont_tit {display: flex; flex-direction: column; gap: 1.6vw; color: #000; text-align: center;}
+	.evWrap ._cont_tit ._sub {font-size: 5.06667vw; line-height: 1.2; font-weight: 600;}
+	.evWrap ._cont_tit ._main {font-size: 8.8vw; line-height: 1.2; font-weight: 800;}
+
+	.evWrap ._coupon {display: flex; justify-content: center; gap: 4.26667vw; margin-top: 10.8vw;}
+	.evWrap ._coupon ._item {position: relative; width: 36.53333vw; height: 48.66667vw; padding: 2.66667vw; border-radius: 1.6vw; background: linear-gradient(164deg, #BEDFFB -10.01%, #8EC2F9 104.62%); color: #fff;}
+	.evWrap ._coupon ._tit {font-size: 4.26667vw; line-height: 1.5; font-weight: 700;}
+	.evWrap ._coupon ._desc {font-size: 2.66667vw; line-height: 1.5; font-weight: 500; margin-top: 0.26667vw;}
+	.evWrap ._coupon ._desc + ._desc {margin-top:1vw;}
+	.evWrap ._coupon ._bottom {position: absolute; bottom: 0; right: 2.26667vw; display: flex; gap: 0.66667vw; height: 13.06667vw;}
+	.evWrap ._coupon ._benefit {font-size: 16vw; font-weight: 700; line-height: 13.2vw; letter-spacing: -0.96613vw;}
+	.evWrap ._coupon ._txt {display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; flex-shrink: 0; gap: 0.26667vw; text-align: center;}
+	.evWrap ._coupon ._max {font-size: 3.46667vw; line-height: 1.3; font-weight: 400;}
+	.evWrap ._coupon ._unit {font-size: 8vw; line-height: 1; font-weight: 400; width: 100%; text-align: right;}
+	.evWrap ._coupon ._bottom._benefit_kr ._benefit {font-size: 10.66667vw; font-weight: 700; line-height: 1; letter-spacing: -0.66667vw;}
+	.evWrap ._coupon ._bottom._usd ._unit  {width: 6.4vw;}
+	.evWrap ._coupon ._bottom._per ._unit {width: 7.2vw;}
+
+	.evWrap ._coupon._coupon_wide {display: flex; justify-content: center; gap: 8vw; flex-wrap: wrap; margin-top: 10.93333vw;}
+	.evWrap ._coupon._coupon_wide ._desc {margin-top: 0; font-size: 3.46667vw;}
+	.evWrap ._coupon._coupon_wide ._item {width: 100%; height: 37.33333vw; padding: 3.2vw;}
+	.evWrap ._coupon._coupon_wide ._bottom {bottom: 1.06667vw; right: 0.53333vw; height: 10.66667vw;}
+	.evWrap ._coupon._coupon_wide ._benefit {font-size: 10.66667vw; line-height: 1; letter-spacing: -0.66667vw;}
+	.evWrap ._coupon._coupon_wide ._txt {gap: 0; padding-bottom: 0.13333vw; align-items: center;}
+	.evWrap ._coupon._coupon_wide ._bottom._benefit_kr {bottom: 1.33333vw; right: 0.4vw;}
+	.evWrap ._coupon._coupon_wide ._bottom._per {gap: 0.4vw;}
+	.evWrap ._coupon._coupon_wide ._bottom._per ._benefit {line-height: 9.33333vw;}
+	.evWrap ._coupon._coupon_wide ._bottom._per ._unit {margin-bottom: 0.53333vw;}
+
+	._evt_content ._info_table {margin-top: 8.13333vw; color: #000;}
+	._evt_content ._info_table > ul > li {display: flex; gap: 5.33333vw; padding: 2.66667vw 0 2.53333vw; border-bottom: 0.13333vw solid #e0e0e0;}
+	._evt_content ._info_table > ul > li._none {border:none;}
+	._evt_content ._info_table ._tit {font-size: 3.2vw; line-height: 1.5; font-weight: 700; flex-shrink: 0;}
+	._evt_content ._info_table ._txt {font-size: 3.2vw; line-height: 1.5; font-weight: 400;}
+	._evt_content ._info_table ._note {display: inline-block; font-size: 3.2vw; line-height: 1.5; font-weight: 400; color: #888; margin-top: 1.06667vw;}
+	._evt_content ._info_table ._desc > ol {display: flex; flex-direction: column; gap: 1.6vw;}
+	._evt_content ._info_table ._link_under {display: inline-block; font-size: 3.2vw; line-height: 1.5; font-weight: 400; text-decoration: underline; color: #888; margin-top: 0.53333vw; margin-bottom: 0.66667vw; text-underline-position: from-font;}
+	._evt_content ._info_table._spaced > ul > li {gap: 7.46667vw;}
+
+	._evt_content ._caution_table {margin-top: 4.26667vw;}
+	._evt_content ._caution_table ul {display: flex; flex-direction: column; gap: 1.06667vw; margin: 0 auto;}
+	._evt_content ._caution_table ul > li {display: flex; gap: 1.06667vw; color: #999;}
+	._evt_content ._caution_table ul > li > span {font-size: 2.93333vw; line-height: 1.5; font-weight: 500;}
+	._evt_content ._caution_table ul > li::before {content: "·"; display: inline-block; width: 0.8vw; font-size: 2.93333vw; line-height: 1.5; font-weight: 500;}
+	._evt_content ._caution_table ul > li._red {color: #e70d00;}
+	._evt_content ._caution_table ul > li:has(a)::before {content: "";}
+	._evt_content ._caution_table ul > li ._link_under {font-size: 2.93333vw; line-height: 1.5; font-weight: 500; text-decoration: underline; color: #666; text-underline-position: from-font;}
+	._evt_content ._caution_table._spaced {margin-top: 8vw;}
+
+	._evt_content ._code_inp {width: 100%; margin-top: 8vw;}
+	._evt_content ._code_inp ._area_wrap {width: 100%; margin: 0 auto;}
+	._evt_content ._code_inp input {width:100%; height: 13.33333vw; padding: 0; border-radius: 2.13333vw !important; border: 0.13333vw solid #999; box-sizing: border-box; text-align: center; font-size: 4.26667vw !important; line-height: 1.5; font-weight: 500; font-family: Pretendard, 'Noto Sans Regular';}
+	._evt_content ._code_inp input::placeholder {color: #999;}
+	._evt_content ._code_inp input::-webkit-input-placeholder {color: #999;}
+	._evt_content ._code_inp input:-ms-input-placeholder {color: #999;}
+	._evt_content ._code_inp input:-moz-placeholder {color: #999;}
+
+	._evt_content ._btn_set {width: 100%; margin-top: 8vw;}
+	._evt_content ._btn_set ._area_wrap {width: 100%; margin: 0 auto;}
+	._evt_content ._btn_set ._area_wrap > a {display: flex; justify-content: center; align-items: center; gap: 1.33333vw; width: 100%; height: 13.33333vw; background: #000; border-radius: 2.13333vw; color: #fff; text-align: center;}
+	._evt_content ._btn_set ._name {font-size: 4.26667vw; line-height: 1.5; font-weight: 600;}
+	._evt_content ._btn_set ._sign {width: 3.2vw; height: 3.6vw;}
+	._evt_content ._btn_set ._sign svg {width: 100%; height: 100%;}
+	._evt_content ._btn_set._submit_btn {margin-top: 3.2vw;}
+
+	._ev_layer {position:absolute; left:50%; margin-left:-36.66667vw; z-index:60;}
+	._ev_layer * {box-sizing:border-box;}
+	._ev_layer ._layer_wrap {position:relative; width:73.33333vw;}
+	._ev_layer ._layer_header {height:13.33333vw; background:#000; line-height:1;}
+	._ev_layer ._layer_header ._title {position:relative; left:7.33333vw; top:4.13333vw; font-size:3.73333vw; color:#fff; letter-spacing:-0.10667vw;}
+	._ev_layer ._layer_content {width:100%; background:#EFEFEF; color:#000; font-size:0;padding:5.06667vw 6.53333vw 8.53333vw 6.53333vw;}
+	._ev_layer ._close {position:absolute; right:4.4vw; top:4.4vw; width:4.66667vw; height:4.66667vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34.414' height='34.414' viewBox='0 0 34.414 34.414'%3E%3Cg transform='translate(-680.793 -40.793)'%3E%3Cline x2='33' y2='33' transform='translate(681.5 41.5)' fill='none' stroke='%23d1d1d1' stroke-width='2'/%3E%3Cline x1='33' y2='33' transform='translate(681.5 41.5)' fill='none' stroke='%23d1d1d1' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E%0A") 0 0 no-repeat; background-size:4.58853vw 4.58853vw;}
+
+	._ev_layer ._caution_list {width:100%; padding:5.06667vw 6.53333vw 8.53333vw 6.53333vw;}
+	._ev_layer ._caution_list > ul {width:100%;}
+	._ev_layer ._caution_list > ul > li {position:relative; width:100%; margin-top:2.13333vw; padding-left:1.86667vw; font-size:2.66667vw; line-height:4.26667vw; letter-spacing:-0.14667vw; word-break:keep-all;}
+	._ev_layer ._caution_list > ul > li::before {content:''; position:absolute; left:0; top:1.86667vw; width:0.4vw; height:0.4vw; border-radius:100%; background:#797979;}
+	._ev_layer ._caution_list > ul > li:first-child {margin-top:0;}
+	._ev_layer ._caution_list > ul > li._none { position:relative; padding-left:3.06667vw;  }
+	._ev_layer ._caution_list > ul > li._none:before { content: '**'; position: absolute;  left: 0;  top:0.53333vw;  width: 0vw;  height: 0vw;  border-radius: 100%;  }
+
+	._ev_layer ._offline_title {position: relative; font-size:3.26667vw; line-height:4.26667vw;font-weight: bold;padding-left: 1.5vw;}
+	/* ._ev_layer ._offline_title span::before {content:''; position:absolute; left:0; top:50%; width:0.4vw; height:0.4vw; border-radius:100%; background:#000;} */
+	._ev_layer ._offline_list {width:100%; padding:5.06667vw 0 6.53333vw 0;}
+	._ev_layer ._offline_list  {width:100%;}
+	._ev_layer ._offline_list > li {position:relative; width:100%; margin-top:2.13333vw; padding-left:1.86667vw; font-size:2.96667vw; line-height:4.26667vw; letter-spacing:-0.14667vw; word-break:keep-all;}
+	._ev_layer ._offline_list > li::before {content:'-'; position:absolute; left:0; top:0.2333vw;color: #000;}
+	._ev_layer ._offline_list > li:first-child {margin-top:0;}
+	._ev_layer ._offline_list > li._none { position:relative; padding-left:3.06667vw;  }
+	._ev_layer ._offline_list > li._none:before { content: '**'; position: absolute;  left: 0;  top:0.53333vw;  width: 0vw;  height: 0vw;  border-radius: 100%;  }
+
+	._ev_layer ._caution_title {position: relative; font-size:3.26667vw; line-height:4.26667vw;font-weight: bold;padding-left: 1.5vw;}
+	/* ._ev_layer ._caution_title span::before {content:''; position:absolute; left:0; top:50%; width:0.4vw; height:0.4vw; border-radius:100%; background:#000;} */
+	._ev_layer ._caution_list {width:100%; padding:2.06667vw 0 6.53333vw 0;}
+	._ev_layer ._caution_list  {width:100%;}
+	._ev_layer ._caution_list > li {position:relative; width:100%; margin-top: 0.66667vw; padding-left: 1.86667vw; font-size: 2.26667vw; line-height: 2.93333vw; word-break:keep-all;color: #797979;}
+	._ev_layer ._caution_list > li::before {content:''; position:absolute; left:0; top:50%; width:0.4vw; height:0.4vw; border-radius:100%;background:#797979;}
+	/* ._ev_layer ._caution_list > li::before {content:'-'; position:absolute; left:0; top:0.2333vw;color: #000;} */
+	._ev_layer ._caution_list > li:first-child {margin-top:0;}
+	._ev_layer ._caution_list > li._none { position:relative; padding-left:3.06667vw;  }
+	._ev_layer ._caution_list > li._none:before { content: '**'; position: absolute;  left: 0;  top:0.53333vw;  width: 0vw;  height: 0vw;  border-radius: 100%;  }
+
+	._ev_layer ._how_ldfpay {width:100%; padding:8.93333vw 1.33333vw 4.53333vw 6vw;}
+	._ev_layer ._how_ldfpay ._layout {width:100%;}
+	._ev_layer ._how_ldfpay ._layout img {width:62.53333vw;}
+	._ev_layer ._how_ldfpay ._go_link {width:100%; margin-top:11.46667vw;}
+	._ev_layer ._how_ldfpay ._go_link a {display:block;}
+	._ev_layer ._how_ldfpay ._go_link img {width:61.33333vw;}
+	._ev_layer ._how_ldfpay ._caution {width:100%; margin-top:6.4vw;}
+	._ev_layer ._how_ldfpay ._caution > ul {width:100%;}
+	._ev_layer ._how_ldfpay ._caution > ul > li {position:relative; display:flex; padding-left:0.93333vw; font-size:2.66667vw; line-height:4.26667vw; letter-spacing:-0.06667vw;}
+	._ev_layer ._how_ldfpay ._caution > ul > li::before {content:''; position:absolute; left:-0.26667vw; top:2vw; width:0.4vw; height:0.4vw; border-radius:100%; background:#797979;}
+	._ev_layer ._how_ldfpay ._caution ._label {position:relative; flex:0 0 auto; padding-right:0.26667vw;}
+	._ev_layer ._how_ldfpay ._caution ._item {position:relative; flex:1 0 auto;}
+
+	._ev_layer ._barcode_set {width:100%; padding:7.6vw 2.66667vw 10.53333vw 2.66667vw;}
+	._ev_layer ._barcode_set ._item {width:100%; margin-top:7.06667vw;}
+	._ev_layer ._barcode_set ._item:first-child {margin-top:0;}
+	._ev_layer ._barcode_set ._item ._label {width:100%; font-size:4.26667vw; text-align:center; letter-spacing:-0.06667vw; line-height:6.66667vw;}
+	._ev_layer ._barcode_set ._item ._label ._simbol {position:relative; left:-0.13333vw; top:1.6vw; display:inline-block; width:2.13333vw; height:3.46667vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='26' viewBox='0 0 16 26'%3E%3Cpath d='M394.616,407.895h3.845a3.529,3.529,0,0,0,3.461,3.575v-6.116l-1.065-.236c-3.164-.709-5.648-2.216-5.648-5.7,0-3.6,2.573-5.672,6.714-5.879v-2.423h1.6v2.423c4.082.266,6.566,2.393,6.566,6.115h-3.845a2.773,2.773,0,0,0-2.721-2.836v5.525l.8.207c4.407,1,6.3,2.718,6.3,5.938,0,4.019-2.987,6.028-7.1,6.235v2.393h-1.6V414.72C397.308,414.453,394.616,411.972,394.616,407.895Zm7.305-5.85v-5.258c-2.012.147-2.84,1.24-2.84,2.57C399.082,400.568,399.762,401.543,401.921,402.045Zm4.79,6.5c0-1.714-1.183-2.482-3.194-2.925v5.85C405.559,411.322,406.712,410.258,406.712,408.545Z' transform='translate(-394.616 -391.113)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:2.13333vw 3.46667vw; vertical-align:top;}
+	._ev_layer ._barcode_set ._item ._strong {width:100%; font-size:4.26667vw; color:#EE4204; font-weight:bold; text-align:center; line-height:6.66667vw;}
+	._ev_layer ._barcode_set ._item ._barcode {display:flex; justify-content:center; align-items:center; width:60vw; height:33.33333vw; margin:4vw auto 0 auto; border:0.13333vw solid #707070; background:#fff;}
+	._ev_layer ._barcode_set ._item ._barcode img {width:34.66667vw;}
+
+	#evDimmed {display:none; position:absolute; left:0; right:0; top:0; bottom:0; background:#000; opacity:0.7; z-index:50;}
+
+</style>
+
+<script>
+	$(document).ready(function() {
+		function changeEvtntType() {
+
+			var nowTime = new Date();
+
+			/* 항상 마지막에 실행되어야 합니다. */
+			$('[data-end-time]').each(function(idx, val) {
+				var endTime = new Date($(this).data('endTime'));
+				var openTime = new Date($(this).data('openTime'));
+				var isPreOpen = $(this).data('preopen');
+
+				if (isPreOpen) {
+					if (nowTime > openTime) {
+						return;
+					}
+				}
+
+				if (nowTime > endTime) {
+					$(this).remove();
+				}
+
+			});
+
+			$('[data-open-time]').each(function(idx, val) {
+				var openTime = new Date($(this).data('openTime'));
+				var isPreOpen = $(this).data('preopen');
+
+				if (nowTime >= openTime) {
+					$(this).addClass('_open_event').css('display', '');
+				} else {
+					if (isPreOpen) {
+						$(this).addClass('_open_event').css('display', '');
+					} else {
+						/* 제거되면 페이지 갱신 시 노출 시킬 수가 없음 */
+						/* $(this).remove(); */
+					}
+				}
+
+			});
+
+			$('._pre_input').each(function(idx, val) {
+				if (!$(this).closest('._open_event').length) {
+					$(this).prop('disabled', true).attr({id: '_wait', name: '_wait'});
+				} else {
+					$(this).prop('disabled', false).attr({id: 'cooperationEvt', name: 'cooperationEvt'});
+				}
+			});
+		}
+
+		/* 종료시간은 심야이기 때문에 설정하지 않습니다. */
+		var _changeDate = new Date('2026/02/26 09:00:00');
+		var _nowDate = new Date();
+		var _delayTime = _changeDate - _nowDate;
+
+		if (_delayTime > 0) {
+			setTimeout(changeEvtntType, _delayTime);
+		}
+
+		changeEvtntType();
+	});
+</script>
+<style>
+	._evt_hero_header {position:relative; width:100%; height:177.33333vw;}
+	._evt_hero_header ._area_wrap {width:100%; height:100%; background:#fff linear-gradient(to bottom, #fff 0%, #e5e5e5 100%);}
+	._evt_hero_header ._date {position:absolute; left:9.46667vw; top:85.33333vw; font-size:4vw; font-weight:bold; text-align:center; letter-spacing:-0.04vw; color:#000; white-space:nowrap; z-index:1;}
+	._evt_hero_header ._title {position:absolute; left:50%; top:40.8vw; font-size:9.6vw; line-height:10.93333vw; text-align:center; letter-spacing:-0.36vw; color:#000; white-space:nowrap; transform:translateX(-50%); z-index:1;}
+	._evt_hero_header ._title strong {font-size:9.6vw; font-weight:500;}
+	._evt_hero_header ._link {position:absolute; left:50%; top:138.56667vw; margin-left:31.76667vw; transform:translateX(-50%); font-size:3.73333vw; letter-spacing:-0.04vw; color:#000; line-height:6.13333vw; white-space:nowrap; z-index:1;}
+	._evt_hero_header ._link span {position:relative;}
+	._evt_hero_header ._link span:nth-of-type(1) { margin-left: 6.4vw;}
+	._evt_hero_header ._link span::after {content:''; position:absolute; left:0; bottom:-0.13333vw; width:100%; height:0.13333vw; background:#000;}
+	._evt_hero_header ._visual {width:100%; height:100%; background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20260921/202609211512024241e7c33bdb73d47bdaadd72bd87492beb.webp') 50% 0 no-repeat; background-size:100% auto;}
+
+	._nav_content {position:relative; width:100%; color:#000;}
+	._nav_content_1 ._nav_content_wrap {padding: 15.33333vw 9.33333vw;}
+	._nav_content_2 ._nav_content_wrap {padding: 16vw 11.33333vw;}
+
+	._nav_content ._outline {width:100%; margin-top:6.53333vw;}
+	._nav_content ._outline._not_tip {margin-top:6.26667vw;}
+	._nav_content ._outline ._area_wrap {position:relative; width:100%;}
+	._nav_content ._outline ._legend {width:100%; font-size:0;}
+	._nav_content ._outline ._legend ._label {position:relative; display:inline-block; font-size:4.26667vw; font-weight:600;}
+	._nav_content ._outline ._legend ._label strong {font-size:5.86667vw; font-weight:600;}
+	._nav_content ._outline ._legend ._label ._icon {position:absolute; top:-1.33333vw; left:100%; margin-left:0.8vw; font-size:3.06667vw; line-height:6.93333vw; font-weight:900; color:#fff;}
+	._nav_content ._outline ._legend ._label ._icon > span {position:absolute; left:0; top:0; width:100%; text-align:center; z-index:1;}
+	._nav_content ._outline ._legend ._label ._icon i {display:block; width:7.73333vw; height:7.6vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='58' height='57' viewBox='0 0 58 57'%3E%3Crect width='58' height='52' rx='26'/%3E%3Cpath d='M1354.4,1388.138c-4.146,2.352-7.21,15.921-7.21,15.921l16.584-9.408S1358.548,1385.786,1354.4,1388.138Z' transform='translate(-1332.426 -1347.06)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto;}
+	._nav_content ._outline ._benefit {display:flex; position:relative; width:100%; font-size:0;}
+	._nav_content ._outline ._benefit ._info {flex:1 0 auto; position:relative; padding-top:4.93333vw; font-size:0; line-height:1; text-align:right;}
+	._nav_content ._outline ._benefit ._info::before {content:''; position:absolute; left:0; top:1.46667vw; width:100%; height:1.33333vw; background:#000;}
+	._nav_content ._outline ._benefit ._info ._label {font-size:4vw; float:left;}
+	._nav_content ._outline ._benefit ._info ._link {}
+	._nav_content ._outline ._benefit ._info ._link::after {content:''; display:block; padding-bottom:3.06667vw;}
+	._nav_content ._outline ._benefit ._info ._link > a {position:relative; display:inline-block; font-size:3.2vw; vertical-align:middle; letter-spacing:-0.02667vw;}
+	._nav_content ._outline ._benefit ._info ._link > a::after {content:''; position:absolute; left:0; bottom:-0.26667vw; width:100%; height:0.13333vw; background:#000;}
+	._nav_content ._outline ._benefit ._info ._point {margin-top:4vw;}
+	._nav_content ._outline ._benefit ._info ._point::after {content:''; display:block; padding-bottom:3.06667vw;}
+	._nav_content ._outline ._benefit ._info ._point > a {position:relative; top:0.26667vw; display:inline-block; font-size:3.73333vw; vertical-align:middle; letter-spacing:-0.02667vw;}
+	._nav_content ._outline ._benefit ._info ._point > a::after {content:''; position:absolute; left:0; bottom:-0.26667vw; width:100%; height:0.13333vw; background:#000;}
+	._nav_content ._outline ._benefit ._detail {flex:0 0 auto; position:relative; padding-left:2.13333vw; top:-1.06667vw;}
+	._nav_content ._outline ._benefit ._detail ._tip {position:absolute; display:flex; align-items:center; right:-5.33333vw; top:-6.4vw; height:6vw; padding:0 2.93333vw; border-radius:3.86667vw; background:#000; font-size:3.2vw; font-weight:700; color:#fff; line-height:1; letter-spacing:-0.19333vw;}
+	._nav_content ._outline ._benefit ._detail ._tip i {position:absolute;  bottom:-0.93333vw; right:2.66667vw; line-height:1; width:2.2112vw; height:2.17587vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16.584' height='16.319' viewBox='0 0 16.584 16.319'%3E%3Cpath d='M1354.4,1388.138c-4.146,2.352-7.21,15.921-7.21,15.921l16.584-9.408S1358.548,1385.786,1354.4,1388.138Z' transform='translate(-1347.192 -1387.741)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto;}
+
+	/* ----------------------- */
+	/* ★★★★ SVG background image 컬러 변경 : 컬러 값 #BD2B2B 적용시 -> fill='%23F44B51' %23은 #과 같음 */
+	._nav_content ._outline ._benefit ._detail ._tip._init_bg i {background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16.584' height='16.319' viewBox='0 0 16.584 16.319'%3E%3Cpath fill='%23cf3131' d='M1354.4,1388.138c-4.146,2.352-7.21,15.921-7.21,15.921l16.584-9.408S1358.548,1385.786,1354.4,1388.138Z' transform='translate(-1347.192 -1387.741)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto;}
+	._nav_content ._outline ._benefit ._detail ._price {display:flex; align-items:center;}
+	._nav_content ._outline ._benefit ._detail ._price ._simbol {position:relative; top:-3.06667vw; width:3.6vw; height:5.86667vw; background:transparent url("data:image/svg+xml,%3Csvg width='21' height='34' viewBox='0 0 21 34' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.59895 34V30.9227C3.80648 30.6038 0.14711 27.5828 0 22.1038H5.36953C5.53503 24.5055 7.19002 25.8753 9.59895 26.1567V19.064L7.94396 18.6512C3.45709 17.5254 0.698774 15.2362 0.698774 11.2583C0.698774 6.64238 4.39492 3.49007 9.59895 3.07726V0H11.732V3.07726C17.0832 3.41501 20.5587 6.64238 20.6322 11.1832H15.3363C15.1524 9.32561 13.8468 8.10596 11.732 7.80574V14.5232L13.0193 14.8609C17.5797 15.9117 21 18.2759 21 22.8168C21 27.5453 17.5797 30.6038 11.732 30.9227V34H9.59895ZM6.36252 10.883C6.32574 12.5342 7.77846 13.4349 9.59895 13.9603V7.84327C7.52102 8.16225 6.3993 9.34437 6.36252 10.883ZM11.732 26.1567C13.9939 25.8565 15.4098 24.5806 15.4098 22.8168C15.4098 21.1656 14.0858 20.3024 11.732 19.5894V26.1567Z' fill='black'/%3E%3C/svg%3E%0A") 0 0 / cover no-repeat;}
+	._nav_content ._outline ._benefit ._detail ._price ._usd {font-size:16vw; font-weight:800; line-height:1;}
+	._nav_content ._outline ._benefit ._detail ._price ._etc {font-size:16vw; font-weight:800; line-height:1;}
+	._nav_content ._outline ._benefit ._detail ._price ._krw {font-size:16vw; font-weight:800; line-height:1;}
+	._nav_content ._outline ._benefit ._detail ._price ._krw_won {font-size:16vw; font-weight:700; line-height:1;}
+	._nav_content ._outline ._benefit ._detail ._price ._txt {font-size:6.66667vw; font-weight:700; line-height:1; position:relative; top:-3.06667vw;}
+
+	._nav_content ._outline + ._outline {margin-top:8.66667vw;}
+
+	._nav_content ._list_table {width:100%;}
+	._nav_content ._list_table > ul {width:100%;}
+	._nav_content ._list_table > ul > li {display:flex; padding:1.86667vw 0; border-bottom:0.13333vw solid #808080;}
+	._nav_content ._list_table ._label {display:flex; align-items:center; position:relative; flex:1 0 auto;}
+	._nav_content ._list_table ._label ._simbol {position:relative; left:0; top:1.2vw; display:inline-block; width:1.86667vw; height:3.2vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24' viewBox='0 0 14 24'%3E%3Cpath d='M159.7,561.56h1.675c.144,2.182,1.619,3.927,4.885,4.117v-8.044l-.966-.219c-3.436-.763-5.026-2.372-5.026-4.936,0-2.809,2.017-4.828,5.992-4.936v-2.209h.994v2.209c3.8.193,5.821,2.155,5.821,4.855h-1.619c-.113-1.745-1.334-3.191-4.2-3.355V556.3l1.051.247c3.151.708,5.394,1.962,5.394,5.154,0,3.245-2.328,5.318-6.445,5.454v2.182h-.994V567.15C161.888,566.96,159.7,564.586,159.7,561.56Zm6.56-5.428v-7.145c-3.038.136-4.26,1.555-4.26,3.49C162,554.25,163.08,555.478,166.261,556.132Zm5.708,5.59c0-2.4-1.732-3.354-4.713-3.954v7.908C170.463,565.568,171.969,564.04,171.969,561.723Z' transform='translate(-159.701 -545.332)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto; vertical-align:top;}
+	._nav_content ._list_table ._label ._txt {display:inline-block; font-size:3.46667vw;}
+	._nav_content ._list_table ._item {position:relative; flex:0 0 auto; padding-right:1.33333vw;}
+	._nav_content ._list_table ._item ._simbol {position:relative; left:0.13333vw; top:0.8vw; display:inline-block; width:2.66667vw; height:4vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='30' viewBox='0 0 20 30'%3E%3Cpath d='M394.616,410.477h4.806c.148,2.079,1.332,3.852,4.326,4.125v-7.057l-1.331-.272c-3.955-.818-7.06-2.557-7.06-6.579,0-4.159,3.216-6.545,8.392-6.784v-2.8h2v2.8c5.1.307,8.207,2.761,8.207,7.056h-4.806c0-1.875-1.331-3.034-3.4-3.272v6.375l1,.239c5.508,1.159,7.874,3.136,7.874,6.852,0,4.637-3.733,6.955-8.873,7.194v2.761h-2v-2.761C397.981,418.044,394.616,415.181,394.616,410.477Zm9.132-6.75v-6.067c-2.515.17-3.55,1.431-3.55,2.966C400.2,402.023,401.049,403.147,403.748,403.726Zm5.988,7.5c0-1.978-1.479-2.863-3.992-3.375v6.75C408.294,414.432,409.736,413.2,409.736,411.227Z' transform='translate(-394.616 -391.113)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto; vertical-align:top;}
+	._nav_content ._list_table ._item ._usd {font-size:5.33333vw; font-weight:700; line-height:1; vertical-align:top;}
+	._nav_content ._list_table ._item ._etc {font-size:5.33333vw; font-weight:700; line-height:1; vertical-align:top;}
+	._nav_content ._list_table ._item ._krw {font-size:5.33333vw; font-weight:700; line-height:1; vertical-align:top; white-space:nowrap;}
+	._nav_content ._list_table ._item ._krw span {font-size:5.33333vw;}
+	._nav_content ._list_table ._item ._sub {position:relative; left:-0.8vw; top:0.66667vw; display:inline-block; font-size:3.73333vw; line-height:1; letter-spacing:-0.10667vw; vertical-align:top;}
+
+	._nav_content ._list_table + ._outline {margin-top:7.6vw;}
+	._nav_content ._list_table + ._info_table {margin-top:5.6vw;}
+
+	._nav_content._nav_content_1 ._info_table {width:100%; margin-top:2.4vw;}
+	._nav_content._nav_content_1 ._info_table > ul {width:100%;}
+	._nav_content._nav_content_1 ._info_table > ul > li {display:flex;}
+	._nav_content._nav_content_1 ._info_table > ul > li ~ li {margin-top:2vw;}
+	._nav_content._nav_content_1 ._info_table ._label {position:relative; width:14.66667vw; flex-shrink:0;}
+	._nav_content._nav_content_1 ._info_table ._label ._txt {font-size:3.46667vw; line-height:1.7;}
+	._nav_content._nav_content_1 ._info_table ._item {display:flex; align-items:center; flex-wrap:wrap; gap:0.93333vw;}
+	._nav_content._nav_content_1 ._info_table ._item._col {flex-direction:column; align-items:flex-start;}
+	._nav_content._nav_content_1 ._info_table ._item ._txt {font-size:3.46667vw; line-height:1.4; font-weight:500;}
+	._nav_content._nav_content_1 ._info_table ._item ._em em {font-size:3.46667vw; color:#666;}
+	._nav_content._nav_content_1 ._info_table ._item ol._numbering {counter-reset: numbering 0;}
+	._nav_content._nav_content_1 ._info_table ._item ol._numbering li {display:flex; width:100%; gap:0.66667vw; font-size:3.46667vw; font-weight:500; line-height:1.4;}
+	._nav_content._nav_content_1 ._info_table ._item ol._numbering li ~ li {margin-top:0.4vw;}
+	._nav_content._nav_content_1 ._info_table ._item ol._numbering li::before {flex-shrink:0; text-align:center; content: counter(numbering) "."; counter-increment: numbering 1;}
+	._nav_content._nav_content_1 ._info_table ._link_under {display: inline-block; font-size: 3.2vw; line-height: 1.5; font-weight: 400; text-decoration: underline; color: #000; margin-top: 0.53333vw; margin-bottom: 0.66667vw; text-underline-position: from-font;}
+
+	._nav_content._nav_content_1 ._caution_table {width:100%; margin-top:4.53333vw;}
+	._nav_content._nav_content_1 ._caution_table > ul {width:100%;}
+	._nav_content._nav_content_1 ._caution_table > ul > li {position:relative; width:100%; padding-left:1.73333vw; font-size:3.2vw; color:#8E8E8E; line-height:1.5; word-break:keep-all;}
+	._nav_content._nav_content_1 ._caution_table > ul > li ~ li {margin-top:0.66667vw;}
+	._nav_content._nav_content_1 ._caution_table > ul > li._red {color:#DA291C;}
+	._nav_content._nav_content_1 ._caution_table > ul > li::before {content:''; position:absolute; left:0.13333vw; top:2.26666vw; width:0.53333vw; height:0.53333vw; border-radius:100%; background:currentColor;}
+
+	._nav_content._nav_content_2 ._info_table {margin-top: 8.13333vw; color: #000;}
+	._nav_content._nav_content_2 ._info_table > ul > li {display: flex; gap: 5.33333vw; padding: 2.66667vw 0 2.53333vw; border-bottom: 0.13333vw solid #e0e0e0;}
+	._nav_content._nav_content_2 ._info_table > ul > li._none {border:none;}
+	._nav_content._nav_content_2 ._info_table ._tit {font-size: 3.2vw; line-height: 1.5; font-weight: 700; flex-shrink: 0;}
+	._nav_content._nav_content_2 ._info_table ._txt {font-size: 3.2vw; line-height: 1.5; font-weight: 400;}
+	._nav_content._nav_content_2 ._info_table ._note {display: inline-block; font-size: 3.2vw; line-height: 1.5; font-weight: 400; color: #888; margin-top: 1.06667vw;}
+	._nav_content._nav_content_2 ._info_table ._desc > ol {display: flex; flex-direction: column; gap: 1.6vw;}
+	._nav_content._nav_content_2 ._info_table ._link_under {display: inline-block; font-size: 3.2vw; line-height: 1.5; font-weight: 400; text-decoration: underline; color: #888; margin-top: 0.53333vw; margin-bottom: 0.66667vw; text-underline-position: from-font;}
+	._nav_content._nav_content_2 ._info_table._spaced > ul > li {gap: 7.46667vw;}
+
+	._nav_content._nav_content_2 ._caution_table {margin-top: 4.26667vw;}
+	._nav_content._nav_content_2 ._caution_table ul {display: flex; flex-direction: column; gap: 1.06667vw; margin: 0 auto;}
+	._nav_content._nav_content_2 ._caution_table ul > li {display: flex; gap: 1.06667vw; color: #999;}
+	._nav_content._nav_content_2 ._caution_table ul > li > span {font-size: 2.93333vw; line-height: 1.5; font-weight: 500;}
+	._nav_content._nav_content_2 ._caution_table ul > li::before {content: "·"; display: inline-block; width: 0.8vw; font-size: 2.93333vw; line-height: 1.5; font-weight: 500;}
+	._nav_content._nav_content_2 ._caution_table ul > li._red {color: #e70d00;}
+	._nav_content._nav_content_2 ._caution_table ul > li:has(a)::before {content: "";}
+	._nav_content._nav_content_2 ._caution_table ul > li ._link_under {font-size: 2.93333vw; line-height: 1.5; font-weight: 500; text-decoration: underline; color: #666; text-underline-position: from-font;}
+	._nav_content._nav_content_2 ._caution_table._spaced {margin-top: 8vw;}
+
+	._nav_content ._code_inp {width:100%; margin-top:7.86667vw;}
+	._nav_content ._code_inp input {width:100%; height:16vw; padding:0; border:0.26667vw solid #888888 !important; box-sizing:border-box; text-align:center; font-size:4.26667vw !important; letter-spacing:-0.38667vw;;}
+	._nav_content ._code_inp input::placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input::-webkit-input-placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input:-ms-input-placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input:-moz-placeholder {color:#9E9E9E;}
+
+	._nav_content ._btn_set {width:100%; margin-top:4vw;}
+	._nav_content ._btn_set ._area_wrap {width:100%; height:16vw; margin:0 auto; background:#000; border-radius:2.66667vw 0; text-align:center; line-height:1; font-size:0;}
+	._nav_content ._btn_set ._area_wrap > a {display:flex; width:100%; height:100%; align-items:center; justify-content: center; gap:2vw;}
+	._nav_content ._btn_set ._name {font-size:4.8vw; color:#fff; font-weight:700; vertical-align:middle;}
+	._nav_content ._btn_set ._sign {width:3.46667vw; height:4.26667vw; vertical-align:middle;}
+	._nav_content ._btn_set ._sign svg {display:block; width:100%; height:100%;}
+	._nav_content ._btn_set._submit_btn {margin-top:4vw;}
+	._nav_content ._btn_set._link_btn {margin-top:8.13333vw;}
+	._nav_content ._link_set + ._link_btn {margin-top:10.53333vw;}
+	._nav_content ._btn_set._link_btn ._sign {left:0;transform:rotate(-90deg);}
+	._nav_content ._btn_set._link_btn ._area_wrap > a:after {display:none;}
+
+	._nav_content ._banner_set {width:100%; margin-top:10.66667vw;}
+	._nav_content ._banner_set a {display:block; width:100%;}
+
+	._nav_content ._item ._flag {position:absolute; right: -6.13333vw; top:-3.86667vw; display:flex; align-items:center; justify-content:center; height:4.4vw; white-space:nowrap; padding:0 1.33333vw; border-radius:2.26667vw; font-size:2.66667vw; line-height: 1.5; font-weight:700; color:#fff;}
+	._nav_content ._item ._flag svg {position:absolute; right:2.13333vw; bottom:-0.66667vw; width: 1.33333vw; height: 0.66667vw;}
+
+	._evt_main_bg {background-color:#8EC2F9;}
+	svg ._evt_main_fill {fill:#8EC2F9;}
+
+</style>
+
+<div class="evWrap" data-ipg-id="mkt_26020001">
+	<!-- 면세일 -->
+	<div class="_evt_time_layout" data-open-time="2026/10/01 00:00:00" data-end-time="2026/10/11 23:59:59" style="display:none;">
+		<div class="_evt_hero_header">
+			<div class="_area_wrap">
+				<div class="_evt_hide">
+					KOREAN AIR
+					9.10 - 10.11
+					FALL IN SALE
+					올가을, 세일을 한가득 담았어요
+				</div>
+				<div class="_visual"></div>
+			</div>
+		</div>
+
+		<div class="_nav_content _nav_content_1">
+			<div class="_nav_content_wrap">
+				<div class="_cont_label"><span>혜택 1</span></div>
+
+				<div class="_cont_tit">
+					<div class="_sub">대한항공 탑승객 전용</div>
+					<div class="_main">온라인 혜택</div>
+				</div>
+
+				<div class="_outline">
+					<div class="_area_wrap">
+						<div class="_legend">
+							<div class="_label">
+								<span class="_txt">제휴쿠폰</span>
+							</div>
+						</div>
+						<div class="_benefit">
+							<div class="_info">
+								<div class="_label">최대</div>
+							</div>
+							<div class="_detail">
+								<!-- <div class="_tip">
+									<span>대한항공 특별혜택</span><i></i>
+								</div> -->
+								<div class="_price">
+									<span class="_txt">$</span>
+									<span class="_usd">103</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="_list_table">
+					<ul>
+						<li>
+							<div class="_label">
+								<span class="_txt">$800 이상 구매 시</span>
+							</div>
+							<div class="_item">
+								<span class="_usd">$40</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">$550 이상 구매 시</span>
+							</div>
+							<div class="_item">
+								<span class="_usd">$27</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">$300 이상 구매 시</span>
+							</div>
+							<div class="_item">
+								<span class="_usd">$18</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">$180 이상 구매 시</span>
+							</div>
+							<div class="_item">
+								<span class="_usd">$9</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">$100 이상 구매 시</span>
+							</div>
+							<div class="_item">
+								<span class="_usd">$6</span>
+								<span class="_flag _evt_main_bg">
+									<span>가을맞이 한정</span>
+									<svg width="12" height="6" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M12 0L0 6L2.4745 0H12Z" fill="#58B6FF" class="_evt_main_fill"/>
+									</svg>
+								</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">$50 이상 구매 시</span>
+							</div>
+							<div class="_item">
+								<span class="_usd">$3</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="_outline">
+					<div class="_area_wrap">
+						<div class="_legend">
+							<div class="_label">
+								<strong class="_txt">GOLD 등급</strong>
+							</div>
+						</div>
+						<div class="_benefit">
+							<div class="_info">
+								<div class="_label">최대</div>
+							</div>
+							<div class="_detail">
+								<!-- <div class="_tip">
+									<span>대한항공 특별혜택</span><i></i>
+								</div> -->
+								<div class="_price">
+									<span class="_etc">15%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="_info_table">
+					<ul>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사대상</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">프로모션 기간 내 대한항공 국제선 탑승 고객<br>(행사기간 내 한국 출발 탑승편 한정)</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사기간</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">2026.10.1 ~ 11.30</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">쿠폰혜택</span>
+							</div>
+							<div class="_item _col">
+								<span class="_txt">ID당 1일 1회 참여 가능</span>
+								<span class="_em"><em>※ 회원가 기준</em></span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">사용기간</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">발급 당일</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">등급혜택</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">ID당 1회 참여 가능</span>
+							</div>
+						</li>
+
+						<li>
+							<div class="_label">
+								<span class="_txt">혜택기간</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">등업 발급일 ~ 2026.12.31</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">참여방법</span>
+							</div>
+							<div class="_item">
+								<ol class="_numbering">
+									<li>
+										<span>
+											대한항공 홈페이지 및 모바일 앱에서 항공권<br>
+											예매 후 대한항공 이벤트 페이지에서<br>
+											‘쿠폰 받기’ 클릭<br>
+											<a href="#" onclick="redirectTo('https://www.koreanair.com/contents/promotion/list/2026/2610ldf'); return false;" class="_link_under">이벤트 페이지 바로가기 &gt;</a>
+										</span>
+									</li>
+									<li>본 이벤트 페이지에서 쿠폰번호 입력 후<br>혜택 발급</li>
+								</ol>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="_caution_table">
+					<ul>
+						<li class="_red">가을맞이 한정 제휴쿠폰은 이벤트 기간에 (2026.10.1~10.11) 한<br>하여 증정 및 발급 당일 사용 가능 합니다.</li>
+						<li class="_red">대한항공 전용 제휴쿠폰 번호는 대한항공 홈페이지 마이페이지<br>→ 쿠폰•바우처에서 확인 가능합니다.</li>
+						<li>상기 할인율의 예시이며, 브랜드(상품)별 기본 혜택 최대 적용률<br>및 등급 할인율은 상이합니다.</li>
+						<li>회원가는 추가할인 (제휴쿠폰, 기본 혜택, 결제쿠폰) 적용 전<br>금액입니다.</li>
+						<li>등업 신청 완료 후 재로그인 하셔야 등급이 적용 됩니다.</li>
+						<li>주문건별로 반드시 정확한 탑승 비행기 편명을 입력해 주셔야<br>물품 인도 및 통관이 가능합니다.</li>
+					</ul>
+				</div>
+
+				<!-- 난수 인풋 -->
+				<div class="_code_inp">
+					<div class="_area_wrap">
+						<!--
+							★★ 고정 난수 일 떄 data-algnnum="Y" 속성 추가
+							★ 입력 자리수 명확하지 않으면 입력하지 않음
+							★ 대문자 치환 css와 스크립트로 적용되어 있습니다. 대문자 확인
+						-->
+						<input type="text" class="_pre_input" name="cooperationEvt" id="cooperationEvt" maxlength="" value="" placeholder="쿠폰번호를 입력해 주세요." style="text-transform:uppercase;">
+					</div>
+				</div>
+
+				<!-- 인풋 서밋 버튼 -->
+				<div class="_btn_set _submit_btn">
+					<div class="_area_wrap">
+						<a href="#" class="_ev_fn_submit">
+							<span class="_name">혜택 받기</span>
+							<span class="_sign _init_btn_bg"><svg xmlns="http://www.w3.org/2000/svg" width="17.509" height="20.805" viewBox="0 0 17.509 20.805"><g transform="translate(0 10.151)"><rect width="3" height="12" rx="1.5" transform="translate(0 2.121) rotate(-45)" fill="#f44b51"/><rect width="3" height="12" rx="1.5" transform="translate(15.388 0.047) rotate(45)" fill="#f44b51"/></g><rect width="3" height="20.302" rx="1.5" transform="translate(10.255 20.302) rotate(180)" fill="#1ec822"/><rect width="3" height="20.302" rx="1.5" transform="translate(10.255 20.302) rotate(180)" fill="#f44b51"/></svg></span>
+						</a>
+						<script>
+							(function() {
+								$('._ev_fn_submit').on('click', function(e) {
+									e.preventDefault();
+
+									/* 면세점 함수 호출 */
+									fn_event_submit();
+								});
+							})();
+						</script>
+					</div>
+				</div>
+
+				<div class="_banner_set">
+					<a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1055722"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260921/2026092115354463448ca1272f09942eea9475557ba7f1116.webp" alt=""></a>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="_nav_content _nav_content_2">
+			<div class="_nav_content_wrap">
+				<div class="_cont_label"><span>혜택 2</span></div>
+
+				<div class="_cont_tit">
+					<div class="_sub">대한항공 탑승객 전용</div>
+					<div class="_main">오프라인 혜택</div>
+				</div>
+
+				<div class="_coupon _coupon_wide">
+					<div class="_item">
+						<div class="_tit">GOLD 등급</div>
+						<div class="_desc">추가 할인</div>
+						<div class="_bottom _per">
+							<div class="_benefit">15</div>
+							<div class="_txt">
+								<div class="_max">최대</div>
+								<div class="_unit">%</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="_item">
+						<div class="_tit">PRE LDF PAY</div>
+						<div class="_desc">$100/$150/$300 이상 구매 시 1/3/6만원</div>
+						<div class="_bottom">
+							<div class="_benefit">100,000</div>
+							<div class="_txt">
+								<div class="_max">최대</div>
+								<div class="_unit">원</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="_divide">&nbsp;</div>
+
+					<div class="_item">
+						<div class="_tit">롯데면세점 스타라운지</div>
+						<div class="_desc">$1 이상 구매 시 증정 (명동본점 / 월드타워점)</div>
+						<div class="_bottom _benefit_kr">
+							<div class="_benefit">음료이용권</div>
+							<div class="_txt">
+								<div class="_unit">2매</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="_item">
+						<div class="_tit">LDF PAY</div>
+						<div class="_desc">항공권 확인 시 추가 증정</div>
+						<div class="_bottom">
+							<div class="_benefit">5,000</div>
+							<div class="_txt">
+								<div class="_unit">원</div>
+							</div>
+						</div>
+					</div> -->
+
+				</div>
+
+				<div class="_info_table">
+					<ul>
+						<li>
+							<div class="_tit"><span>행사대상</span></div>
+							<div class="_desc">
+								<span class="_txt">프로모션 기간 내 대한항공 국제선 항공권<br>구매 고객<br/>(행사기간 내 한국 출발 탑승편 한정)</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>대상지점</span></div>
+							<div class="_desc">
+								<span class="_txt">명동본점, 월드타워점, 부산점, 제주점</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>행사기간</span></div>
+							<div class="_desc">
+								<span class="_txt">2026.10.1 ~ 11.30</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>유효기간</span></div>
+							<div class="_desc">
+								<span class="_txt">PRE-LDF PAY 발급 당일<br>멤버십 발급일 ~ 2026.12.31</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>참여방법</span></div>
+							<div class="_desc">
+								<ol>
+									<li><span class="_txt">1. 롯데면세점 오프라인 증정 데스크 방문</span></li>
+									<li><span class="_txt">2. 대한항공 항공권 구매확인서 제시</span></li>
+									<li><span class="_txt">3. GOLD 등업 및 PRE-LDF PAY 증정 받고 쇼핑하기</span></li>
+								</ol>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="_caution_table _thin">
+					<ul>
+						<!-- <li><a href="#evLayer1" class="_ev_fn_layer _link_under">음료이용권 수령 장소 및 사용 장소 확인하기 ></a></li> -->
+						<li><span>대한항공 공식 홈페이지 및 모바일 앱을 통해 항공권을 예매한 경우 한해 참여 가능합니다.</span></li>
+						<li><span>서비스 데스크 방문 시 여권, 구매확인서 제시 후 증정이 가능합니다.</span></li>
+						<li><span>일부 브랜드 및 30% 이상 할인 상품은 증정에서 제외 됩니다.</span></li>
+						<!-- <li><span>행사기간 내 출발 항공권 확인 시 인천공항점 전용 LDF PAY 추가 증정 됩니다. (최대 5천원)</span></li> -->
+						<li><span>오프라인 혜택은 본인에 한하여 사용이 가능합니다.</span></li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- //면세일 -->
+
+	<!-- 원본 -->
+	<div class="_evt_time_layout" data-open-time="2026/10/12 00:00:00" data-end-time="2026/09/30 08:59:59" data-preopen="true" style="display:none;">
+		<div class="_info_header">
+			<div class="_area_wrap">
+				<div class="_date"><span>2026.10.1 ~ 11.30</span></div>
+				<div class="_title">대한항공과<br>함께하는 면세쇼핑</div>
+				<div class="_visual">
+					<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260205/2026020514214813973352bb560a049059aafa0c38597a325.webp" alt="">
+				</div>
+			</div>
+		</div>
+
+		<div class="_evt_content _evt_content_1">
+			<div class="_evt_content_wrap">
+				<div class="_cont_label"><span>혜택 1</span></div>
+
+				<div class="_cont_tit">
+					<div class="_sub">대한항공 탑승객 전용</div>
+					<div class="_main">온라인 혜택</div>
+				</div>
+
+				<div class="_coupon">
+					<div class="_item">
+						<div class="_tit">제휴쿠폰</div>
+						<div class="_desc">$50/$100/$180/$300/<br>$550/$800 이상 구매 시</div>
+						<div class="_desc">$3/$5/$9/$18/<br/>$27/$40 할인</div>
+						<div class="_bottom _usd">
+							<div class="_benefit">102</div>
+							<div class="_txt">
+								<div class="_max">최대</div>
+								<div class="_unit">$</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="_item">
+						<div class="_tit">GOLD 등급</div>
+						<div class="_desc">추가 할인</div>
+						<div class="_bottom _per">
+							<div class="_benefit">15</div>
+							<div class="_txt">
+								<div class="_max">최대</div>
+								<div class="_unit">%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="_info_table">
+					<ul>
+						<li>
+							<div class="_tit"><span>행사대상</span></div>
+							<div class="_desc">
+								<span class="_txt">프로모션 기간 내 대한항공 국제선 탑승 고객<br/>(행사기간 내 한국 출발 탑승편 한정)</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>행사기간</span></div>
+							<div class="_desc">
+								<span class="_txt">2026.10.1 ~ 11.30</span>
+							</div>
+						</li>
+						<li class="_none">
+							<div class="_tit"><span>쿠폰혜택</span></div>
+							<div class="_desc">
+								<span class="_txt">ID 당 1일 1회 참여 가능</span><br>
+								<span class="_note">※ 회원가 기준</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>사용기간</span></div>
+							<div class="_desc">
+								<span class="_txt">발급 당일</span>
+							</div>
+						</li>
+						<li class="_none">
+							<div class="_tit"><span>등급혜택</span></div>
+							<div class="_desc">
+								<span class="_txt">ID당 1회 참여 가능</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>혜택기간</span></div>
+							<div class="_desc">
+								<span class="_txt">등업 발급일 ~ 2026.12.31</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>참여방법</span></div>
+							<div class="_desc">
+								<ol>
+									<li>
+										<span class="_txt">1. 대한항공 홈페이지 및 모바일 앱에서 항공권<br>예매 후 대한항공 이벤트 페이지에서 ‘쿠폰 받기’<br>클릭</span><br>
+										<a href="#" onclick="redirectTo('https://www.koreanair.com/contents/promotion/list/2026/2610ldf'); return false;" class="_link_under">이벤트 페이지 바로가기></a>
+									</li>
+									<li><span class="_txt">2. 본 이벤트 페이지에서 쿠폰번호 입력 후<br>혜택 발급</span></li>
+								</ol>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="_caution_table">
+					<ul>
+						<li class="_red"><span>대한항공 전용 제휴쿠폰 번호는 대한항공 홈페이지 마이페이지 → 쿠폰•바우처에서 확인 가능합니다.</span></li>
+						<li><span>상기 할인율의 예시이며, 브랜드(상품)별 기본 혜택 최대 적용률 및 등급 할인율은 상이합니다.</span></li>
+						<li><span>회원가는 추가할인 (제휴쿠폰, 기본 혜택, 결제쿠폰)<br>적용 전 금액입니다.</span></li>
+						<li><span>등업 신청 완료 후 재로그인 하셔야 등급이 적용 됩니다.</span></li>
+						<li><span>주문건별로 반드시 정확한 탑승 비행기 편명을 입력해 주셔야 물품 인도 및 통관이 가능합니다.</span></li>
+					</ul>
+				</div>
+
+				<!-- 난수 인풋 -->
+				<div class="_code_inp">
+					<div class="_area_wrap">
+						<!--
+							★★ 고정 난수 일 떄 data-algnnum="Y" 속성 추가
+							★ 입력 자리수 명확하지 않으면 입력하지 않음
+							★ 대문자 치환 css와 스크립트로 적용되어 있습니다. 대문자 확인
+						-->
+						<input type="text" class="_pre_input" name="cooperationEvt" id="cooperationEvt" maxlength="" value="" placeholder="쿠폰번호를 입력해 주세요." style="text-transform:uppercase;">
+					</div>
+				</div>
+
+				<!-- 인풋 서밋 버튼 -->
+				<div class="_btn_set _submit_btn">
+					<div class="_area_wrap">
+						<a href="#" class="_ev_fn_submit">
+							<span class="_name">혜택 받기</span>
+							<span class="_sign _init_btn_bg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="27" viewBox="0 0 24 27" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M21.96 11.655L20.04 9.34502L13.5 14.805V0H10.5V14.805L3.96 9.34502L2.03998 11.655L12 19.95L21.96 11.655ZM0 24H24V27H0V24Z" fill="white"/></svg></span>
+						</a>
+						<script>
+							(function() {
+								$('._ev_fn_submit').on('click', function(e) {
+									e.preventDefault();
+
+									/* 면세점 함수 호출 */
+									fn_event_submit();
+								});
+							})();
+						</script>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="_evt_content _evt_content_2">
+			<div class="_evt_content_wrap">
+				<div class="_cont_label"><span>혜택 2</span></div>
+
+				<div class="_cont_tit">
+					<div class="_sub">대한항공 탑승객 전용</div>
+					<div class="_main">오프라인 혜택</div>
+				</div>
+
+				<div class="_coupon _coupon_wide">
+					<div class="_item">
+						<div class="_tit">GOLD 등급</div>
+						<div class="_desc">추가 할인</div>
+						<div class="_bottom _per">
+							<div class="_benefit">15</div>
+							<div class="_txt">
+								<div class="_max">최대</div>
+								<div class="_unit">%</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="_item">
+						<div class="_tit">PRE LDF PAY</div>
+						<div class="_desc">$100/$150/$300 이상 구매 시 1/3/6만원</div>
+						<div class="_bottom">
+							<div class="_benefit">100,000</div>
+							<div class="_txt">
+								<div class="_max">최대</div>
+								<div class="_unit">원</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="_item">
+						<div class="_tit">LDF PAY</div>
+						<div class="_desc">항공권 확인 시 추가 증정</div>
+						<div class="_bottom">
+							<div class="_benefit">5,000</div>
+							<div class="_txt">
+								<div class="_unit">원</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="_item">
+						<div class="_tit">롯데면세점 스타라운지</div>
+						<div class="_desc">$1 이상 구매 시 증정 (명동본점 / 월드타워점)</div>
+						<div class="_bottom _benefit_kr">
+							<div class="_benefit">음료이용권</div>
+							<div class="_txt">
+								<div class="_unit">2매</div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+
+				<div class="_info_table _spaced">
+					<ul>
+						<li>
+							<div class="_tit"><span>행사대상</span></div>
+							<div class="_desc">
+								<span class="_txt">프로모션 기간 내 대한항공 국제선 항공권<br>구매 고객<br>(행사기간 내 한국 출발 탑승편 한정)</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>대상지점</span></div>
+							<div class="_desc">
+								<span class="_txt">명동본점, 월드타워점, 부산점, 제주점</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>행사기간</span></div>
+							<div class="_desc">
+								<span class="_txt">2026.10.1 ~ 11.30</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>유효기간</span></div>
+							<div class="_desc">
+								<span class="_txt">PRE-LDF PAY 발급 당일<br>멤버십 발급일 ~ 2026.12.31</span>
+							</div>
+						</li>
+						<li>
+							<div class="_tit"><span>참여방법</span></div>
+							<div class="_desc">
+								<ol>
+									<li><span class="_txt">1. 롯데면세점 오프라인 증정 데스크 방문</span></li>
+									<li><span class="_txt">2. 대한항공 항공권 구매확인서 제시</span></li>
+									<li><span class="_txt">3. GOLD 등업 및 PRE-LDF PAY 증정 받고 <br>&nbsp;&nbsp;&nbsp;&nbsp;쇼핑하기</span></li>
+								</ol>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="_caution_table _spaced">
+					<ul>
+						<!-- <li><a href="#evLayer1" class="_ev_fn_layer _link_under">음료이용권 수령 장소 및 사용 장소 확인하기 ></a></li> -->
+						<li><span>대한항공 공식 홈페이지 및 모바일 앱을 통해 항공권을 예매한 경우 한해 참여 가능합니다.</span></li>
+						<li><span>서비스 데스크 방문 시 여권, 구매확인서 제시 후 증정이<br>가능합니다.</span></li>
+						<li><span>일부 브랜드 및 30% 이상 할인 상품은 증정에서 제외 됩니다.</span></li>
+						<!-- <li><span>행사기간 내 출발 항공권 확인 시 인천공항점 전용 LDF PAY 추가 증정 됩니다. (최대 5천원)</span></li> -->
+						<li><span>오프라인 혜택은 본인에 한하여 사용이 가능합니다.</span></li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="_ev_layer" id="evLayer1" style="display:none;">
+		<div class="_layer_wrap">
+			<div class="_layer_header">
+				<span class="_title">스타라운지 수령 장소 및 사용 장소</span>
+			</div>
+			<div class="_layer_content">
+
+				<div class="_offline_title">
+					<span>스타라운지 쿠폰 수령 장소 </span>
+				</div>
+				<ul class="_offline_list">
+					<li>명동본점: 11층 서비스 데스크</li>
+					<li>월드타워점: 9층 서비스 데스크</li>
+				</ul>
+				<div class="_offline_title">
+					<span>스타라운지 이용권 사용 장소</span>
+				</div>
+				<ul class="_offline_list">
+					<li>명동본점: 14층 엔제리너스 스타라운지점</li>
+					<li>월드타워점: 스타라운지(잠실 에비뉴엘 8층)</li>
+				</ul>
+				<div class="_caution_title">
+					<span>스타라운지 이용 유의사항 </span>
+				</div>
+				<ul class="_caution_list">
+					<li>여권 지참 필수입니다</li>
+					<li>스타라운지 이용시간은 1시간입니다. </li>
+					<li>라운지 행사 시 입장 및 휴게에 제한이 있을 수 있습니다. </li>
+					<li>라운지 내/외부 음식물 반입 및 취식이 불가합니다. </li>
+					<li>반려동물 동반 시 라운지 입장이 불가합니다. </li>
+				</ul>
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div id="evDimmed" style="display:none;">&nbsp;</div>
+
+</div></div></div></section></div></article></div></body></html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 상단 갭 */
+		var fixGap = $('#lotteHeader').find('nav.gnb').length ? 80 : 65;
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e, ele) {
+			e.preventDefault();
+
+			var target = $(this).attr('href');
+
+			if (ele) {
+				target = ele;
+			}
+
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top - 1, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+						}
+					}
+				}
+			}
+
+		});
+
+		try {
+			var _imgSlider = new Swiper('._img_slider', {
+				speed: 600,
+				slidesPerView: 1,
+				centeredSlides: false,
+				pagination: {
+					el: '._img_slider_bullets',
+					type: 'bullets',
+					clickable: true,
+				},
+			});
+		} catch (e) {
+			console.error(e);
+		}
+
+		$('._link_1').on('click', function(e) {
+			e.preventDefault();
+			$('._fn_goto').eq(0).trigger('click', ['._cus_ank']);
+		});
+
+		$('._link_2').on('click', function(e) {
+			e.preventDefault();
+			$('._fn_goto').eq(0).trigger('click', ['#_evtContent_7']);
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular'; background:#fff;}
+	.evWrap img {display:block;}
+	.evWrap a {display:block;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._info_visual {width:100%;}
+	._info_visual ._visual_wrap {position:relative; width:100%;}
+	._info_visual ._visual {display:flex; justify-content:center; width:100%;}
+
+	._info_nav_flex {width:100%; height:88px;}
+	._info_nav_flex ._nav_wrap {width:100%; height:88px; background:#305830; z-index:100;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:80px; width:100%;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; width:100%; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav {display:flex; justify-content:center; width:auto; height:100%; padding:0 15px; position:relative;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:flex; align-items:center; justify-content:center; width:auto; height:100%; padding:2px 25px 0 25px; color:rgba(255,255,255,0.5); font-size:24px; font-weight:600; letter-spacing:-0.02em;}
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#fff; font-weight:700;}
+	._info_nav_flex ._nav_wrap ._nav._current a::before {content:''; position:absolute; left:24px; right:24px; bottom:0; height:4px; background:#fff; z-index:1;}
+
+	._nav_content {position:relative; width:100%; color:#000; overflow:hidden;}
+	._nav_content ._nav_content_wrap {width:100%; margin:0 auto;}
+
+	._img_layout {display:flex; justify-content:center; width:100%;}
+	._img_slider {position:absolute; left:50%; top:2029px; width:480px; height:543px; margin-left:-240px;}
+	._img_slider ._item {margin-right:20px;}
+	._img_slider ._item:last-child {margin-right:0;}
+	._img_slider_bullets {position:absolute; left:50%; top:2652px; display:flex; justify-content:center; gap:8px; width:480px; margin-left:-240px;}
+	._img_slider_bullets .swiper-pagination-bullet {width:8px; height:8px; border-radius:100%; background:rgba(0,0,0,0.3); opacity:1;}
+	._img_slider_bullets .swiper-pagination-bullet.swiper-pagination-bullet-active {background:#000;}
+
+	._link {position:absolute; left:50%;}
+	._link_1 {top:1070px; width:410px; height:100px; margin-left:-200px;}
+	._link_2 {top:2913px; width:410px; height:100px; margin-left:-205px;}
+	._link_3 {top:609px; width:410px; height:100px; margin-left:-205px;}
+	._link_4 {top:3397px; width:410px; height:100px; margin-left:-205px;}
+	._link_5 {top:520px; width:470px; height:100px; margin-left:-235px;}
+	._link_6 {top:3575px; width:470px; height:100px; margin-left:-235px;}
+
+	._cus_ank {position:absolute; left:0; top:1220px;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_26100008">
+
+	<div class="_info_visual">
+		<div class="_visual_wrap">
+			<div class="_visual"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/2026103017134318440f40ca173d64d899190611b11493ffc.webp" alt=""></div>
+			<a href="#" class="_link _link_1">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _nav_1 _current">
+					<a href="#_evtContent_1" class="_fn_goto"><span>ONE PASS</span></a>
+				</div>
+				<div class="_nav _nav_2">
+					<a href="#_evtContent_2" class="_fn_goto"><span>쇼핑 혜택</span></a>
+				</div>
+				<div class="_nav _nav_3">
+					<a href="#_evtContent_3" class="_fn_goto"><span>이용 안내</span></a>
+				</div>
+				<div class="_nav _nav_4">
+					<a href="#_evtContent_4" class="_fn_goto"><span>멜버른</span></a>
+				</div>
+				<div class="_nav _nav_5">
+					<a href="#_evtContent_5" class="_fn_goto"><span>베트남</span></a>
+				</div>
+				<div class="_nav _nav_6">
+					<a href="#_evtContent_6" class="_fn_goto"><span>2027 여행 소원</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_1 _set_ank" id="_evtContent_1">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030171350983ae4d2af9fe8447c4ace6301aea65cdbc.webp" alt=""></div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_2 _set_ank" id="_evtContent_2">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261102/20261102104852003ee80586bd45d4b02bebc05ab17d6213d.webp" alt=""></div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_3 _set_ank" id="_evtContent_3">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/2026103017140563067fd3306840d41aeaaaf5266d0d12eab.webp" alt=""></div>
+			<div class="_cus_ank">&nbsp;</div>
+			<a href="#" class="_link _link_2">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_4 _set_ank" id="_evtContent_4">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030171412738d542ef0c94354e458c0db0b3fa04afc2.webp" alt=""></div>
+			<div class="_img_slider">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030172400610a68bf3048d674c799b4f41daa6540bee.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/2026103017242820098c64bc1f8cb4c0a99b5cd87976fb1fd.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/2026103017244023101adde6d76584b65a3e4b77147c0e97f.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030172451277fd37536e8259445dbf849624178a6f3d.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030172501591b263d237d89c46c29b99c66431fd4327.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030172511101c59f08c2527849038199aa82188db9d7.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/2026103017252165691c20839f08645a88ae64768350e7203.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030172531345ba28469339d442a7949640c3502bd19f.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/202610301725412962c0d6a568ec245c5ba94c5b43c239040.webp" alt=""></div>
+					</div>
+					<div class="swiper-slide _item">
+						<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030172552314c6ca7bcb9f084453883b0f22a2a22351.webp" alt=""></div>
+					</div>
+				</div>
+			</div>
+			<div class="_img_slider_bullets"></div>
+			<a href="https://kr.visitmelbourne.com/" class="_link _link_3" target="_blank" rel="noopener noreferrer">&nbsp;</a>
+			<a href="https://www.koreanair.com/contents/promotion/list/2026/mel2026?pageNum=1" class="_link _link_4" target="_blank" rel="noopener noreferrer">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_5 _set_ank" id="_evtContent_5">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/202610301714200933677de60af7c4d59b20e88744a6f4f73.webp" alt=""></div>
+			<a href="https://www.vietbenefit.com/landing-page/2655" class="_link _link_5" target="_blank" rel="noopener noreferrer">&nbsp;</a>
+			<a href="https://pf.kakao.com/_XPMan" class="_link _link_6" target="_blank" rel="noopener noreferrer">&nbsp;</a>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_6 _set_ank" id="_evtContent_6">
+		<div class="_nav_content_wrap">
+			<div class="_img_layout"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030171427706d04d29a68a2f4a7d90929ea237bca498.webp" alt=""></div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_7 _set_ank" id="_evtContent_7">&nbsp;</div>
+
+</div></div></div></section></article></div></body></html>

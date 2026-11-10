@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 상품들 리스트 */
+		var prdList = [
+			[
+				{
+					row : [
+						{
+							hide: true,
+							link: '10072831',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20250424/202504241057419831636e07bd82d490883afeba6c7660bfc.png',
+							brand: 'TOTEME',
+						},
+						{
+							hide: true,
+							link: '10004685',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20261007/202610071559510662a9eb14a64864c8195b9df1b2fc354eb.webp',
+							brand: 'NEW BALANCE',
+						},
+						{
+							hide: false,
+							link: '10073235',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20250626/202506261352488101125a906f23c4333a77b6d335ac36171.png',
+							brand: 'MALBON',
+						},
+						{
+							hide: true,
+							link: '10072378',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20250313/202503131349232751b44c4b7bf7a4db4ab9b756323f1d4b5.png',
+							brand: 'ON',
+						},
+						{
+							hide: false,
+							link: '10072386',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20250313/20250313135136755a1548b52e7df45b88da13317266af97d.png',
+							brand: 'PATOU',
+						},
+						{
+							hide: false,
+							link: '10071241',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20241125/20241125142046544be317f3b28e94ce3aef7d7df18ded24e.png',
+							brand: 'WOOYOUNGMI',
+						},
+						{
+							hide: true,
+							link: '10071233',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20241125/20241125142054680b2b5cc6679fa466db6558f7cdfc93524.png',
+							brand: 'NORDA',
+						},
+						{
+							hide: true,
+							link: '10071149',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20241125/20241125142103151f700c970e9d94901b0eaf9d592f5f71d.png',
+							brand: 'LEMAIRE',
+						},
+						{
+							hide: true,
+							link: '10070620',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20241018/202410181340022027a8c04200a2541ca97c88aeef99594c4.png',
+							brand: 'COURREGES',
+						},
+						{
+							hide: true,
+							link: '10067920',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240531/20240531170958985f7a437bea3444dc1a849330963f35b50.png',
+							brand: 'J. LINDEBERG',
+						},
+						{
+							hide: true,
+							link: '10069497',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240827/20240827142138481f7ea547351e54f83b76e6d35d0cbbfe4.png',
+							brand: 'HERNO',
+						},
+						{
+							hide: false,
+							link: '10076365',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240806/202408061729032894bb2ba40d92041699b5a718b97cfebfb.png',
+							brand: 'PATAGONIA',
+						},
+						{
+							hide: true,
+							link: '10069169',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240722/20240722095355222f14ad449675b4d82b9917c8233364fcb.png',
+							brand: 'CARHARTT',
+						},
+						{
+							hide: false,
+							link: '10069179',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240722/202407220954025427e30863a298b42f596a5cc23aaa21cc8.png',
+							brand: 'GFORE',
+						},
+						{
+							hide: true,
+							link: '10065627',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240306/2024030617272120484ad27d220b246059c1f69363571079c.png',
+							brand: 'SALOMON',
+						},
+						{
+							hide: true,
+							link: '10065657',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240306/20240306172727532e740b4ebfd7b4bbba4bbb71f2490933d.png',
+							brand: 'THOM BROWNE',
+						},
+						{
+							hide: true,
+							link: '10067076',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240412/20240412162529449f0f61bd8db2c43b19e5a5ba5892def35.png',
+							brand: 'ASICS',
+						},
+						{
+							hide: true,
+							link: '10065047',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/202402221550006126e8de0562be644f286001f8bc0fef6c9.png',
+							brand: 'DIESEL',
+						},
+						{
+							hide: false,
+							link: '10067097',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240412/202404121625373148dd26adcd39b411cae35b671ece9d959.png',
+							brand: 'CHLOE',
+						},
+						{
+							hide: true,
+							link: '10065647',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240306/20240306172714247f5dd13c340f4439e8df910d5fc464883.png',
+							brand: 'MAISON MARGIELA',
+						},
+						{
+							hide: true,
+							link: '10065617',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240306/202403061727510866c879a3ee88d4b0895c77e8652bf9333.png',
+							brand: 'MARNI',
+						},
+						{
+							hide: true,
+							link: '10065097',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222155050045a83302ca42c4421d9664b4dc16d18d85.png',
+							brand: 'PYRENEX',
+						},
+						{
+							hide: true,
+							link: '10065007',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222154930113ba8eee4df2a740e28b4b02b39d4b790a.png',
+							brand: 'APC',
+						},
+						{
+							hide: true,
+							link: '10065077',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240229/2024022914161004257b2cb8931284d0c81ed0411e6296158.png',
+							brand: 'JACQUEMUS',
+						},
+						{
+							hide: false,
+							link: '10073200',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222154949187ad55c43825d54f1f868771c8f16d52df.png',
+							brand: 'ISABEL MARANT',
+						},
+						{
+							hide: false,
+							link: '10065057',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240304/2024030413310218118dde3a096ab4079bda9460c58314df2.png',
+							brand: 'GANNI',
+						},
+						{
+							hide: true,
+							link: '10065087',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222155023308b998e8831aea4281828da97b577e810c.png',
+							brand: 'OUR LEGACY',
+						},
+						{
+							hide: true,
+							link: '10065027',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222155016362ca56078f5ad5475bac8e0f11eba8ccf0.png',
+							brand: 'C.P.COMPANY',
+						},
+						{
+							hide: true,
+							link: '10065017',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222155030717597aa7c28c3d4adea1f45ddfc8e76b94.png',
+							brand: 'BASERANGE',
+						},
+						{
+							hide: true,
+							link: '10065107',
+							img: 'https://static.lottedfs.com/contents/images/ckeditor-img/20240222/202402221550448443f90edc6f6754fcb947a748ad524f329.png',
+							brand: 'STUDIO NICHOLSON',
+						},
+					],
+				},
+			],
+
+		];
+
+		/* hide 속성이 true가 아닌 경우만 추가 */
+		var newPrdList = [];
+
+		$.each(prdList, function(i, category) {
+			var newCategory = [];
+
+			$.each(category, function(j, product) {
+				var newProduct = {...product};
+				newProduct.row = [];
+
+				$.each(product.row, function(k, item) {
+					if (!item.hide) {
+						newProduct.row.push(item);
+					}
+				});
+
+				newCategory.push(newProduct);
+			});
+
+			newPrdList.push(newCategory);
+		});
+
+		prdList = newPrdList;
+
+		/* 상품들 넣기 */
+		$.each(prdList, function(idx, valu) {
+			var _this = this[0];
+			var $html = '';
+
+			$.each(_this.row, function(i, v) {
+				var n = 4;	/* 슬라이드 하나에 몇개씩 나열할건지 */
+
+				if(i % n === 0){
+					$html += '<div class="swiper-slide">';
+				}
+				if(i % 2 === 0){
+					$html += '<div class="_column_box">';
+				}
+				$html += '<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo='+ v.link +'">';
+				$html += '<img src="'+ v.img +'" alt="'+ v.brand +'">';
+				$html += '</a>';
+				if(i == _this.row.length - 1 || i % 2 === 2 - 1){
+					$html += '</div>';
+				}
+				if(i == _this.row.length - 1 || i % n === n - 1){
+					$html += '</div>';
+				}
+
+			});
+
+			$html = $($html);
+
+			$('._pd_slider').find('.swiper-wrapper').html($html);
+		});
+
+		var swiper = new Swiper("._pd_slider", {
+			slidesPerView: 'auto',
+			/* freeMode: true, */
+		});
+
+		var navSlider = new Swiper('._cate_scroll', {
+			slidesPerView: "auto",
+			centerInsufficientSlides: false,
+			spaceBetween: 0,
+			freeMode: true,
+			on: {
+				init: function() {
+					var startIdx = $(this.$el).find('._active').data('idx');
+					if (startIdx) {
+						this.slideTo($(this.$el).find('._active').data('idx'), 400);
+					}
+				}
+			},
+		});
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var goPosition = $target.offset().top;
+			var gap = (6.53333 * $(window).width()) / 100;
+			var gapPx = fixGap - (+(Math.round(gap + 'e+3') + 'e-3'));
+			$('html, body').stop().animate({
+				scrollTop: goPosition - gapPx
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if (fixGap != ldfHeaderH() + ldfHeaderY()) {
+				fixGap = ldfHeaderH() + ldfHeaderY();
+				$nav.find('._nav_wrap').css('top', fixGap);
+			}
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.position().top, 10);
+					var ankPT = parseInt($this.offset().top, 10);
+					var ankNxtOt = $this.parent().next('._info_sec').length > 0 ? parseInt($this.parent().next('._info_sec').find('._set_ank').position().top, 10) : 0;
+					var secHeight = parseInt($this.parent().height(), 10);
+
+					var gap = (6.53333 * $(window).width()) / 100;
+					var gapPx = fixGap - (+(Math.round(gap + 'e+3') + 'e-3'));
+
+					if (ankPT <= Math.round(scrollTop + gapPx) && (ankPT + secHeight) - (ankOt - ankNxtOt) >= Math.round(scrollTop + gapPx)) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+
+							clearTimeout(fnTimer);
+							fnTimer = setTimeout(function() {
+								if (typeof _evtNavSwipe != 'undefined') {
+									_evtNavSwipe.slideTo(i, 500);
+								}
+							}, 300);
+						}
+					}
+				});
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+
+						}
+					}
+				}
+			}
+
+		});
+
+		/* TAB 스와이프 */
+		try {
+			var _evtNavSwipe = $('._evt_nav').length ? new Swiper('._evt_nav ._nav_wrap ._nav_inner', {
+				slidesPerView: 'auto',
+				centerInsufficientSlides: true,
+				spaceBetween: 0,
+				freeMode: true,
+
+				/* nav 4개 이상일 시 → allowTouchMove: true */
+				allowTouchMove: true,
+			}) : false;
+
+			var _evtNavSwipeTimer = null;
+			$(window).on('resize._evtNavSwiper', function(e) {
+				if (_evtNavSwipe) {
+					clearTimeout(_evtNavSwipeTimer);
+					_evtNavSwipeTimer = setTimeout(function() {
+						_evtNavSwipe.update();
+					}, 150);
+				}
+			}).trigger('resize._evtNavSwiper');
+		} catch (e) {
+			console.error(e);
+		}
+
+		/* 레이어 열기 */
+		$('.evWrap ._ev_fn_layer').on('click', function(e) {
+			e.preventDefault();
+
+			if ($(this).data('login')) {
+				var _eventLoginCheck = loginCheck(null, 'N');
+
+				if (!_eventLoginCheck) {
+					checkLoginThen();
+					return false;
+				}
+			}
+
+			var $evtWrap = $('.evWrap');
+			var $target = $($(this).attr('href'));
+
+			var setPos = {
+				left: $(this).offset().left,
+				top: $(this).offset().top - $evtWrap.offset().top,
+				right: $(this).offset().left + $(this).width(),
+				bottom: ($(this).offset().top - $evtWrap.offset().top) + $(this).height(),
+				screenCenter: function() {
+					var evtWidth = $evtWrap.width() / 2;
+					var layerWidth = parseInt($target.width()) > 1 ? parseInt($target.width()) / 2 : 550 / 2;
+
+					return evtWidth - layerWidth;
+				},
+				screenMiddle: function() {
+					var winGap = 50;
+
+					if ($('._evt_nav').length) {
+						winGap = 50 + $('._evt_nav').height();
+					}
+
+					var wrapGap = 50;
+
+					var winPos = $(window).scrollTop() - $evtWrap.offset().top;
+					var winHeight = winPos < 0 ? $(window).innerHeight() + winPos : $(window).innerHeight();
+
+					var wrapHeight = $evtWrap.height();
+					var wrapPosTop = $evtWrap.offset().top;
+					var wrapPosBottom = wrapHeight;
+
+					var targetHeight = $target.height();
+					var targetPosTop = (winPos + (winHeight / 2)) - (targetHeight / 2);
+					var targetPosBottom = targetPosTop + targetHeight;
+
+					if (winHeight > (targetHeight + winGap)) {
+						if (winPos > 0) {
+							if (targetPosBottom > (wrapPosBottom - wrapGap)) {
+
+								$('html, body').scrollTop(wrapPosBottom - targetHeight - wrapGap - winGap);
+
+								return wrapPosBottom - targetHeight - wrapGap;
+							} else {
+								return targetPosTop + (winGap / 2);
+							}
+						} else {
+							return (winHeight / 2) - (targetHeight / 2);
+						}
+					} else {
+						if (targetHeight > wrapHeight) {
+							return winGap;
+						} else {
+							if (winPos > 0) {
+								if ((winPos + winGap + (winGap / 2) + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight - wrapGap - winGap);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winPos + winGap + (winGap / 2);
+								}
+							} else {
+								if ((winGap + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight - wrapGap - winGap);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winGap;
+								}
+							}
+						}
+					}
+				}
+			};
+
+			if ($target.length > 0) {
+
+				var resultTop = (setPos.screenMiddle() / $(window).width() * 100).toFixed(5) + 'vw';
+				var resultLeft = (setPos.screenCenter() / $(window).width() * 100).toFixed(5) + 'vw';
+
+				$evtWrap.find('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+				if (!$(this).is('.active')) {
+					$target.css({display: 'block', top: resultTop, left: resultLeft, marginLeft: 0, opacity: 0}).addClass('active').animate({
+						opacity: 1
+					}, 0, function() {});
+					$('#evDimmed').css({display: 'block'});
+				}
+			}
+		});
+
+		/* 레이어 닫기 */
+		$('.evWrap ._ev_layer ._close').on('click', function(e) {
+			e.preventDefault();
+			var $evtWrap = $('.evWrap');
+
+			$(this).closest('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+			$('#evDimmed').css({display: 'none'});
+		});
+		$('#evDimmed').on('click', function(e) {
+			e.preventDefault();
+			$('.evWrap ._ev_layer:visible').find('._close').trigger('click');
+		});
+
+		/* 상단 명품관 네비 고정 */
+		$(window).on('scroll', function(e) {
+			var $evt = $('.evWrap');
+			var $nav = $('._cate_nav');
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				if ((evtHeight - fixGap) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute');
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed');
+					}
+					if ((evtHeight - fixGap) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed');
+						}
+					}
+				}
+			}
+
+		});
+
+	});
+</script>
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:300;
+		src:local('Roboto Light'), local('Roboto-Light'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:400;
+		src:local('Roboto Regular'), local('Roboto-Regular'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:500;
+		src:local('Roboto Medium'), local('Roboto-Medium'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:700;
+		src:local('Roboto Bold'), local('Roboto-Bold'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:900;
+		src:local('Roboto Black'), local('Roboto-Black'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.ttf') format('truetype');
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:'Noto Sans Regular';}
+	.evWrap * {box-sizing:border-box;}
+	.evWrap p, .evWrap ul, .evWrap ol, .evWrap li, .evWrap h3 {margin:0; padding:0;}
+	.evWrap a {text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	/* ----------------------- */
+	/* ★★★★★px 고정★★★★★ */
+	.evWrap ._cate_nav {position:fixed; left:0; top:50px; width:100%; height:50px; background:#1D1E1D; z-index:51;}
+	.evWrap ._cate_nav ._cate_scroll {position:relative; margin-left:38px; padding:0 18px 0 35px; overflow:hidden; font-size:0;}
+	.evWrap ._cate_nav ._slider {display:inline-block; width:auto; padding:0 9px;}
+	.evWrap ._cate_nav ._slider_1 {padding-left:0;}
+	.evWrap ._cate_nav ._slider_6 {padding-right:0;}
+	.evWrap ._cate_nav ._nav {display:block; height:50px; overflow:hidden;}
+	.evWrap ._cate_nav ._nav a {display:block; width:100%; height:100%;}
+	.evWrap ._cate_nav ._nav img {display:block; position:relative; top:-100%; width:100%;}
+	.evWrap ._cate_nav ._nav._active img {top:0;}
+	.evWrap ._cate_nav ._nav_1 {width:65px;}
+	.evWrap ._cate_nav ._contemporary {width:122px;}
+	.evWrap ._cate_nav ._nav_2 {width:124px;}
+	.evWrap ._cate_nav ._nav_3 {width:66px;}
+	.evWrap ._cate_nav ._nav_4 {width:95px;}
+	.evWrap ._cate_nav ._etc {width:111px;}
+	.evWrap ._cate_nav ._nav_5 {width:95px;}
+	.evWrap ._cate_nav ._nav_6 {width:99px;}
+	.evWrap ._cate_nav ._nav_7 {width:122px;}
+	.evWrap ._cate_nav ._btn_back {position:absolute; left:20px; top:11px; width:30px; height:30px; z-index:10;}
+	.evWrap ._cate_nav ._btn_back a {display:block; width:100%; height:100%;}
+	.evWrap ._cate_nav ._btn_back svg {width:30px; height:30px;}
+
+	.evWrap ._cate_nav._absolute {position:absolute; top:initial; bottom:0;}
+
+	.evWrap ._thumb_sec {position:relative; width:100%; padding:50px 0 0 0; overflow:hidden;}
+	/* //★★★★★px 고정★★★★★ */
+	/* ★★★★★ vw 변환 영역 ★★★★★ */
+
+	._lan_en {font-family:'Roboto' !important;}
+	._regular {font-weight:400; font-family:'Noto Sans Regular' !important;}
+	._medium {font-weight:500; font-family:'Noto Sans Medium' !important;}
+	._nowrap {white-space:nowrap;}
+
+	._init_color {color:#000; border-color:#F44B51;}
+	._init_bg {background:#F44B51 !important;}
+	._init_bg svg path {fill:#F44B51 !important;}
+	._init_btn_bg svg rect {fill:#F44B51;}
+	._info_nav_flex ._nav_wrap ._nav._current span::before {background-color:#F44B51;}
+
+	._info_header {position:relative; width:100%; height:182.66667vw;}
+	._info_header ._area_wrap {width:100%; height:100%; background:#000;}
+	._info_header ._title {position:absolute; left:50%; top:15.73333vw; width:92.26667vw; transform:translateX(-50%);z-index:1;}
+	._info_header ._text {position:absolute; left:50%; top:43.73333vw; transform:translateX(-50%); font-family:'Noto Sans Regular'; font-size:4vw; line-height:5.86667vw; text-align:center; letter-spacing:-0.16vw; color:#fff; white-space:nowrap; z-index:1;}
+	._info_header ._marquee {position:absolute; left:0; bottom:65.06667vw; width:157.33333vw; height:50.8vw; font-size:0; background:#000; z-index:50; user-select:none; pointer-events:none;}
+	._info_header ._marquee ._marquee_wrap {display:inline-block; height:100%; white-space:nowrap; transform:translateX(0); animation:_marquee 13s linear infinite;}
+	._info_header ._marquee ._marquee_wrap > div {display:inline-block; padding-left:2.66667vw}
+	._info_header ._marquee ._marquee_wrap > div img {width:100%; height:100%;}
+
+	@keyframes _marquee {
+		0% {transform:translate3d(0, 0, 0);}
+		100% {transform:translate3d(-157.33333vw , 0, 0);}/* 이미지 하나 총 길이에서 _marquee_wrap X값 만큼 뺀값 */
+	}
+	._info_header ._marquee2 {position:absolute; left:0; bottom:13.2vw; width:157.6vw; height:50.8vw; font-size:0; background:#000; z-index:50; user-select:none; pointer-events:none;}
+	._info_header ._marquee2 ._marquee_wrap {display:inline-block; height:100%; white-space:nowrap; transform:translateX(0); animation:_marquee2 13s linear infinite;}
+	._info_header ._marquee2 ._marquee_wrap > div {display:inline-block; padding-right:2.66667vw}
+	._info_header ._marquee2 ._marquee_wrap > div img {width:100%; height:100%;}
+	@keyframes _marquee2 {
+		0% {transform:translate3d(-157.6vw, 0, 0);} /*이미지 하나 총 길이에서 _marquee_wrap X값 만큼 뺀값 */
+		100% {transform:translate3d(0, 0, 0);}
+
+	}
+
+	._nav_content {position:relative; width:100%; height:185.33333vw; margin-top:0; color:#1a1a1a;background:#171717;}
+	._nav_content ._nav_content_wrap {width:100%; margin:0 auto;}
+
+	._nav_content ._cont_tit {display:flex;justify-content:center; align-items:center;padding:14.4vw 0 0.4vw;}
+	._nav_content ._cont_tit img {width:38.93333vw;}
+
+	._nav_content ._pd_slider {position:relative;display:flex;justify-content:center; align-items:center;width:89.6vw;margin:6.26667vw auto 0;padding-bottom:4vw;}
+	._nav_content ._pd_slider .swiper-wrapper {}
+	._nav_content ._pd_slider .swiper-wrapper .swiper-slide {display:flex;justify-content:space-between;flex-wrap:wrap;margin-right:2.66667vw;}
+	._nav_content ._pd_slider .swiper-wrapper .swiper-slide a {display:block;width:43.46667vw;margin-bottom:2.66667vw;}
+
+	._nav_content ._cont_all {display:flex;justify-content:center; align-items:center;}
+	._nav_content ._cont_all a {display:flex;justify-content:center; align-items:center;width:89.33333vw;height:10.4vw;font-weight:bold;font-size:3.46667vw;color:#fff;letter-spacing:-0.13333vw;border-radius:1.33333vw;border:0.26667vw solid rgba(255,255,255,0.2);}
+
+	._ev_layer {position:absolute; left:50%; margin-left:-44.66667vw; z-index:60;}
+	._ev_layer * {box-sizing:border-box;}
+	._ev_layer ._layer_wrap {width:89.33333vw; max-height:84.666665vw;overflow-y:scroll;padding:6vw 6.66667vw;background:#fff;border-radius:2.66667vw;}
+	._ev_layer ._layer_content {width:100%;font-weight:bold;line-height:1;}
+	._ev_layer ._layer_content ._brand_list {display:flex;}
+	._ev_layer ._layer_content ._brand_list ._brands {width:100%;}
+	._ev_layer ._layer_content ._brand_list ._brands ._brand_box {}
+	._ev_layer ._layer_content ._brand_list ._brands ._brand_box ._big {padding-bottom:2.66667vw;font-size:4vw;color:#000;}
+	._ev_layer ._layer_content ._brand_list ._brands ._brand_box ._small {padding-bottom:5.86667vw;}
+	._ev_layer ._layer_content ._brand_list ._brands ._brand_box ._small:last-child {padding-bottom:0;}
+	._ev_layer ._layer_content ._brand_list ._brands ._brand_box ._small a {display:inline-block;margin-right:6.66667vw;padding-bottom:3.66667vw;color:#000;opacity:0.5;font-size:3.73333vw;}
+	._ev_layer ._layer_content ._brand_list ._brands ._brand_box ._small a:last-child {margin-right:0;}
+	._ev_layer ._close {position:absolute; right:6.66667vw; top:6.66667vw; width:3.33333vw; height:3.33333vw; background:url("https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222144359674a219f6e5af624a6a857240e049ff648b.png") 0 0 no-repeat; background-size:100% 100%;}
+
+
+	#evDimmed {display:none; position:absolute; left:0; right:0; top:0; bottom:0; background:#000; opacity:0.7; z-index:50;}
+
+	/* ----------------------- */
+	/* ._nav_content ._pd_slider .swiper-wrapper .swiper-slide:last-child {flex-direction: column;} */
+
+	/* [LP24-3053] 2025-01-22 [상품/전시] 앱/웹 전환 정책 수정 */
+	#lotteWrap .app_banner ~ #lotteContents .evWrap ._cate_nav { top: 50px; }
+	#lotteWrap .app_banner.on ~ #lotteContents .evWrap ._cate_nav { top: calc(50px + 62px); }
+	#lotteWrap .app_banner ~ #lotteContents .evWrap ._cate_nav._absolute { top: initial; }
+	#lotteWrap .app_banner.on ~ #lotteContents .evWrap ._cate_nav._absolute { top: initial; }
+	/* //[LP24-3053] 2025-01-22 [상품/전시] 앱/웹 전환 정책 수정 */
+
+</style>
+<div class="evWrap" data-ipg-id="prd_24020032">
+
+	<div class="_info_header">
+		<div class="_area_wrap">
+			<div class="_title"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222153612111ba449ba5fb314c3e808c5fc0f9ac0a67.png" alt=""></div>
+			<!-- <div class="_text">
+				PATAGONIA 부터 JACQUEMUS까지<br>다양한 컨템포러리 브랜드를 만나보세요.
+			</div> -->
+			<div class="_marquee">
+				<div class="_marquee_wrap">
+					<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261022/2026102214431388554bae1ad45364e9298552279f8073f0d.webp" alt="" /></div>
+					<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261022/2026102214431388554bae1ad45364e9298552279f8073f0d.webp" alt="" /></div>
+				</div>
+			</div>
+			<div class="_marquee2">
+				<div class="_marquee_wrap">
+					<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261022/20261022144614001aa25753f86d042efb0871671122a5030.webp" alt="" /></div>
+					<div><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261022/20261022144614001aa25753f86d042efb0871671122a5030.webp" alt="" /></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_1">
+		<div class="_nav_content_wrap">
+
+			<div class="_cont_tit">
+				<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20240222/20240222112118958674a6ce2c9eb430eb03d5fd35f3a8671.png" alt="">
+			</div>
+
+			<div class="_pd_slider">
+				<div class="swiper-wrapper"></div>
+			</div>
+
+			<div class="_cont_all">
+				<a href="#evLayer1" class="_all_view _ev_fn_layer">
+					브랜드 전체보기
+				</a>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_ev_layer" id="evLayer1" style="display:none;">
+		<div class="_layer_wrap">
+			<div class="_layer_content">
+
+				<div class="_brand_list">
+					<div class="_brands _left">
+						<div class="_brand_box">
+							<!-- <div class="_big">A</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065007"><span>A.P.C.</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10067076"><span>ASICS</span></a>
+							</div> -->
+							<!-- <div class="_big">B</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065017"><span>BASERANGE</span></a>
+							</div> -->
+							<div class="_big">C</div>
+							<div class="_small">
+								<!-- <a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10069169"><span>CARHARTT</span></a> -->
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10067097"><span>CHLOE</span></a>
+								<!-- <a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10070620"><span>COURREGES</span></a> -->
+								<!-- <a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065027"><span>C.P.COMPANY</span></a> -->
+							</div>
+							<!-- <div class="_big">D</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065047"><span>DIESEL</span></a>
+							</div> -->
+							<div class="_big">G</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065057"><span>GANNI</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10069179"><span>GFORE</span></a>
+							</div>
+							<!-- <div class="_big">H</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10069497"><span>HERNO</span></a>
+							</div> -->
+							<div class="_big">I</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10073200"><span>ISABEL MARANT</span></a>
+							</div>
+							<!-- <div class="_big">J</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10067920"><span>J. LINDEBERG</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065077"><span>JACQUEMUS</span></a>
+							</div> -->
+							<!-- <div class="_big">L</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10071149"><span>LEMAIRE</span></a>
+							</div> -->
+							<div class="_big">M</div>
+							<div class="_small">
+								<!-- <a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065647"><span>MAISON MARGIELA</span></a> -->
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10073235"><span>MALBON</span></a>
+								<!-- <a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065617"><span>MARNI</span></a> -->
+							</div>
+							<!-- <div class="_big">N</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10004685"><span>NEW BALANCE</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10071233"><span>NORDA</span></a>
+							</div> -->
+							<!-- <div class="_big">O</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10072378"><span>ON</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065087"><span>OUR LEGACY</span></a>
+							</div> -->
+							<div class="_big">P</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10072386"><span>PATOU</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10076365"><span>PATAGONIA</span></a>
+								<!-- <a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065097"><span>PYRENEX</span></a> -->
+							</div>
+							<!-- <div class="_big">S</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065627"><span>SALOMON</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065107"><span>STUDIO NICHOLSON</span></a>
+							</div> -->
+							<!-- <div class="_big">T</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10065657"><span>THOM BROWNE</span></a>
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10072831"><span>TOTEME</span></a>
+							</div> -->
+							<div class="_big">W</div>
+							<div class="_small">
+								<a href="https://m.kor.lottedfs.com/kr/display/brand?dispShopNo=10071241"><span>WOOYOUNGMI</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div id="evDimmed" style="display:none;"></div>
+
+</div></div></div></section></div></article></div></body></html>

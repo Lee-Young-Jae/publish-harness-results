@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular';}
+	.evWrap img {display:block;}
+	.evWrap a {display:block;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._evt_header {width:100%;}
+	._evt_header ._area_wrap {position:relative; width:100%;}
+	._evt_header ._visual {display:flex; justify-content:center; width:100%;}
+	._evt_header ._desc {position:absolute; left:0; top:324px; width:100%; text-align:center; font-size:24px; font-weight:600; line-height:1.4; letter-spacing:-0.03em; color:#fff;}
+
+	._evt_content {position:relative; width:100%; background:#222; z-index:10;}
+	._evt_content ._content_wrap {width:100%;}
+
+	._time {display:flex; justify-content:center; margin:-90px 0 130px 0;}
+	._time ._time_box {display:flex; gap:46px;}
+	._time ._time_box > div {position:relative; display:flex; flex-direction:column; gap:3px; width:59px; text-align:center;}
+	._time ._time_box > div::after {content:':'; position:absolute; right:-29px; top:-10px; font-size:45px; font-weight:700; color:#4d4d4d;}
+	._time ._time_box > div:last-child::after {display:none;}
+	._time ._time_box > div > span:first-child {font-size:45px; font-weight:700; letter-spacing:-0.02em; color:#fff; line-height:1;}
+	._time ._time_box > div > span:last-child {font-size:15px; letter-spacing:-0.02em; color:#949494;}
+
+	._detail {width:1010px; margin:-90px auto 0 auto; padding:21px 0 23px 0;}
+	._detail ._row {display:flex; margin-right:-37px; padding:18px 0 17px 0; border-top:1px solid rgba(255,255,255,0.2);}
+	._detail ._row:first-child {padding-top:0; border-top:0;}
+	._detail ._row ._label {flex:0 0 auto; width:171px; font-size:20px; font-weight:700; line-height:1.4; color:#fff;}
+	._detail ._row ._item {flex:1 1 auto; font-size:20px; line-height:1.4; color:#fff; word-break:keep-all;}
+	._detail ._row ._item ._brand_list {display:flex; gap:10px;}
+	._detail ._row ._item ._brand_list ._brand {position:relative; width:160px; height:93px; border-radius:8px; overflow:hidden; background:#313131;}
+	._detail ._row ._item ._brand_list ._brand ._thumb {display:block;}
+	._detail ._row ._item ._brand_list ._brand ._name {position:absolute; left:0; top:40px; bottom:5px; display:flex; justify-content:center; align-items:center; width:100%; text-align:center; font-size:18px; line-height:1.4; color:rgba(255,255,255,0.5);}
+
+</style>
+<div class="evWrap" data-ipg-id="mkt_26090005">
+
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<div class="_visual"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/20261030135611987f5171f602b55415f87a5729fda737297.webp" alt="3% L.POINT 추가 적립"></div>
+			<div class="_desc">오직 롯면에서 누리는 쇼핑 찬스!<br>BEST 브랜드를 특별한 혜택으로 즐겨보세요.</div>
+		</div>
+	</div>
+
+	<div class="_evt_content">
+		<div class="_content_wrap">
+
+			<div class="_time" style="display:none;">
+
+				<div class="_time_box">
+					<div class="_time_day">
+						<span class="_d">00</span>
+						<span>DAYS</span>
+					</div>
+					<div class="_time_hour">
+						<span class="_h">00</span>
+						<span>HRS</span>
+					</div>
+					<div class="_time_minute">
+						<span class="_m">00</span>
+						<span>MINS</span>
+					</div>
+					<div class="_time_second">
+						<span class="_s">00</span>
+						<span>SECS</span>
+					</div>
+				</div>
+
+				<script>
+					(function() {
+
+						var $time = $('.evWrap ._time');
+
+						var countTimer = null;
+						var joinTime = new Date();
+						var startTime = new Date('2026/11/09 00:00:00');
+						var endTime = new Date('2026/11/10 23:59:59');
+
+						var delayTime = startTime - joinTime;
+
+						function countTime() {
+
+							var nowTime = new Date();
+
+							var diff = endTime.getTime() - nowTime.getTime();
+
+							var diffDay = Math.floor(diff / (1000*60*60*24));
+							var diffHour = Math.floor((diff / (1000*60*60)) % 24);
+							var diffMin = Math.floor((diff / (1000*60)) % 60);
+							var diffSec = Math.floor(diff / 1000 % 60);
+
+							if (diffDay >= 0) {
+
+								var time_d = (diffDay >= 10 ? diffDay : '0' + diffDay).toString();
+								var time_h = (diffHour >= 10 ? diffHour : '0' + diffHour).toString();
+								var time_m = (diffMin >= 10 ? diffMin : '0' + diffMin).toString();
+								var time_s = (diffSec >= 10 ? diffSec : '0' + diffSec).toString();
+
+								$('._time_box ._d').html(time_d);
+								$('._time_box ._h').html(time_h);
+								$('._time_box ._m').html(time_m);
+								$('._time_box ._s').html(time_s);
+
+							} else {
+								/* 카운트 종료 시 */
+								clearInterval(countTimer);
+
+								$('._time_box ._d').html('00');
+								$('._time_box ._h').html('00');
+								$('._time_box ._m').html('00');
+								$('._time_box ._s').html('00');
+
+								$time.remove();
+							}
+
+						}
+
+						/* 오픈 전 접속 후 대기 상태에서 오픈시간이 되면 */
+						if (delayTime > 0) {
+							setTimeout(function() {
+
+								countTime();
+								countTimer = setInterval(countTime, 1000);
+
+								$time.css('display', '');
+
+							}, delayTime);
+						}
+
+						/* 오픈 시간 또는 오픈 시간 후 카운트 시작 */
+						if (joinTime >= startTime) {
+
+							countTime();
+							countTimer = setInterval(countTime, 1000);
+
+							$time.css('display', '');
+
+						}
+
+					})();
+				</script>
+
+			</div>
+
+			<div class="_detail">
+				<div class="_row">
+					<div class="_label">행사 기간</div>
+					<div class="_item">2026.11.11(수) ~ 11.20(금)</div>
+				</div>
+				<div class="_row">
+					<div class="_label">행사 대상</div>
+					<div class="_item">내국인 L.POINT 회원</div>
+				</div>
+				<div class="_row">
+					<div class="_label">행사 내용</div>
+					<div class="_item">행사 기간 내 온라인에서 SULWHASOO, PRADA, REJURAN, BYREDO, CREED, AESOP 상품 구매 시<br>구매 금액의 3% L.POINT 추가 적립</div>
+				</div>
+				<div class="_row">
+					<div class="_label">적립 일자</div>
+					<div class="_item">상품 인도 완료 3일 후 자동 적립</div>
+				</div>
+				<div class="_row">
+					<div class="_label">행사 대상 브랜드</div>
+					<div class="_item">
+						<div class="_brand_list">
+							<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10077822" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260914/20260914131358539067952784505440c838301e686adad59.webp" alt=""></span>
+								<span class="_name">설화수</span>
+							</a>
+							<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10026577" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260914/2026091413145406343993b07388a4726be26879111e3fdc1.webp" alt=""></span>
+								<span class="_name">바이레도</span>
+							</a>
+							<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10001517" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/202610301351452464881185f7ea04cfb99d5d416c0269aca.webp" alt=""></span>
+								<span class="_name">크리드</span>
+							</a>
+							<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10078435" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261030/2026103013520339929df974cc4e14bee9e94673a19051ba4.webp" alt=""></span>
+								<span class="_name">시슬리</span>
+							</a>
+							<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10076693" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260914/202609141314312991a038927cd284c388aabfa1124dcfed1.webp" alt=""></span>
+								<span class="_name">이솝</span>
+							</a>
+							<!-- <a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10077001" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260914/202609141314443433508cbc1ea4e470a832427c6cd810bee.webp" alt=""></span>
+								<span class="_name">엘지 프라엘</span>
+							</a> -->
+							<!-- <a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10000629" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260914/202609141315033942a862ddab56c4da7b6f20a26e9c5f8cf.webp" alt=""></span>
+								<span class="_name">아쿠아 디 파르마</span>
+							</a> -->
+							<!-- <a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10009911" class="_brand">
+								<span class="_thumb"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260921/202609211614077960ad8d395b7b946a4926dd3fec4590bab.webp" alt=""></span>
+								<span class="_name">메디큐브</span>
+							</a> -->
+						</div>
+					</div>
+				</div>
+				<div class="_row">
+					<div class="_label">유의사항</div>
+					<div class="_item">2026년 12월 31일 이내에 인도한 고객에 한하여 적립됩니다.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div></div></div></section></article></div></body></html>

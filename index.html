@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>퍼블리싱 비교</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo">⇆</span>
+      <strong>퍼블리싱 비교</strong>
+      <span id="source" class="muted"></span>
+    </div>
+    <div class="top-right">
+      <span id="lastSync" class="muted"></span>
+      <button id="gradBtn" class="btn">졸업 판정</button>
+      <button id="syncBtn" class="btn">지금 확인</button>
+    </div>
+  </header>
+
+  <div id="gradPanel" class="grad-panel" hidden></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="filters seg" id="filters">
+        <button data-filter="all">전체</button>
+        <button data-filter="harness">하네스 있음</button>
+        <button data-filter="diff">차이 있음</button>
+        <button data-filter="todo">판정 전</button>
+      </div>
+      <ul id="caseList" class="case-list"></ul>
+      <div class="keys">
+        <kbd>j</kbd><kbd>k</kbd> 다음·이전 건 · <kbd>1</kbd>~<kbd>4</kbd> 판정 · <kbd>s</kbd> 저장
+      </div>
+    </aside>
+
+    <main id="main">
+      <div id="empty" class="empty">왼쪽에서 비교할 건을 골라 주세요</div>
+
+      <section id="caseView" class="case-view" hidden>
+        <div class="case-head">
+          <div class="case-title">
+            <h1 id="title"></h1>
+            <div id="subline" class="subline"></div>
+          </div>
+          <div id="chips" class="chips"></div>
+        </div>
+
+        <div class="toolbar">
+          <div id="fileTabs" class="seg file-tabs"></div>
+          <div class="spacer"></div>
+          <label class="field">퍼블리셔 판
+            <select id="versionSel"></select>
+          </label>
+          <div id="modeSeg" class="seg">
+            <button data-mode="side" class="on">나란히</button>
+            <button data-mode="overlay">겹쳐 보기</button>
+            <button data-mode="blend">차이 강조</button>
+            <button data-mode="code">코드 차이</button>
+          </div>
+        </div>
+
+        <div class="toolbar sub" id="viewOpts">
+          <span class="opt" data-for="side overlay">
+            <label><input type="checkbox" id="syncScroll" checked> 스크롤 맞춤</label>
+          </span>
+          <span class="opt" data-for="side overlay blend">
+            <span class="seg small" id="zoomSeg">
+              <button data-zoom="fit" class="on">화면 맞춤</button>
+              <button data-zoom="1">실제 크기</button>
+            </span>
+          </span>
+          <span class="opt" data-for="overlay">
+            하네스 <input type="range" id="opacity" min="0" max="100" value="50"> 퍼블리셔
+          </span>
+          <span class="opt" data-for="blend">
+            <span class="seg small" id="shotSeg">
+              <button data-shot="diff" class="on">차이 표시</button>
+              <button data-shot="harness">하네스 캡처</button>
+              <button data-shot="publisher">퍼블리셔 캡처</button>
+            </span>
+          </span>
+          <span class="opt" data-for="code">
+            <span class="seg small" id="diffSeg">
+              <button data-diff="hp" class="on">하네스 ↔ 퍼블리셔</button>
+              <button data-diff="bh">기준본 → 하네스</button>
+              <button data-diff="bp">기준본 → 퍼블리셔</button>
+            </span>
+          </span>
+          <span class="opt" data-for="code">
+            <label><input type="checkbox" id="activeOnly"> 주석 빼고 비교</label>
+          </span>
+          <span class="spacer"></span>
+          <span class="opt" data-for="side overlay blend code"><span id="pairNote" class="muted"></span></span>
+        </div>
+
+        <div id="stage" class="stage"></div>
+
+        <div class="verdict-bar">
+          <div class="verdicts" id="verdicts">
+            <button data-v="harness"><kbd>1</kbd> 하네스가 맞음</button>
+            <button data-v="publisher"><kbd>2</kbd> 퍼블리셔가 맞음</button>
+            <button data-v="both_ok"><kbd>3</kbd> 둘 다 괜찮음</button>
+            <button data-v="both_wrong"><kbd>4</kbd> 둘 다 틀림</button>
+          </div>
+          <div class="causes" id="causes"></div>
+          <input id="memo" class="memo" placeholder="메모 (선택)">
+          <button id="saveBtn" class="btn primary" disabled>판정 저장</button>
+          <span id="lastVerdict" class="muted"></span>
+        </div>
+      </section>
+    </main>
+
+    <aside id="details" class="details"></aside>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="manifest.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if (fixGap != ldfHeaderH() + ldfHeaderY()) {
+				fixGap = ldfHeaderH() + ldfHeaderY();
+				$nav.find('._nav_wrap').css('top', fixGap);
+			}
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+
+							clearTimeout(fnTimer);
+							fnTimer = setTimeout(function() {
+								if (typeof _evtNavSwipe != 'undefined') {
+									_evtNavSwipe.slideTo(i, 500);
+								}
+							}, 300);
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+
+						}
+					}
+				}
+			}
+
+		});
+
+		/* TAB 스와이프 */
+		try {
+			var _evtNavSwipe = $('._evt_nav').length ? new Swiper('._evt_nav ._nav_wrap ._nav_inner', {
+				slidesPerView: 'auto',
+				centerInsufficientSlides: true,
+				spaceBetween: 0,
+				freeMode: true,
+
+				/* nav 4개 이상일 시 → allowTouchMove: true */
+				allowTouchMove: true,
+			}) : false;
+
+			var _evtNavSwipeTimer = null;
+			$(window).on('resize._evtNavSwiper', function(e) {
+				if (_evtNavSwipe) {
+					clearTimeout(_evtNavSwipeTimer);
+					_evtNavSwipeTimer = setTimeout(function() {
+						_evtNavSwipe.update();
+					}, 150);
+				}
+			}).trigger('resize._evtNavSwiper');
+		} catch (e) {
+			console.error(e);
+		}
+
+		/* 레이어 열기 */
+		$('.evWrap ._ev_fn_layer').on('click', function(e) {
+			e.preventDefault();
+
+			if ($(this).data('login')) {
+				var _eventLoginCheck = loginCheck(null, 'N');
+
+				if (!_eventLoginCheck) {
+					checkLoginThen();
+					return false;
+				}
+			}
+
+			var $evtWrap = $('.evWrap');
+			var $target = $($(this).attr('href'));
+
+			var setPos = {
+				left: $(this).offset().left,
+				top: $(this).offset().top - $evtWrap.offset().top,
+				right: $(this).offset().left + $(this).width(),
+				bottom: ($(this).offset().top - $evtWrap.offset().top) + $(this).height(),
+				screenCenter: function() {
+					var evtWidth = $evtWrap.width() / 2;
+					var layerWidth = parseInt($target.width()) > 1 ? parseInt($target.width()) / 2 : 550 / 2;
+
+					return evtWidth - layerWidth;
+				},
+				screenMiddle: function() {
+					var winGap = 50;
+
+					if ($('._evt_nav').length) {
+						winGap = 50 + $('._evt_nav').height();
+					}
+
+					var wrapGap = 50;
+					/*
+						winGap = 창으로 부터의 상단을 기준으로 마진 (기본은 면세점 GNB 높이. 상단 행사 네비에 가려질 경우 행사 네비 높이 만큼 증가 시킴 아래 코드 참고)
+						wrapGap = 영역으로의 상단을 기준으로 마진
+					*/
+
+					/* 레이어가 상단 고정 네비에 가려질 경우 아래 처럼 응용 750은 디자인 넓이 기준 */
+					/*
+						var winGap = (+(Math.round((197 / 750 * 100) + 'e+3') + 'e-3'));
+						var wrapGap = (+(Math.round((50 / 750 * 100) + 'e+3') + 'e-3'));
+
+						winGap = (winGap * $(window).width()) / 100;
+						wrapGap = (wrapGap * $(window).width()) / 100;
+					*/
+
+					var winPos = $(window).scrollTop() - $evtWrap.offset().top;
+					var winHeight = winPos < 0 ? $(window).innerHeight() + winPos : $(window).innerHeight();
+
+					var wrapHeight = $evtWrap.height();
+					var wrapPosTop = $evtWrap.offset().top;
+					var wrapPosBottom = wrapHeight;
+
+					var targetHeight = $target.height();
+					var targetPosTop = (winPos + (winHeight / 2)) - (targetHeight / 2);
+					var targetPosBottom = targetPosTop + targetHeight;
+
+					if (winHeight > (targetHeight + winGap)) {
+						if (winPos > 0) {
+							if (targetPosBottom > (wrapPosBottom - wrapGap)) {
+
+								$('html, body').scrollTop(wrapPosBottom - targetHeight - wrapGap - winGap);
+
+								return wrapPosBottom - targetHeight - wrapGap;
+							} else {
+								return targetPosTop + (winGap / 2);
+							}
+						} else {
+							return (winHeight / 2) - (targetHeight / 2);
+						}
+					} else {
+						if (targetHeight > wrapHeight) {
+							return winGap;
+						} else {
+							if (winPos > 0) {
+								if ((winPos + winGap + (winGap / 2) + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight - wrapGap - winGap);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winPos + winGap + (winGap / 2);
+								}
+							} else {
+								if ((winGap + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight - wrapGap - winGap);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winGap;
+								}
+							}
+						}
+					}
+				}
+			};
+
+			if ($target.length > 0) {
+
+				var resultTop = (setPos.screenMiddle() / $(window).width() * 100).toFixed(5) + 'vw';
+				var resultLeft = (setPos.screenCenter() / $(window).width() * 100).toFixed(5) + 'vw';
+
+				$evtWrap.find('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+				if (!$(this).is('.active')) {
+					$target.css({display: 'block', top: resultTop, left: resultLeft, marginLeft: 0, opacity: 0}).addClass('active').animate({
+						opacity: 1
+					}, 0, function() {});
+					$('#evDimmed').css({display: 'block'});
+				}
+			}
+		});
+
+		/* 레이어 닫기 */
+		$('.evWrap ._ev_layer ._close').on('click', function(e) {
+			e.preventDefault();
+			var $evtWrap = $('.evWrap');
+
+			$(this).closest('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+			$('#evDimmed').css({display: 'none'});
+		});
+		$('#evDimmed').on('click', function(e) {
+			e.preventDefault();
+			$('.evWrap ._ev_layer:visible').find('._close').trigger('click');
+		});
+
+	});
+</script>
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:300;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.ttf') format('truetype'),
+		local('Roboto Light'), local('Roboto-Light');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.ttf') format('truetype'),
+		local('Roboto Regular'), local('Roboto-Regular');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:500;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.ttf') format('truetype'),
+		local('Roboto Medium'), local('Roboto-Medium');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:700;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.ttf') format('truetype'),
+		local('Roboto Bold'), local('Roboto-Bold');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:900;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.ttf') format('truetype'),
+		local('Roboto Black'), local('Roboto-Black');
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family: Pretendard, 'Noto Sans Regular', sans-serif;}
+	.evWrap * {margin:0; padding:0; box-sizing:border-box;}
+	.evWrap a {text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:0.13333vw; height:0.13333vw; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._line_through {text-decoration-line: line-through;}
+
+	._evt_header {width:100%;}
+	._evt_header ._area_wrap {position:relative; width:100%;}
+
+	._evt_header ._logo {width:19.2vw; height:4.26667vw; position:absolute; top:10.66667vw; left:50%; transform:translateX(-50%); background: transparent url('https://static.lottedfs.com/contents/images/ckeditor-img/20250903/202509031357318288fb0458f7caf4a299b7fc28444234e6d.png') 0 0 / 100% auto no-repeat;}
+	._evt_header ._desc {display:flex; flex-direction:column; align-items:center; gap:1.6vw; position:absolute; top:25.33333vw; left:0; width:100%;}
+	._evt_header ._desc * {line-height:1;}
+	._evt_header ._date {font-size:4.8vw; font-weight:400; letter-spacing:-0.025em; color:#fff; margin-top: 1.06667vw;}
+	._evt_header ._sub {font-size:5.86667vw; font-weight:400; letter-spacing:-0.025em; color:#fff;}
+	._evt_header ._title {font-size:10.66667vw; font-weight:700; letter-spacing:-0.025em; line-height: 12.8vw; color:#fff;}
+	._evt_header ._visual {width:100%;}
+	._evt_header ._visual img {display:block; width:100%;}
+
+
+	._evt_content {width:100%; background:#F4F4F4; padding: 16vw 9.33333vw;}
+	._evt_content._evt_content_2 {background:#fff;}
+	._evt_content._evt_content_3 {background:#EAF0F8;}
+	._evt_content ._area_wrap {width:81.33333vw; margin:0 auto;}
+	._evt_content ._area_title {width:100%; display:flex; flex-direction:column; align-items:center; gap:0.53333vw; margin-bottom: 8vw;}
+	._evt_content ._area_title * {line-height:1;}
+	._evt_content ._area_title ._sub {font-size:6.13333vw; color:#000; letter-spacing:0; line-height: 7.36vw; font-weight: 400;}
+	._evt_content ._area_title ._title {font-size:10.4vw; font-weight:700; color:#000; letter-spacing:-0.03em; line-height: 10.56vw;}
+	._evt_content ._area_title ._label {display:flex; height:8vw; padding:0 4vw; align-items:center; justify-content: center; font-size:4.53333vw; font-weight:600; color:#fff; letter-spacing:-0.025em; background-color:#000; border-radius:4vw; margin-bottom: 7.46667vw;}
+
+	._evt_content ._evt_info {margin-top:8vw;}
+
+	._evt_content ._tbl_layout {display:flex; align-items:start; border-radius:2.66667vw; overflow:hidden; width:81.33333vw; margin:0 auto; background-color:#fff;}
+	._evt_content ._tbl_layout dl,
+	._evt_content ._tbl_layout dl * {display:flex; align-items:center; justify-content: center; width:100%; color:#000; font-size:4.8vw; font-weight:600;}
+	._evt_content ._tbl_layout dl {flex-direction:column;}
+	._evt_content ._tbl_layout dt {height:13.33333vw; background-color:#000; color:#fff;}
+	._evt_content ._tbl_layout dl ~ dl dt {background-color:#f23900;}
+	._evt_content ._tbl_layout dl ~ dl dd {position:relative;}
+	._evt_content ._tbl_layout dl ~ dl dd:before {position:absolute; top:0; left:-0.13333vw; width:0.26667vw; height:100%; background-color:#f6f6f6; content:'';}
+	._evt_content ._tbl_layout dd + dd {border-top:solid 0.26667vw #f6f6f6;}
+	._evt_content ._tbl_layout dd span {height:13.33333vw; position:relative;}
+	._evt_content ._tbl_layout dd span._col {flex-direction:column; height:26.66667vw;}
+	._evt_content ._tbl_layout dd span._col em {height:100%;}
+	._evt_content ._tbl_layout dd span + span:before {position:absolute; top:0; left:-0.13333vw; width:0.26667vw; height:100%; background-color:#f6f6f6; content:'';}
+	._evt_content ._tbl_layout dd span em ~ em {border-top:solid 0.26667vw #f6f6f6;}
+
+	._evt_content ._tbl_layout._tbl_type_2 {margin-top: 8vw; border: none;}
+	._evt_content ._tbl_layout._tbl_type_2 dd {background: #DCDCDC;}
+	._evt_content ._tbl_layout._tbl_type_2 dd + dd {border-color: #fff !important;}
+
+	._evt_content ._detail {width:100%; margin-top:8vw;}
+	._evt_content ._detail > ul {display:flex; flex-direction: column; gap:6.66667vw;}
+	._evt_content ._detail > ul > li {display:flex; flex-direction:column; align-items:center; gap:4vw;}
+	._evt_content ._detail > ul > li ._label {display:flex; height:8vw; padding:0 4vw; align-items:center; justify-content: center; font-size:4.53333vw; font-weight:600; color:#fff; letter-spacing:-0.025em; background-color:#000; border-radius:4vw;}
+	._evt_content ._detail > ul > li ._item {gap:1.06667vw; display:flex; flex-direction:column; align-items:center; justify-content: center; text-align:center; font-size:4.26667vw; color:#000; letter-spacing:0; line-height:6.4vw; font-weight:400;}
+	._evt_content ._detail > ul > li ._item ._em {line-height: 5.2vw;}
+	._evt_content ._detail > ul > li ._item em {font-size:3.46667vw;  color:#666666; font-weight: 500;}
+	._evt_content ._detail > ul > li ._item em:before {content:'※ ';}
+
+	._evt_content._evt_content_3 ._tbl_layout dt {background-color:#0059f2;}
+	._evt_content._evt_content_3 ._detail > ul > li ._label {background-color:#0059f2;}
+	._evt_content._evt_content_3 ._tbl_layout dl *:not(dt) {font-size:4vw;}
+	._evt_content._evt_content_3 ._tbl_layout dd + dd,
+	._evt_content._evt_content_3 ._tbl_layout dd span em ~ em {border-color: #e8eef7;}
+	._evt_content._evt_content_3 ._tbl_layout dd span + span:before {background-color:#e8eef7;}
+
+	.evWrap ._all_banner {margin:0 auto; margin-top:8vw;}
+	.evWrap ._all_banner a {display:block; width:100%;}
+	.evWrap ._all_banner a img {width:100%;}
+
+	._evt_content ._input {width:100%; height:16vw; margin-top:5.33333vw; border-radius:2.13333vw; border:0.26667vw solid #666666; background:#fff;}
+	._evt_content ._input input {display:block; width:100%; height:100%; padding:0 1.33333vw; background:none !important; border:none !important; font-size:5.33333vw !important; font-weight:500; color:#000 !important; letter-spacing:-0.02em; font-family:inherit; text-align:center;}
+	._evt_content ._input input::placeholder {color:#666666 !important;}
+	._evt_content ._input input::-webkit-input-placeholder {color:#666666 !important;}
+	._evt_content ._input input:-ms-input-placeholder {color:#666666 !important;}
+	._evt_content ._input input:-moz-placeholder {color:#666666 !important;}
+
+	._evt_content ._btn_set {width:100%;}
+	._evt_content ._btn_set ._area_wrap {width:100%; height:16vw; margin:8.26667vw auto 16vw; border-radius:4vw 0 4vw 0; background:#000; text-align:center; line-height:1; font-size:0; padding:0;}
+	._evt_content ._btn_set ._area_wrap > a {display:block; width:100%; height:100%;}
+	._evt_content ._btn_set ._area_wrap > a::before {content:''; display:inline-block; height:100%; vertical-align:middle;}
+	._evt_content ._btn_set ._name {position:relative; left:-0.13333vw; top:0vw; display:inline-block; font-size:4.8vw; color:#fff; font-weight:500; font-family:'Noto Sans Medium'; vertical-align:middle; letter-spacing:-0.16vw;}
+	._evt_content ._btn_set ._sign {position:relative; left:1.46667vw; top:0.26667vw; display:inline-block; width:3.46667vw; height:4.26667vw; vertical-align:middle;}
+	._evt_content ._btn_set ._sign svg {display:block; width:100%; height:100%;}
+	._evt_content ._btn_set._link_btn {margin-top:8.13333vw;}
+	._evt_content ._btn_set._link_btn ._sign {transform:rotate(-90deg);}
+
+	._evt_content ._caution {display:flex; width:100%; justify-content: center; margin-top:16vw;}
+	._evt_content ._caution > ul > li {position:relative; padding-left:3.2vw; font-size:3.46667vw; font-weight:500; line-height:1.7; letter-spacing:-0.05em; color:#666666;}
+	._evt_content ._caution > ul > li::before {content:'※'; position:absolute; left:0; top:-0.13333vw;}
+	._evt_content ._caution > ul > li._bold {font-weight:700;padding-left:0;}
+	._evt_content ._caution > ul > li._bold::before {display:none;}
+
+	._evt_content ._evt_caution dl * {color:#666;}
+	._evt_content ._evt_caution dl dt {font-size:3.46667vw; line-height: 5.2vw; font-weight:700;}
+	._evt_content ._evt_caution dl dd {margin-top:2.66667vw;}
+	._evt_content ._evt_caution ul li {padding-left:2vw; position:relative; line-height:5.2vw; font-size:3.46667vw; font-family:'Pretendard';}
+	._evt_content ._evt_caution ul li span {word-break: keep-all; word-wrap: break-word; overflow-wrap: break-word;}
+	._evt_content ._evt_caution ul li + li {margin-top:2vw;}
+	._evt_content ._evt_caution ul li:before {display:inline-block; width:0.8vw; height:0.8vw; background-color:#666; border-radius:50%; position:absolute; left:0; top:1.6vw; content:'';}
+	._evt_content ._evt_caution ul li._noti:before {content:'※'; width: 0; height: 0; top:0; left:-0.66667vw;}
+	._evt_content ._evt_caution ul li li:before {width:0.93333vw; height:0.26667vw; top:1.86667vw; border-radius:0;}
+	._evt_content ._evt_caution ul:nth-of-type(2) {margin-top:1.33333vw;}
+	._evt_content ._evt_caution ul:nth-of-type(2) li {font-size:3.2vw; font-family:'Pretendard';}
+	._evt_content ._evt_caution ul li._emp {margin-top:5.33333vw;}
+	._evt_content ._evt_caution ul li._emp:before {content:none; display:none;}
+	._evt_content ._outline {width:100%; height: 19.2vw;}
+	._evt_content ._outline._not_tip {margin-top:6.26667vw;}
+	._evt_content ._outline ._area_wrap {position:relative; width:100%;}
+	._evt_content ._outline ._legend {width:100%; font-size:0;}
+	._evt_content ._outline ._legend ._label {position:relative; display:inline-block; font-size:4.26667vw; font-weight:600; line-height: 5.6vw;}
+	._evt_content ._outline ._legend ._label ._txt {letter-spacing:-0.05333vw;}
+	._evt_content ._outline ._legend ._label ._icon {position:absolute; top:-1.33333vw; left:100%; margin-left:0.8vw; font-size:3.06667vw; line-height:6.93333vw; font-family:'Roboto'; font-weight:900; color:#fff;}
+	._evt_content ._outline ._legend ._label ._icon > span {position:absolute; left:0; top:0; width:100%; text-align:center; z-index:1;}
+	._evt_content ._outline ._legend ._label ._icon i {display:block; width:7.73333vw; height:7.6vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='58' height='57' viewBox='0 0 58 57'%3E%3Crect width='58' height='52' rx='26'/%3E%3Cpath d='M1354.4,1388.138c-4.146,2.352-7.21,15.921-7.21,15.921l16.584-9.408S1358.548,1385.786,1354.4,1388.138Z' transform='translate(-1332.426 -1347.06)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto;}
+	._evt_content ._outline ._benefit {display:flex; position:relative; width:100%; font-size:0; height: 13.6vw;}
+	._evt_content ._outline ._benefit ._info {flex:1 0 auto; position:relative; padding-top:2.53333vw; font-size:0; line-height:1;}
+	._evt_content ._outline ._benefit ._info::before {content:''; position:absolute; left:0; top:0.8vw; width:100%; height:0.93333vw; background:#000;}
+	._evt_content ._outline ._benefit ._info ._label {font-size:4.26667vw; line-height: 6.4vw;}
+	._evt_content ._outline ._benefit ._info ._link {margin-top:4vw;}
+	._evt_content ._outline ._benefit ._info ._link::after {content:''; display:block; padding-bottom:3.06667vw;}
+	._evt_content ._outline ._benefit ._info ._link > a {position:relative; top:0.26667vw; display:inline-block; font-size:3.73333vw; vertical-align:middle; letter-spacing:-0.02667vw;}
+	._evt_content ._outline ._benefit ._info ._link > a::after {content:''; position:absolute; left:0; bottom:-0.26667vw; width:100%; height:0.13333vw; background:#000;}
+	._evt_content ._outline ._benefit ._info ._point {margin-top:4vw;}
+	._evt_content ._outline ._benefit ._info ._point::after {content:''; display:block; padding-bottom:3.06667vw;}
+	._evt_content ._outline ._benefit ._info ._point > a {position:relative; top:0.26667vw; display:inline-block; font-size:3.73333vw; vertical-align:middle; letter-spacing:-0.02667vw;}
+	._evt_content ._outline ._benefit ._info ._point > a::after {content:''; position:absolute; left:0; bottom:-0.26667vw; width:100%; height:0.13333vw; background:#000;}
+	._evt_content ._outline ._benefit ._detail {flex:1; position:relative; padding-left:2.66667vw; margin-top: 0;}
+	._evt_content ._outline ._benefit ._detail ._tip {position:absolute; right:-2.26667vw; top:-7.46667vw; height:7.06667vw; padding:0 3.2vw; border-radius:3.86667vw; background:#000; font-size:3.2vw; font-weight:bold; color:#fff; line-height:6.93333vw; letter-spacing:-0.09333vw;}
+	._evt_content ._outline ._benefit ._detail ._tip i {position:absolute; left:50%; bottom:-0.93333vw; margin-left:6.13333vw; line-height:1; width:2.2112vw; height:2.17587vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16.584' height='16.319' viewBox='0 0 16.584 16.319'%3E%3Cpath d='M1354.4,1388.138c-4.146,2.352-7.21,15.921-7.21,15.921l16.584-9.408S1358.548,1385.786,1354.4,1388.138Z' transform='translate(-1347.192 -1387.741)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto;}
+
+	/* ----------------------- */
+	/* ★★★★ SVG background image 컬러 변경 : 컬러 값 #5E2BB8 적용시 -> fill='%235E2BB8' %23은 #과 같음 */
+	._evt_content ._outline ._benefit ._detail ._tip._init_bg i {background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16.584' height='16.319' viewBox='0 0 16.584 16.319'%3E%3Cpath fill='%235E2BB8' d='M1354.4,1388.138c-4.146,2.352-7.21,15.921-7.21,15.921l16.584-9.408S1358.548,1385.786,1354.4,1388.138Z' transform='translate(-1347.192 -1387.741)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto;}
+	._evt_content ._outline ._benefit ._detail ._price {position:relative; left:0; top:-5.33333vw;}
+	._evt_content ._outline ._benefit ._detail ._price ._simbol {position:relative; left:-0.4vw; top:0.13333vw; display:inline-block; width:3.6vw; height:5.86667vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='44' viewBox='0 0 27 44'%3E%3Cpath d='M394.616,419.513H401.1c.2,3.049,1.8,5.649,5.84,6.05v-10.35l-1.8-.4c-5.339-1.2-9.532-3.75-9.532-9.65,0-6.1,4.342-9.6,11.329-9.95v-4.1h2.694v4.1c6.888.45,11.08,4.05,11.08,10.349H414.23c0-2.75-1.8-4.449-4.592-4.8v9.35l1.348.35c7.436,1.7,10.63,4.6,10.63,10.049,0,6.8-5.04,10.2-11.978,10.551v4.05h-2.694v-4.05C399.158,430.612,394.616,426.412,394.616,419.513Zm12.328-9.9v-8.9c-3.395.249-4.792,2.1-4.792,4.35C402.151,407.114,403.3,408.763,406.944,409.612Zm8.084,11c0-2.9-2-4.2-5.39-4.95v9.9C413.082,425.313,415.028,423.513,415.028,420.613Z' transform='translate(-394.616 -391.113)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto; vertical-align:top;}
+	._evt_content ._outline ._benefit ._detail ._price ._usd {display:inline-block; font-size:16vw; font-weight:900; font-family:'Roboto'; line-height:12vw; letter-spacing:-0.53333vw; vertical-align:middle;}
+	._evt_content ._outline ._benefit ._detail ._price ._etc {display:inline-block; font-size:16vw; font-weight:900; font-family:'Roboto'; line-height:12vw; letter-spacing:-0.53333vw; vertical-align:middle;}
+	._evt_content ._outline ._benefit ._detail ._price ._krw {display:inline-block; font-size:16vw; font-weight:900; font-family:'Roboto'; line-height:12vw; letter-spacing:-0.93333vw; vertical-align:middle;}
+	._evt_content ._outline ._benefit ._detail ._price ._krw_won {display:inline-block; position:relative; left:1.2vw; top:0; font-size:14.66667vw; font-weight:bold; line-height:12vw; letter-spacing:0; vertical-align:middle;}
+	._evt_content ._outline ._benefit ._detail ._price ._txt {display:inline-block; position:relative; left:0; top:0; font-size:16vw; font-weight:800; line-height:19.2vw; letter-spacing:0; vertical-align:middle;}
+
+	._evt_content ._outline + ._outline {margin-top:8.66667vw;}
+
+	._evt_content ._list_table {width:100%;}
+	._evt_content ._list_table > ul {width:100%;}
+	._evt_content ._list_table > ul > li {position: relative; display:flex; padding:2.13333vw 0; border-bottom:1px solid #CCC; align-items: center;}
+	._evt_content ._list_table ._label {position:relative; flex:1 0 auto;}
+	._evt_content ._list_table ._label ._simbol {position:relative; left:0; top:1.2vw; display:inline-block; width:1.86667vw; height:3.2vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24' viewBox='0 0 14 24'%3E%3Cpath d='M159.7,561.56h1.675c.144,2.182,1.619,3.927,4.885,4.117v-8.044l-.966-.219c-3.436-.763-5.026-2.372-5.026-4.936,0-2.809,2.017-4.828,5.992-4.936v-2.209h.994v2.209c3.8.193,5.821,2.155,5.821,4.855h-1.619c-.113-1.745-1.334-3.191-4.2-3.355V556.3l1.051.247c3.151.708,5.394,1.962,5.394,5.154,0,3.245-2.328,5.318-6.445,5.454v2.182h-.994V567.15C161.888,566.96,159.7,564.586,159.7,561.56Zm6.56-5.428v-7.145c-3.038.136-4.26,1.555-4.26,3.49C162,554.25,163.08,555.478,166.261,556.132Zm5.708,5.59c0-2.4-1.732-3.354-4.713-3.954v7.908C170.463,565.568,171.969,564.04,171.969,561.723Z' transform='translate(-159.701 -545.332)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto; vertical-align:top;}
+	._evt_content ._list_table ._label ._txt {display:inline-block; font-size:3.46667vw; line-height: 5.2vw;}
+	._evt_content ._list_table ._item {position:relative; flex:0 0 auto; min-width: 30%; text-align: right;}
+	._evt_content ._list_table ._item ._simbol {position:relative; left:0.13333vw; top:0.8vw; display:inline-block; width:2.66667vw; height:4vw; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='30' viewBox='0 0 20 30'%3E%3Cpath d='M394.616,410.477h4.806c.148,2.079,1.332,3.852,4.326,4.125v-7.057l-1.331-.272c-3.955-.818-7.06-2.557-7.06-6.579,0-4.159,3.216-6.545,8.392-6.784v-2.8h2v2.8c5.1.307,8.207,2.761,8.207,7.056h-4.806c0-1.875-1.331-3.034-3.4-3.272v6.375l1,.239c5.508,1.159,7.874,3.136,7.874,6.852,0,4.637-3.733,6.955-8.873,7.194v2.761h-2v-2.761C397.981,418.044,394.616,415.181,394.616,410.477Zm9.132-6.75v-6.067c-2.515.17-3.55,1.431-3.55,2.966C400.2,402.023,401.049,403.147,403.748,403.726Zm5.988,7.5c0-1.978-1.479-2.863-3.992-3.375v6.75C408.294,414.432,409.736,413.2,409.736,411.227Z' transform='translate(-394.616 -391.113)'/%3E%3C/svg%3E") 0 0 no-repeat; background-size:100% auto; vertical-align:top;}
+	._evt_content ._list_table ._item ._txt {position:relative; top:0.13333vw; display:inline-block; font-size:5.33333vw; font-weight:700; font-family:'Pretendard'; line-height:6.4vw; vertical-align:top;}
+	._evt_content ._list_table ._item ._usd {position:relative; top:0.13333vw; display:inline-block; font-size:5.33333vw; font-weight:700; font-family:'Pretendard'; line-height:6.4vw; vertical-align:top;}
+	._evt_content ._list_table ._item ._etc {position:relative; top:0.13333vw; display:inline-block; font-size:5.33333vw; font-weight:700; font-family:'Pretendard'; line-height:6.4vw; vertical-align:top;}
+	._evt_content ._list_table ._item ._krw {position:relative; top:0.13333vw; display:inline-block; font-size:5.33333vw; font-weight:700; font-family:'Pretendard'; line-height:6.4vw; vertical-align:top;}
+	._evt_content ._list_table ._item ._krw span {font-size:4.8vw;}
+	._evt_content ._list_table ._item ._sub {position:relative; left:-0.8vw; top:0.66667vw; display:inline-block; font-size:3.73333vw; line-height:1; letter-spacing:-0.10667vw; vertical-align:top;}
+
+	._evt_content ._list_table + ._outline {margin-top:10.4vw;}
+	._evt_content ._list_table + ._info_table {margin-top:5.6vw;}
+
+
+	._info_nav_flex ._nav_wrap ._nav._current{background: #000; opacity:1;}
+	._info_nav_flex {width:100%; height:14.4vw;}
+	._info_nav_flex ._nav_wrap {width:100%; height:14.4vw; background:#323232; z-index:100;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:50%; top:10.66667vw; transform:translateX(-50%);}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+	._info_nav_flex ._nav_inner {display:flex;height:100%; margin:0 auto; text-align:center; font-size:0; justify-content: center;}
+	._info_nav_flex ._nav_wrap ._nav {position:relative; display:inline-block; height:100%; color:#fff; opacity: 0.4; text-align:center; flex: 1 1 33%;}
+	._info_nav_flex ._nav_wrap ._nav:first-child {padding-left:0; text-align:left;}
+	._info_nav_flex ._nav_wrap ._nav:last-child {padding-right:0; text-align:right;}
+	._info_nav_flex ._nav_wrap ._nav a {display:block; width:100%; height:100%; letter-spacing:0; color:inherit; font-size:4.26667vw; font-weight:500; line-height: 6.4vw; text-align: center;}
+	._info_nav_flex ._nav_wrap ._nav span {position:relative; display:inline-block; height:100%; letter-spacing:-0.05333vw;}
+	._info_nav_flex ._nav_wrap ._nav span::after {content:''; display:inline-block; height:100%; vertical-align:middle;}
+	._info_nav_flex ._nav_wrap ._nav._current span {color:#fff;}
+	._info_nav_flex ._nav_wrap ._nav._current span::before {content:''; position:absolute; left:0; right:0; bottom:-0.13333vw; height:0.53333vw; z-index:1;}
+
+
+	._evt_sec_info {width: 100%; margin-top: 4.8vw; }
+	._evt_sec_info > ul {display: flex; flex-direction: column; gap: 2.13333vw;}
+	._evt_sec_info > ul li {display: flex; justify-content: flex-start; align-items: flex-start;}
+	._evt_sec_info ._label {flex:0 0 auto; width:14.66667vw;}
+	._evt_sec_info ._label ._txt {position:relative; top:0.66667vw; font-size: 3.46667vw; font-weight: 400; line-height: 1.5;}
+	._evt_sec_info ._val {position:relative; top:0.13333vw;}
+	._evt_sec_info ._val ._txt {font-size: 4.26667vw; font-weight: 500; line-height: 1.5;}
+	._evt_sec_info ._val > em {position:relative; left:0.13333vw; top:-0.13333vw; display: inline-block; font-size: 3.99667vw; line-height: 1.5; color: #666;}
+	._evt_sec_info ._val > ul {display:flex; flex-direction:column; gap:1.06667vw; width:100%;}
+	._evt_sec_info ._val > ul > li {position:relative; padding-left:3.86667vw; font-size: 4.26667vw; font-weight: 500; line-height: 1.5;}
+	._evt_sec_info ._val > ul > li ._marker {position:absolute; left:0; top:0;}
+
+</style>
+<div class="evWrap" data-ipg-id="mkt_26010014">
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<div class="_logo"><em class="_evt_hide">우리카드</em></div>
+			<div class="_desc">
+				<div class="_sub">우리카드 20만원 이상 결제 시</div>
+				<div class="_title">8% 결제일 할인</div>
+				<div class="_date">2026.11.9 ~ 2026.11.12</div>
+			</div>
+			<div class="_visual"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20250903/20250903135643089258f2315e2f1496d969f218baa021799.png" alt=""></div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _nav_1 _current">
+					<a href="#_evtContent_1" class="_fn_goto"><span>결제일 혜택</span></a>
+				</div>
+				<div class="_nav _nav_2">
+					<a href="#_evtContent_2" class="_fn_goto"><span>결제쿠폰 혜택</span></a>
+				</div>
+				<div class="_nav _nav_3">
+					<a href="#_evtContent_3" class="_fn_goto"><span>무이자 할부 혜택</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_1">
+		<div class="_set_ank" id="_evtContent_1">&nbsp;</div>
+		<div class="_area_wrap">
+			<div class="_area_title">
+				<div class="_label">결제일 혜택</div>
+				<div class="_sub">우리카드 고객 대상</div>
+				<div class="_title">결제일 할인 혜택</div>
+			</div>
+			<div class="_evt_info">
+				<div class="_tbl_layout">
+					<dl>
+						<dt>결제금액</dt>
+						<dd>
+							<span>20 만원 이상</span>
+						</dd>
+					</dl>
+					<dl>
+						<dt>할인율</dt>
+						<dd>
+							<span>8% (최대 8만원)</span>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="_detail">
+				<ul>
+					<li>
+						<div class="_label">행사대상</div>
+						<div class="_item">
+							카카오페이 > 우리카드 결제 고객 또는<br/>신용카드 > 우리 개인신용카드 결제 고객
+							<div class="_em"><em>우리 독자 및 우리BC카드 동일 적용</em></div>
+						</div>
+					</li>
+					<li>
+						<div class="_label">행사기간</div>
+						<div class="_item">
+							2026.11.9 ~ 11.12
+							<!-- <div class="_em"><em>예산 조기 소진으로 9/15(화) 23:59 결제건까지<br>혜택 적용 가능</em></div> -->
+						</div>
+					</li>
+					<li>
+						<div class="_label">행사내용</div>
+						<div class="_item">
+							우리 개인신용카드 20만원 이상 결제 시
+							<br/> 8% 결제일 할인 (최대 8만원)
+							<div class="_em"><em>기간 내 1회</em></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="_caution">
+				<ul>
+					<li>예산 소진 시 조기 종료됩니다.</li>
+					<li>우리WON페이, 카카오페이 외 간편결제(삼성페이, 네이버페이, 페이북, 페이코 등) 은 청구할인 대상에서 제외 됩니다.</li>
+					<li>행사 기간 동안 1회, 최종 결제금액 기준으로 혜택이 적용됩니다.</li>
+				</ul>
+			</div>
+			<!-- <div class="_all_banner"><a href="https://m.kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1018543"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20250904/2025090410474442352615ec3a57d4ea7b40929f7e8eae176.jpg" alt="카카오페이 결제 고객 추가 할인 혜택" /></a></div> -->
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_2">
+		<div class="_set_ank" id="_evtContent_2">&nbsp;</div>
+		<div class="_area_wrap">
+			<div class="_area_title">
+				<div class="_label">결제쿠폰 혜택</div>
+				<div class="_sub">우리카드 결제 고객 누구나</div>
+				<div class="_title">최대 10% 결제쿠폰</div>
+			</div>
+			<!-- <div class="_outline">
+				<div class="_area_wrap">
+					<div class="_legend">
+						<div class="_label">
+							<span class="_txt">구매금액대별 즉시할인</span>
+						</div>
+					</div>
+					<div class="_benefit">
+						<div class="_info">
+							<div class="_label">최대</div>
+						</div>
+						<div class="_detail">
+							<div class="_price">
+								<span class="_txt">16%</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="_list_table">
+				<ul>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 1,500 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 150</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 1,000 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 100</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 800 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 80</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 700 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 70</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 650 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 65</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 580 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 58</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 500 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 50</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 450 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 45</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 320 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 32</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 250 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 25</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 200 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 20</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 150 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 15</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$ 70 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_txt">$ 7</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="_evt_sec_info">
+				<ul>
+					<li>
+						<div class="_label">
+							<span class="_txt">행사대상</span>
+						</div>
+						<div class="_val">
+							<span class="_txt">우리카드 개인신용 결제고객<br/>(법인, 선불, 체크 및 기프트카드 제외)	</span>
+							<em>* 우리 독자 및 우리BC카드 동일 적용</em>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">행사내용</span>
+						</div>
+						<div class="_val">
+							<span class="_txt">ID당 1일 1회 발급 및 사용 가능</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">행사기간</span>
+						</div>
+						<div class="_val">
+							<span class="_txt">2026.11.9 ~ 11.28</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">사용기간</span>
+						</div>
+						<div class="_val">
+							<span class="_txt">발급 당일</span>
+						</div>
+					</li>
+
+				</ul>
+			</div>
+
+			<!-- 오퍼코드 서밋 버튼 -->
+			<div class="_btn_set _submit_btn _check_offer_button">
+				<div class="_area_wrap _end_bg">
+					<a href="#" class="_ev_fn_offer_1">
+						<span class="_name _end_text">모두 받기</span>
+						<span class="_sign _init_btn_bg"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="32" viewBox="0 0 26 32"><g transform="translate(0 16.473)"><rect width="4.372" height="17.49" rx="2" transform="translate(0 3.092) rotate(-45)" fill="#3549ff"/><rect width="4.372" height="17.49" rx="2" transform="translate(22.908 0.068) rotate(45)" fill="#3549ff"/></g><rect width="4.372" height="31.267" rx="2" transform="translate(15.186 31.267) rotate(180)" fill="#3549ff"/></svg></span>
+					</a>
+					<script>
+						(function() {
+
+							/* 오퍼 코드 */
+							var offerCode = [
+								{ofrNo: '100534801', evtFvrNo: '8527011'},
+								{ofrNo: '100534802', evtFvrNo: '8527012'},
+								{ofrNo: '100534781', evtFvrNo: '8527006'},
+								{ofrNo: '100534782', evtFvrNo: '8527007'},
+								{ofrNo: '100534783', evtFvrNo: '8527008'},
+								{ofrNo: '100534803', evtFvrNo: '8527013'},
+								{ofrNo: '100534784', evtFvrNo: '8527009'},
+								{ofrNo: '100534804', evtFvrNo: '8527014'},
+								{ofrNo: '100534785', evtFvrNo: '8527010'},
+								{ofrNo: '100534805', evtFvrNo: '8527015'},
+								{ofrNo: '100534806', evtFvrNo: '8527016'},
+								{ofrNo: '100534807', evtFvrNo: '8527017'},
+								{ofrNo: '100534808', evtFvrNo: '8527018'},
+							];
+
+							/* 오퍼 코드 다운로드 유무 */
+							var checkOfferData = typeof fn_ofrDownCheck == 'function' ? fn_ofrDownCheck(offerCode) : [{ofrDownYn:'N'}];
+							var useOffer = false;
+
+							$.each(checkOfferData, function(idx, val) {
+								if (val.ofrDownYn == 'N') {
+									useOffer = true;
+									return false;
+								}
+							});
+
+							if (!useOffer) { /* 오퍼코드 모두 받았을 때 */
+
+								/* 다운로드 버튼 제거 */
+								/* $('._check_offer_button').remove(); */
+								$('._check_offer_button').addClass('_end')
+								.find('a').css('pointer-events', 'none').end()
+								.find('._sign').remove().end()
+								.find('._end_text').css('color', '#fff').text('혜택받기 완료').end()
+								.find('._end_bg').css('background', '#aaa');
+
+							} else {
+
+								$('._check_offer_button').addClass('_active');
+
+								$('._ev_fn_offer_1').on('click', function(e) {
+									e.preventDefault();
+
+									fn_ofrDownAll(offerCode);
+
+								});
+
+							}
+
+						})();
+					</script>
+				</div>
+			</div>
+
+			<div class="_evt_caution">
+				<dl>
+					<dt>우리카드 유의사항</dt>
+					<dd>
+						<ul>
+							<li><span>상세혜택 및 이용조건은 카드를 발급받기 전에 홈페이지(www.wooricard.com), 상품설명서 및 약관 등을 통해 확인하시기 바랍니다.</span></li>
+							<li><span>신용카드 발급이 부적정한 경우(개인신용평점 낮음 등) 카드발급이 제한될 수 있습니다.</span></li>
+							<li><span>카드이용대금과 이에 수반되는 모든 수수료를 지정된 대금 결제일에 상환합니다.</span></li>
+							<li><span>금융소비자는 금융소비자보호법 제19조제1항에 따라 해당상품 또는 서비스에 대하여 설명을 받을 권리가 있으며, 그 설명을 듣고 내용을 충분히 이해한 후 거래하시기 바랍니다.</span></li>
+							<li class="_noti">상환능력에 비해 신용카드 사용액이 과도할 경우, 귀하의 개인신용평점이 하락할 수 있습니다.</li>
+							<li class="_noti">개인신용평점 하락 시 금융거래와 관련된 불이익이 발생할 수 있습니다.</li>
+							<li class="_noti">일정기간 원리금을 연체할 경우, 모든 원리금을 변제할 의무가 발생할 수 있습니다.</li>
+							<li class="_emp"><b>준법 심의필 2026-A00422<br>(2026.02.13/유효기간:2026.12.31)</b></li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_3">
+		<div class="_set_ank" id="_evtContent_3">&nbsp;</div>
+		<div class="_area_wrap">
+			<div class="_area_title">
+				<div class="_label">무이자 할부 혜택</div>
+				<div class="_sub">우리카드로 5만원 이상 결제 시</div>
+				<div class="_title">무이자 할부 혜택</div>
+			</div>
+			<div class="_evt_info">
+
+				<div class="_tbl_layout">
+					<dl>
+						<dt>2 ~ 5개월 무이자 할부</dt>
+						<dd>
+							<span>10개월 슬림 할부</span>
+							<span class="_col">
+								<em>1 ~ 5개월 고객이자부담</em>
+								<em>6 ~ 10개월 이자면제</em>
+							</span>
+						</dd>
+						<dd>
+							<span>12개월 슬림 할부</span>
+							<span class="_col">
+								<em>1 ~ 6개월 고객이자부담</em>
+								<em>7 ~ 12개월 이자면제</em>
+							</span>
+						</dd>
+					</dl>
+				</div>
+
+				<div class="_tbl_layout _tbl_type_2">
+					<dl>
+						<dt>6·11개월 특별 무이자 할부</dt>
+						<dd>
+							<span>20만원 이상 결제 시 6개월 무이자 할부</span>
+						</dd>
+						<dd>
+							<span>100만원 이상 결제 시 11개월 무이자 할부</span>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="_detail">
+				<ul>
+					<li>
+						<div class="_label">행사대상</div>
+						<div class="_item">
+							우리 개인신용카드 회원<br />(체크, 법인, 선불/기프트카드 제외)
+							<div class="_em"><em>우리 독자 및 우리BC카드 동일 적용</em></div>
+							<div class="_em"><em>간편결제 - 우리카드 결제 고객은 제외</em></div>
+						</div>
+					</li>
+					<li>
+						<div class="_label">행사기간</div>
+						<div class="_item">2026.11.1 ~ 11.30</div>
+					</li>
+				</ul>
+			</div>
+			<div class="_caution">
+				<ul>
+					<li>카드사 정책에 따라 월중 업종 무이자 미제공 변경 시<br> 무이자 적용이 되지 않을 수 있습니다.</li>
+					<li>무이자 할부 혜택은 5만원 이상 결제 시 사용 가능합니다.</li>
+					<li><strong>특별 무이자 할부 혜택은 할부 개월 수 변경 및 일시불 결제 후<br>할부 전환 시 적용되지 않습니다.</strong></li>
+					<li><strong>수수료율: 최저 연8.6%~최고 연19.9% (고정금리)</strong></li>
+					<li>금리정보는 광고게시시점을 기준으로 산정되었으며,<br>자세한 금리정보는 우리카드 홈페이지에서<br>확인하시기 바랍니다.</li>
+					<li>금리산출시점 : 2026.1월</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</div></div></div></section></div></article></div></body></html>

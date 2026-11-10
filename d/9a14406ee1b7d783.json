@@ -1,0 +1,1 @@
+{"status": "done", "digest": "d81b5b573355a09b", "size": [390, 6304], "harness_size": [390, 6470], "publisher_size": [390, 6304], "changed": 16380, "ratio": 0.006662, "regions": [{"kind": "changed", "x": 0, "y": 2191, "w": 390, "h": 42, "a_y": 2191, "a_h": 208}], "width": 390, "case_id": "view-demo:05_benefit_all", "key": "국모바일_온라인 혜택 총집합.html", "version": "v1"}
