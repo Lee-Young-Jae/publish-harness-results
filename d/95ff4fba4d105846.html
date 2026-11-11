@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><!-- prd_25090004 BTQ PC HTML 2 -->
+<div class="section">
+	<style>
+		._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+		._content_body {position:relative; width:1020px; margin:0 auto 50px auto; padding-bottom:50px; border-bottom:1px solid #9a9a9a;}
+		._content_body ._layout_img {width:100%;}
+		._custom_link_0._9e4a4b {position:absolute; left:323px; top:7455px; width:373px; height:81px;}
+		._content_body ._layout_img._rel {position:relative;}
+		/* 추가1 러스터글래스 : 이미지 전체 링크 */
+		._custom_link_1._9e4a4b {position:absolute; left:0; top:0; width:100%; height:100%;}
+		/* 추가2 맥 인 세피아 : 버튼 4개 (좌표 디자인 확인 필요, 각 _layout_img 기준) */
+		._custom_link_2._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_3._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_4._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_5._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		/* 추가3 픽스 플러스 매트 : 이미지 전체 링크 */
+		._custom_link_6._9e4a4b {position:absolute; left:0; top:0; width:100%; height:100%;}
+		/* 추가4 컬러스트럭 블러쉬 : 버튼 6개 (좌표 디자인 확인 필요, 각 _layout_img 기준) */
+		._custom_link_7._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_8._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_9._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_10._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_11._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+		._custom_link_12._9e4a4b {position:absolute; left:0; top:0; width:0; height:0;}
+	</style>
+	<div class="_content_body">
+		<div class="_layout_img"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260908/20260908162941079c9b14ad4104e4b9c8f7b183ae9d9e533.webp" alt=""></div>
+		<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10081567" class="_custom_link_0 _9e4a4b"><span class="_evt_hide">전체 컬렉션 보기</span></a>
+		<div class="_layout_img _rel"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261007/20261007170646681d489a1e7ff424b1795ed2b91910bd846.webp" alt="">
+			<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10080680" class="_custom_link_1 _9e4a4b"><span class="_evt_hide">러스터글래스 보러가기</span></a>
+		</div>
+		<div class="_layout_img _rel"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261007/20261007170658849365a17fd0a504c7cab58e06648b9a10f.webp" alt="">
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001056604&prdOptNo=20001460683&accDispShopNo=10081033" class="_custom_link_2 _9e4a4b"><span class="_evt_hide">맥시멀 실키 매트 립스틱 더 알아보기</span></a>
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001056601&prdOptNo=20001460677&accDispShopNo=10081033" class="_custom_link_3 _9e4a4b"><span class="_evt_hide">맥 인 세피아 아이섀도우 팔레트X4 지금 구매하기</span></a>
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001056600&prdOptNo=20001460676&accDispShopNo=10081033" class="_custom_link_4 _9e4a4b"><span class="_evt_hide">엑스트라 디멘션 스킨피니쉬 지금 구매하기</span></a>
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001056603&prdOptNo=20001460679&accDispShopNo=10081033" class="_custom_link_5 _9e4a4b"><span class="_evt_hide">락드 키스 잉크 24아워 립컬러 더 알아보기</span></a>
+		</div>
+		<div class="_layout_img _rel"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261007/2026100717070795399a68b80b1be4cfb9b8276cde6a692cf.webp" alt="">
+			<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10080683" class="_custom_link_6 _9e4a4b"><span class="_evt_hide">픽스 플러스 매트 지금 쇼핑하기</span></a>
+		</div>
+		<div class="_layout_img _rel"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20261007/202610071707190291d46ef5243904cc6882f35620a5d0ed8.webp" alt="">
+			<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10079906" class="_custom_link_7 _9e4a4b"><span class="_evt_hide">16가지 쉐이드 둘러보기</span></a>
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001035445&prdOptNo=20001420883&adltPrdYn=N" class="_custom_link_8 _9e4a4b"><span class="_evt_hide">MELBA 구매하기</span></a>
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001035445&prdOptNo=20001420869&adltPrdYn=N" class="_custom_link_9 _9e4a4b"><span class="_evt_hide">PEACHYKEEN 구매하기</span></a>
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001035445&prdOptNo=20001420870&adltPrdYn=N" class="_custom_link_10 _9e4a4b"><span class="_evt_hide">PINCH ME 구매하기</span></a>
+			<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001035445&prdOptNo=20001420877&adltPrdYn=N" class="_custom_link_11 _9e4a4b"><span class="_evt_hide">VELVET TEDDY 구매하기</span></a>
+			<a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10021138" class="_custom_link_12 _9e4a4b"><span class="_evt_hide">브러쉬 구매하기</span></a>
+		</div>
+	</div>
+</div>
+<!-- //prd_25090004 BTQ PC HTML 2 --></div></div></section></article></div></body></html>

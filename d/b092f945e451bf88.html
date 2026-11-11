@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function(){
+		/*
+		var img_idx = 0;
+		loop_img();
+		function loop_img(){
+            var ls_imgs =  $(".slide1");
+            var ls_total = ls_imgs.length;
+            for(var i=0; i<ls_total; i++){
+                ls_imgs[i].style.display = "none";
+            }
+            img_idx++;
+            if( img_idx > ls_total){ img_idx = 1; }
+            ls_imgs[img_idx-1].style.display="block";
+            setTimeout(loop_img, 500);
+		}
+		*/
+
+		/* 상단 갭 */
+		var fixGap = $('#lotteHeader').find('nav.gnb').length ? 80 : 65;
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var goPosition = $target.offset().top - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+				$('._set_ank').each(function(i, v) {
+					if ($(this).offset().top - (fixGap + navHeight) <= scrollTop && ($(this).offset().top + $(this).parent().height()) - navHeight >= scrollTop) {
+						if (!$('._evt_nav').find('._nav').eq(i).is('._current')) {
+							$('._evt_nav').find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+						}
+					}
+				});
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+						}
+					}
+				}
+			}
+
+		});
+
+		/* 레이어 열기 */
+		$('.evWrap ._ev_fn_layer').on('click', function(e) {
+			e.preventDefault();
+
+			if ($(this).data('login')) {
+				var _eventLoginCheck = loginCheck(null, 'N');
+
+				if (!_eventLoginCheck) {
+					checkLoginThen();
+					return false;
+				}
+			}
+
+			var $evtWrap = $('.evWrap');
+			var $target = $($(this).attr('href'));
+
+			var setPos = {
+				left: $(this).offset().left,
+				top: $(this).offset().top - $evtWrap.offset().top,
+				right: $(this).offset().left + $(this).width(),
+				bottom: ($(this).offset().top - $evtWrap.offset().top) + $(this).height(),
+				screenCenter: function() {
+					var evtWidth = $evtWrap.width() / 2;
+					var layerWidth = parseInt($target.width()) > 1 ? parseInt($target.width()) / 2 : 550 / 2;
+
+					return evtWidth - layerWidth;
+				},
+				screenMiddle: function() {
+					var winGap = 160;
+					var wrapGap = 50;
+					/*
+						winGap = 창으로 부터의 상단을 기준으로 마진 (기본은 면세점 GNB 높이. 상단 행사 네비에 가려질 경우 행사 네비 높이 만큼 증가 시킴)
+						wrapGap = 영역으로의 상단을 기준으로 마진
+					*/
+
+					var winPos = $(window).scrollTop() - $evtWrap.offset().top;
+					var winHeight = winPos < 0 ? $(window).innerHeight() + winPos : $(window).innerHeight();
+
+					var wrapHeight = $evtWrap.height();
+					var wrapPosTop = $evtWrap.offset().top;
+					var wrapPosBottom = wrapHeight;
+
+					var targetHeight = $target.height();
+					var targetPosTop = (winPos + (winHeight / 2)) - (targetHeight / 2);
+					var targetPosBottom = targetPosTop + targetHeight;
+
+					if (winHeight > (targetHeight + winGap)) {
+						if (winPos > 0) {
+							if (targetPosBottom > (wrapPosBottom - wrapGap)) {
+
+								$('html, body').scrollTop(wrapPosBottom - targetHeight);
+
+								return wrapPosBottom - targetHeight - wrapGap;
+							} else {
+								return targetPosTop + (winGap / 2);
+							}
+						} else {
+							return (winHeight / 2) - (targetHeight / 2);
+						}
+					} else {
+						if (targetHeight > wrapHeight) {
+							return winGap;
+						} else {
+							if (winPos > 0) {
+								if ((winPos + winGap + (winGap / 2) + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winPos + winGap + (winGap / 2);
+								}
+							} else {
+								if ((winGap + targetHeight) > (wrapPosBottom - wrapGap)) {
+
+									$('html, body').scrollTop(wrapPosBottom - targetHeight);
+
+									return wrapPosBottom - targetHeight - wrapGap;
+								} else {
+									return winGap;
+								}
+							}
+						}
+					}
+				}
+			};
+
+			if ($target.length > 0) {
+
+				$evtWrap.find('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+				var resultTop = setPos.screenMiddle();
+				var resultLeft = setPos.screenCenter();
+
+				if (!$(this).is('.active')) {
+					$target.css({display: 'block', top: resultTop, left: resultLeft, marginLeft: 0, opacity: 0}).addClass('active').animate({
+						opacity: 1
+					}, 0, function() {});
+					$('#evDimmed').css({display: 'block'});
+				}
+			}
+		});
+
+		/* 레이어 닫기 */
+		$('.evWrap ._ev_layer ._close').on('click', function(e) {
+			e.preventDefault();
+			var $evtWrap = $('.evWrap');
+
+			$(this).closest('._ev_layer').css({display: 'none', top: '', left: '', marginLeft: '', marginTop: '', opacity: ''}).removeClass('active');
+
+			$('#evDimmed').css({display: 'none'});
+		});
+		$('#evDimmed').on('click', function(e) {
+			e.preventDefault();
+			$('.evWrap ._ev_layer:visible').find('._close').trigger('click');
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:300;
+		src:local('Roboto Light'), local('Roboto-Light'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Light.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:400;
+		src:local('Roboto Regular'), local('Roboto-Regular'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Regular.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:500;
+		src:local('Roboto Medium'), local('Roboto-Medium'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Medium.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:700;
+		src:local('Roboto Bold'), local('Roboto-Bold'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Bold.ttf') format('truetype');
+	}
+	@font-face {
+		font-family:'Roboto';
+		font-style:normal;
+		font-weight:900;
+		src:local('Roboto Black'), local('Roboto-Black'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/Roboto-Black.ttf') format('truetype');
+	}
+
+	.skyscraper.renewal1806, .skyscraper.renewal1806 .sideBanner, .skyscraper .quickMenu {display:none;}
+
+	/* ----------------------- */
+	/* ★★★★ 100% 레이아웃일 때. 기본 1020px  */
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard,'Noto Sans Regular'; }
+	.evWrap img {display:block;}
+	.evWrap a {display:block;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._lan_en {font-family:'Roboto' !important;}
+	._regular {font-weight:400; font-family:'Noto Sans Regular' !important;}
+	._medium {font-weight:500; font-family:'Noto Sans Medium' !important;}
+	._nowrap {white-space:nowrap;}
+
+	._nv_fc { color:#00DE5A}
+	._init_color {color:#000; border-color:#000;}
+	._init_bg {background:#000 !important;}
+	._init_bg svg path {fill:#01de5a !important;}
+	._init_btn_bg svg rect {fill:#01de5a;}
+
+	/* 신규 */
+	._info_nav_flex ._nav_wrap ._nav_1 span{justify-content: flex-end; padding-right: 120px;}
+	._info_nav_flex ._nav_wrap ._nav_2 span{padding-left: 120px;}
+	._nav_content ._info_area{display: flex; column-gap: 48px;}
+	._nav_content ._info_area ._card_img{position: relative;}
+	._nav_content_1 ._info_area ._card_img::after{content: "예산 소진 시 종료"; position: absolute; font-size: 18px; color: #fff ; background-color: #000; border-radius: 999px; padding: 6.5px 14px; font-weight: 700; top: 0;right: 0; transform: translate(-14%, -58%);}
+	._nav_content_2 ._info_area ._card_img::after{content: "UP"; position: absolute; font-size: 18px; color: #fff ; background-color: #000; border-radius: 999px; padding: 6.5px 14px; font-weight: 700; top: 0;right: 0; transform: translate(-50%, -58%);}
+	._nav_content ._info_area ._card_img::before{content: "";width: 16px;height: 8px;background: url('https://static.lottedfs.com/contents/images/ckeditor-img/20260629/20260629103223396c39ea10c657a4406b85f3fb661b277b4.webp') center no-repeat; position: absolute; right: 40px; top: 15px;}
+	._nav_content ._info_area ._card_img .point{position: absolute; bottom: 0; right: 0; color: #fff; display: flex;}
+	._nav_content ._info_area ._card_img .point .num{font-size: 100px; line-height: 110px; font-weight: 700;}
+	._nav_content ._info_area ._card_img .point .sub{display: flex;flex-direction: column; line-height: 1;}
+	._nav_content ._info_area ._card_img .point ._max{font-size: 22px; line-height: 60px; font-weight: 700; opacity: 0; visibility: hidden;}
+	._nav_content ._info_area ._card_img .point ._unit{font-size: 56px;font-weight: 400; line-height: 23px;}
+	._nav_content_2 ._info_area ._card_img .point .num{line-height: 75px;}
+	._nav_content_2 ._info_area ._card_img .point ._max{line-height: 28px;}
+	._nav_content_2 ._info_area ._card_img .point ._unit{line-height: 48px;}
+
+	._nav_content ._caution_table .deco{font-weight: 600; text-decoration: underline;}
+	._nav_content._nav_content_2{background-color: #F4F4F4; padding: 120px 0px;}
+	._nav_content._nav_content_2 ._anchor span{background-color: #00CE54; color: #000;}
+	/* 신규 */
+
+
+	._info_nav_flex {width:100%; height:60px; }
+	._info_nav_flex ._nav_wrap {width:100%; height:60px; z-index:10;  background-color: #fff;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:65px; width:100%; z-index:100;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; width:100%; height:100%; margin:0 auto;}
+	._info_nav_flex ._nav_wrap ._nav { position:relative;  height:100%; width: 100%;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:flex; align-items:center;width:100%; height:100%;font-size:20px; font-weight:600; letter-spacing:0; color:#AFAFAF;}
+	._info_nav_flex ._nav_wrap ._nav span {display:flex; align-items:center; width:100%; height:100%; padding-top:0; position: relative; background-color: #262626;color: #ffffff66; }
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#000;}
+	._info_nav_flex ._nav_wrap ._nav._current span {background-color: #00DE5A; color: #000;}
+
+
+	._info_header {position:relative; width:100%; height:850px;}
+	._info_header ._area_wrap {width:100%; height:100%; background:#fff linear-gradient(to bottom, #fff 0%, #e5e5e5 100%);}
+	._info_header ._date {position:absolute; left:50%; top:59px; transform:translateX(-50%); font-family:'Roboto'; font-size:20px; font-weight:500; text-align:center; letter-spacing:0.2px; color:#fff; white-space:nowrap; z-index:1;}
+	._info_header ._title {position:absolute; left:50%; top:119px; font-family: 'Noto Sans Regular'; font-size:40px; line-height:65px; text-align:center; letter-spacing:-1.2px; color:#fff; white-space:nowrap; transform:translateX(-50%); z-index:1;}
+	._info_header ._title strong {font-size:62px; font-weight:700; letter-spacing:-3.2px; line-height: 54px; position: relative;  top: 10px;}
+	._info_header ._visual {width:100%; height:100%; background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20250730/20250730142000376ef917729c6fd41b5a81b55a09061b546.jpg') 50% 0 no-repeat;}
+
+
+	._info_nav_flex + ._nav_content,
+	._info_header + ._nav_content {margin-top:120px;}
+
+	._nav_content {position:relative; width:100%; margin-top:116px; color:#000;}
+	._nav_content a {color:inherit;}
+	._nav_content ._nav_content_wrap {width:886px; margin:0 auto;}
+
+	._nav_content ._set_ank {position:absolute; top:-130px; left:0;}
+
+	._nav_content ._anchor {width:100%; font-size:16px; color:#fff; text-align:center; letter-spacing:-0.9px; line-height: 24px;}
+	._nav_content ._anchor span {position:relative; display:inline-block; padding:4px 12px; border-radius:100px; background:#000; font-weight: 600;}
+
+	._nav_content ._content_header {width:100%; margin-top:32px;}
+	._nav_content ._content_header ._title {position: relative; display:flex; flex-direction:column; align-items: center; font-size:46px; line-height:55px; letter-spacing:0; text-align:center;}
+	._nav_content ._content_header ._title strong {position:relative;font-size:46px;letter-spacing:-0.8px;}
+	._nav_content ._content_header ._title strong._up::after {content:''; position:absolute; right:-39px; top:-20px; width:42px; height:26px; background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20250604/202506041407561278b566bdb8d644a3bb213726a86434995.png') no-repeat center center / 100% 100%;}
+	._nav_content ._caution_table + ._content_header {margin-top:50px;}
+	._nav_content ._info_area {width:100%; margin-top:50px;}
+
+	._nav_content ._list_table {width:100%; margin-top:48px; background-color: #fff; padding: 24px 36px; border-radius: 12px;}
+	._nav_content ._list_table > ul {width:100%;}
+	._nav_content ._list_table > ul > li {display:flex; padding:16px 0 13px 0; border-bottom:1px solid #C9C9C9;}
+	._nav_content ._list_table > ul > li:last-child {border: none;}
+	._nav_content ._list_table ._label {position:relative; flex:1 0 auto;}
+	._nav_content ._list_table ._label ._simbol {position:relative; left:0; top:0; display:inline-block; font-size:20px; /* width:7px; height:20px; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='20' viewBox='0 0 7 12'%3E%3Cg transform='translate(0 -0.141)'%3E%3Cpath d='M159.7,553.446h.838c.072,1.091.809,1.963,2.442,2.059v-4.022l-.483-.11c-1.718-.381-2.513-1.186-2.513-2.468,0-1.4,1.009-2.414,3-2.468v-1.1h.5v1.1c1.9.1,2.91,1.077,2.91,2.427h-.809c-.057-.873-.667-1.6-2.1-1.677v3.627l.525.123c1.575.354,2.7.981,2.7,2.577,0,1.623-1.164,2.659-3.223,2.727v1.091h-.5v-1.091C160.794,556.146,159.7,554.959,159.7,553.446Zm3.28-2.714V547.16c-1.519.068-2.13.777-2.13,1.745C160.851,549.791,161.391,550.405,162.981,550.732Zm2.854,2.8c0-1.2-.866-1.677-2.357-1.977V555.5C165.082,555.45,165.835,554.686,165.835,553.527Z' transform='translate(-159.701 -545.191)'/%3E%3C/g%3E%3C/svg%3E%0A") 0 0 no-repeat; vertical-align:top; */}
+	._nav_content ._list_table ._label ._txt {display:inline-block; font-size:20px; letter-spacing:-0.6px; vertical-align:top;}
+	._nav_content ._list_table ._item {position:relative; flex:0 0 auto;}
+	._nav_content ._list_table ._item ._simbol {position:relative; left:1px; top:1px; display:inline-block; width:14px; height:22px; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='22' viewBox='0 0 14 22'%3E%3Cg transform='translate(0 0)'%3E%3Cpath d='M472.372,404.2h3.365a3.029,3.029,0,0,0,3.028,3.024V402.05l-.931-.2c-2.769-.6-4.943-1.875-4.943-4.825,0-3.05,2.251-4.8,5.874-4.975V390h1.4v2.05c3.572.225,5.745,2.025,5.745,5.175h-3.364a2.382,2.382,0,0,0-2.381-2.4V399.5l.7.175c3.855.851,5.512,2.3,5.512,5.025,0,3.4-2.614,5.1-6.211,5.276V412h-1.4v-2.025C474.727,409.75,472.372,407.65,472.372,404.2Zm6.392-4.95V394.8c-1.76.125-2.484,1.05-2.484,2.175C476.28,398,476.875,398.825,478.764,399.25Zm4.192,5.5c0-1.45-1.035-2.1-2.8-2.475v4.95C481.947,407.1,482.956,406.2,482.956,404.75Z' transform='translate(-472.372 -390)'/%3E%3C/g%3E%3C/svg%3E") 0 0 no-repeat; vertical-align:top;}
+	._nav_content ._list_table ._item ._usd {position:relative; top:-2px; display:inline-block; font-size:30px; font-weight:700; line-height:1; vertical-align:top;}
+	._nav_content ._list_table ._item ._etc {position:relative; top:-2px; display:inline-block; font-size:30px; font-weight:700; line-height:1; vertical-align:top;}
+	._nav_content ._list_table ._item ._krw {position:relative; top:-2px; display:inline-block; font-size:30px; font-weight:700; line-height:1; vertical-align:top;}
+	._nav_content ._list_table ._item ._sub {position:relative; left:-8px; top:4px; display:inline-block; font-size:20px; line-height:1; letter-spacing:-0.8px; vertical-align:top;}
+	._nav_content ._list_table ._item strong {position:relative;}
+	._nav_content ._list_table ._item strong._up::after {content:''; position:absolute; right:-39px; top:-30px; width:42px; height:26px; background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20250604/202506041407561278b566bdb8d644a3bb213726a86434995.png') no-repeat center center / 100% 100%;}
+
+	._nav_content ._list_table + ._outline {margin-top:62px;}
+	._nav_content ._list_table + ._info_table {margin-top:25px;}
+	._nav_content ._list_table + ._info_table > ul > li:last-child {margin-top:13px;}
+
+	._nav_content ._info_table {width:100%; margin: auto 0;}
+	._nav_content ._info_table > ul {width:100%;}
+	._nav_content ._info_table > ul > li {display:flex; margin-top:17px; border-top: 1px solid #E0E0E0; padding-top: 14px; column-gap: 20px;}
+	._nav_content ._info_table > ul > li:first-child {margin-top:0; border: none; padding-top: 0;}
+	._nav_content ._info_table ._item ul {position:relative; top:0;}
+	._nav_content ._info_table ._item ul li {position:relative; padding-left:20px; font-size:20px; letter-spacing:-0.7px; line-height:35px;}
+	._nav_content ._info_table ._item ul li ._marker {position:absolute; left:0; top:0;}
+	._nav_content ._info_table ._label {position:relative; flex:0 0 98px;}
+	._nav_content ._info_table ._label ._txt {display:inline-block; font-weight:600; font-size:18px; letter-spacing:-0.1px; vertical-align:top;}
+	._nav_content ._info_table ._item {position:relative; flex:1 0 auto;}
+	._nav_content ._info_table ._item ._txt {display:inline-block; position:relative; top:-2px; font-size:18px; letter-spacing:-0.2px; line-height:28px; vertical-align:top;}
+	._nav_content ._info_table ._item ._txt._red { color:red; }
+	._nav_content ._info_table ._item ._txt .link_area { margin-top:-10px;}
+	._nav_content ._info_table ._item ._txt .link_area a { display:inline-block; margin-right:25px; font-size:16px; text-decoration: underline;}
+	._nav_content ._info_table ._item ._em_area { margin-top:10px;}
+	._nav_content ._info_table ._item ._em em {display:inline-block; position:relative; top:3px; font-size:18px; letter-spacing:-0.4px; color:#8E8E8E; vertical-align:top; position:relative; padding-left:14px; box-sizing:border-box; line-height:23px; font-size: 15px; font-weight: 500;}
+	._nav_content ._info_table ._item ._em em:before { content:"※"; position:absolute; left:0; top:0; }
+	._nav_content ._info_table ._item ._em em._red { color:red; }
+	._nav_content ._info_table ._item div._em em {top:-10px;margin-left:0;}
+	._nav_content ._info_table ._item div._em._etc em {top:0;}
+
+	._nav_content ._caution_table {width:100%; margin-top:32px;}
+	._nav_content ._caution_table > ul {width:100%;}
+	._nav_content ._caution_table > ul > li {position:relative; margin-top:4px; padding-left:6px; font-size:18px; color:#8E8E8E; letter-spacing:-0.5px; word-break:keep-all;}
+	._nav_content ._caution_table > ul > li:first-child {margin-top:0;}
+
+	._nav_content ._link_txt {width:100%;}
+	._nav_content ._link_txt  a { text-decoration: underline; font-size:16px;}
+
+	._nav_content ._link_set {width:100%; padding:0 7px; margin-top:20px;}
+	._nav_content ._link_set ._item {position:relative; display:inline-block; margin-left:16px; font-size:16px; vertical-align:top; letter-spacing:-0.4px;}
+	._nav_content ._link_set ._item:first-child {margin-left:0;}
+	._nav_content ._link_set ._item::after {content:''; position:absolute; left:0; bottom:-3px; width:100%; height:1px; background:#000;}
+
+	._nav_content ._code_inp {width:100%; margin-top:43px;}
+	._nav_content ._code_inp input {width:100%; height:70px; line-height:76px; padding:0; border:1px solid #707070; box-sizing:border-box; text-align:center; font-size:22px;}
+	._nav_content ._code_inp input::placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input::-webkit-input-placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input:-ms-input-placeholder {color:#9E9E9E;}
+	._nav_content ._code_inp input:-moz-placeholder {color:#9E9E9E;}
+
+	._nav_content ._btn_set {width:100%; margin-top:55px;}
+	._nav_content ._btn_set ._area_wrap {width:395px; height:75px; margin:0 auto; background:#000; border-radius:15px; text-align:center; line-height:1; font-size:0;}
+	._nav_content ._btn_set ._area_wrap > a {display:block; width:100%; height:100%;}
+	._nav_content ._btn_set ._area_wrap > a::before {content:''; display:inline-block; height:100%; vertical-align:middle;}
+	._nav_content ._btn_set ._name {position:relative; left:-5px; top:-1px; display:inline-block; font-size:26px; color:#fff; font-weight:500; vertical-align:middle; letter-spacing:-1px;}
+	._nav_content ._btn_set ._sign {position:relative; left:8px; top:0px; display:inline-block; vertical-align:middle;}
+	._nav_content ._btn_set ._sign ._down_ico {display:inline-block;width:23px;height:23px;background:url('https://static.lottedfs.com/contents/images/ckeditor-img/20250604/20250604141659269d0db4cacf84047139939536a22cf5614.png') no-repeat center center / 100% 100%;}
+	._nav_content ._btn_set._link_btn ._sign {transform:rotate(-90deg);}
+
+	._nav_content ._nav_box { margin-top:16px; width:212px; height:42px; line-height:42px; background:#00DE5A; color:#fff; font-size:20px; font-weight:bold; text-align:center;  }
+
+	._nav_content ._banner_set {width:100%; margin-top:80px;}
+	._nav_content ._banner_set a {display:block;}
+
+	._banner_content {width:100%; margin-top:80px;}
+	._banner_content ._area_wrap { margin:0 auto; text-align:center;}
+	._banner_content ._area_wrap ._item {display:inline-block;}
+	._banner_content ._area_wrap ._item + ._item {margin-top:20px;}
+	._banner_content ._area_wrap ._item a {display:block;}
+
+	._lawTxt{ width: 100%; margin-top: 28px; font-size: 20px; font-weight: bold;}
+
+	.evWrap .note-cont .note-list li::before { content: '·'; position: absolute; top: 0; left: 0; }
+	.evWrap .note-cont { width: 710px; margin: 57px auto; margin-bottom:0px;  color: #1a1a1a; }
+	.evWrap .note-cont .note-list li { position: relative; line-height: 40px; padding-left: 13px; font-size: 20px; letter-spacing: -0.028em; }
+	.evWrap .note-txt { margin-top: 9px; padding-left: 8px; font-size: 20px; font-weight: bold; letter-spacing: -0.02em; }
+
+	._nav_content_area {width:100%; padding-top:120px;}
+
+	/* ----------------------- */
+	/* ★★★★ Custom Style 시안과 일치 시킬 때 아래 처럼 사용 각 요소에 클래스 적용하지 말고 선택자 + 또는 nth-child 활용 */
+	._nav_content_2 ._nav_content_wrap { position: relative;}
+
+	._nav_content ._banner { margin-top: 80px; }
+	._nav_content ._banner.center{display: flex;justify-content: center;}
+	._nav_content ._banner ._item {}
+	._nav_content ._banner ._item + ._item { margin-top: 15px; }
+
+	.evWrap ._link_area { font-size:16px;  }
+	.evWrap ._link_area a { position:relative; width:100px;  }
+	.evWrap ._link_area a:before { content:""; position:absolute; bottom:0; width:90px; height:1px; background:#000;}
+
+	._ev_layer {position:absolute; left:50%; margin-left:-275px; z-index:60;}
+	._ev_layer * {box-sizing:border-box;}
+	._ev_layer ._layer_wrap {position:relative; width:550px;}
+	._ev_layer ._layer_header {height:100px; background:#000;}
+	._ev_layer ._layer_header ._title {position:relative; left:55px; top:31px; font-size:28px; color:#fff; letter-spacing:-0.8px;}
+	._ev_layer ._layer_content {width:100%; background:#EFEFEF; color:#000; font-size:0;}
+	._ev_layer ._close {position:absolute; right:33px; top:33px; width:35px; height:35px; background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34.414' height='34.414' viewBox='0 0 34.414 34.414'%3E%3Cg transform='translate(-680.793 -40.793)'%3E%3Cline x2='33' y2='33' transform='translate(681.5 41.5)' fill='none' stroke='%23d1d1d1' stroke-width='2'/%3E%3Cline x1='33' y2='33' transform='translate(681.5 41.5)' fill='none' stroke='%23d1d1d1' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E%0A") 0 0 no-repeat; background-size:34.414px 34.414px;}
+
+	._ev_layer ._caution_list {width:100%; padding:38px 49px 64px 49px;}
+	._ev_layer ._caution_list:nth-child(2) { padding:0px 49px 64px 49px; }
+	._ev_layer ._caution_list > ul {width:100%;}
+	._ev_layer ._caution_list > ul > li {position:relative; width:100%; margin-top:16px; padding-left:14px; font-size:20px; line-height:32px; letter-spacing:-1.1px; word-break:keep-all;}
+	._ev_layer ._caution_list > ul > li::before {content:''; position:absolute; left:0; top:14px; width:3px; height:3px; border-radius:100%; background:#797979;}
+	._ev_layer ._caution_list > ul > li:first-child {margin-top:0;}
+	._ev_layer ._caution_list > ul > li._none { position:relative; }
+	._ev_layer ._caution_list > ul > li._none:before {  }
+
+	#evDimmed {display:none; position:absolute; left:0; right:0; top:0; bottom:0; background:#000; opacity:0.7; z-index:50;}
+
+	._hblock { position:absolute; left:0; top:-121px; z-index:1; width:100%; height:760px; background:rgb(0,0,0,0.7); display:flex; justify-content:center; align-items:center;  }
+	._hblock p { text-align:center; color:red; font-size:45px; line-height:57px; font-weight:bold;  }
+	._nav_content ._deco {position: absolute;top: -15px;left: 50%;margin-left: 200px;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_26060009">
+
+	<div class="_info_header">
+		<div class="_area_wrap">
+			<div class="_date"><span>2026.10.16~10.18</span></div>
+			<div class="_title">단 3일간, 네이버페이 결제 시<br>
+				<strong>
+					페이포인트 2만원 적립
+				</strong>
+			</div>
+			<div class="_visual"></div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _nav_1 _current">
+					<a href="#_evtContent_1" class="_fn_goto"><span>N포인트 적립 혜택</span></a>
+				</div>
+				<div class="_nav _nav_2">
+					<a href="#_evtContent_2" class="_fn_goto"><span>결제쿠폰 혜택</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_1">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank" id="_evtContent_1">&nbsp;</div>
+
+			<div class="_anchor _init_color">
+				<span>적립 혜택</span>
+			</div>
+
+			<div class="_content_header">
+				<div class="_title _nowrap">네이버페이 결제 시<br /> <strong>페이포인트 2만원 적립</strong></div>
+			</div>
+
+			<div class="_info_area">
+				<div class="_card_img">
+					<div class="card">
+						<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260629/20260629095526010be683d4d53ad4d0399f4c5dc091c5966.webp" alt="네이버 페이 카드 이미지">
+					</div>
+					<div class="point">
+						<span class="num">20,000</span>
+						<div class="sub">
+							<span class="_max">최대</span>
+							<span class="_unit">P</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="_info_table">
+					<ul>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사기간</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">2026.10.16~10.18</span> <br>
+								<span class="_em"><em class="">예산 소진 시 조기 종료</em></span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사대상</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">네이버페이 결제 고객</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사내용</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">네이버페이로 20만원 이상 결제 시 2만원 적립</span> <br>
+								<span class="_em"><em>2026.12.6(일)까지 인도 완료한 고객 한정</em></span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">적립일자</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">2026.12.18(금) 네이버페이 ID로 적립</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+			<div class="_caution_table">
+				<ul>
+					<li><span class="mark">*</span> 네이버페이 ID 실명 인증 기준 1인 1회 적립</li>
+					<!-- <li><span class="mark">*</span> 행사기간 내 여러 결제 건이 있는 경우 <span class="deco">최대 금액 결제 건 기준 포인트 적립</span> (최대 적립 한도: 2만 5천원)</li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="_nav_content _nav_content_2">
+		<div class="_nav_content_wrap">
+			<div class="_set_ank" id="_evtContent_2">&nbsp;</div>
+
+			<div class="_anchor _init_color">
+				<span>결제쿠폰 혜택</span>
+			</div>
+
+			<div class="_content_header">
+				<div class="_title _nowrap">네이버페이 결제 고객 누구나 <br /><strong>최대 10% 결제쿠폰</strong></div>
+			</div>
+
+			<div class="_info_area">
+				<div class="_card_img">
+					<div class="card">
+						<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20260629/202606291049541444d966d70912b468cbecb3efdfcd30c2e.webp" alt="네이버 페이 카드 이미지">
+					</div>
+					<div class="point">
+						<span class="num">10</span>
+						<div class="sub">
+							<span class="_max">최대</span>
+							<span class="_unit">%</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="_info_table _ksd">
+					<ul>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사기간</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">2026.10.16~10.18</span> <br>
+								<span class="_em"><em class="">예산 소진 시 조기 종료</em></span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사대상</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">네이버페이 결제 고객</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">행사내용</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">구매금액대별 최대 10% 즉시 할인</span>
+							</div>
+						</li>
+						<li>
+							<div class="_label">
+								<span class="_txt">사용기간</span>
+							</div>
+							<div class="_item">
+								<span class="_txt">발급당일</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="_list_table">
+				<ul>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$1,500 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$150</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$1,000 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$100</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$800 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_usd">$80</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$700 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$70</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$650 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_usd">$65</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<span class="_txt">$580 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<span class="_usd">$58</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$500 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$50</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$450 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$45</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$320 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$32</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$250 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$25</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$200 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$20</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$150 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$15</span>
+						</div>
+					</li>
+					<li>
+						<div class="_label">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_txt">$70 이상 구매 시</span>
+						</div>
+						<div class="_item">
+							<!-- <span class="_simbol"><span class="_evt_hide"></span>$</span> -->
+							<span class="_usd">$7</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="_caution_table">
+				<ul>
+					<li>* ID당 1일 1회 다운로드 가능</li>
+					<li>* 주문 결제 시 결제쿠폰 선택 및 적용 후 사용 가능</li>
+				</ul>
+			</div>
+
+			<!-- <div class="_link_area">
+				<a href="#evLayer1" class="_ev_fn_layer"> 자세히 보기 &gt; </a>
+			</div> -->
+
+			<!-- 오퍼코드 서밋 버튼 -->
+			<div class="_btn_set _submit_btn _day_check_btn _check_offer_button">
+				<div class="_area_wrap">
+					<a href="#" class="_ev_fn_offer_1">
+						<span class="_name"></span>
+						<span class="_sign _init_btn_bg"><i class="_down_ico"></i></span>
+					</a>
+					<script>
+						(function() {
+
+							/* 오퍼 코드 */
+							var offerCode = [
+								{ofrNo: '100534642', evtFvrNo:'8524798'},
+								{ofrNo: '100534641', evtFvrNo:'8524797'},
+								{ofrNo: '100534640', evtFvrNo:'8524796'},
+								{ofrNo: '100534639', evtFvrNo:'8524795'},
+								{ofrNo: '100534622', evtFvrNo:'8524794'},
+								{ofrNo: '100534621', evtFvrNo:'8524793'},
+								{ofrNo: '100534620', evtFvrNo:'8524792'},
+								{ofrNo: '100534619', evtFvrNo:'8524791'},
+								{ofrNo: '100534618', evtFvrNo:'8524790'},
+								{ofrNo: '100534617', evtFvrNo:'8524789'},
+								{ofrNo: '100534616', evtFvrNo:'8524788'},
+								{ofrNo: '100534615', evtFvrNo:'8524787'},
+								{ofrNo: '100534614', evtFvrNo:'8524786'},
+							];
+
+							/* 오퍼 코드 다운로드 유무 [{ofrDownYn:'N'}] */
+							var checkOfferData = typeof fn_ofrDownCheck == 'function' ? fn_ofrDownCheck(offerCode) : [{ofrDownYn:'N'}];
+							var useOffer = false;
+
+							$.each(checkOfferData, function(idx, val) {
+								if (val.ofrDownYn == 'N') {
+									useOffer = true;
+									return false;
+								}
+							});
+
+							if (!useOffer) { /* 오퍼코드 모두 받았을 때 */
+
+								/* 다운로드 버튼 제거 */
+								$('._check_offer_button').addClass('_end')
+								.find('a').css('pointer-events', 'none').end()
+								.find('._name').css('color', '#fff').text('혜택받기 완료').end()
+								.find('._area_wrap').css('background', '#aaa').end()
+								.find('._sign').css('display', 'none');
+
+								$('._ev_fn_offer_1').on('click', function(e) {e.preventDefault();}).removeAttr('onclick');
+
+							} else {
+								/*
+								2026.10.15 23:59까지 '혜택 발급일이 아닙니다' 비활성화 버튼 노출
+								2026.10.16 00:00부터  '모두 받기' 활성화 버튼 노출
+								*/
+
+								var countTimer = null;
+
+								var joinTime = new Date();
+								var startTime = new Date('2026/10/16 00:00:00');
+
+								var endTime = new Date('2026/10/15 23:59:59');
+
+								var delayTime = startTime - joinTime;
+
+								function countTime() {
+
+									var nowTime = new Date();
+									var diff = endTime.getTime() - nowTime.getTime();
+
+									if (diff > 0) {
+										$('._day_check_btn')
+										.find('._area_wrap').css('background', '#b7b7b8').end()
+										.find('a').css('cursor', 'default').end()
+										.find('._name').text('혜택 발급일이 아닙니다').end()
+										.find('._sign').css('display', 'none');
+
+										$('._ev_fn_offer_1').off('click').on('click', function(e) {
+											e.preventDefault();
+										}).removeAttr('onclick');
+
+									} else {
+
+										clearInterval(countTimer);
+
+										$('._day_check_btn')
+										.find('._name').text('모두 받기').end()
+										.find('._area_wrap').css('background', '#000').end()
+										.find('a').css('cursor', 'pointer').end()
+										.find('._sign').css('display', '');
+
+										$('._ev_fn_offer_1').off('click').on('click', function(e) {
+											e.preventDefault();
+
+											/* 면세점 함수 호출 */
+											fn_ofrDownAll(offerCode);
+
+										}).attr({
+											onclick: "ga_evtTagScript('PC_이벤트', '네이버페이(결제)', '모두 받기');"
+										});
+									}
+								};
+
+								countTime();
+
+								/* 오픈 전 접속 후 대기 상태에서 오픈시간이 되면 */
+								if (delayTime > 0) {
+									setTimeout(function() {
+
+										countTime();
+
+									}, delayTime);
+								}
+							}
+						})();
+					</script>
+				</div>
+			</div>
+
+			<!-- <div class="_banner">
+				<div class="item">
+					<a href="https://kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1048644">
+						<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20250114/20250114145106786ab57d02ff8d34eb0aad7e5297e38cbbe.jpg" alt="면세 쇼핑은 면세일 최대 67% 할인 상품 보러 가기">
+						<div class="_evt_hide">
+							<div class="_tit">면세 쇼핑은 면세일</div>
+							<div class="_txt">최대 67% 할인 상품 보러가기</div>
+						</div>
+					</a>
+				</div>
+			</div> -->
+
+		</div>
+	</div>
+
+
+
+	<!-- <style>
+		.evWrap ._all_banner {width:692px; margin:0 auto; padding:80px 0 0 0;}
+		.evWrap ._all_banner a {display:block; width:100%;}
+		.evWrap ._all_banner a img {width:100%;}
+		.evWrap ._all_banner + ._all_banner {padding-top:15px;}
+	</style>
+
+	<div class="_all_banner"><a href="https://kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1047031"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20240821/2024082114415835981c9b1ae80eb4bf6bb6779023aa71162.jpg" alt="면세 쇼핑은 면세일 최대 70% 할인 상품 보러 가기" /></a></div>
+	<div class="_all_banner"><a href="https://kor.lottedfs.com/kr/event/eventDetail?evtDispNo=1047102"><img src="https://static.lottedfs.com/contents/images/ckeditor-img/20240821/20240821152040177d92364d2e1074a9095a985d7b8adb2a5.png/dims/quality/100" alt="면세일에도 네이버페이와 함께 스페셜포인트로 한 번 더 할인!" /></a></div> -->
+
+	<div class="_nav_content_area"></div>
+
+	<div class="_ev_layer" id="evLayer1" style="display:none;">
+		<div class="_layer_wrap">
+			<div class="_layer_header">
+				<span class="_title">결제포인트 사용방법</span>
+			</div>
+			<div class="_layer_content">
+				<div class="_caution_list">
+					<ul>
+						<li>결제포인트는 주문 건당 최대 1건만 선택하여 사용<br/> 가능합니다.</li>
+						<li>결제포인트는 ‘주문결제 페이지 > 포인트 > 결제<br/> “조회/적용” 팝업’에서 직접 선택하여 사용 가능합니다.</li>
+					</ul>
+				</div>
+				<div class="_caution_list">
+					<img src="https://static.lottedfs.com/contents/images/ckeditor-img/20231103/20231103111730539bfaf62597e224ba597aa00fd94b91bb2.png" alt="">
+				</div>
+			</div>
+			<a href="#" class="_close"><span class="_evt_hide">닫기</span></a>
+		</div>
+	</div>
+
+	<div id="evDimmed" style="display:none;"></div>
+
+</div></div></div></section></article></div></body></html>
