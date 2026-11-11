@@ -39,6 +39,18 @@ const REPLAY = {
   resumed: ['납품본 없이 돌림 · 사람 단계는 납품본 값', 'info', '초안은 납품본 없이 만들었고, 사람만 줄 수 있는 값(이미지 업로드 주소·링크 영역 등)은 납품 뒤 납품본에서 빌려 채웠어요.'],
   after: ['납품 뒤에 돌림', 'warn', '납품본이 이미 있을 때 돌린 결과예요. 사람만 줄 수 있는 값(이미지 업로드 주소·링크 영역 등)은 납품본에서 빌렸고, 운영 페이지에 납품본이 이미 반영돼 있었을 수 있어요.'],
 };
+/* 요구 충족 확인: 하네스가 결과물을 직접 열어 요청 항목이 반영됐는지 본 결과 (납품본과의 비교가 아니다) */
+const COMPLETION = {
+  '검증된 완료': ['검증된 완료', 'ok', '계획한 항목이 모두 결과물에서 확인됐어요. 계획에서 빠뜨린 요청은 여기서 잡히지 않아요.'],
+  '초안 완료': ['초안 완료', 'info', '코드로 확인할 수 없는 항목(자유 수정 등)이나 사람이 채울 빈칸이 있어요.'],
+  '미충족': ['미충족', 'bad', '요청한 값이 결과물에 없거나 이전 값이 남았어요.'],
+};
+function completionChip(v) {
+  const [text, cls, tip] = COMPLETION[v];
+  const c = chip(text, cls);
+  c.title = tip;
+  return c;
+}
 function replayChip(kind, short = false) {
   const [text, cls, tip] = REPLAY[kind];
   const c = chip(short ? text.split(' · ')[0] : text, cls);
@@ -173,6 +185,7 @@ function caseItem(c) {
   if (c.has_harness && c.status && c.status !== 'done') m.append(chip(HALTED[c.status] || '하네스 미완료', 'warn'));
   if (RESULT[c.result] && !c.versions) m.append(chip(...RESULT[c.result]));
   if (c.eval) m.append(chip(...EVAL[c.eval]));
+  if (COMPLETION[c.completion]) m.append(completionChip(c.completion));
   if (REPLAY[c.replay]) m.append(replayChip(c.replay, true));
   if (c.visual) m.append(chip(...VISUAL[c.visual]));
   if (c.versions > 1) m.append(chip(`${c.versions}판`, 'info'));
@@ -222,6 +235,7 @@ function renderCase() {
   if (d.has_harness && d.status && d.status !== 'done') chips.append(chip(`${HALTED[d.status] || '하네스 미완료'} · 여기까지의 파일`, 'warn'));
   if (RESULT[d.result] && !d.versions.length) chips.append(chip(...RESULT[d.result]));
   if (d.eval) chips.append(chip(...EVAL[d.eval]));
+  if (COMPLETION[d.completion]) chips.append(completionChip(d.completion));
   if (REPLAY[d.replay]) chips.append(replayChip(d.replay));
   if (d.warns) chips.append(chip(`확인 필요 ${d.warns}`, 'warn'));
   if (d.versions.length > 1) chips.append(chip(`퍼블리셔 ${d.versions.length}판 (재납품)`, 'info'));
@@ -597,6 +611,28 @@ function renderDetails() {
     req.append(el('p', 'muted', '요청서 확인 필요'), ul);
   }
   box.append(req);
+
+  const done = m.completion;
+  if (done && COMPLETION[done.verdict]) {
+    const s = section('요구 충족 확인');
+    const head = el('p');
+    head.append(completionChip(done.verdict), el('span', 'muted', ' ' + Object.entries(done.counts || {}).map(([k, n]) => `${k} ${n}`).join(' · ')));
+    s.append(head, el('p', 'muted', '하네스가 결과물을 직접 열어 계획한 항목이 반영됐는지 본 결과예요. 납품본과의 비교가 아니에요.'));
+    const shown = (done.cells || []).filter(c => c.status !== '미확인');
+    if (shown.length) {
+      const ul = el('ul');
+      shown.slice(0, 20).forEach(c => {
+        const li = el('li');
+        li.append(chip(c.status, c.status === '어긋남' ? 'bad' : 'warn'), el('span', null, ` 항목 ${c.item} · ${c.file.split('/').pop()}${c.note ? ' — ' + c.note : ''}`));
+        ul.append(li);
+      });
+      s.append(ul);
+      if (shown.length > 20) s.append(el('p', 'muted', `그 밖에 ${shown.length - 20}곳`));
+    }
+    const unknown = (done.cells || []).filter(c => c.status === '미확인').length;
+    if (unknown) s.append(el('p', 'muted', `코드로 확인할 수 없는 칸 ${unknown}곳 (자유 수정·할 일 없음으로 둔 항목)`));
+    box.append(s);
+  }
 
   if (!S.d.job_id) {
     const s = section('하네스');
