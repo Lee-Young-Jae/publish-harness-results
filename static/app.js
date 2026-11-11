@@ -42,9 +42,10 @@ const REPLAY = {
 /* 요구 충족 확인: 하네스가 결과물을 직접 열어 요청 항목이 반영됐는지 본 결과 (납품본과의 비교가 아니다) */
 const COMPLETION = {
   '검증된 완료': ['검증된 완료', 'ok', '계획한 항목이 모두 결과물에서 확인됐어요. 계획에서 빠뜨린 요청은 여기서 잡히지 않아요.'],
-  '초안 완료': ['초안 완료', 'info', '코드로 확인할 수 없는 항목(자유 수정 등)이나 사람이 채울 빈칸이 있어요.'],
+  '확인 필요 남음': ['확인 필요 남음', 'info', '끝까지 만들었지만, 코드로 확인할 수 없는 항목(자유 수정 등)이나 사람이 채울 빈칸·보류한 근거가 남았어요.'],
   '미충족': ['미충족', 'bad', '요청한 값이 결과물에 없거나 이전 값이 남았어요.'],
 };
+COMPLETION['초안 완료'] = COMPLETION['확인 필요 남음'];        // 이름을 바꾸기 전에 남긴 기록
 function completionChip(v) {
   const [text, cls, tip] = COMPLETION[v];
   const c = chip(text, cls);
@@ -191,7 +192,7 @@ const FACETS = [
   ['reason', '실패 사유', [...SHEET_REASONS, '없음'], (c, v) => { const r = sheetOf(c).reasons; return v === '없음' ? !r.length : r.includes(v); }],
   ['eval', '납품본과', ['일치·근접', '다름', '채점 전'], (c, v) => v === '일치·근접' ? ['match', 'equivalent'].includes(c.eval)
     : v === '다름' ? ['partial', 'mismatch'].includes(c.eval) : c.has_harness && !['match', 'equivalent', 'partial', 'mismatch'].includes(c.eval)],
-  ['completion', '요구 충족', ['검증된 완료', '초안 완료', '미충족'], (c, v) => c.completion === v],
+  ['completion', '요구 충족', ['검증된 완료', '확인 필요 남음', '미충족'], (c, v) => (c.completion === '초안 완료' ? '확인 필요 남음' : c.completion) === v],
 ];
 function renderFacets() {
   const box = $('#facets');
