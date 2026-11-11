@@ -629,6 +629,24 @@ function renderDetails() {
       s.append(ul);
       if (shown.length > 20) s.append(el('p', 'muted', `그 밖에 ${shown.length - 20}곳`));
     }
+    if (done.gaps?.length) {            // 근거 → 요청 항목 → 계획에서 끊긴 곳
+      const ul = el('ul');
+      done.gaps.slice(0, 12).forEach(g => ul.append(el('li', null, g)));
+      s.append(el('p', 'muted', `이어지지 않은 곳 ${done.gaps.length}`), ul);
+    }
+    const tone = st => ({ '확인됨': 'ok', '어긋남': 'bad', '계획에 없음': 'bad', '기각': 'warn', '보류': 'warn', '적지 않음': 'warn', '할 일 없음': 'warn', '빈칸': 'warn' }[st] || '');
+    const fold = (title, rows, line) => {
+      if (!rows?.length) return;
+      const d = el('details'), ul = el('ul');
+      d.append(el('summary', 'muted', title));
+      rows.forEach(r => { const li = el('li'); li.append(chip(r.status, tone(r.status)), el('span', null, ' ' + line(r))); ul.append(li); });
+      d.append(ul);
+      s.append(d);
+    };
+    fold(`요청 항목 ${done.items?.length || 0}개가 계획·결과로 이어진 모습`, done.items,
+      r => `${r.no} ${r.summary}${r.plan.length ? ' → 계획 ' + r.plan.join(', ') : ''}${r.note ? ' — ' + r.note : ''}`);
+    fold(`요청서 근거 ${done.evidence?.length || 0}개가 쓰인 곳`, done.evidence,
+      r => `${r.id} "${r.text}" (${r.where.split(' · ').pop()}) → ${r.use}${r.item ? ' ' + r.item : ''}${r.why ? ' — ' + r.why : ''}`);
     const unknown = (done.cells || []).filter(c => c.status === '미확인').length;
     if (unknown) s.append(el('p', 'muted', `코드로 확인할 수 없는 칸 ${unknown}곳 (자유 수정·할 일 없음으로 둔 항목)`));
     box.append(s);
