@@ -1,0 +1,1 @@
+{"status": "done", "digest": "0304b93cf659430d", "size": [1280, 32002], "harness_size": [1280, 8518], "publisher_size": [1280, 32002], "changed": 30950400, "ratio": 0.755578, "regions": [{"kind": "changed", "x": 0, "y": 7821, "w": 1280, "h": 24181, "a_y": 7821, "a_h": 697}], "width": 1280, "case_id": "261007_중일문_전용관업데이트맥_0ddc31", "key": "BTQ_PC_HTML2.html", "version": "v1"}

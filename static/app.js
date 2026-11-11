@@ -94,8 +94,134 @@ const S = {
   cases: [], filter: stored('compare.filter', 'all'), open: null, id: null, d: null, key: null, v: null,
   mode: 'side', zoom: 'fit', diff: 'hp', active: false, shot: 'diff',
   draft: { verdict: null, causes: new Set() },
+  facets: stored('compare.facets', {}), group: stored('compare.group', 'day'),
 };
 if (!FILTERS[S.filter]) S.filter = 'all';
+
+
+/* ---------- 분류 표 (팀의 '퍼블리싱 작업 유형 분류' 표와 같은 칸) ----------
+   하네스가 기록으로 추정한 값을 미리 채우고, 사람이 고친 값은 이 브라우저에 남긴다. 노션에는 복사해서 옮긴다. */
+const SHEET_TYPES = ['콘텐츠 수정', '구성 변경', '신규 제작', '기능·스타일'];
+const SHEET_REASONS = ['자료 누락', '자료 열람 불가', '이미지 업로드'];
+const SHEET_COLS = ['요청명', 'NAS 경로', '유형', '실패 사유', '요구사항 요약', '요청일', '비고'];
+
+function sheetEdits() { return stored('sheet.edits', {}); }
+function sheetOf(c, guess) {               // c: 목록의 건, guess: 건 상세의 추정값 (없으면 목록에 실린 이름만)
+  const mine = sheetEdits()[c.id];
+  const base = { types: guess ? guess.types.map(t => t.name) : (c.types || []), reasons: guess ? guess.reasons.map(t => t.name) : (c.reasons || []),
+    summary: guess ? guess.summary : '', note: guess ? guess.note : '' };
+  return mine ? { ...base, ...mine, edited: true } : base;
+}
+function saveSheet(id, sheet) {
+  const all = sheetEdits();
+  if (sheet) all[id] = { types: sheet.types, reasons: sheet.reasons, summary: sheet.summary, note: sheet.note };
+  else delete all[id];
+  store('sheet.edits', all);
+}
+function sheetRow(c, sheet) {
+  const date = c.date || (c.day ? `20${c.day.slice(0, 2)}-${c.day.slice(2, 4)}-${c.day.slice(4, 6)}` : '');
+  return [c.title, c.folder ? `${nasRoot()}/${c.folder}` : '', sheet.types.join(', '), sheet.reasons.join(', '), sheet.summary, date, sheet.note];
+}
+async function copyText(text, done) {
+  try { await navigator.clipboard.writeText(text); toast(done); } catch { toast('복사하지 못했어요. 브라우저에서 클립보드 사용을 허용해 주세요'); }
+}
+
+function renderSheet(box) {
+  const d = S.d, guess = d.meta.sheet;
+  if (!guess) return;
+  const c = S.cases.find(x => x.id === d.id) || d;
+  const sheet = sheetOf(c, guess);
+  const s = section('분류 (팀 분류 표와 같은 칸)');
+  s.classList.add('sheet');
+  const why = {};
+  [...guess.types, ...guess.reasons].forEach(t => { why[t.name] = t.why; });
+  const changed = () => { saveSheet(d.id, sheet); renderList(); };
+  const picks = (label, all, key) => {
+    const row = el('div', 'sheet-row');
+    row.append(el('span', 'sheet-label', label));
+    const wrap = el('div', 'sheet-picks');
+    all.forEach(name => {
+      const b = el('button', `pick ${sheet[key].includes(name) ? 'on' : ''}`, name);
+      b.title = why[name] ? `하네스 추정 근거: ${why[name]}` : '하네스는 이 값을 고르지 않았어요';
+      b.onclick = () => {
+        sheet[key] = all.filter(n => n === name ? !sheet[key].includes(n) : sheet[key].includes(n));
+        changed();
+        renderDetails();
+      };
+      wrap.append(b);
+    });
+    row.append(wrap);
+    s.append(row);
+    const reasons = sheet[key].filter(n => why[n]).map(n => `${n}: ${why[n]}`);
+    if (reasons.length) s.append(el('p', 'muted sheet-why', reasons.join(' · ')));
+  };
+  picks('유형', SHEET_TYPES, 'types');
+  picks('실패 사유', SHEET_REASONS, 'reasons');
+  const text = (label, key, rows) => {
+    const row = el('div', 'sheet-row');
+    const ta = el('textarea', 'sheet-text');
+    ta.rows = rows;
+    ta.value = sheet[key];
+    ta.oninput = () => { sheet[key] = ta.value; saveSheet(d.id, sheet); };
+    row.append(el('span', 'sheet-label', label), ta);
+    s.append(row);
+  };
+  text('요구사항 요약', 'summary', 4);
+  text('비고', 'note', 3);
+  const act = el('div', 'sheet-actions');
+  const copy = el('button', 'btn primary', '노션용으로 복사');
+  copy.title = `표 한 줄로 복사해요 (${SHEET_COLS.join(' · ')})`;
+  copy.onclick = () => copyText(sheetRow(c, sheet).map(v => String(v).replace(/[\t\n]+/g, ' ')).join('\t'),
+    '한 줄을 복사했어요. 노션 표의 빈 줄 첫 칸에 붙여 넣어 주세요');
+  act.append(copy);
+  if (sheet.edited) {
+    const reset = el('button', 'linkbtn', '하네스 추정값으로 되돌리기');
+    reset.onclick = () => { saveSheet(d.id, null); renderList(); renderDetails(); };
+    act.append(reset, el('span', 'muted', '고친 값은 이 브라우저에만 남아요'));
+  } else {
+    act.append(el('span', 'muted', '하네스가 추정한 값이에요. 눌러서 고칠 수 있어요'));
+  }
+  s.append(act);
+  box.append(s);
+}
+
+/* 목록 걸러 보기·묶어 보기 */
+const FACETS = [
+  ['type', '유형', [...SHEET_TYPES, '분류 전'], (c, v) => { const t = sheetOf(c).types; return v === '분류 전' ? !t.length : t.includes(v); }],
+  ['reason', '실패 사유', [...SHEET_REASONS, '없음'], (c, v) => { const r = sheetOf(c).reasons; return v === '없음' ? !r.length : r.includes(v); }],
+  ['eval', '납품본과', ['일치·근접', '다름', '채점 전'], (c, v) => v === '일치·근접' ? ['match', 'equivalent'].includes(c.eval)
+    : v === '다름' ? ['partial', 'mismatch'].includes(c.eval) : c.has_harness && !['match', 'equivalent', 'partial', 'mismatch'].includes(c.eval)],
+  ['completion', '요구 충족', ['검증된 완료', '초안 완료', '미충족'], (c, v) => c.completion === v],
+];
+function renderFacets() {
+  const box = $('#facets');
+  box.innerHTML = '';
+  FACETS.forEach(([key, label, options]) => {
+    const sel = el('select');
+    sel.append(new Option(`${label}: 전체`, ''));
+    options.forEach(o => sel.append(new Option(o, o)));
+    sel.value = S.facets[key] || '';
+    sel.onchange = () => { S.facets[key] = sel.value; store('compare.facets', S.facets); renderList(); };
+    box.append(sel);
+  });
+  const group = el('select');
+  group.append(new Option('묶기: 날짜', 'day'), new Option('묶기: 유형', 'type'));
+  group.value = S.group;
+  group.onchange = () => { S.group = group.value; store('compare.group', S.group); renderList(); };
+  const csv = el('button', 'btn small-btn', '보이는 건 복사');
+  csv.title = '지금 목록에 보이는 건을 표 여러 줄로 복사해요 (노션·시트에 붙여 넣기). 요약·비고는 건 화면에서 고친 건만 들어가요';
+  csv.onclick = () => {
+    const rows = visibleCases().filter(c => c.has_harness).map(c => sheetRow(c, sheetOf(c)).map(v => String(v).replace(/[\t\n]+/g, ' ')).join('\t'));
+    copyText([SHEET_COLS.join('\t'), ...rows].join('\n'), `${rows.length}건을 복사했어요`);
+  };
+  box.append(group, csv);
+}
+function renderListSummary(cases) {
+  const run = cases.filter(c => c.has_harness), scored = run.filter(c => ['match', 'equivalent', 'partial', 'mismatch'].includes(c.eval));
+  const good = scored.filter(c => ['match', 'equivalent'].includes(c.eval)).length;
+  $('#listSummary').textContent = `${cases.length}건 · 하네스 결과 ${run.length}건`
+    + (scored.length ? ` · 납품본과 일치·근접 ${good}/${scored.length} (${Math.round(good / scored.length * 100)}%)` : '');
+}
 
 /* ---------- 목록 ---------- */
 
@@ -117,11 +243,15 @@ async function loadCases(keep = true) {
     if (pick) S.open.add(pick.day);
     if (!S.open.size && S.cases.length) S.open.add(S.cases[0].day);
   }
+  renderFacets();
   renderList();
   if (pick) select(pick.id);
 }
 
-function visibleCases() { return S.cases.filter(FILTERS[S.filter]); }
+function visibleCases() {
+  const on = FACETS.filter(([key]) => S.facets[key]);
+  return S.cases.filter(FILTERS[S.filter]).filter(c => on.every(([key, , , test]) => test(c, S.facets[key])));
+}
 
 /* 보고서의 '비교' 링크(/#<건 ID>)로 들어오면 그 건을 연다 */
 function caseFromHash() {
@@ -141,6 +271,8 @@ function dayParts(day) {
 function renderList() {
   const list = $('#caseList');
   list.innerHTML = '';
+  renderListSummary(visibleCases());
+  if (S.group === 'type') return renderByType(list);
   const byDay = new Map();
   for (const c of visibleCases()) {
     if (!byDay.has(c.day)) byDay.set(c.day, []);
@@ -175,20 +307,39 @@ function renderList() {
   if (!list.children.length) list.append(el('li', 'muted none', '조건에 맞는 건이 없어요'));
 }
 
+/* 유형별로 묶어 보기: 한 건이 여러 유형이면 유형마다 나온다 */
+function renderByType(list) {
+  const cases = visibleCases();
+  for (const type of [...SHEET_TYPES, '분류 전']) {
+    const mine = cases.filter(c => { const t = sheetOf(c).types; return type === '분류 전' ? !t.length : t.includes(type); });
+    if (!mine.length) continue;
+    const key = `type:${type}`, open = S.open.has(key);
+    const head = el('li', `day ${open ? 'open' : ''}`);
+    const scored = mine.filter(c => ['match', 'equivalent', 'partial', 'mismatch'].includes(c.eval));
+    const good = scored.filter(c => ['match', 'equivalent'].includes(c.eval)).length;
+    head.append(el('span', 'caret', open ? '▾' : '▸'), el('strong', null, type),
+      el('span', 'count', `${mine.length}건` + (scored.length ? ` · 일치·근접 ${good}/${scored.length}` : '')));
+    head.onclick = () => { S.open.has(key) ? S.open.delete(key) : S.open.add(key); store('compare.open', [...S.open]); renderList(); };
+    list.append(head);
+    if (open) mine.forEach(c => list.append(caseItem(c)));
+  }
+  if (!list.children.length) list.append(el('li', 'muted none', '조건에 맞는 건이 없어요'));
+}
+
 function caseItem(c) {
   const li = el('li', `case ${c.id === S.id ? 'on' : ''} ${c.has_harness ? '' : 'noh'}`);
   li.dataset.id = c.id;
   li.title = c.has_harness ? c.title : `${c.title}\n아직 하네스로 처리하지 않은 요청이에요`;
   li.append(el('div', 't', c.title));
   const m = el('div', 'm');
-  if (c.task_type) m.append(chip(TYPE[c.task_type] || c.task_type));
+  // 목록에는 유형·납품본과의 판정·요구 충족만 둔다. 나머지 표시(납품 전후·화면 차이·재납품)는 건 화면에 있다
+  const types = sheetOf(c).types;
+  if (types.length) types.forEach(t => m.append(chip(t)));
+  else if (c.task_type) m.append(chip(TYPE[c.task_type] || c.task_type));
   if (c.has_harness && c.status && c.status !== 'done') m.append(chip(HALTED[c.status] || '하네스 미완료', 'warn'));
   if (RESULT[c.result] && !c.versions) m.append(chip(...RESULT[c.result]));
   if (c.eval) m.append(chip(...EVAL[c.eval]));
   if (COMPLETION[c.completion]) m.append(completionChip(c.completion));
-  if (REPLAY[c.replay]) m.append(replayChip(c.replay, true));
-  if (c.visual) m.append(chip(...VISUAL[c.visual]));
-  if (c.versions > 1) m.append(chip(`${c.versions}판`, 'info'));
   if (c.verdict) m.append(chip(...VERDICT[c.verdict.verdict]));
   li.append(m);
   li.onclick = () => select(c.id);
@@ -574,6 +725,7 @@ function section(title) {
 function renderDetails() {
   const m = S.d.meta, box = $('#details');
   box.innerHTML = '';
+  renderSheet(box);
 
   const req = section('요청');
   if (m.summary) req.append(el('p', null, m.summary));
