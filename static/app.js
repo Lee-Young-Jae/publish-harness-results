@@ -69,7 +69,7 @@ const VERDICT = {
   harness: ['하네스가 맞음', 'h'], publisher: ['퍼블리셔가 맞음', 'p'],
   both_ok: ['둘 다 괜찮음', 'ok'], both_wrong: ['둘 다 틀림', 'bad'],
 };
-const TYPE = { page_edit: '페이지 수정', image_event_new: '이미지 단건', vendor_html_register: '수급 HTML', new_page_build: '신규 제작' };
+const TYPE = { page_edit: '페이지 수정', image_event_new: '이미지 단건', vendor_html_register: '수급 HTML', new_page_build: '새 페이지 제작' };
 const SEVERITY = { error: ['오류', 'bad'], warn: ['확인', 'warn'], info: ['정보', 'info'] };
 const CAUSES = ['분석', '기준본', '계획', '연산', '팀 관례', '요청서 모호', '퍼블리셔 누락', '운영 화면만 바뀜'];
 
@@ -102,13 +102,55 @@ if (!FILTERS[S.filter]) S.filter = 'all';
 
 /* ---------- 분류 표 (팀의 '퍼블리싱 작업 유형 분류' 표와 같은 칸) ----------
    하네스가 기록으로 추정한 값을 미리 채우고, 사람이 고친 값은 이 브라우저에 남긴다. 노션에는 복사해서 옮긴다. */
-const SHEET_TYPES = ['콘텐츠 수정', '구성 변경', '신규 제작', '기능·스타일'];
+const BUILD_KINDS = ['디자인으로 새 페이지', '다국어판 제작', '시리즈 제작', '이미지 단건', '기타 제작'];
+const SHEET_TYPES = [...BUILD_KINDS, '콘텐츠 수정', '구성 변경', '기능·스타일'];
+/* 유형이 뜻하는 것 (하네스 scope.py KIND_INFO와 같은 글). 제작 요청은 종류로, 수정 요청은 항목이 하는 일로 나눈다 */
+const TYPE_INFO = [
+  ['디자인으로 새 페이지', '디자이너가 만든 시안(피그마)을 보고 새 페이지의 HTML을 처음부터 만드는 요청이에요. 지금 하네스가 다루는 "신규 제작"이 이 유형이에요.'],
+  ['다국어판 제작', '이미 만든 다른 언어판(주로 국문)을 복사해 글·링크·그림을 그 언어로 옮기는 요청이에요.'],
+  ['시리즈 제작', '매달·매 회차 여는 기획전이에요. 지난 회차 페이지를 복사해 이번 회차 내용으로 바꿔요.'],
+  ['이미지 단건', '완성된 그림 한 장(또는 몇 장)을 올리고 그림 위에 링크 영역을 잡는 행사 페이지예요.'],
+  ['기타 제작', '제목은 제작이지만 위 넷이 아닌 요청이에요. 받은 HTML 등록, 기존 페이지에 구역을 더 만드는 추가 제작 등이에요.'],
+  ['콘텐츠 수정', '지금 있는 페이지의 글·그림·링크·상품을 바꾸는 요청이에요.'],
+  ['구성 변경', '지금 있는 페이지에서 구역·항목을 넣거나 빼거나 순서를 바꾸는 요청이에요.'],
+  ['기능·스타일', '지금 있는 페이지의 스크립트·팝업·롤링 같은 동작이나 색·글자·간격 같은 모양을 바꾸는 요청이에요.'],
+];
+const TYPE_NOTE = '유형은 하네스가 요청 기록으로 추정한 값이에요. 건 화면의 분류 칸에서 고칠 수 있어요. 한 건이 여러 유형일 수 있어요.';
+function typeInfoPanel() {
+  let panel = $('#typeInfo');
+  if (panel) { panel.hidden = !panel.hidden; return; }
+  panel = el('div', 'type-info');
+  panel.id = 'typeInfo';
+  const head = el('div', 'type-info-head');
+  const close = el('button', 'btn small-btn', '닫기');
+  close.onclick = () => { panel.hidden = true; };
+  head.append(el('b', null, '유형이 뜻하는 것'), close);
+  const dl = el('dl');
+  TYPE_INFO.forEach(([name, text], i) => {
+    if (i === 0) dl.append(el('p', 'type-info-group', '제작 요청 (제목이 "제작")'));
+    if (i === BUILD_KINDS.length) dl.append(el('p', 'type-info-group', '수정 요청'));
+    dl.append(el('dt', null, name), el('dd', null, text));
+  });
+  panel.append(head, dl, el('p', 'muted', TYPE_NOTE));
+  document.body.append(panel);
+}
+function typeInfoButton(label = '유형 설명') {
+  const b = el('button', 'btn small-btn', label);
+  b.title = '유형마다 어떤 요청인지 설명을 봐요';
+  b.onclick = typeInfoPanel;
+  return b;
+}
 const SHEET_REASONS = ['자료 누락', '자료 열람 불가', '이미지 업로드'];
 const SHEET_COLS = ['요청명', 'NAS 경로', '유형', '실패 사유', '요구사항 요약', '요청일', '비고'];
 
 function sheetEdits() { return stored('sheet.edits', {}); }
 function sheetOf(c, guess) {               // c: 목록의 건, guess: 건 상세의 추정값 (없으면 목록에 실린 이름만)
-  const mine = sheetEdits()[c.id];
+  let mine = sheetEdits()[c.id];
+  // 예전 유형 이름 '신규 제작'으로 고쳐 둔 건: 지금은 종류로 나뉘어서 하네스가 추정한 종류로 바꿔 읽는다
+  if (mine && (mine.types || []).includes('신규 제작')) {
+    const kinds = (guess ? guess.types.map(t => t.name) : (c.types || [])).filter(t => BUILD_KINDS.includes(t));
+    mine = { ...mine, types: [...kinds, ...mine.types.filter(t => t !== '신규 제작' && !kinds.includes(t))] };
+  }
   const base = { types: guess ? guess.types.map(t => t.name) : (c.types || []), reasons: guess ? guess.reasons.map(t => t.name) : (c.reasons || []),
     summary: guess ? guess.summary : '', note: guess ? guess.note : '' };
   return mine ? { ...base, ...mine, edited: true } : base;
@@ -157,6 +199,7 @@ function renderSheet(box) {
     if (reasons.length) s.append(el('p', 'muted sheet-why', reasons.join(' · ')));
   };
   picks('유형', SHEET_TYPES, 'types');
+  s.querySelector('.sheet-label').append(' ', typeInfoButton('?'));
   picks('실패 사유', SHEET_REASONS, 'reasons');
   const text = (label, key, rows) => {
     const row = el('div', 'sheet-row');
@@ -215,7 +258,7 @@ function renderFacets() {
     const rows = visibleCases().filter(c => c.has_harness).map(c => sheetRow(c, sheetOf(c)).map(v => String(v).replace(/[\t\n]+/g, ' ')).join('\t'));
     copyText([SHEET_COLS.join('\t'), ...rows].join('\n'), `${rows.length}건을 복사했어요`);
   };
-  box.append(group, csv);
+  box.append(group, typeInfoButton(), csv);
 }
 function renderListSummary(cases) {
   const run = cases.filter(c => c.has_harness), scored = run.filter(c => ['match', 'equivalent', 'partial', 'mismatch'].includes(c.eval));
