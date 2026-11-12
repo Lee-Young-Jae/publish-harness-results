@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 상단 갭 */
+		var fixGap = $('#lotteHeader').find('nav.gnb').length ? 80 : 65;
+
+		/* 바로가기 (응모하기 바로가기) */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			if (!$target.length) return;
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* 멜버른 시내·시외 카드 좌우 스와이프 */
+		function spotSlider() {
+			var sliders = document.querySelectorAll('._spot_slider');
+
+			sliders.forEach(function(elem) {
+				try {
+					new Swiper(elem, {
+						effect: 'slide',
+						speed: 600,
+						slidesPerView: 'auto',
+						spaceBetween: 20,
+						centeredSlides: false,
+						watchOverflow: true,
+						loop: false,
+						pagination: {
+							el: elem.parentNode.querySelector('._spot_pagination'),
+							clickable: true,
+						},
+					});
+				} catch (e) {
+					console.error(e);
+				}
+			});
+		}
+
+		spotSlider();
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular';}
+	.evWrap img {display:block;}
+	.evWrap a {display:block;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._evt_header {width:100%;}
+	._evt_header ._area_wrap {width:100%;}
+	._evt_header ._visual {display:flex; justify-content:center; width:100%;}
+
+	._evt_content {width:100%; background:#fff; color:#000;}
+	._evt_content ._evt_content_wrap {position:relative; width:100%; margin:0 auto; padding:120px 0;}
+
+	._evt_content._evt_content_1 {background:#D8EAFF;}
+	._evt_content._evt_content_2 {background:#F5F5F5;}
+	._evt_content._evt_content_3 {background:#FFFFFF;}
+	._evt_content._evt_content_4 {background:#EFF8FF;}
+	._evt_content._evt_content_5 {background:#E6E6E6;}
+
+	._evt_content ._set_ank {position:absolute; left:0; top:0;}
+	._evt_content._evt_content_5 {position:relative;}
+	._evt_content ._apply_ank {top:auto; bottom:0;}
+
+	/* 라벨 */
+	._evt_content ._page_label {display:flex; justify-content:center;}
+	._evt_content ._page_label span {display:flex; justify-content:center; align-items:center; width:auto; padding:6px 12px 7px; border-radius:50px; background:#07298E; font-size:18px; font-weight:600; line-height:21px; color:#fff;}
+	._evt_content ._page_label._lg span {padding:8px 20px; font-size:22px; line-height:26px;}
+
+	/* 행운의 주인공 */
+	._evt_content ._prize_title {width:100%; text-align:center;}
+	._evt_content ._prize_title ._sub {display:block; font-size:36px; font-weight:600; line-height:43px; letter-spacing:0; color:#000;}
+	._evt_content ._prize_title ._main {display:block; margin-top:8px; font-size:46px; font-weight:800; line-height:55px; letter-spacing:0; color:#000;}
+	._evt_content ._prize_title ._main em {font-style:normal; color:#07298E;}
+
+	/* 이벤트 정보표 */
+	._evt_content ._info_table {width:848px; margin:0 auto;}
+	._evt_content ._info_table dl {display:flex; gap:30px; padding:24px 0 23px; border-bottom:1px solid #CFCFCF;}
+	._evt_content ._info_table dt {flex:0 0 148px; width:148px; font-size:18px; font-weight:700; line-height:25.2px; letter-spacing:-0.5px; color:#000;}
+	._evt_content ._info_table dd {flex:1 1 auto; margin:0; font-size:18px; font-weight:500; line-height:25.2px; letter-spacing:-0.5px; color:#000;}
+	._evt_content ._info_table dd small {display:block; margin-top:4px; font-size:14px; font-weight:500; line-height:20.58px; letter-spacing:-0.5px;}
+
+	/* 참여방법 */
+	._evt_content ._join_wrap {margin-top:80px;}
+	._evt_content ._join_list {display:flex; justify-content:center; gap:32px; margin-top:40px;}
+	._evt_content ._join_list ._item {position:relative; width:269px; height:369px; border-radius:16.8996px; background:#fff;}
+	._evt_content ._join_list ._item:first-child {width:270px;}
+	._evt_content ._join_list ._item ._img {position:absolute;}
+	._evt_content ._join_list ._item_1 ._img {left:36px; top:36px; width:208px;}
+	._evt_content ._join_list ._item_2 ._img {left:46px; top:44px; width:177px;}
+	._evt_content ._join_list ._item_3 ._img {left:30px; top:38px; width:205px;}
+	._evt_content ._join_list ._item ._img img {width:100%;}
+	._evt_content ._join_list ._item ._txt {position:absolute; left:0; right:0; top:257px; text-align:center; color:#000;}
+	._evt_content ._join_list ._item ._txt strong {display:block; font-size:18px; font-weight:600; line-height:27px; letter-spacing:-0.54px;}
+	._evt_content ._join_list ._item ._txt p {margin:4px 0 0; font-size:18px; font-weight:500; line-height:25.2px; letter-spacing:-0.54px;}
+
+	/* 예술과 미식 */
+	._evt_content ._page_title {width:100%; text-align:center; color:#000;}
+	._evt_content ._page_title ._main {display:block; font-size:38px; font-weight:700; line-height:49.4px; letter-spacing:0;}
+	._evt_content ._page_title ._desc {display:block; margin-top:20px; font-size:24px; font-weight:500; line-height:33.6px; letter-spacing:0;}
+
+	/* 멜버른 시내·시외 카드 */
+	._evt_content ._spot_area {margin-top:80px;}
+	._evt_content ._spot_area + ._spot_area {margin-top:120px;}
+	._evt_content ._spot_wrap {position:relative; width:100%; margin-top:40px;}
+	._evt_content ._spot_slider {position:relative; width:480px; margin:0 auto; overflow:visible;}
+	._evt_content ._spot_slider .swiper-wrapper {position:relative; display:flex; width:100%; box-sizing:content-box;}
+	._evt_content ._spot_slider .swiper-slide {flex-shrink:0; position:relative; width:480px; height:auto;}
+	._evt_content ._spot_item ._card {display:flex; flex-direction:column; align-items:center; height:100%; padding-bottom:60px; border-radius:20px; background:#D8EAFF; overflow:hidden; text-align:center; box-sizing:border-box;}
+	._evt_content ._spot_item ._thumb {width:480px; height:310px; background:#F7F7F7;}
+	._evt_content ._spot_item ._thumb img {width:100%;}
+	._evt_content ._spot_item ._info {display:flex; flex-direction:column; align-items:center; margin-top:30px;}
+	._evt_content ._spot_item ._name {display:block; font-size:22px; font-weight:700; line-height:28.6px; letter-spacing:0; color:#000;}
+	._evt_content ._spot_item ._desc {margin:10px 0 0; font-size:18px; font-weight:500; line-height:25.2px; letter-spacing:0; color:#3C3C3C;}
+	._evt_content ._spot_item ._desc._black {color:#000;}
+
+	._evt_content ._spot_outer ._spot_item ._card {padding-bottom:48px;}
+	._evt_content ._spot_outer ._spot_item ._desc_wrap {display:flex; flex-direction:column; gap:8px; min-height:190px; margin-top:10px;}
+	._evt_content ._spot_outer ._spot_item ._desc_wrap p {margin:0; font-size:18px; font-weight:500; line-height:26.1px; letter-spacing:-0.54px; color:#000;}
+	._evt_content ._spot_outer ._spot_item ._desc_wrap p._narrow {letter-spacing:-0.63px;}
+	._evt_content ._spot_outer ._spot_item ._route {display:inline-flex; align-items:center; height:37px; margin-top:20px; border-radius:999px; background:#fff; box-shadow:inset 0 0 0 1px #D4D4D4;}
+	._evt_content ._spot_outer ._spot_item ._route ._time {display:flex; align-items:center; gap:4px; height:37px; padding:6px 12px; border-radius:999px; background:#07298E; font-size:18px; font-weight:500; line-height:25.2px; letter-spacing:-0.54px; color:#fff; box-sizing:border-box;}
+	._evt_content ._spot_outer ._spot_item ._route ._time img {width:11px; height:14px;}
+	._evt_content ._spot_outer ._spot_item ._route ._path {display:flex; align-items:center; gap:6px; padding:6px 14px 6px 8px; font-size:18px; font-weight:500; line-height:25.2px; letter-spacing:-0.54px; color:#000;}
+	._evt_content ._spot_outer ._spot_item ._route ._path i {font-style:normal; color:#B9B9B9;}
+
+	._evt_content ._spot_pagination {display:flex; justify-content:center; gap:8px; margin-top:80px;}
+	._evt_content ._spot_pagination .swiper-pagination-bullet {display:block; width:8px; height:8px; margin:0 !important; border-radius:50%; background:#000; opacity:0.3; cursor:pointer;}
+	._evt_content ._spot_pagination .swiper-pagination-bullet-active {opacity:1;}
+
+	/* 운항 스케쥴 */
+	._evt_content ._route_title {width:100%; text-align:center; color:#000;}
+	._evt_content ._route_title ._eng {display:block; font-size:24px; font-weight:700; line-height:33.6px; color:#1A3C9F;}
+	._evt_content ._route_title ._main {display:block; margin-top:10px; font-size:38px; font-weight:700; line-height:49.4px;}
+	._evt_content ._route_title ._sub {display:block; margin-top:10px; font-size:28px; font-weight:600; line-height:39.2px;}
+	._evt_content ._period {display:flex; flex-direction:column; align-items:center; margin-top:60px; text-align:center;}
+	._evt_content ._period ._label {display:flex; align-items:center; padding:6px 15px 5px; border-radius:80px; background:#1A3C9F; font-size:18px; font-weight:600; line-height:21px; color:#fff;}
+	._evt_content ._period ._date {display:block; margin-top:10px; font-size:32px; font-weight:700; line-height:44.8px; color:#000;}
+
+	._evt_content ._schedule {width:1040px; margin:60px auto 0;}
+	._evt_content ._schedule ._row {display:flex;}
+	._evt_content ._schedule ._cell {display:flex; justify-content:center; align-items:center; flex:0 0 200px; width:200px; text-align:center; box-sizing:border-box;}
+	._evt_content ._schedule ._cell:first-child {flex-basis:240px; width:240px;}
+	._evt_content ._schedule ._head ._cell {height:56px; background:#1A3C9F; font-size:24px; font-weight:700; line-height:26.4px; letter-spacing:-0.72px; color:#fff;}
+	._evt_content ._schedule ._body {background:#fff;}
+	._evt_content ._schedule ._body ._cell {height:51px; font-size:22px; font-weight:600; line-height:30.8px; letter-spacing:-0.66px; color:#040000;}
+	._evt_content ._schedule ._body._row_1 {border-bottom:1px solid #D7D7D7;}
+	._evt_content ._schedule ._body._row_2 {border-bottom:2px solid #1A3C9F;}
+	._evt_content ._schedule ._cell ._way {display:flex; align-items:center; gap:15px;}
+	._evt_content ._schedule ._cell ._way ._icon {display:flex; justify-content:center; align-items:center; width:24px; height:24px;}
+	._evt_content ._schedule ._cell ._way ._icon img {width:20px; height:20px;}
+	._evt_content ._schedule ._cell ._plus {position:relative; top:-8px; margin-left:1px; font-size:13px; color:#C51214;}
+	._evt_content ._schedule ._note {margin:0; padding-top:20px; font-size:16px; font-weight:500; line-height:22.4px; letter-spacing:-0.48px; color:#424242; text-align:left;}
+
+	._evt_content ._ticket {display:flex; justify-content:center; margin-top:60px;}
+	._evt_content ._ticket img {width:1040px;}
+
+	._evt_content ._btn_grp {display:flex; justify-content:center; margin:60px auto 0 auto;}
+	._evt_content ._btn_grp ._btn {display:flex; justify-content:center; align-items:center; gap:10px; padding:20px 50px; border-radius:10px; background:#000;}
+	._evt_content ._btn_grp ._btn ._name {font-size:22px; font-weight:700; line-height:26px; color:#fff;}
+	._evt_content ._btn_grp ._btn ._icon {position:relative; left:0; top:1px;}
+	._evt_content ._btn_grp ._btn ._icon svg {display:block;}
+
+	/* 유의사항 */
+	._evt_content ._caution {width:1040px; margin:0 auto; color:#787878; text-align:left;}
+	._evt_content ._caution > strong {display:block; font-size:18px; font-weight:700; line-height:27px; letter-spacing:-0.86px;}
+	._evt_content ._caution ._group {margin-top:20px;}
+	._evt_content ._caution ._group > b {display:block; font-size:16px; font-weight:600; line-height:24px; letter-spacing:-0.77px;}
+	._evt_content ._caution ul {margin:6px 0 0; padding:0; list-style:none;}
+	._evt_content ._caution li {padding-left:10px; text-indent:-10px; font-size:16px; font-weight:400; line-height:24px; letter-spacing:-0.77px;}
+	._evt_content ._caution ._sub_list {margin-top:6px; padding-left:11px;}
+	._evt_content ._caution ._sub_list ul {margin-top:0;}
+	._evt_content ._caution ._sub_list ul + ul {margin-top:6px;}
+	._evt_content ._caution ._sub_list li._tit {padding-left:0; text-indent:0;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_26110006">
+
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000c22787b53c939fb371ec34f575317b65.webp" alt="MELBOURNE AUSTRALIA X LOTTE DUTY FREE 대한항공 타고 멜버른까지 직항으로!"></div>
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_1">
+		<div class="_evt_content_wrap">
+			<div class="_prize_title">
+				<strong class="_sub">행운의 주인공 5분께</strong>
+				<strong class="_main"><em>대한항공 멜버른 왕복 항공권</em>을 드립니다!</strong>
+			</div>
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_2">
+		<div class="_evt_content_wrap">
+
+			<div class="_info_table">
+				<dl>
+					<dt>이벤트 기간</dt>
+					<dd>2026. 11. 1 ~ 12. 31 (이벤트 기간 내 구매 고객 대상 추첨)</dd>
+				</dl>
+				<dl>
+					<dt>대상점</dt>
+					<dd>시내점</dd>
+				</dl>
+				<dl>
+					<dt>참여 대상</dt>
+					<dd>이벤트 기간 내 롯데면세점에서 $300 이상 구매하고상품 인도까지 완료한 내국인(KOR) 고객</dd>
+				</dl>
+				<dl>
+					<dt>당첨자 발표</dt>
+					<dd>2027년 1월 중 (온라인 게시 및 당첨 고객 개별 문자 안내 예정)<small>* 대한항공 이코노미 클래스 티켓 5매 증정</small></dd>
+				</dl>
+				<dl>
+					<dt>항공권 탑승 가능 기간</dt>
+					<dd>당첨자는 2027.3.14까지 탑승을 완료해야 합니다.</dd>
+				</dl>
+			</div>
+
+			<div class="_join_wrap">
+				<div class="_page_label"><span>참여방법</span></div>
+				<div class="_join_list">
+					<div class="_item _item_1">
+						<span class="_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000001f9759349db28feb09a239cc68c40a16.webp" alt=""></span>
+						<div class="_txt">
+							<strong>1. 롯데면세점에서쇼핑하기</strong>
+							<p>행사 기간 내<br>롯데면세점에서 구매</p>
+						</div>
+					</div>
+					<div class="_item _item_2">
+						<span class="_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000000f7cd8c5a1f3bcd98a3cca46b66657cd.webp" alt=""></span>
+						<div class="_txt">
+							<strong>2. 하단 응모하기 클릭</strong>
+							<p>버튼을 클릭하여 응모<br>페이지로 이동해 주세요.</p>
+						</div>
+					</div>
+					<div class="_item _item_3">
+						<span class="_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000001e6f374855a13e89b9e0d0f46e817642.webp" alt=""></span>
+						<div class="_txt">
+							<strong>3. 당첨자 발표</strong>
+							<p>2027년 1월 이내 온라인 게시<br>및 고객 개별 연락 예정</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_3">
+		<div class="_evt_content_wrap">
+
+			<div class="_page_title">
+				<strong class="_main">예술과 미식,<br>취향 따라 즐기는 도시</strong>
+				<p class="_desc">트램이 오가는 거리와 고풍스러운 건축물,<br>개성 있는 카페와 갤러리, 다채로운 미식까지.<br>호주 빅토리아주의 주도 멜버른에서<br>도시의 매력과 여유로운 여름을 함께 즐겨보세요.</p>
+			</div>
+
+			<!-- 멜버른 시내 -->
+			<div class="_spot_area _spot_city">
+				<div class="_page_label _lg"><span>멜버른 시내</span></div>
+				<div class="_spot_wrap">
+					<div class="_spot_slider">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000008db1a5824e81742675f6ad707ae56f27.webp" alt="플린더스 스트리트 역"></div>
+									<div class="_info">
+										<strong class="_name">플린더스 스트리트 역<br>Flinders Street Station</strong>
+										<p class="_desc _black">멜버른을 상징하는 기차역.<br>고풍스러운 건축물 앞에서<br>여행의 첫 장면을 남겨보세요.</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000003dbb22f82fb1ea9f71216ad50c44fea.webp" alt="페더레이션 광장"></div>
+									<div class="_info">
+										<strong class="_name">페더레이션 광장<br>Federation Square</strong>
+										<p class="_desc">도시의 문화와 일상이 만나는 광장.<br>잠시 걸음을 멈추고<br>멜버른의 분위기를 느껴보세요.</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000704ce66e1a7944266f9285507eeef7b7.webp" alt="야라강"></div>
+									<div class="_info">
+										<strong class="_name">야라강<br>Yarra River</strong>
+										<p class="_desc">멜버른 도심을 가로지르며<br>주요 명소를 잇는 강.<br>멜버른의 대표적인 포토 스팟.</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000069e0aac434971357f941fd9429f184ec.webp" alt="호시어레인"></div>
+									<div class="_info">
+										<strong class="_name">호시어레인<br>Hosier Lane</strong>
+										<p class="_desc">드라마 ‘미안하다, 사랑한다’의 촬영지<br>그래피티 사진 명소</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000ac3aaa877711ccd5d3947855f6951447.webp" alt="빅토리아 주립 도서관"></div>
+									<div class="_info">
+										<strong class="_name">빅토리아 주립 도서관<br>State Library Victoria</strong>
+										<p class="_desc">도서관의 상징인<br>거대한 팔각형 돔 구조의 열람실</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000001229627b32804cb48db05ab60b4ea0ea.webp" alt="디그레이브스 스트리트"></div>
+									<div class="_info">
+										<strong class="_name">디그레이브스 스트리트<br>Degraves Street</strong>
+										<p class="_desc">아침을 깨우는 테라스 카페와<br>미식이 가득한 거리</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000d3ba9da2a0e900f78a4ffc77d14e28df.webp" alt="로열 아케이드"></div>
+									<div class="_info">
+										<strong class="_name">로열 아케이드<br>Royal Arcade</strong>
+										<p class="_desc">19세기 빅토리아 시대의 고풍스러운<br>분위기를 고스란히 간직하고 있어<br>멜버른의 헤리티지를 느낄 수 있습니다.</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000ec60f12efef9058cd526bef03ddd3322.webp" alt="퀸 빅토리아 마켓"></div>
+									<div class="_info">
+										<strong class="_name">퀸 빅토리아 마켓<br>Queen Victoria Market</strong>
+										<p class="_desc">남반구에서 가장 큰 규모를 자랑하는<br>야외 시장 중 하나</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000f15d90083030806e9d547024d850a5ff.webp" alt="사우스 멜버른 마켓"></div>
+									<div class="_info">
+										<strong class="_name">사우스 멜버른 마켓<br>South Melbourne Market</strong>
+										<p class="_desc">멜버른에서 가장 오래된 실내 시장으로<br>활기찬 장터 분위기를 느껴보세요.</p>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000062e9cda227b28d5809815f358be66114.webp" alt="빅토리아 국립 박물관"></div>
+									<div class="_info">
+										<strong class="_name">빅토리아 국립 박물관<br>National Gallery of Victoria (NGV)</strong>
+										<p class="_desc">호주 최대 규모 국립 미술관<br>다채로운 작품을 자랑하며,<br>호주 원주민의 현대 미술 작품을 만나보세요.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="_spot_pagination"></div>
+				</div>
+			</div>
+
+			<!-- 멜버른 시외 -->
+			<div class="_spot_area _spot_outer">
+				<div class="_page_label _lg"><span>멜버른 시외</span></div>
+				<div class="_spot_wrap">
+					<div class="_spot_slider">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000e3c3c35d0a6d04d14a4f399a3f521102.webp" alt="그레이트 오션로드"></div>
+									<div class="_info">
+										<strong class="_name">그레이트 오션로드<br>Great Ocean Road</strong>
+										<div class="_desc_wrap">
+											<p>호주 빅토리아주를 대표하는 해안 명소로,<br>드넓은 바다와 웅장한 절벽이 어우러진<br>아름다운 드라이브 코스입니다.</p>
+											<p>바다 위로 솟아오른 장엄한 12사도상부터<br>그림 같은 해변과 울창한 열대우림까지,<br>호주의 대자연을 온몸으로 느껴보세요.</p>
+										</div>
+										<div class="_route">
+											<span class="_time"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a0d7ba64ee2498768c3c7c7c1a49a1c3.webp" alt="">3시간 30분</span>
+											<span class="_path"><i>|</i>멜버른 → 그레이트오션 로드</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000ba19348f3842bcf4e5334ee58cc9167b.webp" alt="필립 아일랜드"></div>
+									<div class="_info">
+										<strong class="_name">필립 아일랜드<br>Phillip Island</strong>
+										<div class="_desc_wrap">
+											<p>호주 빅토리아주 남쪽에 위치한 아름다운<br>섬으로, 코알라와 바다표범, 다양한 해양<br>생물을 만날 수 있는 자연 속 휴양지입니다.</p>
+											<p class="_narrow">탁 트인 해안 절경과 함께 해 질 무렵 펼쳐지는<br>리틀 펭귄들의 귀여운 행진 ‘펭귄 퍼레이드’까지,<br>필립 아일랜드만의 특별한 매력을 경험해 보세요.</p>
+										</div>
+										<div class="_route">
+											<span class="_time"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a0d7ba64ee2498768c3c7c7c1a49a1c3.webp" alt="">2시간</span>
+											<span class="_path"><i>|</i>멜버른 → 필립 아일랜드</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000e7af63f86d841eaddf9b435b8574aefe.webp" alt="야라밸리"></div>
+									<div class="_info">
+										<strong class="_name">야라밸리<br>Yarra Valley</strong>
+										<div class="_desc_wrap">
+											<p>호주를 대표하는 와인 산지이자<br>다채로운 미식과 자연을<br>즐길 수 있는 여행지입니다.</p>
+											<p>아름다운 포도밭을 배경으로 와이너리 투어와<br>와인 테이스팅을 즐기고, 열기구를 타고<br>계곡 위를 감상하거나 힐스빌 야생동물<br>보호구역에서 호주 고유의 동물들을 만나보세요.</p>
+										</div>
+										<div class="_route">
+											<span class="_time"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a0d7ba64ee2498768c3c7c7c1a49a1c3.webp" alt="">1시간</span>
+											<span class="_path"><i>|</i>멜버른 → 야라밸리</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000001aa7900540ffbb0a2ee1d231315386cc.webp" alt="퍼핑빌리"></div>
+									<div class="_info">
+										<strong class="_name">퍼핑빌리<br>Puffing Billy</strong>
+										<div class="_desc_wrap">
+											<p>멜버른 근교 단데농 산맥의 울창한 숲속을<br>달리는 호주의 대표적인 증기기관차입니다.</p>
+											<p>탁 트인 객차에 앉아 창밖으로 펼쳐지는<br>푸른 숲과 아름다운 자연 풍경을 감상하며,<br>마치 과거로 시간 여행을 떠난 듯<br>특별한 기차 여행을 즐겨보세요.</p>
+										</div>
+										<div class="_route">
+											<span class="_time"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a0d7ba64ee2498768c3c7c7c1a49a1c3.webp" alt="">1시간</span>
+											<span class="_path"><i>|</i>멜버른 → 야라밸리</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a9bf03a84173333be2bde711ce8e5f94.webp" alt="모닝턴 페닌슐라"></div>
+									<div class="_info">
+										<strong class="_name">모닝턴 페닌슐라<br>Mornington Peninsula</strong>
+										<div class="_desc_wrap">
+											<p>멜버른에서 가까운 거리에 위치한<br>해안 휴양지로, 아름다운 해변과<br>그림 같은 해안 마을이 매력적인 곳입니다.</p>
+											<p>바닷가 레스토랑과 와이너리에서<br>여유로운 시간을 보내거나,<br>천연 온천과 스파에서 휴식을 즐기며<br>자연 속 특별한 하루를 보내보세요.</p>
+										</div>
+										<div class="_route">
+											<span class="_time"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a0d7ba64ee2498768c3c7c7c1a49a1c3.webp" alt="">1시간 30분</span>
+											<span class="_path"><i>|</i>멜버른 → 모닝턴 페닌슐라</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide _spot_item">
+								<div class="_card">
+									<div class="_thumb"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000cc05f58eb9ae8391eb6f29a51666df15.webp" alt="발라랏"></div>
+									<div class="_info">
+										<strong class="_name">발라랏<br>Ballarat</strong>
+										<div class="_desc_wrap">
+											<p>호주 빅토리아주의 대표적인 역사 도시로,<br>과거 골드러시 시대의 흔적과 현대적인<br>예술·문화가 조화를 이루는 곳입니다.</p>
+											<p>생생한 역사 체험과 유서 깊은 건축물을<br>둘러보고, 지역 갤러리와 개성 있는<br>레스토랑, 와이너리에서 밸러랫만의<br>다채로운 매력을 경험해 보세요.</p>
+										</div>
+										<div class="_route">
+											<span class="_time"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a0d7ba64ee2498768c3c7c7c1a49a1c3.webp" alt="">2시간</span>
+											<span class="_path"><i>|</i>멜버른 → 발라랏</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="_spot_pagination"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_4">
+		<div class="_evt_content_wrap">
+
+			<div class="_route_title">
+				<span class="_eng">SEOUL ←&gt; MELBOURNE</span>
+				<strong class="_main">대한항공으로, 멜버른까지 한 번에</strong>
+				<span class="_sub">서울-멜버른 신규 직항 운항 스케쥴</span>
+			</div>
+
+			<div class="_period">
+				<span class="_label">운항 기간</span>
+				<strong class="_date">2026. 12. 18 ~ 2027. 03. 14</strong>
+			</div>
+
+			<div class="_schedule">
+				<div class="_row _head">
+					<div class="_cell">구간</div>
+					<div class="_cell">편명</div>
+					<div class="_cell">출발</div>
+					<div class="_cell">도착</div>
+					<div class="_cell">운항요일</div>
+				</div>
+				<div class="_row _body _row_1">
+					<div class="_cell"><span class="_way">인천<span class="_icon"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000002f4ac76be31ad69f90cde7087febbe8.webp" alt="→"></span>멜버른</span></div>
+					<div class="_cell">KE409</div>
+					<div class="_cell">08:00</div>
+					<div class="_cell">20:30</div>
+					<div class="_cell">수 / 금 / 일</div>
+				</div>
+				<div class="_row _body _row_2">
+					<div class="_cell"><span class="_way">멜버른<span class="_icon"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000002f4ac76be31ad69f90cde7087febbe8.webp" alt="→"></span>인천</span></div>
+					<div class="_cell">KE410</div>
+					<div class="_cell">22:00</div>
+					<div class="_cell">07:35<span class="_plus">+1</span></div>
+					<div class="_cell">수 / 금 / 일</div>
+				</div>
+				<p class="_note">※ 도착시간의 +1은 다음 날 도착을 의미합니다.<br>※ 스케줄은 사전 고지 없이 변경될 수 있으니 예약 시 재확인해 주세요.</p>
+			</div>
+
+			<div class="_btn_grp">
+				<a href="https://www.koreanair.com/contents/promotion/list/2026/mel2026?pageNum=1" target="_blank" class="_btn _link">
+					<span class="_name">대한항공 항공편 스케쥴</span>
+					<span class="_icon"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="15" viewBox="0 0 9 15" fill="none"><path d="M8.8177 7.50991L1.30779 15L0 13.6922L6.1823 7.50991L0 1.32761L1.30779 0L8.8177 7.50991Z" fill="white"/></svg></span>
+				</a>
+			</div>
+
+			<div class="_ticket"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000598545b0c47fbfc4c7402f80c9c3575c.webp" alt="KOREAN AIR NEW NONSTOP 서울-멜버른 신규 직항 기념 대한항공 서울-멜버른 왕복 항공권 증정 ICN SEOUL - MEL MELBOURNE 직항 운항 기간 2026. 12. 18 ⏤ 2027. 03. 14 4매"></div>
+
+			<div class="_btn_grp">
+				<a href="#_evtApply" class="_btn _link _fn_goto">
+					<span class="_name">응모하기 바로가기</span>
+					<span class="_icon"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="15" viewBox="0 0 9 15" fill="none"><path d="M8.8177 7.50991L1.30779 15L0 13.6922L6.1823 7.50991L0 1.32761L1.30779 0L8.8177 7.50991Z" fill="white"/></svg></span>
+				</a>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_5">
+		<div class="_evt_content_wrap">
+
+			<div class="_caution">
+				<strong>유의사항</strong>
+
+				<div class="_group">
+					<b>1. 이벤트 참여 및 당첨 안내</b>
+					<ul>
+						<li>• 본 이벤트는 2026년 11월 1일부터 12월 31일까지 롯데면세점 시내점에서 $300 이상 구매하고 상품 인도까지 완료한 만 19세 이상 내국인(KOR) 고객을 대상으로 진행됩니다.</li>
+						<li>• 대한항공 멜버른 왕복 항공권은 개인정보 수집·이용 및 제3자 제공에 동의한 구매 고객 중 추첨을 통해 선정되며, 당첨자는 2027년 1월 중 문자로 개별 안내할 예정입니다.</li>
+						<li>• 이벤트 응모는 행사 페이지 내 [응모하기] 버튼을 통해 완료해야 합니다.</li>
+						<li>• 당첨 안내는 응모 시 등록한 연락처로 발송되므로 정확한 연락처를 입력해 주시기 바랍니다.</li>
+						<li>• 1차 당첨 안내 문자 발송 후 5일 이내 회신이 없을 경우 2차 안내 문자가 발송됩니다. 2차 안내 문자 발송 후에도 5일 이내 회신이 없을 경우 당첨 기회는 다음 순번으로 이월되며, 이에 대해 회사는 별도의 부담이나 책임을 지지 않습니다.</li>
+						<li>• 본 이벤트는 1일 1회 응모 가능하며, 중복 당첨은 불가합니다.</li>
+						<li>• 구매 취소 또는 반품으로 응모 조건을 충족하지 못하는 경우 응모 및 당첨이 취소될 수 있습니다.</li>
+						<li>• 허위 정보 기재, 부정한 방법을 통한 참여 등 정상적이지 않은 방법으로 당첨된 경우 당첨이 취소될 수 있습니다.</li>
+						<li>• 경품 이미지는 이해를 돕기 위한 예시이며, 실제 제공되는 항공권과 다를 수 있습니다.</li>
+					</ul>
+				</div>
+
+				<div class="_group">
+					<b>2. 개인정보 수집·이용 및 제3자 제공 동의</b>
+					<ul>
+						<li>• ㈜호텔롯데 롯데면세점(이하 '회사')은 이벤트 운영 및 경품 제공을 위해 아래와 같이 개인정보를 수집·이용하고 제3자에게 제공합니다.</li>
+					</ul>
+					<div class="_sub_list">
+						<ul>
+							<li class="_tit">① 개인정보 수집·이용 안내</li>
+							<li>• 수집·이용 목적: 이벤트 응모 및 당첨자 확인, 당첨 안내, 경품 예약·발급 및 제공, 제세공과금 처리</li>
+							<li>• 수집 항목: 성명, 연락처, 주소, 이메일</li>
+							<li>• 제세공과금 처리 시 추가 수집 항목: 주민등록번호</li>
+							<li>• 보유 및 이용 기간: 이벤트 종료 및 경품 제공 완료 후 1년 이내 파기. 단, 관계 법령에 따라 보관이 필요한 경우 해당 법정 보유기간 동안 보관합니다.</li>
+						</ul>
+						<ul>
+							<li class="_tit">② 개인정보 제3자 제공 안내</li>
+							<li>• 제공받는 자: 경품 예약 및 발급을 담당하는 지정 여행사 등 관련 업무 위탁 업체</li>
+							<li>• 제공 목적: 당첨자 확인, 항공권 예약·발권 및 경품 제공</li>
+							<li>• 제공 항목: 성명, 연락처, 이메일 등 경품 예약 및 제공에 필요한 정보</li>
+							<li>• 보유 및 이용 기간: 제공 목적 달성 후 지체 없이 파기. 단, 관계 법령에 따라 보관이 필요한 경우 해당 법정 보유기간 동안 보관합니다.</li>
+						</ul>
+						<ul>
+							<li class="_tit">③ 동의 거부 권리 및 불이익 안내</li>
+							<li>• 고객은 개인정보 수집·이용 및 제3자 제공 동의를 거부할 권리가 있습니다.</li>
+							<li>• 다만, 필수 개인정보 수집·이용 및 제3자 제공에 동의하지 않을 경우 이벤트 참여 및 경품 제공이 제한될 수 있습니다.</li>
+							<li>• 주민등록번호는 제세공과금 처리가 필요한 당첨자에 한하여 관련 법령에 따른 범위 내에서 별도로 수집합니다.</li>
+							<li>• 마케팅 정보 수신 동의는 이벤트 참여를 위한 필수 동의 항목이 아니며 별도로 안내됩니다.</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="_group">
+					<b>3. 경품 예약 및 이용 안내</b>
+					<ul>
+						<li>• 경품은 대한항공 멜버른 왕복 항공권 총 5매로 제공됩니다.</li>
+						<li>• 당첨자는 당첨 발표 이후 지정 여행사를 통해 항공권 예약 및 발권을 진행할 수 있으며, 관련 영수증 발급도 지정 여행사를 통해 가능합니다.</li>
+						<li>• 항공권 탑승은 2027년 3월 14일까지 완료해야 합니다.</li>
+						<li>• 항공권은 당첨 발표 이후 지정 여행사를 통해 예약 및 발권이 진행되며, 이용 가능한 항공편에 한하여 제공됩니다.</li>
+						<li>• 항공권은 경품 제공용으로 배정된 좌석에 한하여 예약할 수 있으며, 일반 판매 좌석이 남아 있더라도 희망 일정의 예약이 제한될 수 있습니다.</li>
+						<li>• 항공권 예약 및 발권 가능 여부는 항공사 확인 후 최종 확정됩니다.</li>
+						<li>• 당첨자는 지정 여행사가 안내하는 예약 및 발권 기한을 준수해야 하며, 개인 사정으로 이용 가능 기간 내 예약 및 탑승(여행)을 완료하지 못한 경우 회사는 책임을 지지 않습니다.</li>
+						<li>• 항공권의 양도, 재판매 및 현금 교환은 불가합니다.</li>
+						<li>• 탑승객의 영문 성명은 여권상 영문 성명과 일치해야 하며, 정보 오기재로 인한 변경 및 추가 비용은 당첨자 본인 부담입니다.</li>
+						<li>• 항공권의 좌석 등급, 수하물, 기내식 및 기타 부가서비스 포함 여부는 실제 제공되는 항공권 조건에 따릅니다.</li>
+						<li>• 호텔 숙박, 현지 교통, 식사, 여행자보험 등 항공권 외 여행 관련 비용은 별도 제공되지 않으며 당첨자 본인 부담입니다.</li>
+						<li>• 항공편 지연, 결항 및 운항 일정 변경 등은 해당 항공사의 운송약관 및 관련 규정에 따라 처리됩니다.</li>
+						<li>• 추후 연말정산 등의 사유로 영수증이 필요한 경우 회사가 아닌 지정 여행사를 통해 예약 정보를 확인해야 하며, 회사는 이에 대해 책임을 지지 않습니다.</li>
+					</ul>
+				</div>
+
+				<div class="_group">
+					<b>4. 항공권 비용 및 제세공과금 안내</b>
+					<ul>
+						<li>• 항공권 이용에 따른 유류할증료, 공항세 및 기타 부대 비용의 포함 여부와 부담 조건은 경품별 안내에 따릅니다.</li>
+						<li>• 제세공과금 및 유류할증료는 당첨자 본인 부담입니다.</li>
+						<li>• 당첨자 부담 비용이 발생하는 경우 예약 및 발권 전 지정 여행사를 통해 안내받을 수 있습니다.</li>
+						<li>• 경품 당첨에 따른 제세공과금은 항공권의 유류할증료·공항세 등과 별개의 비용이며, 관련 법령에 따라 처리됩니다.</li>
+						<li>• 제세공과금 처리를 위해 필요한 개인정보는 관련 법령에 근거하여 별도로 수집할 수 있습니다.</li>
+					</ul>
+				</div>
+
+				<div class="_group">
+					<b>5. 기타 유의사항</b>
+					<ul>
+						<li>• 본 이벤트는 만 19세 이상 내국인(KOR) 고객 중 행사 페이지에 안내된 구매 및 응모 조건을 충족한 고객에 한하여 참여할 수 있습니다.</li>
+						<li>• 구매 인정 금액은 행사 기간, 대상 점포 및 구매 조건에 따라 산정됩니다.</li>
+						<li>• 구매 취소 및 반품 등으로 응모 자격이 상실된 경우 당첨이 취소될 수 있습니다.</li>
+						<li>• 당첨자는 항공권 이용에 필요한 여권 및 비자 등 출입국 관련 서류를 직접 확인하고 준비해야 합니다.</li>
+						<li>• 개인 사정으로 인한 예약 취소, 탑승 불가 및 경품 미사용에 대해서는 회사가 책임지지 않습니다.</li>
+						<li>• 본 이벤트의 당첨자 안내, 경품 예약 및 발급 등 운영 업무는 지정된 전문 업체에 위탁하여 진행될 수 있습니다.</li>
+						<li>• 이벤트 운영상 불가피한 사유가 발생하는 경우 행사 내용 및 경품 제공 조건이 변경될 수 있으며, 변경 사항은 별도 안내합니다.</li>
+						<li>• 본 유의사항에 명시되지 않은 사항은 관계 법령 및 회사의 관련 규정에 따릅니다.</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<div class="_set_ank _apply_ank" id="_evtApply"></div>
+	</div>
+
+</div>
+</div></div></section></article></div></body></html>

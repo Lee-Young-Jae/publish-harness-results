@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><base target="_blank">
+<title>비교 화면 골격 (pc)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/webfont.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/css/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-pc/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-1.12.4.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/jquery-ui.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/scroll.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/slider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/placeholders.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/stringutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/datepicker/datepicker-ko.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/design_ui.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/swiper.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/ion.rangeSlider.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/jquery.lazy.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-pc/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class=""><div id="lotteWrap" class="lotte_wrap"><article id="lotteContents" class="contents"><section class="event basic event_template"><div class="tabArea"><div><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 상단 갭 */
+		var fixGap = $('#lotteHeader').find('nav.gnb').length ? 80 : 65;
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e, ele) {
+			e.preventDefault();
+
+			var target = $(this).attr('href');
+
+			if (ele) {
+				target = ele;
+			}
+
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top - 1, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+						}
+					}
+				}
+			}
+
+		});
+
+		/* 시즌 필수템 슬라이드 */
+		try {
+			var _seasonSlider = new Swiper('._season_slider', {
+				speed: 600,
+				slidesPerView: 'auto',
+				spaceBetween: 22,
+				navigation: {
+					prevEl: '._season_prev',
+					nextEl: '._season_next',
+				}
+			});
+		} catch (e) {
+			console.error(e);
+		}
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.tabArea, .eventArea {width:100%;}
+
+	.evWrap {position:relative; width:100%; max-width:1920px; margin:0 auto; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular'; background:#fff;}
+	.evWrap * {box-sizing:border-box;}
+	.evWrap p, .evWrap ul, .evWrap li {margin:0; padding:0; list-style:none;}
+	.evWrap img {display:block;}
+	.evWrap a {display:block; text-decoration:none;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	/* KV */
+	._info_visual {width:100%;}
+	._info_visual ._visual_wrap {position:relative; width:100%; height:800px; background:#787878;}
+	._info_visual ._visual {display:flex; justify-content:center; width:100%;}
+	._info_visual ._dim_1 {position:absolute; left:0; top:0; width:100%; height:800px; background:linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.22) 100%);}
+	._info_visual ._dim_2 {position:absolute; left:0; top:175px; width:100%; height:625px; background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.28) 100%);}
+	._info_visual ._title {position:absolute; left:50%; top:175px; width:578px; margin-left:-289px;}
+	._info_visual ._season {position:absolute; left:0; top:627px; width:100%; text-align:center; font-family:'Anton', Pretendard, sans-serif; font-size:24px; font-weight:400; letter-spacing:0.72px; line-height:44px; color:#fff;}
+	._info_visual ._desc {position:absolute; left:0; top:679px; width:100%; text-align:center; font-size:22px; font-weight:500; letter-spacing:-0.22px; line-height:32px; color:#fff;}
+
+	/* TAB */
+	._info_nav_flex {width:100%; height:60px;}
+	._info_nav_flex ._nav_wrap {width:100%; height:60px; background:#5B5332; z-index:100;}
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:80px; width:100%;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+	._info_nav_flex ._nav_inner {display:flex; justify-content:center; gap:48px; width:100%; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav {position:relative; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:block; height:42px; margin-top:18px; color:rgba(255,255,255,0.6); font-size:20px; font-weight:600; letter-spacing:0; line-height:24px; white-space:nowrap;}
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#fff;}
+	._info_nav_flex ._nav_wrap ._nav._current a::before {content:''; position:absolute; left:0; right:0; bottom:0; height:3px; background:#fff; z-index:1;}
+
+	._nav_content {position:relative; width:100%; color:#121212; overflow:hidden;}
+	._nav_content ._nav_content_wrap {width:100%; margin:0 auto;}
+
+	/* 공통 타이틀 */
+	._tit {text-align:center;}
+	._tit ._main {font-size:46px; font-weight:800; letter-spacing:-0.92px; line-height:55px; color:#121212;}
+	._tit ._sub {margin-top:12px; font-size:24px; font-weight:500; letter-spacing:-0.48px; line-height:29px; color:#121212;}
+
+	/* 시즌 필수템 */
+	._nav_content_1 {padding:120px 0; background:#383422;}
+	._nav_content_1 ._tit ._main {color:#FF762C;}
+	._nav_content_1 ._tit ._sub {color:#fff;}
+	._season_wrap {display:flex; align-items:flex-start; gap:40px; width:1240px; margin:60px auto 0;}
+	._season_btn {width:30px; height:380px; cursor:pointer;}
+	._season_btn img {width:30px; height:380px;}
+	._season_next img {transform:scaleX(-1);}
+	._season_btn.swiper-button-disabled {opacity:0.3; cursor:default;}
+	._season_slider {position:relative; width:1100px; overflow:hidden;}
+	._season_slider .swiper-wrapper {display:flex;}
+	._season_slider ._item {flex-shrink:0; width:332px;}
+	._season_slider ._thumb {position:relative; width:332px; height:380px; background:#fff; overflow:hidden;}
+	._season_slider ._thumb img {width:100%; height:100%; object-fit:cover; object-position:50% 0;}
+	._season_slider ._thumb img._pos_mid {object-position:50% 32.5%;}
+	._season_slider ._thumb ._dim {position:absolute; left:0; top:259px; width:100%; height:121px; padding-top:33px; text-align:center; color:#fff; background:linear-gradient(to top, rgba(0,0,0,0.44) 0%, rgba(0,0,0,0) 100%);}
+	._season_slider ._thumb ._dim ._s1 {font-size:20px; font-weight:500; letter-spacing:-0.6px; line-height:24px;}
+	._season_slider ._thumb ._dim ._s2 {margin-top:4px; font-size:22px; font-weight:800; letter-spacing:0; line-height:26px;}
+	._season_slider ._prd {display:flex; align-items:center; gap:12px; margin-top:20px; color:#fff;}
+	._season_slider ._prd ._prd_img {flex-shrink:0; width:74px; height:74px; background:#fff;}
+	._season_slider ._prd ._prd_img img {width:74px; height:74px;}
+	._season_slider ._prd ._prd_info {width:246px;}
+	._season_slider ._prd ._brand {font-size:18px; font-weight:700; letter-spacing:-0.54px; line-height:21px;}
+	._season_slider ._prd ._name {margin-top:5px; font-size:16px; font-weight:400; letter-spacing:-0.48px; line-height:19px;}
+	._season_slider ._prd ._price {display:flex; align-items:center; gap:4px; margin-top:10px; font-size:16px; line-height:19px;}
+	._season_slider ._prd ._price ._sale {font-weight:700; color:#FF4343;}
+	._season_slider ._prd ._price ._amt {font-weight:500; color:#fff;}
+
+	/* 신상품 컬렉션 */
+	._nav_content_2 {padding:120px 0; background:#EEEBE4;}
+	._arrival {width:920px; margin:60px auto 0;}
+	._arrival ._brand_tit {display:flex; align-items:center; gap:16px;}
+	._arrival ._brand_tit ._name {font-size:36px; font-weight:700; letter-spacing:-0.72px; line-height:43px; color:#121212;}
+	._arrival ._list {display:flex; flex-wrap:wrap; gap:33px 34px; margin-top:20px;}
+	._arrival ._list li {width:443px;}
+	._arrival ._list li img._pic {width:443px; height:535px;}
+	._arrival ._list ._txt {display:flex; align-items:center; gap:10px; margin-top:14px;}
+	._arrival ._list ._txt span {font-size:20px; font-weight:600; letter-spacing:-0.4px; line-height:24px; color:#121212;}
+	._arrival ._list ._txt img {width:32px; height:17px;}
+
+	/* 브랜드 세일 */
+	._nav_content_3 {padding:120px 0 40px; background:#E5DBAF;}
+	._sale_list {display:grid; grid-template-columns:repeat(5, 162px); gap:26px 27.5px; width:920px; margin:60px auto 0;}
+	._sale_list li a {display:flex; flex-direction:column; align-items:center;}
+	._sale_list ._box {position:relative; width:162px; height:162px;}
+	._sale_list ._box img {width:162px; height:162px;}
+	._sale_list ._box ._per {position:absolute; left:0; top:0; display:flex; align-items:center; justify-content:center; width:100%; height:100%; font-size:40px; font-weight:700; letter-spacing:0; line-height:48px; color:#FFF600;}
+	._sale_list ._brand {display:flex; align-items:center; gap:6px; margin-top:14.5px;}
+	._sale_list ._brand span {font-size:18px; font-weight:600; letter-spacing:-0.36px; line-height:21px; color:#121212;}
+	._sale_list ._brand img {width:5px; height:10px;}
+
+	/* 이벤트 */
+	._nav_content_4 {padding:120px 0; background:#FFFCF4;}
+	._gift_list {display:flex; flex-wrap:wrap; justify-content:space-between; row-gap:40px; width:920px; margin:60px auto 0;}
+	._gift_list li {width:211px;}
+	._gift_list li img._pic {width:211px; height:214px;}
+	._gift_list ._txt {margin-top:14px; text-align:center;}
+	._gift_list ._brand {display:flex; align-items:center; justify-content:center; gap:6px;}
+	._gift_list ._brand span {font-size:20px; font-weight:600; letter-spacing:-0.4px; line-height:24px; color:#121212;}
+	._gift_list li._row_2 ._brand span {font-size:18px; letter-spacing:-0.36px; line-height:21px;}
+	._gift_list ._brand img {width:5px; height:10px;}
+	._gift_list ._desc {margin-top:6px; font-size:18px; font-weight:500; letter-spacing:-0.36px; line-height:21px; color:#121212;}
+
+	/* 하단 안내 */
+	._bottom_txt {display:flex; align-items:center; justify-content:center; gap:16px; width:100%; height:80px; padding:0 60px; background:#000;}
+	._bottom_txt img {width:17px; height:20px;}
+	._bottom_txt p {font-size:20px; font-weight:600; letter-spacing:0; line-height:24px; color:#fff;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_26110007">
+
+	<div class="_info_visual">
+		<div class="_visual_wrap">
+			<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000a4a14cda37f9408c686bacfba9414cbf.webp" alt=""></div>
+			<div class="_dim_1"></div>
+			<div class="_dim_2"></div>
+			<div class="_title"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000d6416aff2b6c83be38a381db5a36c2b3.webp" alt="Accessory FAIR"></div>
+			<p class="_season">2026 F/W</p>
+			<p class="_desc">같은 옷도 달라보이게 하는 액세서리의 매력.<br>올겨울을 책임질 패션 잡화를 면세가로 만나보세요!</p>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="_nav _nav_1 _current">
+					<a href="#_evtContent_1" class="_fn_goto"><span>시즌 필수템</span></a>
+				</div>
+				<div class="_nav _nav_2">
+					<a href="#_evtContent_2" class="_fn_goto"><span>신상품 컬렉션</span></a>
+				</div>
+				<div class="_nav _nav_3">
+					<a href="#_evtContent_3" class="_fn_goto"><span>브랜드 세일</span></a>
+				</div>
+				<div class="_nav _nav_4">
+					<a href="#_evtContent_4" class="_fn_goto"><span>이벤트</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 시즌 필수템 -->
+	<div class="_nav_content _nav_content_1 _set_ank" id="_evtContent_1">
+		<div class="_nav_content_wrap">
+			<div class="_tit">
+				<p class="_main">Season’s Must Haves</p>
+				<p class="_sub">이건 무조건 있어야 해! 겨울 필수템</p>
+			</div>
+			<div class="_season_wrap">
+				<div class="_season_btn _season_prev"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000008282b616f0b065e014e4cf5301325f76.webp" alt="이전"></div>
+				<div class="_season_slider">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide _item">
+							<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001072655&prdOptNo=20001491961&adltPrdYn=N">
+								<div class="_thumb">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000037a18f117d95beafae93eee1bce0fa76.webp" alt="">
+									<div class="_dim">
+										<p class="_s1">폭닥하고 예쁜</p>
+										<p class="_s2">바라클라바</p>
+									</div>
+								</div>
+								<div class="_prd">
+									<div class="_prd_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000a98c5b4bb1914a3c06b42876fa0a784a.webp" alt=""></div>
+									<div class="_prd_info">
+										<p class="_brand">브랜드명</p>
+										<p class="_name">상품명 상품명 상품명</p>
+										<p class="_price"><span class="_sale">00%</span><span class="_amt">$000</span></p>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="swiper-slide _item">
+							<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001025926&prdOptNo=20001401002&adltPrdYn=N">
+								<div class="_thumb">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000a6e3ec0bb3e3ed0e7e019d003b71dc60.webp" alt="">
+									<div class="_dim">
+										<p class="_s1">보온성은 업! 스타일은 덤</p>
+										<p class="_s2">레그워머</p>
+									</div>
+								</div>
+								<div class="_prd">
+									<div class="_prd_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000006de79efbd0abe1f7cdfdd019cd41781a.webp" alt=""></div>
+									<div class="_prd_info">
+										<p class="_brand">브랜드명</p>
+										<p class="_name">상품명 상품명 상품명</p>
+										<p class="_price"><span class="_sale">00%</span><span class="_amt">$000</span></p>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="swiper-slide _item">
+							<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20000950110&prdOptNo=20001262473&adltPrdYn=N">
+								<div class="_thumb">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000000c92baa7635a1a3d68184491e9d9180a.webp" alt="">
+									<div class="_dim">
+										<p class="_s1">손등까지 따뜻한</p>
+										<p class="_s2">핸드워머</p>
+									</div>
+								</div>
+								<div class="_prd">
+									<div class="_prd_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000c080159ded5f2784de76fc039b9dc705.webp" alt=""></div>
+									<div class="_prd_info">
+										<p class="_brand">브랜드명</p>
+										<p class="_name">상품명 상품명 상품명</p>
+										<p class="_price"><span class="_sale">00%</span><span class="_amt">$000</span></p>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="swiper-slide _item">
+							<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001013937&prdOptNo=20001380681&adltPrdYn=N">
+								<div class="_thumb">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000004c0034c2c74a4c951cf62f8d8bcb810f.webp" alt="">
+									<div class="_dim">
+										<p class="_s1">가볍게 두르기 좋은</p>
+										<p class="_s2">울 머플러</p>
+									</div>
+								</div>
+								<div class="_prd">
+									<div class="_prd_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000a8aecc8c213053326d8ae0ac991e38ce.webp" alt=""></div>
+									<div class="_prd_info">
+										<p class="_brand">브랜드명</p>
+										<p class="_name">상품명 상품명 상품명</p>
+										<p class="_price"><span class="_sale">00%</span><span class="_amt">$000</span></p>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="swiper-slide _item">
+							<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001012101&prdOptNo=20001375745&adltPrdYn=N">
+								<div class="_thumb">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000056d47d22952fb0c06be35463961ec989.webp" alt="" class="_pos_mid">
+									<div class="_dim">
+										<p class="_s1">따뜻한 분위기의</p>
+										<p class="_s2">스웨이드백</p>
+									</div>
+								</div>
+								<div class="_prd">
+									<div class="_prd_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000006d6da85d00479e45be4bd843adf670b3.webp" alt=""></div>
+									<div class="_prd_info">
+										<p class="_brand">브랜드명</p>
+										<p class="_name">상품명 상품명 상품명</p>
+										<p class="_price"><span class="_sale">00%</span><span class="_amt">$000</span></p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="_season_btn _season_next"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000008282b616f0b065e014e4cf5301325f76.webp" alt="다음"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 신상품 컬렉션 -->
+	<div class="_nav_content _nav_content_2 _set_ank" id="_evtContent_2">
+		<div class="_nav_content_wrap">
+			<div class="_tit">
+				<p class="_main">New Arrivals</p>
+				<p class="_sub">화보로 감상하는 새로운 컬렉션</p>
+			</div>
+
+			<!-- 로서울 -->
+			<div class="_arrival">
+				<div class="_brand_tit">
+					<p class="_name">로서울</p>
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000fd917aa190ec5dde004127e0e8bf8fd7.webp" alt="ROH SEOUL" style="width:136px; height:12px;">
+				</div>
+				<ul class="_list">
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001074944&prdOptNo=20001496782&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000096d05602e645f557ac862ab8391b84c1.webp" alt="">
+							<div class="_txt"><span>Souple bag Umber</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001074855&prdOptNo=20001496644&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000061beee299a76d6ecd05d7a7338c2e346.webp" alt="">
+							<div class="_txt"><span>Medium Around hobo bag Linden beige</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001027606&prdOptNo=20001403938&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000003e2434036fb1a539e8776b9103f17b2c.webp" alt="">
+							<div class="_txt"><span>Mini Mug tote bag Black</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001061085&prdOptNo=20001468017&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000136a82b33cf5b543e5e4aee4e32e21af.webp" alt="">
+							<div class="_txt"><span>Dubu shoulder bag</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- 루이까또즈 -->
+			<div class="_arrival">
+				<div class="_brand_tit">
+					<p class="_name">루이까또즈</p>
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002183092e9423e78710dff7ab81a67ffb.webp" alt="LOUIS QUATORZE" style="width:142px; height:16px;">
+				</div>
+				<ul class="_list">
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001003532&prdOptNo=20001361516&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000c49969860ae36694c5116d61342baef6.webp" alt="">
+							<div class="_txt"><span>코랄 코지 실크 스카프</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001070408&prdOptNo=20001488057&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000effc5f58cd74c7340865e3532851ce30.webp" alt="">
+							<div class="_txt"><span>딥블루 베르사일가든</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001076403&prdOptNo=20001499930&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000027a2aa12f84213e711216e54e9ba14f6.webp" alt="">
+							<div class="_txt"><span>소프트블랙 샹보르</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001070406&prdOptNo=20001488051&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000d00f23ac4aa05af8110a0c8ebf6a5055.webp" alt="">
+							<div class="_txt"><span>소프트핑크 베르사일가든</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- 화이트샌즈 -->
+			<div class="_arrival">
+				<div class="_brand_tit">
+					<p class="_name">화이트샌즈</p>
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000b21527bb2c986e047fa0f21faef8cd43.webp" alt="WHITE SANDS" style="width:30px; height:36px;">
+				</div>
+				<ul class="_list">
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001070748&prdOptNo=20001488909&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000ad295dc4909c57b9444e6dc238efb62f.webp" alt="">
+							<div class="_txt"><span>코튼 밴드 와이드 보닛햇</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001071495&prdOptNo=20001489741&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000014fdaa68532c772a6eb2337738e3a217.webp" alt="">
+							<div class="_txt"><span>섀도우 그라데이션 이어머프 비니</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001071530&prdOptNo=20001489802&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000d45f030c77053fc184ad615d813079d7.webp" alt="">
+							<div class="_txt"><span>아카이브 니트 보닛햇</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+					<li>
+						<a href="https://kor.lottedfs.com/kr/product/productDetail?prdNo=20001070794&prdOptNo=20001488996&adltPrdYn=N">
+							<img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000004d26b2f273ed5fe51cd3b40f3f5bab79.webp" alt="">
+							<div class="_txt"><span>트위드 글램 듀오 캡</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000076c67bdba9c0e768164f627daca5b3d8.webp" alt=""></div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- 브랜드 세일 -->
+	<div class="_nav_content _nav_content_3 _set_ank" id="_evtContent_3">
+		<div class="_nav_content_wrap">
+			<div class="_tit">
+				<p class="_main">Brand Sale</p>
+				<p class="_sub">놓칠 수 없는 기회, 브랜드 할인</p>
+			</div>
+			<ul class="_sale_list">
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10004301"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000813cc0b44aabe9abe1b72b406051a039.webp" alt=""><p class="_per">~46%</p></div><div class="_brand"><span>만다리나덕</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10078264"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000033430378c2a0f7cddf173b43a66bfb6c.webp" alt=""><p class="_per">~44%</p></div><div class="_brand"><span>휠라</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10067963"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000006b0dfa1ae065646defe348f24e6d23d0.webp" alt=""><p class="_per">~44%</p></div><div class="_brand"><span>저스트러버</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10045650"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000345e909905f607cf23a3033054ae7153.webp" alt=""><p class="_per">~42%</p></div><div class="_brand"><span>가이거</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10004029"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000dccba28e1990dde41c14b414ea1afbf8.webp" alt=""><p class="_per">~42%</p></div><div class="_brand"><span>레스포색</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10052687"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000001ed7f1d8d7580a2f03d7b75ce55493ba.webp" alt=""><p class="_per">~41%</p></div><div class="_brand"><span>마이쉘</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10020464"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000e52e5cfc69265a20152f6205d3b9318d.webp" alt=""><p class="_per">~40%</p></div><div class="_brand"><span>플리츠마마</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10080838"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000007bca4498a3d263b3752c3c34d8e77236.webp" alt=""><p class="_per">~40%</p></div><div class="_brand"><span>캐스키드슨</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10072421"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000ea207271cf55abe7c131e6edf4d52183.webp" alt=""><p class="_per">~40%</p></div><div class="_brand"><span>카인더베이비</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10013672"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000f3f6c32f799d8e66dc3c2b4bab323166.webp" alt=""><p class="_per">~40%</p></div><div class="_brand"><span>화이트샌즈</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10060309"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000001a9c3108a69c3a3dc68eab58922bbce5.webp" alt=""><p class="_per">~39%</p></div><div class="_brand"><span>무쿠앤에보니</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10040034"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000dbff89fb64bc515c8a7a8e15b09526c6.webp" alt=""><p class="_per">~39%</p></div><div class="_brand"><span>앵브록스</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10077971"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000f454cd82f562cdc320206ad734d016b4.webp" alt=""><p class="_per">~38%</p></div><div class="_brand"><span>마스마룰즈</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10072408"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000d137f19097b3708bf0bed16a5154614a.webp" alt=""><p class="_per">~38%</p></div><div class="_brand"><span>배러댄서프</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10070749"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000c59ca884aaa7c9b4b604c4a6306277a0.webp" alt=""><p class="_per">~38%</p></div><div class="_brand"><span>로서울</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10060272"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000008d96640c45e00e06f2529d3f08d46386.webp" alt=""><p class="_per">~38%</p></div><div class="_brand"><span>아나메종</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10069661"><div class="_box"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000c21d9a6c71bf2c14da5b909b49e863aa.webp" alt=""><p class="_per">~38%</p></div><div class="_brand"><span>히어리</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 이벤트 -->
+	<div class="_nav_content _nav_content_4 _set_ank" id="_evtContent_4">
+		<div class="_nav_content_wrap">
+			<div class="_tit">
+				<p class="_main">Gift Event</p>
+				<p class="_sub">모두 받아 가세요! 사은 행사 정보</p>
+			</div>
+			<ul class="_gift_list">
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10073323"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000bfb5bb0ba058f1284ceacf3625df81fd.webp" alt=""><div class="_txt"><div class="_brand"><span>샐러드볼즈</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">샐볼 카라비너 증정</p></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10074336"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000049f71b6f3bdd80f57568e3149e6a5465.webp" alt=""><div class="_txt"><div class="_brand"><span>레니비</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">스탠다드 파우치 증정</p></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10080948"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000dff98b935022bcede718c65a1e03fc7e.webp" alt=""><div class="_txt"><div class="_brand"><span>데누</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">로즈 헤어 집게핀 증정</p></div></a></li>
+				<li><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10006703"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000306b9b206a6c5010dfacd208e6252962.webp" alt=""><div class="_txt"><div class="_brand"><span>칼린</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">퍼 하트 키링 증정</p></div></a></li>
+				<li class="_row_2"><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10074204"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000066d40a2228e412b13f9b7cad19f7a013.webp" alt=""><div class="_txt"><div class="_brand"><span>이보키</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">목걸이 랜덤 증정</p></div></a></li>
+				<li class="_row_2"><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10019865"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000218526280f6c2719dab4cc7c68c96250.webp" alt=""><div class="_txt"><div class="_brand"><span>로우로우</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">트래블 파우치 증정</p></div></a></li>
+				<li class="_row_2"><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10080783"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000003483662a59b039637355e07f737df2e2.webp" alt=""><div class="_txt"><div class="_brand"><span>피스스포츠</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">양말 랜덤 증정</p></div></a></li>
+				<li class="_row_2"><a href="https://kor.lottedfs.com/kr/display/brand?dispShopNo=10013672"><img class="_pic" src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000001b8d898b88a9f57fb76af92ad26ad934.webp" alt=""><div class="_txt"><div class="_brand"><span>화이트샌즈</span><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002714f7322c2a738271fe31d6b8a10944.webp" alt=""></div><p class="_desc">집게핀 랜덤 증정</p></div></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 하단 안내 -->
+	<div class="_bottom_txt">
+		<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000007560f1a08b6634f9d9ce76a4a55f539f.webp" alt="">
+		<p>아래에서 더 많은 겨울 필수템을 확인해 보세요!</p>
+		<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000007560f1a08b6634f9d9ce76a4a55f539f.webp" alt="">
+	</div>
+
+</div>
+</div></div></section></article></div></body></html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e, ele) {
+			e.preventDefault();
+
+			var target = $(this).attr('href');
+
+			if (ele) {
+				target = ele;
+			}
+
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if (fixGap != ldfHeaderH() + ldfHeaderY()) {
+				fixGap = ldfHeaderH() + ldfHeaderY();
+				$nav.find('._nav_wrap').css('top', fixGap);
+			}
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top - 1, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+
+							clearTimeout(fnTimer);
+							fnTimer = setTimeout(function() {
+								if (typeof _evtNavSwipe != 'undefined') {
+									_evtNavSwipe.slideTo(i, 500);
+								}
+							}, 300);
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+
+						}
+					}
+				}
+			}
+
+		});
+
+		/* TAB 스와이프 */
+		try {
+			var _evtNavSwipe = $('._evt_nav').length ? new Swiper('._evt_nav ._nav_wrap ._nav_inner', {
+				slidesPerView: 'auto',
+				spaceBetween: 0,
+				freeMode: true,
+			}) : false;
+
+			var _evtNavSwipeTimer = null;
+			$(window).on('resize._evtNavSwiper', function(e) {
+				if (_evtNavSwipe) {
+					clearTimeout(_evtNavSwipeTimer);
+					_evtNavSwipeTimer = setTimeout(function() {
+						_evtNavSwipe.update();
+					}, 150);
+				}
+			}).trigger('resize._evtNavSwiper');
+		} catch (e) {
+			console.error(e);
+		}
+
+		/* 키워드 컬렉션 탭 + 슬라이드 */
+		var setKwTab = function(idx) {
+			var $tab = $('._kw_tab');
+			var $li = $tab.find('li').eq(idx);
+
+			$li.addClass('_on').siblings().removeClass('_on');
+			$tab.stop().animate({
+				scrollLeft: $tab.scrollLeft() + $li.position().left - ($('.evWrap').width() * 40 / 750)
+			}, 300);
+		};
+
+		try {
+			var kwGap = function() {
+				return $('.evWrap').width() * 52 / 750;
+			};
+
+			var _kwSlider = new Swiper('._kw_slider', {
+				speed: 400,
+				slidesPerView: 'auto',
+				spaceBetween: kwGap(),
+				on: {
+					slideChange: function() {
+						setKwTab(this.activeIndex);
+					}
+				}
+			});
+
+			$('._kw_tab a').on('click', function(e) {
+				e.preventDefault();
+
+				var idx = $(this).parent().index();
+
+				setKwTab(idx);
+				_kwSlider.slideTo(idx, 400);
+			});
+
+			var _kwSliderTimer = null;
+			$(window).on('resize._kwSlider', function(e) {
+				clearTimeout(_kwSliderTimer);
+				_kwSliderTimer = setTimeout(function() {
+					_kwSlider.params.spaceBetween = kwGap();
+					_kwSlider.update();
+				}, 150);
+			});
+		} catch (e) {
+			console.error(e);
+		}
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard, sans-serif; background:#000;}
+	.evWrap * {box-sizing:border-box;}
+	.evWrap p, .evWrap ul, .evWrap ol, .evWrap li, .evWrap h3 {margin:0; padding:0; list-style:none;}
+	.evWrap a {display:block; text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	/* KV */
+	._info_visual {width:100%;}
+	._info_visual ._visual_wrap {position:relative; width:100%;}
+	._info_visual ._visual {width:100%;}
+	._info_visual ._visual img {display:block; width:100%;}
+
+	/* 플로팅 메뉴 */
+	._info_nav_flex {width:100%; height:14.66667vw;}
+	._info_nav_flex ._nav_wrap {width:100%; height:14.66667vw; box-sizing:border-box; background:#000; z-index:100;}
+	._info_nav_flex ._nav_inner {width:100%; height:100%; margin:0 auto; overflow:hidden;}
+	._info_nav_flex ._nav_inner .swiper-wrapper {display:flex; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav {width:50%; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:flex; align-items:center; justify-content:center; height:100%; color:#7D7D7D; font-size:4vw; font-weight:600; line-height:4.8vw;}
+	._info_nav_flex ._nav_wrap ._nav._current a {color:#63D6FD;}
+	._info_nav_flex ._nav_wrap ._nav._current a::before {content:''; position:absolute; left:0; right:0; bottom:0; height:0.8vw; background:#63D6FD; z-index:0;}
+
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:50%; top:50px;/* <<<<<50 px 단위 고정 */ transform:translateX(-50%);}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+
+	._nav_content {position:relative; width:100%; overflow:hidden;}
+	._nav_content ._nav_content_wrap {position:relative; width:100%; margin:0 auto;}
+
+	/* 큐레이션 */
+	._nav_content_1 {background:#000;}
+	._nav_content_1 ._nav_content_wrap {height:638.66667vw;}
+	._abs {position:absolute;}
+	._deco_hh {position:absolute;}
+	._deco_hh img {position:absolute; left:50%; top:50%; max-width:none; transform:translate(-50%, -50%) rotate(90deg);}
+	._deco_hh_1 {left:-30.4vw; top:10vw; width:168.8vw; height:376vw;}
+	._deco_hh_1 img {width:376vw; height:168.8vw;}
+	._deco_hh_2 {left:-4.93333vw; top:404.13333vw; width:131.73333vw; height:293.46667vw;}
+	._deco_hh_2 img {width:293.46667vw; height:131.73333vw;}
+	.evWrap img._deco_snow_1 {left:68.13333vw; top:110.13333vw; width:28.26667vw;}
+	.evWrap img._deco_snow_2 {left:5.38667vw; top:216.10667vw; width:17.2vw;}
+	.evWrap img._deco_snow_3 {left:77.2vw; top:509.73333vw; width:14vw;}
+	.evWrap img._deco_snow_4 {left:-5.46667vw; top:393.6vw; width:18.53333vw;}
+	._deco_ellipse {position:absolute; border-radius:50%; background:#63D6FD; opacity:0.3;}
+	._deco_ellipse_1 {left:53.73333vw; top:252.66667vw; width:92.53333vw; height:92.53333vw;}
+	._deco_ellipse_2 {left:-39.06667vw; top:82.8vw; width:80.26667vw; height:110.66667vw;}
+	._deco_ellipse_3 {left:-71.73333vw; top:449.06667vw; width:143.6vw; height:143.46667vw;}
+
+	._sec_tit {position:absolute; left:5.33333vw; top:13.33333vw;}
+	._sec_tit h3 {font-size:6.93333vw; font-weight:600; line-height:8.26667vw; color:#fff; white-space:nowrap;}
+	._sec_tit h3 span {font-size:5.33333vw; font-weight:600;}
+	._sec_tit p {margin-top:3.73333vw; font-size:4.26667vw; font-weight:400; line-height:5.06667vw; letter-spacing:-0.128vw; color:#BABABA; white-space:nowrap;}
+
+	._prd_txt {position:absolute;}
+	._prd_txt ._brand, ._prd_txt ._name {font-size:3.73333vw; font-weight:600; line-height:4.4vw; color:#7CCDFF;}
+	._prd_txt ._name {margin-top:0.66667vw;}
+	._prd_txt ._desc {margin-top:1.6vw; font-size:3.2vw; font-weight:500; line-height:3.86667vw; color:#fff;}
+	._prd_txt ._desc._multi {line-height:4.26667vw;}
+	._prd_txt._desc_only ._desc {margin-top:0;}
+
+	._plus {width:5.33333vw;}
+	._p1_photo {left:44.8vw; top:42.4vw; width:48vw;}
+	._p1_img {left:8.53333vw; top:72vw; width:29.6vw;}
+	._p1_txt {left:9.73333vw; top:100.13333vw; width:53.73333vw;}
+	._p2_photo {left:8.53333vw; top:134.8vw; width:60.26667vw;}
+	._p2_img {left:56.2vw; top:143.13333vw; width:39.6vw;}
+	._p2_plus {left:84.53333vw; top:148.53333vw;}
+	._p2_txt {left:37.33333vw; top:182.66667vw; width:54.53333vw;}
+	._p3_photo {left:44.13333vw; top:217.86667vw; width:48vw;}
+	._p3_img {left:11.73333vw; top:249.2vw; width:34.93333vw;}
+	._p3_plus {left:9.06667vw; top:270.8vw;}
+	._p3_txt {left:7.06667vw; top:284.53333vw; width:55.2vw;}
+	._p4_photo {left:8.53333vw; top:315.86667vw; width:58.66667vw;}
+	._p4_img {left:49.33333vw; top:341.33333vw; width:52.26667vw;}
+	._p4_txt {left:49.33333vw; top:384.8vw; width:41.86667vw;}
+	._p5_photo {left:26.66667vw; top:416.13333vw; width:65.2vw;}
+	._p5_img {left:16.53333vw; top:450.66667vw; width:31.2vw;}
+	._p5_plus {left:15.2vw; top:448.8vw;}
+	._p5_txt {left:18.13333vw; top:471.73333vw; width:37.33333vw;}
+	._p5_desc {left:18.13333vw; top:489.06667vw; width:50.93333vw;}
+	._p6_img {left:54.8vw; top:447.46667vw; width:21.6vw;}
+	._p6_plus {left:71.86667vw; top:461.6vw;}
+	._p6_txt {left:56.66667vw; top:471.6vw; width:40vw;}
+	._p7_photo {left:8.53333vw; top:515.06667vw; width:58.66667vw;}
+	._p7_img {left:68.53333vw; top:547.86667vw; width:25.33333vw;}
+	._p7_plus {left:74vw; top:581.2vw;}
+	._p7_txt {left:46.66667vw; top:587.46667vw; width:44.8vw;}
+
+	/* 키워드 컬렉션 */
+	._nav_content_2 {padding:13.33333vw 0; background:linear-gradient(180deg, #000 59.09%, #2A515F 100%);}
+	.evWrap img._kw_hh {position:absolute; left:-125.6vw; top:17.2vw; width:402.4vw; max-width:none;}
+	._kw_head {position:relative; padding:0 5.33333vw; z-index:1;}
+	._kw_head h3 {font-size:6.93333vw; font-weight:600; line-height:8.26667vw; color:#fff; white-space:nowrap;}
+	._kw_head h3 span {font-size:5.33333vw; font-weight:600;}
+	._kw_head p {margin-top:3.73333vw; font-size:4.26667vw; font-weight:400; line-height:5.06667vw; letter-spacing:-0.128vw; color:#BABABA;}
+
+	._kw_tab {position:relative; display:flex; gap:1.6vw; margin-top:10.66667vw; padding:0 5.33333vw; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; z-index:1;}
+	._kw_tab::-webkit-scrollbar {display:none;}
+	._kw_tab::after {content:''; flex-shrink:0; width:3.73333vw; height:1px;}
+	._kw_tab li {flex-shrink:0;}
+	._kw_tab li a {padding:2.13333vw 3.2vw; border:1px solid #4C4C4C; border-radius:11.06667vw; background:#000; font-size:3.46667vw; font-weight:500; line-height:4.13333vw; color:#fff; white-space:nowrap;}
+	._kw_tab li._on a {background:#fff; border-color:#fff; color:#000; font-weight:600;}
+
+	._kw_slider {position:relative; margin-top:5.33333vw; padding:0 5.33333vw; overflow:visible; z-index:1;}
+	._kw_slider .swiper-wrapper {display:flex;}
+	._kw_slider .swiper-slide {flex-shrink:0; width:83.46667vw;}
+	._kw_bnr {position:relative; width:100%; height:30.66667vw; background:#fff; overflow:hidden;}
+	.evWrap ._kw_bnr img {position:absolute; max-width:none;}
+	._kw_bnr ._dim {position:absolute; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.3);}
+	._kw_bnr ._txt {position:absolute; left:3.73333vw; top:3.73333vw; font-size:4.8vw; font-weight:600; line-height:5.73333vw; color:#fff;}
+	.evWrap ._kw_bnr_1 img {left:0; top:-15.33333vw; width:83.46667vw;}
+	.evWrap ._kw_bnr_2 img {left:-2.13333vw; top:-2.93333vw; width:85.6vw;}
+	.evWrap ._kw_bnr_3 img {left:-2.8vw; top:0; width:89.06667vw;}
+	.evWrap ._kw_bnr_4 img {left:-1.73333vw; top:-4.93333vw; width:86.93333vw;}
+	.evWrap ._kw_bnr_5 img {left:-2.93333vw; top:-11.73333vw; width:89.33333vw;}
+	.evWrap ._kw_bnr_6 img {left:-27.86667vw; top:-21.6vw; width:111.33333vw;}
+
+	._kw_list {display:flex; flex-wrap:wrap; gap:2.13333vw; margin-top:6.4vw;}
+	._kw_list li {width:26.4vw;}
+	._kw_list ._thumb {width:26.4vw; height:26.4vw; background:#fff; overflow:hidden;}
+	._kw_list ._info {margin-top:2.66667vw;}
+	._kw_list ._brand, ._kw_list ._name {font-size:3.2vw; letter-spacing:-0.096vw; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+	._kw_list ._brand {font-weight:600; line-height:3.86667vw;}
+	._kw_list ._name {margin-top:0.66667vw; font-weight:400; line-height:4.53333vw;}
+	._kw_list ._price {display:flex; align-items:center; gap:1.33333vw; margin-top:1.33333vw; font-size:3.73333vw; font-weight:600; line-height:4.4vw; white-space:nowrap;}
+	._kw_list ._rate {color:#FF4343;}
+	._kw_list ._amt {color:#fff;}
+	.evWrap a._kw_btn {display:flex; align-items:center; justify-content:center; gap:2vw; width:77.33333vw; height:13.33333vw; margin:6.4vw auto 0; background:#fff; font-size:4.26667vw; font-weight:600; line-height:5.06667vw; color:#000;}
+	._kw_btn svg {display:block; width:2.26667vw; height:3.86667vw;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_26110007">
+
+	<div class="_info_visual">
+		<div class="_visual_wrap">
+			<div class="_visual"><img src="IMAGE_URL_필요_1" alt="중문 MO KV (Season Essentials / Winter is Coming! / 完美迎冬大作战)"></div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _nav _nav_1 _current">
+						<a href="#_evtContent_1" class="_fn_goto"><span>策展</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_2">
+						<a href="#_evtContent_2" class="_fn_goto"><span>关键词合集</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 큐레이션 -->
+	<div class="_nav_content _nav_content_1 _set_ank" id="_evtContent_1">
+		<div class="_nav_content_wrap">
+			<div class="_deco_hh _deco_hh_1"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000b3db760567ed1cc528ef6c566f74a4e2.webp" alt=""></div>
+			<div class="_deco_hh _deco_hh_2"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002ef4c4ab7f88bbc1281ceb4f5c14fde4.webp" alt=""></div>
+			<img class="_abs _deco_snow_1" src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000044b58439390470c0aa7db783e81ddfc1.webp" alt="">
+			<img class="_abs _deco_snow_2" src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000cdc6d126db4737f8ce8cb396b697ec02.webp" alt="">
+			<img class="_abs _deco_snow_3" src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000005d009d3331f45262628ee4fb26f1254e.webp" alt="">
+			<img class="_abs _deco_snow_4" src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000005876be009ed12c944337d658181b65a3.webp" alt="">
+			<div class="_deco_ellipse _deco_ellipse_1"></div>
+			<div class="_deco_ellipse _deco_ellipse_2"></div>
+			<div class="_deco_ellipse _deco_ellipse_3"></div>
+
+			<div class="_sec_tit">
+				<h3>过冬准备<span> Ready for Winter</span></h3>
+				<p>鼻尖已感知冬意，即刻准备！</p>
+			</div>
+
+			<!-- 1. 에스트라 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000946008&amp;prdOptNo=20001256135&amp;adltPrdYn=N" class="_prd_txt _p1_txt">
+				<p class="_brand">[AESTURA]</p>
+				<p class="_name">ATOBARRIER 365 面霜2件套</p>
+				<p class="_desc">全家适用的高浓度屏障保湿好物</p>
+			</a>
+
+			<!-- 2. 마른파이브 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000946325&amp;prdOptNo=20001256598&amp;adltPrdYn=N" class="_prd_txt _p2_txt">
+				<p class="_brand">[MARN5]</p>
+				<p class="_name">HEAT TOUCH SLIM FIT DEEP U-NECK CROPT恤</p>
+				<p class="_desc _multi">冬季穿搭万能内搭！<br>桃皮绒加绒面料，柔软包裹每一寸肌肤。</p>
+			</a>
+
+			<!-- 3. 삭피엔스 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001039558&amp;prdOptNo=20001428851&amp;adltPrdYn=N" class="_prd_txt _p3_txt">
+				<p class="_brand">[SockpienS]</p>
+				<p class="_name">MERINO WOOL BRUSHED女士防寒袜</p>
+				<p class="_desc">守护至脚尖的冬日护盾</p>
+			</a>
+
+			<!-- 4. 쥬디앤폴 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001077254&amp;prdOptNo=20001501724&amp;adltPrdYn=N" class="_prd_txt _p4_txt">
+				<p class="_brand">[JUDY AND PAUL]</p>
+				<p class="_name">CLOUD CHECK 围巾</p>
+				<p class="_desc">百搭蓬松柔软围巾</p>
+			</a>
+
+			<!-- 5. 카카오프렌즈 시골집 온열 패드 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001074493&amp;prdOptNo=20001495984&amp;adltPrdYn=N" class="_prd_txt _p5_txt">
+				<p class="_brand">[KAKAO FRIENDS]</p>
+				<p class="_name">COTTAGE LIFE 加热垫</p>
+			</a>
+
+			<!-- 6. 카카오프렌즈 플루피프렌즈 온수찜질 풋워머 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000944605&amp;prdOptNo=20001254241&amp;adltPrdYn=N" class="_prd_txt _p6_txt">
+				<p class="_brand">[KAKAO FRIENDS]</p>
+				<p class="_name">FLUFFY FRIENDS<br>暖脚宝</p>
+			</a>
+
+			<!-- 카카오프렌즈 공통 문구 -->
+			<div class="_prd_txt _desc_only _p5_desc">
+				<p class="_desc _multi">手脚冰凉星人看过来！<br>温暖融化冻僵手脚的治愈好物</p>
+			</div>
+
+			<!-- 7. 블루필 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001028772&amp;prdOptNo=20001405941&amp;adltPrdYn=N" class="_prd_txt _p7_txt">
+				<p class="_brand">[BLUEFEEL]</p>
+				<p class="_name">1L大容量无线氛围灯加湿器</p>
+				<p class="_desc _multi">强力风扇加持，喷雾更高更远；<br>柔和灯光，兼具装饰美感！</p>
+			</a>
+
+			<!-- 상품 이미지 -->
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000946008&amp;prdOptNo=20001256135&amp;adltPrdYn=N" class="_abs _p1_photo"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000bdcb2dbb3b93f82ba8cdb82e02874367.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001039558&amp;prdOptNo=20001428851&amp;adltPrdYn=N" class="_abs _p3_photo"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002eae5c5a4878ed5481efeb78fa8fe858.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000946325&amp;prdOptNo=20001256598&amp;adltPrdYn=N" class="_abs _p2_photo"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000bfd02b6b8e53c09588cb7b51ec43596f.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001074493&amp;prdOptNo=20001495984&amp;adltPrdYn=N" class="_abs _p5_photo"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000b49d4711791741d02fecde41285a83f0.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001077254&amp;prdOptNo=20001501724&amp;adltPrdYn=N" class="_abs _p4_photo"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000b9cdcff0293ddec1269666aba61cd08a.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001028772&amp;prdOptNo=20001405941&amp;adltPrdYn=N" class="_abs _p7_photo"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000dcd54fe88674e3ba794522113250580c.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001077254&amp;prdOptNo=20001501724&amp;adltPrdYn=N" class="_abs _p4_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000ed573e1bed3eb95d6a09b51f289b2c7a.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000946008&amp;prdOptNo=20001256135&amp;adltPrdYn=N" class="_abs _p1_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000003aced8b7319155e01434b91ff9125e8b.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000946325&amp;prdOptNo=20001256598&amp;adltPrdYn=N" class="_abs _p2_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000074d84dfe9b940c6b7b3a98c44dc0f3df.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000946325&amp;prdOptNo=20001256598&amp;adltPrdYn=N" class="_abs _plus _p2_plus"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000098dc29846b8922b67d6d3cad6ac84b75.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001039558&amp;prdOptNo=20001428851&amp;adltPrdYn=N" class="_abs _p3_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000080f67170906b041e4275f634e39c9a4a.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001039558&amp;prdOptNo=20001428851&amp;adltPrdYn=N" class="_abs _plus _p3_plus"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000098dc29846b8922b67d6d3cad6ac84b75.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001074493&amp;prdOptNo=20001495984&amp;adltPrdYn=N" class="_abs _p5_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000d226aa2c359ab15761e955fb5a309db6.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001074493&amp;prdOptNo=20001495984&amp;adltPrdYn=N" class="_abs _plus _p5_plus"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000098dc29846b8922b67d6d3cad6ac84b75.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001028772&amp;prdOptNo=20001405941&amp;adltPrdYn=N" class="_abs _p7_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000f0f61bb854a11a8011104fcdd6c336be.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001028772&amp;prdOptNo=20001405941&amp;adltPrdYn=N" class="_abs _plus _p7_plus"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000098dc29846b8922b67d6d3cad6ac84b75.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000944605&amp;prdOptNo=20001254241&amp;adltPrdYn=N" class="_abs _p6_img"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000007aeb7b6d85967fda6df18a5a7f4fcdb4.webp" alt=""></a>
+			<a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000944605&amp;prdOptNo=20001254241&amp;adltPrdYn=N" class="_abs _plus _p6_plus"><img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000098dc29846b8922b67d6d3cad6ac84b75.webp" alt=""></a>
+		</div>
+	</div>
+
+	<!-- 키워드 컬렉션 -->
+	<div class="_nav_content _nav_content_2 _set_ank" id="_evtContent_2">
+		<img class="_kw_hh" src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002b7a9e8ff0dd0160efc43560d7e43df6.webp" alt="">
+		<div class="_nav_content_wrap">
+			<div class="_kw_head">
+				<h3>关键词合集<span> Winter Picks</span></h3>
+				<p>暖冬好物推荐清单</p>
+			</div>
+
+			<ul class="_kw_tab">
+				<li class="_on"><a href="#">季节家电</a></li>
+				<li><a href="#">冬日羽绒</a></li>
+				<li><a href="#">蓬松针织</a></li>
+				<li><a href="#">杂货大赏</a></li>
+				<li><a href="#">补水 &amp; 保湿</a></li>
+				<li><a href="#">冬日免疫</a></li>
+			</ul>
+
+			<div class="_kw_slider">
+				<div class="swiper-wrapper">
+					<!-- 계절 가전 -->
+					<div class="swiper-slide _kw_panel">
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056651" class="_kw_bnr _kw_bnr_1">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261112/2026111200000000092f811bd2acc060fbab0304f9aa02f17.webp" alt="">
+							<span class="_dim"></span>
+							<p class="_txt">让家中充满暖意，<br>满格充电</p>
+						</a>
+						<ul class="_kw_list">
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001019122&amp;prdOptNo=20001388979&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000876261&amp;prdOptNo=20001141858&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001028825&amp;prdOptNo=20001406025&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001028807&amp;prdOptNo=20001406007&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000948496&amp;prdOptNo=20001260035&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001023787&amp;prdOptNo=20001396592&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+						</ul>
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056651" class="_kw_btn">더 알아보기<svg viewBox="0 0 17 29" aria-hidden="true"><path d="M2 2L14.5 14.5L2 27" fill="none" stroke="#000" stroke-width="3.5"/></svg></a>
+					</div>
+
+					<!-- 겨울 패딩 -->
+					<div class="swiper-slide _kw_panel">
+						<a href="https://m.chn.lottedfs.cn/kr/shopmain/rankingTrending/recomRanking?recommRnkSn=780" class="_kw_bnr _kw_bnr_2">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000003b3bbfd2a084e29adb30adc8eec895ca.webp" alt="">
+							<span class="_dim"></span>
+							<p class="_txt">不惧寒风刺骨，<br>轻盈保暖羽绒服</p>
+						</a>
+						<ul class="_kw_list">
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001067638&amp;prdOptNo=20001481795&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001065214&amp;prdOptNo=20001476920&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001070724&amp;prdOptNo=20001488861&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001068642&amp;prdOptNo=20001484226&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001066054&amp;prdOptNo=20001478669&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001070030&amp;prdOptNo=20001486809&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+						</ul>
+						<a href="https://m.chn.lottedfs.cn/kr/shopmain/rankingTrending/recomRanking?recommRnkSn=780" class="_kw_btn">더 알아보기<svg viewBox="0 0 17 29" aria-hidden="true"><path d="M2 2L14.5 14.5L2 27" fill="none" stroke="#000" stroke-width="3.5"/></svg></a>
+					</div>
+
+					<!-- 폭닥 니트 -->
+					<div class="swiper-slide _kw_panel">
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056530" class="_kw_bnr _kw_bnr_3">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000654369259d41682aedc0efb2f2deb71f.webp" alt="">
+							<span class="_dim"></span>
+							<p class="_txt">柔软蓬松，<br>穿上连心情都变好的针织衫</p>
+						</a>
+						<ul class="_kw_list">
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001069730&amp;prdOptNo=20001485892&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001005376&amp;prdOptNo=20001364234&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001070677&amp;prdOptNo=20001488797&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="PRODUCT_URL_필요"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000892517&amp;prdOptNo=20001165734&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001069730&amp;prdOptNo=20001485892&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+						</ul>
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056530" class="_kw_btn">더 알아보기<svg viewBox="0 0 17 29" aria-hidden="true"><path d="M2 2L14.5 14.5L2 27" fill="none" stroke="#000" stroke-width="3.5"/></svg></a>
+					</div>
+
+					<!-- 잡화 대전 -->
+					<div class="swiper-slide _kw_panel">
+						<a href="#" class="_kw_bnr _kw_bnr_4">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000007c41d4999e8b71a6738740a33a07f8fd.webp" alt="">
+							<span class="_dim"></span>
+							<p class="_txt">完成冬日造型<br>配饰 &amp; 杂货</p>
+						</a>
+						<ul class="_kw_list">
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001066562&amp;prdOptNo=20001479973&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001071836&amp;prdOptNo=20001490522&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001076062&amp;prdOptNo=20001499401&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000860752&amp;prdOptNo=20001116539&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001061344&amp;prdOptNo=20001468461&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000815454&amp;prdOptNo=20001036486&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+						</ul>
+						<a href="#" class="_kw_btn">더 알아보기<svg viewBox="0 0 17 29" aria-hidden="true"><path d="M2 2L14.5 14.5L2 27" fill="none" stroke="#000" stroke-width="3.5"/></svg></a>
+					</div>
+
+					<!-- 수분 & 보습 -->
+					<div class="swiper-slide _kw_panel">
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056416" class="_kw_bnr _kw_bnr_5">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261112/202611120000000002cf9d6b0d2e7c689dd68dbf512ab8ab6.webp" alt="">
+							<span class="_dim"></span>
+							<p class="_txt">24小时水润不干燥，<br>肌肤补水 &amp; 保湿</p>
+						</a>
+						<ul class="_kw_list">
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001063221&amp;prdOptNo=20001472669&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001028277&amp;prdOptNo=20001405091&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000881871&amp;prdOptNo=20001149677&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000910376&amp;prdOptNo=20001198212&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000822925&amp;prdOptNo=20001051260&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001056427&amp;prdOptNo=20001460399&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+						</ul>
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056416" class="_kw_btn">더 알아보기<svg viewBox="0 0 17 29" aria-hidden="true"><path d="M2 2L14.5 14.5L2 27" fill="none" stroke="#000" stroke-width="3.5"/></svg></a>
+					</div>
+
+					<!-- 겨울 면역 -->
+					<div class="swiper-slide _kw_panel">
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056625" class="_kw_bnr _kw_bnr_6">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261112/20261112000000000fc3f3d416d0e64c5e9d599b04a61812b.webp" alt="">
+							<span class="_dim"></span>
+							<p class="_txt">轻松守护<br>冬季健康</p>
+						</a>
+						<ul class="_kw_list">
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=10003121757&amp;prdOptNo=10003121757&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20000563455&amp;prdOptNo=20000667003&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=10002290777&amp;prdOptNo=10002290777&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001005869&amp;prdOptNo=20001365432&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=20001023859&amp;prdOptNo=20001396687&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+							<li><a href="https://m.chn.lottedfs.cn/kr/product/productDetail?prdNo=10003101648&amp;prdOptNo=10003101648&amp;adltPrdYn=N"><div class="_thumb"></div><div class="_info"><p class="_brand">에스티로더</p><p class="_name">Double Wear 스테...</p><p class="_price"><span class="_rate">00%</span><span class="_amt">$000.00</span></p></div></a></li>
+						</ul>
+						<a href="https://m.chn.lottedfs.cn/kr/event/eventDetail?evtDispNo=1056625" class="_kw_btn">더 알아보기<svg viewBox="0 0 17 29" aria-hidden="true"><path d="M2 2L14.5 14.5L2 27" fill="none" stroke="#000" stroke-width="3.5"/></svg></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div></div></section></div></article></div></body></html>

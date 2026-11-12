@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 면세점 고정 헤더 H */
+		var ldfHeaderH = function() {
+			var h = 50;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child').outerHeight() >= 49) {
+					h = $('#lotteHeader > :first-child').outerHeight();
+				}
+			}
+			return h;
+		};
+
+		/* 면세점 고정 헤더 Y */
+		var ldfHeaderY = function() {
+			var y = 0;
+			if ($('#lotteHeader > :first-child').length) {
+				if ($('#lotteHeader > :first-child')[0].offsetTop > 0) {
+					y = $('#lotteHeader > :first-child')[0].offsetTop;
+				}
+			}
+			return y;
+		};
+
+		/* 상단 갭 */
+		var fixGap = ldfHeaderH() + ldfHeaderY();
+
+		/* 타이머 */
+		var fnTimer = null;
+
+		/* 면세점 고정 배너 닫았을 때 */
+		if ($('#lotteWrap .app_banner').length) {
+			$('#lotteWrap .app_banner').find('.bnr_close').on('click._scrollUpdate', function(e) {
+				setTimeout(function() {
+					$(window).trigger('scroll');
+				}, 0);
+			});
+		}
+
+		/* TAB 바로가기 */
+		$('._fn_goto').on('click', function(e) {
+			e.preventDefault();
+			var target = $(this).attr('href');
+			var $target = $(target);
+			var navHeight = $('._evt_nav').length ? $('._evt_nav').height() : 0;
+			var goPosition = $target.offset().top - navHeight - fixGap;
+			$('html, body').stop().animate({
+				scrollTop: goPosition
+			}, 400, function() {
+			});
+		});
+
+		/* TAB 고정 */
+		$(window).on('scroll', function(e) {
+
+			var $evt = $('.evWrap');
+			var $nav = $('._evt_nav');
+
+			if (fixGap != ldfHeaderH() + ldfHeaderY()) {
+				fixGap = ldfHeaderH() + ldfHeaderY();
+				$nav.find('._nav_wrap').css('top', fixGap);
+			}
+
+			if ($nav.length) {
+				var scrollTop = $(this).scrollTop();
+				var navHeight = $nav.height();
+				var navTop = $nav.offset().top;
+				var evtHeight = $evt.offset().top + $evt.height();
+
+				$('._set_ank').each(function(i, v) {
+					var $this = $(this);
+					var ankOt = parseInt($this.offset().top - 1, 10);
+					var secHeight = parseInt($this.parent().offset().top + $this.parent().outerHeight(), 10);
+
+					if ((ankOt - (navHeight + fixGap)) <= scrollTop && scrollTop < (ankOt + secHeight - (navHeight + fixGap))) {
+						if (!$nav.find('._nav').eq(i).is('._current')) {
+							$nav.find('._nav').eq(i).addClass('_current').siblings().removeClass('_current');
+
+							clearTimeout(fnTimer);
+							fnTimer = setTimeout(function() {
+								if (typeof _evtNavSwipe != 'undefined') {
+									_evtNavSwipe.slideTo(i, 500);
+								}
+							}, 300);
+						}
+					}
+
+				});
+
+				if (scrollTop >= navTop - fixGap && (evtHeight) - (fixGap + navHeight) >= scrollTop) {
+					if (!$nav.is('._fixed')) {
+						$nav.addClass('_fixed').removeClass('_absolute').find('._nav_wrap').css('top', fixGap);
+					}
+				} else {
+					if ($nav.is('._fixed')) {
+						$nav.removeClass('_fixed').find('._nav_wrap').css('top', '');
+					}
+					if ((evtHeight) - (fixGap + navHeight) <= scrollTop) {
+						if (!$nav.is('._absolute')) {
+							$nav.addClass('_absolute').removeClass('_fixed').find('._nav_wrap').css('top', '');
+						}
+					}
+				}
+			}
+
+		});
+
+		/* TAB 스와이프 */
+		try {
+			var _evtNavSwipe = $('._evt_nav').length ? new Swiper('._evt_nav ._nav_wrap ._nav_inner', {
+				slidesPerView: 'auto',
+				centerInsufficientSlides: true,
+				spaceBetween: 0,
+				freeMode: true,
+
+				/* nav 4개 이상일 시 → allowTouchMove: true */
+				allowTouchMove: true,
+			}) : false;
+
+			var _evtNavSwipeTimer = null;
+			$(window).on('resize._evtNavSwiper', function(e) {
+				if (_evtNavSwipe) {
+					clearTimeout(_evtNavSwipeTimer);
+					_evtNavSwipeTimer = setTimeout(function() {
+						_evtNavSwipe.update();
+					}, 150);
+				}
+			}).trigger('resize._evtNavSwiper');
+		} catch (e) {
+			console.error(e);
+		}
+
+		/* URL에 해시있을 경우 앵커 및 탭 이동 합니다. */
+		var hashTarget = location.hash;
+		if (hashTarget) {
+
+			$('._evt_nav').find('a').each(function(i, v) {
+				if (hashTarget == $(this).attr('href')) {
+					$(this).trigger('click');
+				}
+			});
+		}
+
+		/* 시즌 필수템 슬라이드 */
+		try {
+			var _mustSlider = new Swiper('._must_slider', {
+				effect: 'slide',
+				speed: 600,
+				slidesPerView: 'auto',
+				centeredSlides: true,
+				loop: true,
+				loopedSlides: 5,
+			});
+		} catch (e) {
+			console.error(e);
+		}
+
+		/* 신상품 컬렉션 · 브랜드 세일 슬라이드 */
+		$('._free_slider').each(function(idx, val) {
+			try {
+				window['_freeSlider_' + idx] = new Swiper(this, {
+					effect: 'slide',
+					speed: 600,
+					slidesPerView: 'auto',
+					freeMode: true,
+					centeredSlides: false,
+					watchOverflow: true,
+					loop: false,
+				});
+			} catch (e) {
+				console.error(e);
+			}
+		});
+
+		var allPrdCode = [
+			{
+				"must_01": [
+					{prdNo:'20001072655', prdOptNo:'20001491961'},
+				],
+				"must_02": [
+					{prdNo:'20001025926', prdOptNo:'20001401002'},
+				],
+				"must_03": [
+					{prdNo:'20000950110', prdOptNo:'20001262473'},
+				],
+				"must_04": [
+					{prdNo:'20001013937', prdOptNo:'20001380681'},
+				],
+				"must_05": [
+					{prdNo:'20001012101', prdOptNo:'20001375745'},
+				],
+			}
+		];
+
+		var ajaxData = function() {
+
+			var prdInfoArr = [];
+
+			for (var key in allPrdCode[0]) {
+				if (allPrdCode[0].hasOwnProperty(key)) {
+
+					var items = allPrdCode[0][key];
+
+					if (Array.isArray(items)) {
+						for (var i = 0; i < items.length; i++) {
+
+							var item = items[i];
+							var ajaxItem = {};
+
+							for (var prop in item) {
+								var excluded = ['custom', 'add', 'cate', 'empty', 'hide', 'change', 'addClass', 'addAttr', 'imgSizeX', 'noDims', 'showDate', 'wait'];
+
+								if (item.hasOwnProperty(prop) && !excluded.includes(prop)) {
+									ajaxItem[prop] = item[prop];
+								}
+							}
+
+							if (Object.keys(ajaxItem).length > 0) {
+								prdInfoArr.push(ajaxItem);
+							}
+
+						}
+					}
+				}
+			}
+
+			return prdInfoArr;
+
+		}();
+
+		window['_evtPrdAllCode'] = {
+			prdInfo: ajaxData,
+		};
+
+		window['_evtMakePrdList'] = function(ajaxRowData) {
+
+			var realPrdData = {};
+
+			/*
+				호출된 데이터를 바로 출력할 수 없기에 다시 한번 매칭용 데이터로 가공합니다.
+				응답으로 받은 상품 리스트는 지정한 순서를 보장하지 않아 따로 매칭데이터가 필요합니다.
+			 */
+			$.each(ajaxRowData, function(idx, val) {
+
+				var prdId = 'prd_' + val.prdNo + '_' + (val.prdOptNo ? val.prdOptNo : '0'); /* 상품No와 옵션No로 구분됩니다. */
+
+				if (!(prdId in realPrdData)) {
+					realPrdData[prdId] = val;
+				} else {
+					realPrdData['prd_unknown_idx_' + idx] = val;
+				}
+			});
+
+			/* HTML 구조 생성 (loop 슬라이드 복제본 포함) */
+			$('._AUTO_SET').each(function(idx, val) {
+				var $this = $(this);
+				var $setWrap = $this.find('._AUTO_ITEM_WRAP').removeClass('_AUTO_ITEM_WRAP');
+				var $setHtml = $('<div />');
+				var $setHtmlTemp;
+
+				var rowIdx = typeof $this.data('rowIdx') != 'undefined' ? $this.data('rowIdx') : idx;
+
+				if (allPrdCode[0][rowIdx]) {
+
+					$.each(allPrdCode[0][rowIdx], function(ckey, cval) {
+
+						var $setItemHtml = $this.find('._AUTO_ITEM').clone().removeClass('_AUTO_ITEM');
+
+						var prdCode = 'prd_' + cval.prdNo + '_' + (cval.prdOptNo ? cval.prdOptNo : '0');
+
+						function setHtmlItem() {
+
+							if ('add' in cval) { /* 임의 추가된 항목을 삽입 합니다. */
+								$.each(cval.add, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							if ('custom' in cval) { /* 임의 변경된 항목에 대해 값을 갱신 합니다. */
+								$.each(cval.custom, function(k, v) {
+									realPrdData[prdCode][k] = v;
+								});
+							}
+
+							$setItemHtml.find('[data-auto-ipg]').each(function(i, v) {
+
+								var autoType = $(this).data().autoIpg;
+								var prdData = realPrdData[prdCode];
+
+								function createText(currentData, dataName, $ele) {
+									if (currentData.hide && currentData.hide[dataName]) {
+										$ele.parent().html('').addClass('_disabled');
+									} else {
+										if (currentData.change && currentData.change[dataName]) {
+											$ele.html(currentData.change[dataName]);
+										} else {
+											if (prdData[dataName] == '0') { /* 데이터값이 0인 경우 숨김 처리 */
+												$ele.parent().html('').addClass('_disabled');
+											} else {
+												if (prdData[dataName]) {
+													$ele.html(prdData[dataName]);
+												} else {
+													$ele.closest('._remove_sec').remove();
+												}
+											}
+										}
+									}
+								}
+
+								switch (autoType) {
+								case 'img' :
+									if (cval?.change && cval?.change?.prdImgUrl) {
+										$(this).attr('src', cval.change.prdImgUrl);
+									} else {
+										if (cval.noDims) {
+											$(this).attr('src', realPrdData[prdCode].prdImgUrl);
+										} else {
+											if (realPrdData[prdCode].prdImgUrl) {
+												$(this).attr('src', realPrdData[prdCode].prdImgUrl + '/dims/resize/460x460');
+											} else {
+												$(this).attr('src', 'https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png');
+											}
+										}
+									}
+
+									if (cval.imgSizeX) {
+										$(this).css('width', cval.imgSizeX);
+									}
+
+									break;
+								case 'link' :
+									if (cval.wait) {
+										$(this).attr({href: '#', onclick: 'alert("'+ cval.wait +'"); return false;'});
+									} else {
+										$(this).attr('href', 'https://m.eng.lottedfs.com/kr/product/productDetail?prdNo='+ realPrdData[prdCode].prdNo +'&prdOptNo=' + realPrdData[prdCode].prdOptNo + '&adltPrdYn=' + realPrdData[prdCode].adltPrdYn);
+									}
+									break;
+								case 'brand' :
+									var dataName = 'brndNm';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdName' :
+									var dataName = 'prdNm';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPer' :
+									var dataName = 'dscntRt';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdDel' :
+									var dataName = 'saleUntPrc';
+									createText(cval, dataName, $(this));
+									break;
+								case 'prdPrice' :
+									var dataName = 'dscntAmt';
+									createText(cval, dataName, $(this));
+									break;
+								default:
+
+								}
+
+							});
+						}
+
+						function addRowItem(hide) {
+							$setHtmlTemp = $this.find('._AUTO_ITEM_OBJ').clone().removeClass('_AUTO_ITEM_OBJ').addClass('_item_single').html('');
+							$setItemHtml.appendTo($setHtmlTemp);
+							$setHtml.append($setHtmlTemp);
+
+							if (hide) {
+								$setHtmlTemp.addClass('_delete');
+							}
+						}
+
+						if (prdCode in realPrdData) {
+
+							setHtmlItem();
+							addRowItem();
+
+						} else {
+
+							var prdCodeDepth = prdCode.split('_').slice(0, 2).join('_');
+							var defaultItemIf = false;
+
+							$.each(realPrdData, function(k, v) { /* 상품 옵션 코드가 없을 경우 첫번째 옵션코드를 임의로 선택합니다. */
+								if (k.indexOf(prdCodeDepth) === 0) {
+									defaultItemIf = true;
+									prdCode = k;
+									return false;
+								}
+							});
+
+							if (defaultItemIf) {
+								setHtmlItem();
+								addRowItem();
+							} else {
+								$setItemHtml.html('');
+								addRowItem(true);
+							}
+
+							console.error('누락된 상품이 존재합니다.\ncate:' + rowIdx + '\nidx:' + ckey + '\nprdNo:' + cval.prdNo);
+
+						}
+
+					});
+
+					$setWrap.html($setHtml.html());
+
+					$this.addClass('_init');
+
+				} else {
+					console.error('누락된 리스트 항목이 존재합니다.\nidx:' + idx, val);
+				}
+
+			});
+
+		};
+
+		setDataPriceInfo(_evtPrdAllCode, _evtMakePrdList);
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular';}
+	.evWrap * {margin:0; padding:0; box-sizing:border-box;}
+	.evWrap a {display:block; text-decoration:none; font:inherit; color:inherit;}
+	.evWrap ul, .evWrap li {list-style:none;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._evt_header {width:100%; background:#282A27;}
+	._evt_header ._area_wrap {width:100%;}
+
+	._info_nav_flex {width:100%; height:14.66667vw;}
+	._info_nav_flex ._nav_wrap {width:100%; height:14.66667vw; z-index:10;}
+	._info_nav_flex ._nav_wrap ._nav_inner {position:relative; width:100%; height:14.66667vw; margin:0 auto; padding:0 8vw; background:#5B5332; overflow:hidden;}
+	._info_nav_flex ._nav_wrap .swiper-wrapper {display:flex; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav {flex:0 0 auto; position:relative; width:auto; height:100%; padding-right:8vw;}
+	._info_nav_flex ._nav_wrap ._nav:last-child {padding-right:0;}
+	._info_nav_flex ._nav_wrap ._nav a {position:relative; display:flex; align-items:center; width:auto; height:100%; font-size:4vw; font-weight:600; letter-spacing:0; color:#FFFFFF; opacity:0.6; white-space:nowrap;}
+	._info_nav_flex ._nav_wrap ._nav span {position:relative; display:flex; align-items:center; height:100%;}
+	._info_nav_flex ._nav_wrap ._nav._current a {opacity:1;}
+	._info_nav_flex ._nav_wrap ._nav._current span::after {content:''; position:absolute; left:0; right:0; bottom:0; height:0.66667vw; background:#FFFFFF;}
+
+	/* ★★★★ 50 px 단위 고정 필수 ★★★★ */
+	._info_nav_flex._fixed ._nav_wrap {position:fixed; left:0; top:50px;/* <<<<<50 px 단위 고정 */ width:100%; z-index:100;}
+	._info_nav_flex._absolute ._nav_wrap {position:absolute; top:initial; left:0; bottom:0;}
+
+	._evt_content {position:relative; width:100%; color:#121212;}
+	._evt_content ._evt_content_wrap {position:relative; width:100%; margin:0 auto; padding:16vw 0;}
+	._evt_content ._set_ank {position:absolute; left:0; top:0;}
+
+	._evt_content._evt_content_1 {background:#383422;}
+	._evt_content._evt_content_2 {background:#EEEBE4;}
+	._evt_content._evt_content_3 {background:#E5DBAF;}
+	._evt_content._evt_content_4 {background:#FFFCF4;}
+
+	._evt_content ._page_title {display:flex; flex-direction:column; align-items:center; gap:1.6vw; width:100%; padding:0 6.66667vw; text-align:center;}
+	._evt_content ._page_title ._main {font-size:8vw; font-weight:800; letter-spacing:-0.16vw; line-height:normal; color:#121212;}
+	._evt_content ._page_title ._sub {font-size:4.8vw; font-weight:500; letter-spacing:-0.096vw; line-height:normal; color:#121212;}
+	._evt_content_1 ._page_title ._main {color:#FF762C;}
+	._evt_content_1 ._page_title ._sub {color:#FFFFFF;}
+	._evt_content_3 ._page_title ._main,
+	._evt_content_3 ._page_title ._sub,
+	._evt_content_4 ._page_title ._main,
+	._evt_content_4 ._page_title ._sub {color:#000000;}
+
+	/* 시즌 필수템 */
+	._must_slider {position:relative; width:100%; margin-top:10.66667vw; overflow:hidden;}
+	._must_slider .swiper-wrapper {display:flex;}
+	._must_slider ._must_item {flex:0 0 auto; width:70.93333vw; margin:0 2.66667vw;}
+	._must_slider ._must_item ._card {position:relative; width:70.93333vw; height:81.33333vw; background:#FFFFFF; overflow:hidden;}
+	._must_slider ._must_item ._card img {width:100%; height:100%; object-fit:cover; object-position:50% 0;}
+	._must_slider ._must_item._pos_mid ._card img {object-position:50% 32%;}
+	._must_slider ._must_item ._copy {position:absolute; left:0; bottom:0; display:flex; flex-direction:column; align-items:center; gap:1.06667vw; width:100%; height:26.53333vw; padding-top:7.2vw; background:linear-gradient(to top, rgba(0,0,0,0.6) 0, rgba(0,0,0,0) 100%); color:#FFFFFF; text-align:center;}
+	._must_slider ._must_item ._copy ._sub {font-size:4.26667vw; font-weight:500; letter-spacing:-0.128vw; line-height:normal;}
+	._must_slider ._must_item ._copy strong {font-size:5.06667vw; font-weight:800; letter-spacing:0; line-height:normal;}
+
+	._must_slider ._prd {margin-top:4vw; opacity:0;}
+	._must_slider ._prd._init {opacity:1;}
+	._must_slider ._prd ._item._delete,
+	._must_slider ._prd ._item_obj._delete {display:none;}
+	._must_slider ._prd ._item a {display:flex; align-items:flex-start; gap:2.66667vw; color:#FFFFFF;}
+	._must_slider ._prd ._thumb {flex:0 0 16vw; display:flex; justify-content:center; align-items:center; width:16vw; height:16vw; background:#FFFFFF; overflow:hidden;}
+	._must_slider ._prd ._thumb img {width:100%;}
+	._must_slider ._prd ._info {flex:1 1 auto; display:flex; flex-direction:column; gap:2.66667vw; min-width:0;}
+	._must_slider ._prd ._name_wrap {display:flex; flex-direction:column; gap:1.06667vw;}
+	._must_slider ._prd ._brand {display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:3.46667vw; font-weight:700; letter-spacing:-0.104vw; line-height:normal;}
+	._must_slider ._prd ._product {display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:3.33333vw; font-weight:400; letter-spacing:-0.1vw; line-height:normal;}
+	._must_slider ._prd ._price {display:flex; align-items:center; gap:0.8vw; line-height:normal;}
+	._must_slider ._prd ._price ._disabled {display:none;}
+	._must_slider ._prd ._price ._per {font-size:3.46667vw; font-weight:700; letter-spacing:0; color:#FF4343;}
+	._must_slider ._prd ._price ._final {font-size:3.46667vw; font-weight:500; letter-spacing:0; color:#FFFFFF;}
+
+	/* 가로 스크롤 공통 */
+	._free_slider {position:relative; width:100%; padding:0 6.66667vw; overflow:hidden;}
+	._free_slider .swiper-wrapper {display:flex;}
+
+	/* 신상품 컬렉션 */
+	._arrival_wrap {display:flex; flex-direction:column; gap:10.66667vw; width:100%; margin-top:10.66667vw;}
+	._arrival_wrap ._brand_block {display:flex; flex-direction:column; gap:4vw; width:100%;}
+	._arrival_wrap ._brand_name {display:flex; align-items:center; height:8vw; padding:0 6.66667vw; font-size:6.66667vw; font-weight:700; letter-spacing:-0.13333vw; line-height:normal; color:#121212;}
+	._arrival_wrap ._look_item {flex:0 0 auto; width:70.93333vw; margin-right:5.33333vw;}
+	._arrival_wrap ._look_item:last-child {margin-right:0;}
+	._arrival_wrap ._look_item a {display:flex; flex-direction:column; gap:2.66667vw; color:#121212;}
+	._arrival_wrap ._look_item img {width:70.93333vw; height:85.6vw;}
+	._arrival_wrap ._look_item ._name {display:flex; align-items:center; gap:1.6vw; font-size:3.46667vw; font-weight:600; letter-spacing:-0.06933vw; line-height:normal;}
+	._arrival_wrap ._look_item ._name svg {flex:0 0 auto; display:block; width:5.06667vw; height:2.66667vw;}
+
+	/* 브랜드 세일 */
+	._sale_slider {margin-top:10.66667vw;}
+	._sale_slider ._col {flex:0 0 auto; display:flex; flex-direction:column; gap:5.33333vw; width:32vw; margin-right:5.33333vw;}
+	._sale_slider ._col:last-child {margin-right:0;}
+	._sale_slider ._item a {display:flex; flex-direction:column; align-items:center; gap:3.2vw; color:#121212;}
+	._sale_slider ._item ._circle {position:relative; width:32vw; height:32vw; border-radius:50%; overflow:hidden;}
+	._sale_slider ._item ._circle img {width:100%; height:100%;}
+	._sale_slider ._item ._per {position:absolute; left:0; top:50%; transform:translateY(-50%); width:100%; font-size:8vw; font-weight:700; letter-spacing:0; line-height:9.6vw; color:#FFF600; text-align:center;}
+	._sale_slider ._item ._name {display:flex; justify-content:center; align-items:center; gap:1.46667vw; min-height:4.8vw; font-size:4vw; font-weight:600; letter-spacing:-0.08vw; line-height:normal; text-align:center;}
+	._sale_slider ._item ._name svg {flex:0 0 auto; display:block; width:1.06667vw; height:2.13333vw;}
+
+	/* 사은 행사 */
+	._gift_list {display:grid; grid-template-columns:repeat(2, 41.33333vw); justify-content:space-between; row-gap:6vw; width:86.66667vw; margin:10.66667vw auto 0;}
+	._gift_list ._item a {display:flex; flex-direction:column; gap:2.66667vw; color:#121212;}
+	._gift_list ._item img {width:41.33333vw; height:41.73333vw; border-radius:3.2vw;}
+	._gift_list ._item ._txt {display:flex; flex-direction:column; align-items:center; gap:1.06667vw; text-align:center;}
+	._gift_list ._item ._name {display:flex; justify-content:center; align-items:center; gap:1.46667vw; font-size:4vw; font-weight:600; letter-spacing:-0.08vw; line-height:normal;}
+	._gift_list ._item ._name svg {flex:0 0 auto; display:block; width:1.06667vw; height:2.13333vw;}
+	._gift_list ._item ._desc {font-size:4vw; font-weight:500; letter-spacing:-0.08vw; line-height:normal;}
+
+	/* 하단 문구 */
+	._evt_footer {display:flex; justify-content:center; align-items:center; gap:2.4vw; width:100%; height:14.66667vw; padding:0 8vw; background:#000000;}
+	._evt_footer svg {flex:0 0 auto; display:block; width:2.93333vw; height:3.46667vw;}
+	._evt_footer ._txt {font-size:4vw; font-weight:600; letter-spacing:0; line-height:normal; color:#FFFFFF; text-align:center;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_e_26110002">
+
+	<div class="_evt_header">
+		<div class="_area_wrap">
+			<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000e67e18a1c6a813ca1a77e8fcff3f7fcf.webp" alt="2026 F/W Accessory Fair One Accessory Changes Everything. Winter’s Essentials, at Duty-Free Prices!"></div>
+		</div>
+	</div>
+
+	<div class="_evt_nav _info_nav_flex">
+		<div class="_nav_wrap">
+			<div class="_nav_inner">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _nav _nav_1 _current">
+						<a href="#_evtContent_1" class="_fn_goto"><span>Season’s Must-Haves</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_2">
+						<a href="#_evtContent_2" class="_fn_goto"><span>New Collection</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_3">
+						<a href="#_evtContent_3" class="_fn_goto"><span>Brand Sale</span></a>
+					</div>
+					<div class="swiper-slide _nav _nav_4">
+						<a href="#_evtContent_4" class="_fn_goto"><span>Event</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_1">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_1"></div>
+
+			<div class="_page_title">
+				<div class="_main">Season’s Must Haves</div>
+				<div class="_sub">Season’s Must-Haves</div>
+			</div>
+
+			<div class="_must_slider">
+				<div class="swiper-wrapper">
+
+					<div class="swiper-slide _must_item">
+						<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001072655&prdOptNo=20001491961&adltPrdYn=N" class="_card">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000049c5e3febc9462da20ad25866e5bad7e.webp" alt="">
+							<span class="_copy">
+								<span class="_sub">Cozy and Pretty</span>
+								<strong>Balaclavas</strong>
+							</span>
+						</a>
+						<div class="_prd _AUTO_SET" data-row-idx="must_01">
+							<div class="_prd_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<a href="#" data-auto-ipg="link">
+											<span class="_thumb"><img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img"></span>
+											<span class="_info">
+												<span class="_name_wrap">
+													<span class="_brand"><span data-auto-ipg="brand"></span></span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												</span>
+												<span class="_price">
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+													<span class="_final">$<span data-auto-ipg="prdPrice"></span></span>
+												</span>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="swiper-slide _must_item">
+						<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001025926&prdOptNo=20001401002&adltPrdYn=N" class="_card">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000088f5b53434e9465b78e05fbe9826de8a.webp" alt="">
+							<span class="_copy">
+								<span class="_sub">Warmth Up, Style Included</span>
+								<strong>Leg Warmers</strong>
+							</span>
+						</a>
+						<div class="_prd _AUTO_SET" data-row-idx="must_02">
+							<div class="_prd_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<a href="#" data-auto-ipg="link">
+											<span class="_thumb"><img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img"></span>
+											<span class="_info">
+												<span class="_name_wrap">
+													<span class="_brand"><span data-auto-ipg="brand"></span></span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												</span>
+												<span class="_price">
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+													<span class="_final">$<span data-auto-ipg="prdPrice"></span></span>
+												</span>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="swiper-slide _must_item">
+						<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20000950110&prdOptNo=20001262473&adltPrdYn=N" class="_card">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000000c92baa7635a1a3d68184491e9d9180a.webp" alt="">
+							<span class="_copy">
+								<span class="_sub">Warm Right to Your Knuckles</span>
+								<strong>Hand Warmers</strong>
+							</span>
+						</a>
+						<div class="_prd _AUTO_SET" data-row-idx="must_03">
+							<div class="_prd_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<a href="#" data-auto-ipg="link">
+											<span class="_thumb"><img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img"></span>
+											<span class="_info">
+												<span class="_name_wrap">
+													<span class="_brand"><span data-auto-ipg="brand"></span></span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												</span>
+												<span class="_price">
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+													<span class="_final">$<span data-auto-ipg="prdPrice"></span></span>
+												</span>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="swiper-slide _must_item">
+						<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001013937&prdOptNo=20001380681&adltPrdYn=N" class="_card">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000004c0034c2c74a4c951cf62f8d8bcb810f.webp" alt="">
+							<span class="_copy">
+								<span class="_sub">Easy to Drape</span>
+								<strong>Wool Mufflers</strong>
+							</span>
+						</a>
+						<div class="_prd _AUTO_SET" data-row-idx="must_04">
+							<div class="_prd_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<a href="#" data-auto-ipg="link">
+											<span class="_thumb"><img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img"></span>
+											<span class="_info">
+												<span class="_name_wrap">
+													<span class="_brand"><span data-auto-ipg="brand"></span></span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												</span>
+												<span class="_price">
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+													<span class="_final">$<span data-auto-ipg="prdPrice"></span></span>
+												</span>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="swiper-slide _must_item _pos_mid">
+						<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001012101&prdOptNo=20001375745&adltPrdYn=N" class="_card">
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000056d47d22952fb0c06be35463961ec989.webp" alt="">
+							<span class="_copy">
+								<span class="_sub">Warm and Inviting</span>
+								<strong>Suede Bags</strong>
+							</span>
+						</a>
+						<div class="_prd _AUTO_SET" data-row-idx="must_05">
+							<div class="_prd_wrap _AUTO_ITEM_WRAP">
+								<div class="_item_obj _AUTO_ITEM_OBJ">
+									<div class="_item _AUTO_ITEM">
+										<a href="#" data-auto-ipg="link">
+											<span class="_thumb"><img src="https://static.lottedfs.com/static-fo-pc/images/noimg/noImgSize_43x38.png" alt="" data-auto-ipg="img"></span>
+											<span class="_info">
+												<span class="_name_wrap">
+													<span class="_brand"><span data-auto-ipg="brand"></span></span>
+													<span class="_product"><span data-auto-ipg="prdName"></span></span>
+												</span>
+												<span class="_price">
+													<span class="_per"><span data-auto-ipg="prdPer"></span>%</span>
+													<span class="_final">$<span data-auto-ipg="prdPrice"></span></span>
+												</span>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_2">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_2"></div>
+
+			<div class="_page_title">
+				<div class="_main">New Arrivals</div>
+				<div class="_sub">The New Collection, Seen Through a Lookbook</div>
+			</div>
+
+			<div class="_arrival_wrap">
+
+				<div class="_brand_block">
+					<div class="_brand_name">ROH SEOUL</div>
+					<div class="_free_slider">
+						<ul class="swiper-wrapper">
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001074944&prdOptNo=20001496782&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000c89c78dfa278783a84ef9f8021028e52.webp" alt="">
+									<span class="_name">Souple bag Umber<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001074855&prdOptNo=20001496644&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000e1528854d1fbde19a41bc25ed91a66e6.webp" alt="">
+									<span class="_name">Medium Around hobo bag Linden beige<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001027606&prdOptNo=20001403938&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000006239879b519870bac01e18617deab96d.webp" alt="">
+									<span class="_name">Mini Mug tote bag Black<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001061085&prdOptNo=20001468017&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000046d87ac331c5bbc361ffd8653ac89cc9.webp" alt="">
+									<span class="_name">Dubu shoulder bag<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="_brand_block">
+					<div class="_brand_name">LOUIS QUATORZE</div>
+					<div class="_free_slider">
+						<ul class="swiper-wrapper">
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001003532&prdOptNo=20001361516&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000f094bc00ec3a2b99b8263ec0dc1f632a.webp" alt="">
+									<span class="_name">Coral Cozy Silk Scarf<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001070408&prdOptNo=20001488057&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000fd548ae8cc472dde74f3bb1a74f5e0bb.webp" alt="">
+									<span class="_name">Deep Blue Versailles Garden<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001076403&prdOptNo=20001499930&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000b24cba8bc5b55fcec19b1c2ae7a6f606.webp" alt="">
+									<span class="_name">Soft Black Chambord<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001070406&prdOptNo=20001488051&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000009530e207b096d1d96d5099a254cace82.webp" alt="">
+									<span class="_name">Soft Pink Versailles Garden<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="_brand_block">
+					<div class="_brand_name">WHITE SANDS</div>
+					<div class="_free_slider">
+						<ul class="swiper-wrapper">
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001070748&prdOptNo=20001488909&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000000e2410bde7a53b83485965493d79af06.webp" alt="">
+									<span class="_name">Cotton Band Wide Bonnet Hat<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001071495&prdOptNo=20001489741&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000e932623c274d2ef05fe12c6ff2a8c423.webp" alt="">
+									<span class="_name">Shadow Gradation Earmuff Beanie<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001071530&prdOptNo=20001489802&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000078c75c298012894c6afdbc07dd10d90e.webp" alt="">
+									<span class="_name">Archive Knit Bonnet Hat<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+							<li class="swiper-slide _look_item">
+								<a href="https://m.eng.lottedfs.com/kr/product/productDetail?prdNo=20001070794&prdOptNo=20001488996&adltPrdYn=N">
+									<img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000003232a3c2848c910eaeeb473e34963653.webp" alt="">
+									<span class="_name">Tweed Glam Duo Cap<svg width="38" height="20" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10H36M27.5 1.5L36 10L27.5 18.5" stroke="#121212" stroke-width="2"/></svg></span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_3">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_3"></div>
+
+			<div class="_page_title">
+				<div class="_main">Brand Sale</div>
+				<div class="_sub">A Chance You Can’t Miss, Brand Discounts</div>
+			</div>
+
+			<div class="_free_slider _sale_slider">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10004297"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000f5d0a691e1446236794e3031b15361cb.webp" alt=""><span class="_per">~46%</span></span><span class="_name">MANDARINA DUCK<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10013668"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000009115816bfe6a30feba159fd7e5813c49.webp" alt=""><span class="_per">~40%</span></span><span class="_name">WHITE SANDS<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10078260"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000001da6cf3076b6743029efd983d60ab1fb.webp" alt=""><span class="_per">~44%</span></span><span class="_name">FILA<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10060305"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000b8e06431ffe0d8debbd8f84ea2623dc5.webp" alt=""><span class="_per">~39%</span></span><span class="_name">MUCU AND EBONY<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10067959"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000807cb8058532b138ae620052bbfce194.webp" alt=""><span class="_per">~44%</span></span><span class="_name">JUSTLOVER<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10040032"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000001190244f328f0ab0bb8b19db5ba096db.webp" alt=""><span class="_per">~39%</span></span><span class="_name">ENGBROX<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10045646"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000006f24ec7bce182816f30e8f0180a41e9a.webp" alt=""><span class="_per">~42%</span></span><span class="_name">GEIGER<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10077967"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000d0776649d9661a0526938c202a16b3f4.webp" alt=""><span class="_per">~38%</span></span><span class="_name">MASMARULEZ<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10004025"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000db224fe629156b14058a5b93292cf2bb.webp" alt=""><span class="_per">~42%</span></span><span class="_name">LESPORTSAC<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10072404"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000081159142c1b7c8f5b1490671da52b9fa.webp" alt=""><span class="_per">~38%</span></span><span class="_name">BETTER THAN SURF<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10052683"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000eeae556a2046a12baf9060bf335fb532.webp" alt=""><span class="_per">~41%</span></span><span class="_name">MY SHELL<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10070747"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000f47676ad58d0755c9d37b82b316447b2.webp" alt=""><span class="_per">~38%</span></span><span class="_name">ROH SEOUL<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10020460"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000036b48771f208e20354026a19b6eced38.webp" alt=""><span class="_per">~40%</span></span><span class="_name">PLEATSMAMA<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10060268"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000085b4242209e413510cd07049406cdce1.webp" alt=""><span class="_per">~38%</span></span><span class="_name">ANA MAISON<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10080834"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000d6f8355d4ae30b6b62b039ee346ce45c.webp" alt=""><span class="_per">~40%</span></span><span class="_name">CATH KIDSTON<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10069657"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000008c15bb55d85b6d9286408a5d39a69982.webp" alt=""><span class="_per">~38%</span></span><span class="_name">HEEARI<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+					<div class="swiper-slide _col">
+						<div class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10072417"><span class="_circle"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a2bc0e553b36540b0b7bd664dab2ffe1.webp" alt=""><span class="_per">~40%</span></span><span class="_name">KINDABABY<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span></a></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="_evt_content _evt_content_4">
+		<div class="_evt_content_wrap">
+			<div class="_set_ank" id="_evtContent_4"></div>
+
+			<div class="_page_title">
+				<div class="_main">Gift Event</div>
+				<div class="_sub">Grab Them All! Free Gift Event Info</div>
+			</div>
+
+			<ul class="_gift_list">
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10073319"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/202611110000000004cabd6f2d71c51d505278e3c1c19c0bb.webp" alt=""><span class="_txt"><span class="_name">SALAD BOWLS<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Carabiner</span></span></a></li>
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10074332"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000d34a176be70d28532e9b36b68ae8f3ac.webp" alt=""><span class="_txt"><span class="_name">LENEE.B<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Standard Pouch</span></span></a></li>
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10080944"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000a2caf0f4407035232d13aa8a1a21844a.webp" alt=""><span class="_txt"><span class="_name">DENU<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Rose Hair Clip</span></span></a></li>
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10006699"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/2026111100000000051255a53d3f7f586dc3230fea233abca.webp" alt=""><span class="_txt"><span class="_name">CARLYN<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Fur Heart Keyring</span></span></a></li>
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10074200"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000d54c92da5929852f446c27bbf3bc1f30.webp" alt=""><span class="_txt"><span class="_name">EVOKY<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Random Necklace</span></span></a></li>
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10019861"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000b293874442df502e1b93ec666f74be4d.webp" alt=""><span class="_txt"><span class="_name">RAWROW<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Travel Pouch</span></span></a></li>
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10080779"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000f30fdf92e1fad190ec1127ae61b6a5a5.webp" alt=""><span class="_txt"><span class="_name">PITH SPORTS<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Random Socks</span></span></a></li>
+				<li class="_item"><a href="https://m.eng.lottedfs.com/kr/display/brand?dispShopNo=10013668"><img src="../mock-cdn/contents/images/ckeditor-img/20261111/20261111000000000556162c102ac7dd03a15815098ab8c38.webp" alt=""><span class="_txt"><span class="_name">WHITE SANDS<svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 8L1 15" stroke="#121212" stroke-width="2"/></svg></span><span class="_desc">Free Random Hair Clip</span></span></a></li>
+			</ul>
+
+		</div>
+	</div>
+
+	<div class="_evt_footer">
+		<svg width="22" height="26" viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 0V24M2 15L11 24L20 15" stroke="#FFFFFF" stroke-width="2.5"/></svg>
+		<span class="_txt">Discover More Winter Essentials Below!</span>
+		<svg width="22" height="26" viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 0V24M2 15L11 24L20 15" stroke="#FFFFFF" stroke-width="2.5"/></svg>
+	</div>
+
+</div>
+</div></div></section></div></article></div></body></html>
