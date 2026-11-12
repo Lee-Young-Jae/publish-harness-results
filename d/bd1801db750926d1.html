@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular', sans-serif; background:#fff;}
+	.evWrap * {margin:0; padding:0; box-sizing:border-box;}
+	.evWrap ul, .evWrap li {list-style:none;}
+	.evWrap a {display:block; text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	/* KV */
+	._evt_header {position:relative; width:100%;}
+	._evt_header ._visual {width:100%;}
+	._evt_header ._visual img {display:block; width:100%;}
+
+	/* 본문 */
+	._evt_content {width:100%; padding:17.33333vw 0 0 0;}
+
+	._evt_content ._detail_info {width:73.86667vw; margin:0 auto;}
+	._evt_content ._detail_info ._item {width:100%; padding:5.005vw 0; border-bottom:0.17875vw solid #CFCFCF;}
+	._evt_content ._detail_info ._item:first-child {padding-top:0;}
+	._evt_content ._detail_info ._row {display:flex; align-items:center; gap:5.3625vw; margin-top:1.7875vw;}
+	._evt_content ._detail_info ._row:first-child {margin-top:0;}
+	._evt_content ._detail_info ._label {flex:none; width:13.6vw; font-size:3.21751vw; font-weight:700; line-height:4.504vw; letter-spacing:-0.08933vw; color:#000; white-space:nowrap;}
+	._evt_content ._detail_info ._text {font-size:3.21751vw; font-weight:500; line-height:4.504vw; letter-spacing:-0.08933vw; color:#000;}
+
+	._evt_content ._benefit {display:flex; flex-direction:column; gap:10.66667vw; width:73.33333vw; margin:0 auto;}
+	._evt_content ._coupon_area {display:flex; flex-direction:column; gap:6.4vw; width:100%;}
+	._evt_content ._once {padding:2.66667vw 0; font-size:3.21751vw; font-weight:400; line-height:4.504vw; letter-spacing:-0.08933vw; color:#000;}
+	._evt_content ._once ._mark {font-weight:300;}
+
+	._evt_content ._coupon_number {display:flex; flex-direction:column; align-items:center; gap:2.66667vw; width:100%;}
+	._evt_content ._coupon_number ._input_box {display:flex; align-items:center; gap:1.73333vw; width:100%; height:16.26667vw; padding:3.46667vw 4vw; border-radius:1.33333vw; background:#000;}
+	._evt_content ._coupon_number ._number_input {flex:1; height:8.53333vw; padding:1.86667vw 2.66667vw; border-radius:0.8vw; background:#F7F7F7;}
+	._evt_content ._coupon_number ._number_input input {display:block; width:100%; height:100%; padding:0; border:none; outline:none; background:transparent; font-family:inherit; font-size:2.66667vw !important; font-weight:500; line-height:3.6vw; letter-spacing:0; color:#000;}
+	._evt_content ._coupon_number ._number_input input::placeholder {color:#5E5E5E;}
+	._evt_content ._coupon_number ._number_input input::-webkit-input-placeholder {color:#5E5E5E;}
+	._evt_content ._coupon_number ._number_input input:-ms-input-placeholder {color:#5E5E5E;}
+	._evt_content ._coupon_number ._number_input input:-moz-placeholder {color:#5E5E5E;}
+	._evt_content ._coupon_number ._input_btn {flex:none; display:flex; align-items:center; gap:1.33333vw; width:19.33333vw; height:8.53333vw; padding:1.73333vw 3.2vw 1.73333vw 3.73333vw; border-radius:0.8vw; background:#5D5D5D;}
+	._evt_content ._coupon_number ._input_btn span {font-size:2.66667vw; font-weight:600; line-height:3.6vw; letter-spacing:0; color:#fff; white-space:nowrap;}
+	._evt_content ._coupon_number ._input_btn img {flex:none; width:1.2vw; height:2vw;}
+	._evt_content ._coupon_number ._submit_btn {display:flex; align-items:center; justify-content:center; gap:1.33333vw; width:100%; height:9.6vw; border-radius:1.06667vw; background:#6F6F6F;}
+	._evt_content ._coupon_number ._submit_btn span {font-size:3.2vw; font-weight:600; letter-spacing:0; color:#fff;}
+	._evt_content ._coupon_number ._submit_btn img {flex:none; width:1.2vw; height:2vw;}
+
+	._evt_content ._caution {display:flex; flex-direction:column; gap:0.66667vw; width:78.8vw; color:#4D4D4D; letter-spacing:-0.10933vw;}
+	._evt_content ._caution ._label {font-size:2.26691vw; font-weight:700; line-height:3.4vw;}
+	._evt_content ._caution ._list {min-height:48.8vw;}
+	._evt_content ._caution ._list li {padding-left:1vw; text-indent:-1vw; font-size:2.26691vw; font-weight:400; line-height:3.4vw;}
+
+	/* LDF Membership 배너 */
+	._evt_content ._banner_box {position:relative; width:100%; height:29.46667vw; margin-bottom:14.26667vw; background:#F0EBE3; overflow:hidden;}
+	._evt_content ._banner_box a {position:relative; width:100%; height:100%; color:#4E4C4D;}
+	._evt_content ._banner_box ._graphic {position:absolute; left:68vw; top:-2.66667vw; width:114.26667vw; height:42.53333vw; z-index:0;}
+	._evt_content ._banner_box ._title {position:absolute; left:9.6vw; top:8vw; font-size:4.8vw; font-weight:700; line-height:5.73333vw; letter-spacing:0; white-space:nowrap; z-index:2;}
+	._evt_content ._banner_box ._sub {position:absolute; left:9.6vw; top:14.8vw; display:flex; align-items:center; gap:0.8vw; opacity:0.8; z-index:2;}
+	._evt_content ._banner_box ._sub span {font-size:3.2vw; font-weight:500; line-height:3.86667vw; letter-spacing:0; white-space:nowrap;}
+	._evt_content ._banner_box ._sub img {flex:none; width:1.33333vw; height:2.4vw;}
+
+</style>
+<div class="evWrap" data-ipg-id="mkt_26110001">
+
+	<div class="_evt_header">
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261104/20261104000000000f5901b5a720b259278ac3856cc10bde0.webp" alt="2027 LOTTE DUTY FREE VIP INVITATION - Level up PREMIUM" /></div>
+	</div>
+
+	<div class="_evt_content">
+
+		<div class="_detail_info">
+			<div class="_item">
+				<div class="_row">
+					<div class="_label">행사 대상</div>
+					<div class="_text">본 쿠폰 소지 고객</div>
+				</div>
+				<div class="_row">
+					<div class="_label">Event For</div>
+					<div class="_text">Customers with this coupon</div>
+				</div>
+			</div>
+			<div class="_item">
+				<div class="_row">
+					<div class="_label">혜택</div>
+					<div class="_text">PREMIUM 등급 (최대 20% 할인)</div>
+				</div>
+				<div class="_row">
+					<div class="_label">BENEFIT</div>
+					<div class="_text">PREMIUM Membership (Up to 20% Off)</div>
+				</div>
+			</div>
+			<div class="_item">
+				<div class="_row">
+					<div class="_label">혜택 기간</div>
+					<div class="_text">~ 2027. 12. 31</div>
+				</div>
+				<div class="_row">
+					<div class="_label">Valid For</div>
+					<div class="_text">~ 2027. 12. 31</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="_benefit">
+
+			<div class="_coupon_area">
+				<p class="_once"><span class="_mark">※</span> ID당 1회 / One offer per account</p>
+
+				<div class="_coupon_number">
+					<div class="_input_box">
+						<div class="_number_input">
+							<input type="text" name="cooperationEvt" placeholder="쿠폰 번호를 입력해주세요." autocomplete="off" />
+						</div>
+						<a href="#" class="_input_btn _ev_fn_coupon">
+							<span>쿠폰 입력</span>
+							<img src="../mock-cdn/contents/images/ckeditor-img/20261104/20261104000000000b154900540dafdae5d6bba6c8e96be1b.webp" alt="" />
+						</a>
+					</div>
+					<a href="#" class="_submit_btn _ev_fn_submit">
+						<span class="_txt">혜택 받기</span>
+						<img src="../mock-cdn/contents/images/ckeditor-img/20261104/20261104000000000b154900540dafdae5d6bba6c8e96be1b.webp" alt="" />
+					</a>
+				</div>
+			</div>
+
+			<div class="_caution">
+				<p class="_label">유의사항</p>
+				<ul class="_list">
+					<li>· 등급 혜택 발급 후 재로그인 하셔야 등급이 적용됩니다.<br>(You must log in again after issuing the rating benefit to apply the rating.)</li>
+					<li>· 본 이벤트의 등급 혜택은 롯데면세점에서 매달 진행되는 등급 산정방식과 무관합니다.<br>(The rating benefits of this event are irrelevant to the monthly rating calculation<br>method at LOTTE DUTY FREE.)</li>
+					<li>· 등급 업그레이드 혜택은 기존 ‘PREMIUM’이상 등급 고객님은 반영되지 않습니다.<br>(Ratings upgrade benefits are not reflected for customers with existing<br>'PREMIUM' or higher ratings)</li>
+					<li>· 본 이벤트는 사전 공지 없이 당사의 사정에 따라 변경 또는 조기 종료될 수 있습니다.<br>(This event is subject to change or early termination based on our<br>&nbsp;circumstanceswithout prior notice.)</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="_banner_box">
+			<a href="https://m.kor.lottedfs.com/kr/customer/csContents?prmr=02&amp;scnd=07">
+				<div class="_graphic"><img src="../mock-cdn/contents/images/ckeditor-img/20261104/2026110400000000018fda8498b9d88f14afc43fedadda9c4.webp" alt="" /></div>
+				<p class="_title">LDF Membership 혜택보기</p>
+				<div class="_sub">
+					<span>View LDF Membership Benefits</span>
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261104/202611040000000005a15221b7fe23c70eff5be460aed16f4.webp" alt="" />
+				</div>
+			</a>
+		</div>
+
+	</div>
+
+</div>
+</div></div></section></div></article></div></body></html>

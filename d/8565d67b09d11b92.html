@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank">
+<title>비교 화면 골격 (mo)</title>
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/mc_unit.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/common.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/scss/minify/event.css?version=202610130213">
+<link rel="stylesheet" href="https://static.lottedfs.com/static-fo-mo/css/common/event.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<script>
+/* 비교 화면용: 사이트 함수 자리 채우기 (실제 동작 없음) */
+window.alert = function (m) { console.log('[alert]', m); };
+window.confirm = function () { return false; };
+['ga_evtTagScript', 'fn_todaysBenefitOfrDown', 'fn_goLogin', 'fn_loginCheck', 'fn_setEvtProcInfo', 'setEvtProcInfo',
+ 'fn_offerDown', 'fn_couponDown', 'gaTagging', 'fn_goUrl'].forEach(function (n) { window[n] = window[n] || function () {}; });
+window.fn_todaysBenefitOfrDownChk = window.fn_todaysBenefitOfrDownChk || function () { return { bnftAllDownYn: 'N' }; };
+</script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/jquery.lib.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.md5.min.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/jquery.param.override.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/mobileUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/interaction.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/modules/app.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/cookieutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/constraintutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/dateutil.js"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/util/stringutil.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/time_picker/picker.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/commonUI.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/swiper-bundle.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/jquery.lazy.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/ui/lottie.min.js?version=202610130213"></script>
+<script src="https://static.lottedfs.com/static-fo-mo/js/common/clipboard.min.js"></script>
+<style>html,body{margin:0;background:#fff}</style></head>
+<body class="headerNone"><div id="lotteWrap"><article id="lotteContents" class="newType footerHide"><div class="newEventStyle"><section class="full"><div class="tab_wrap"><div class="full eventTemplet eventTempletNew"><script type="text/javascript">
+	$(document).ready(function() {
+
+		/* 인풋 코드 대문자 치환 */
+		$('input[name="cooperationEvt"]').keyup(function(e){
+			$(this).val($(this).val().toUpperCase());
+		});
+
+	});
+</script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+<style type="text/css">
+	@font-face {
+		font-family:'Noto Sans Regular';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Regular.ttf') format('truetype'),
+		local('NotoSansKR Regular'), local('NotoSansKR-Regular'), local('NotoSansCJKKR-Regular');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+	@font-face {
+		font-family:'Noto Sans Medium';
+		font-style:normal;
+		font-weight:400;
+		src:url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.woff') format('woff'),
+		url('https://static.lottedfs.com/static-fo-pc/css/fonts/NotoSansKR-Medium.ttf') format('truetype'),
+		local('NotoSansKR Medium'), local('NotoSansKR-Medium'), local('NotoSansCJKKR-Medium');
+		unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+	}
+
+	.evWrap {position:relative; width:100%; overflow:hidden; z-index:0; font-family:Pretendard, 'Noto Sans Regular', sans-serif; background:#fff; color:#000;}
+	.evWrap * {margin:0; padding:0; box-sizing:border-box;}
+	.evWrap ul, .evWrap li {list-style:none;}
+	.evWrap a {text-decoration:none; font:inherit;}
+	.evWrap img {display:block; width:100%;}
+
+	._evt_hide {position:absolute; width:1px; height:1px; margin:0; clip:rect(0,0,0,0); white-space:nowrap; overflow:hidden;}
+
+	._evt_header {position:relative; width:100%;}
+	._evt_header ._visual {display:flex; justify-content:center; width:100%; margin:0 auto;}
+
+	._evt_content {width:80vw; margin:0 auto; padding:18.66667vw 0 16vw;}
+
+	._sec + ._sec {margin-top:21.2vw;}
+	._sec ._sec_label {display:flex; justify-content:center;}
+	._sec ._sec_label span {display:inline-block; padding-bottom:1.06667vw; border-bottom:0.8vw solid #D660B8; font-size:3.73333vw; font-weight:500; line-height:5.2vw;}
+	._sec ._sec_tit {margin-top:5.2vw; font-size:8vw; font-weight:400; line-height:10.93333vw; letter-spacing:-0.02em;}
+	._sec ._sec_tit b {font-weight:700;}
+
+	._benefit {display:flex; align-items:flex-end; width:100%; margin-top:6.26667vw;}
+	._benefit._gold {margin-top:6.4vw;}
+	._benefit ._bnf_head {flex:1;}
+	._benefit ._bnf_name {font-size:3.73333vw; font-weight:600; line-height:5.33333vw;}
+	._benefit ._bnf_bar {width:100%; height:1.33333vw; margin-top:1.33333vw; background:#000;}
+	._benefit ._bnf_max {margin-top:1.6vw; font-size:3.73333vw; font-weight:500; line-height:5.33333vw;}
+	._benefit ._bnf_val {flex-shrink:0; margin-left:2.66667vw; margin-bottom:-4.66667vw; font-size:14.66667vw; font-weight:800; line-height:1; letter-spacing:-0.02em;}
+	._benefit._gold ._bnf_val {margin-left:3.33333vw; margin-bottom:-5.33333vw; font-size:16vw;}
+	._benefit ._bnf_val ._unit {display:inline-block; vertical-align:top; margin:0.8vw 0.26667vw 0 0; font-size:5.86667vw;}
+
+	._coupon_list {width:100%; margin-top:6.13333vw;}
+	._coupon_list li {display:flex; justify-content:space-between; align-items:center; height:9.33333vw; border-bottom:0.13333vw solid #DDDDDD;}
+	._coupon_list li ._cond {font-size:3.2vw; font-weight:400; color:#000;}
+	._coupon_list li ._price {font-size:5.06667vw; font-weight:700;}
+
+	._detail_info {width:100%; margin-top:13.73333vw;}
+	._detail_info ._item {display:flex; align-items:baseline; width:100%;}
+	._detail_info ._item + ._item {margin-top:2.4vw;}
+	._detail_info ._divider {width:100%; height:0.13333vw; margin:2.26667vw 0 2vw; background:#DDDDDD;}
+	._detail_info ._item ._label {width:14.8vw; flex-shrink:0; font-size:3.2vw; font-weight:400; color:#333;}
+	._detail_info ._item ._text {width:100%; font-size:4.26667vw; font-weight:500; line-height:6.4vw; color:#000;}
+	._detail_info ._item ._text span {display:block; margin-top:0.66667vw; font-size:2.93333vw; font-weight:400; line-height:4vw; color:#888;}
+
+	._info_list {width:100%; margin-top:5.2vw;}
+	._info_list li {display:flex; font-size:3.2vw; font-weight:400; line-height:5.2vw; color:#999; letter-spacing:-0.02em;}
+	._info_list li + li {margin-top:1.2vw;}
+	._info_list li::before {content:'·'; flex-shrink:0; width:3.86667vw;}
+
+	._coupon_number {width:100%; height:16vw; margin-top:10.13333vw; border:0.13333vw solid #999;}
+	._coupon_number ._number_input {width:100%; height:100%;}
+	._coupon_number ._number_input input {width:100%; height:100%; padding:0 2.66667vw !important; border:none; outline:none; border-radius:0 !important; background:transparent; text-align:center; font-family:inherit; font-size:4vw !important; font-weight:400; color:#000 !important;}
+	._coupon_number ._number_input input::placeholder {color:#999 !important;}
+	._coupon_number ._number_input input::-webkit-input-placeholder {color:#999 !important;}
+	._coupon_number ._number_input input:-ms-input-placeholder {color:#999 !important;}
+	._coupon_number ._number_input input:-moz-placeholder {color:#999 !important;}
+
+	._submit_btn {width:100%; height:16vw; margin:4vw auto 0; background:#000; border-radius:2.66667vw;}
+	._submit_btn a {display:flex; align-items:center; justify-content:center; gap:1.6vw; width:100%; height:100%;}
+	._submit_btn a span {font-size:4.8vw; font-weight:700; color:#fff;}
+	._submit_btn a svg {width:3.2vw; height:auto;}
+
+	._banner_box {width:100%; margin-top:10.66667vw;}
+
+	._card_box {width:100%; margin-top:6.66667vw; padding:3.2vw 3.2vw 2.53333vw; background:#EBEBEB; border-radius:3.2vw;}
+	._card_box + ._card_box {margin-top:4.4vw;}
+	._card_box ._card_img {display:flex; flex-direction:column; gap:2.26667vw; width:100%;}
+	._card_box ._card_txt {margin-top:2.26667vw; font-size:3.46667vw; font-weight:400; line-height:4.8vw; color:#666; text-align:center;}
+	._card_box + ._detail_info {margin-top:10.53333vw;}
+</style>
+<div class="evWrap" data-ipg-id="mkt_26110003">
+
+	<div class="_evt_header">
+		<div class="_visual"><img src="../mock-cdn/contents/images/ckeditor-img/20261106/202611060000000006a83a1fc007f5100f66121be178effd5.webp" alt="COLORIZE X LOTTE DUTY FREE 나만의 컬러를 찾는 쇼핑 컬러라이즈 2026.12.1 ~ 12.31" /></div>
+	</div>
+
+	<div class="_evt_content">
+
+		<!-- 롯데면세점 혜택 -->
+		<div class="_sec _sec_1">
+			<div class="_sec_label"><span>롯데면세점 혜택</span></div>
+			<h3 class="_sec_tit">온라인 제휴쿠폰+등급<br><b>업그레이드 혜택</b></h3>
+
+			<div class="_benefit">
+				<div class="_bnf_head">
+					<div class="_bnf_name">제휴쿠폰</div>
+					<div class="_bnf_bar"></div>
+					<div class="_bnf_max">최대</div>
+				</div>
+				<div class="_bnf_val"><span class="_unit">$</span>56</div>
+			</div>
+			<ul class="_coupon_list">
+				<li><span class="_cond">$550 이상 구매 시</span><span class="_price">$27</span></li>
+				<li><span class="_cond">$300 이상 구매 시</span><span class="_price">$15</span></li>
+				<li><span class="_cond">$180 이상 구매 시</span><span class="_price">$9</span></li>
+				<li><span class="_cond">$100 이상 구매 시</span><span class="_price">$5</span></li>
+			</ul>
+
+			<div class="_benefit _gold">
+				<div class="_bnf_head">
+					<div class="_bnf_name">GOLD 등급</div>
+					<div class="_bnf_bar"></div>
+					<div class="_bnf_max">최대</div>
+				</div>
+				<div class="_bnf_val">15%</div>
+			</div>
+
+			<div class="_detail_info">
+				<div class="_item">
+					<div class="_label">쿠폰혜택</div>
+					<div class="_text">기간 내 ID당 1회 참여 가능<span>※ 회원가 기준</span></div>
+				</div>
+				<div class="_item">
+					<div class="_label">사용기간</div>
+					<div class="_text">2026.12.31까지</div>
+				</div>
+				<div class="_divider"></div>
+				<div class="_item">
+					<div class="_label">등급혜택</div>
+					<div class="_text">연간 ID당 1회 참여 가능</div>
+				</div>
+				<div class="_item">
+					<div class="_label">혜택기간</div>
+					<div class="_text">등업 발급일 ~ 2026.12.31</div>
+				</div>
+				<div class="_divider"></div>
+				<div class="_item">
+					<div class="_label">참여방법</div>
+					<div class="_text">컬러라이즈 공식 SNS (인스타그램, 샤오홍슈, 블로그 등) 내 제휴 게시글에서 혜택번호 (공통 인증코드) 확인 후 등록</div>
+				</div>
+			</div>
+
+			<ul class="_info_list">
+				<li>상기 할인율의 예시이며, 브랜드(상품)별 기본 혜택 최대 적용률 및 등급 할인율은 상이합니다.</li>
+				<li>회원가는 추가할인 (제휴쿠폰, 기본 혜택, 결제쿠폰) 적용 전 금액입니다.</li>
+				<li>등업 신청 완료 후 재로그인 하셔야 등급이 적용 됩니다.</li>
+				<li>주문건별로 반드시 정확한 탑승 비행기 편명을 입력해 주셔야 물품 인도 및 통관이 가능합니다.</li>
+			</ul>
+
+			<div class="_coupon_number">
+				<div class="_number_input">
+					<input type="text" name="cooperationEvt" id="cooperationEvt" maxlength="" value="" placeholder="쿠폰번호를 입력해 주세요" style="text-transform:uppercase;" />
+				</div>
+			</div>
+
+			<div class="_submit_btn">
+				<a href="#" class="_ev_fn_submit">
+					<span>혜택 받기</span>
+					<svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M8 1V18M8 18L1.5 11.5M8 18L14.5 11.5" stroke="#D660B8" stroke-width="2.4"/>
+					</svg>
+				</a>
+				<script>
+					(function() {
+						$('._ev_fn_submit').on('click', function(e) {
+							e.preventDefault();
+
+							/* 면세점 함수 호출 */
+							fn_event_submit();
+						});
+					})();
+				</script>
+			</div>
+
+			<div class="_banner_box">
+				<a href="#"><img src="../mock-cdn/contents/images/ckeditor-img/20261106/202611060000000007e2773ca74caf61acc53c0af7d96959b.webp" alt="컬러라이즈 채널에서 혜택번호 확인하러 가기" /></a>
+			</div>
+		</div>
+
+		<!-- 컬러라이즈 혜택 -->
+		<div class="_sec _sec_2">
+			<div class="_sec_label"><span>컬러라이즈 혜택</span></div>
+			<h3 class="_sec_tit">롯데면세점 고객 전용<br><b>방문 혜택</b></h3>
+
+			<div class="_card_box">
+				<div class="_card_img">
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261106/202611060000000003e51cad0e3890dd0c27a851b07032b8b.webp" alt="미니카드(포토카드) SPRING" />
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261106/20261106000000000a686aa932bb2ca64f758b18075486529.webp" alt="미니카드(포토카드) SPRING LIGHT" />
+				</div>
+				<p class="_card_txt">미니카드(포토카드)</p>
+			</div>
+			<div class="_card_box">
+				<div class="_card_img">
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261106/202611060000000003efe91f9833f939c584be71eff3b636f.webp" alt="이미지 카드 AUTUMN DEEP TYPE" />
+					<img src="../mock-cdn/contents/images/ckeditor-img/20261106/202611060000000009d97d2bd9b5e3c1b8b78e3dd3c9d814f.webp" alt="이미지 카드 AUTUMN DEEP TYPE BEST PALETTE" />
+				</div>
+				<p class="_card_txt">이미지 카드</p>
+			</div>
+
+			<div class="_detail_info">
+				<div class="_item">
+					<div class="_label">방문혜택</div>
+					<div class="_text">이미지 카드 1장 + 미니 카드(포토카드) 1장 증정</div>
+				</div>
+				<div class="_item">
+					<div class="_label">사용기간</div>
+					<div class="_text">2026.12.31까지</div>
+				</div>
+				<div class="_item">
+					<div class="_label">참여방법</div>
+					<div class="_text">컬러라이즈 오프라인 매장 방문 시,<br>본 이벤트 페이지 화면을 제시하면<br>'이미지 카드 + 포토카드 1매' 현장 증정</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+</div></div></section></div></article></div></body></html>
