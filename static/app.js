@@ -102,6 +102,14 @@ if (!FILTERS[S.filter]) S.filter = 'all';
 
 /* ---------- 분류 표 (팀의 '퍼블리싱 작업 유형 분류' 표와 같은 칸) ----------
    하네스가 기록으로 추정한 값을 미리 채우고, 사람이 고친 값은 이 브라우저에 남긴다. 노션에는 복사해서 옮긴다. */
+/* 확인 표시 묶음: [이름, 설명, 펼쳐 둘지] */
+const FLAG_GROUPS = [
+  ['오류', '검증에서 걸린 것', true],
+  ['물어볼 것', '요청 자료의 어긋남·빠진 값, 제작 중 확인을 구한 것', true],
+  ['할 일', '그림 올리기·빈칸 채우기처럼 사람이 하는 단계', true],
+  ['등록 전에 정해질 값', '행사 번호·주소·반영 일시 (새 페이지는 요청 때 아직 없어요)', false],
+  ['알림', '하네스가 스스로 정한 것 (읽지 않아도 돼요)', false],
+];
 const BUILD_KINDS = ['디자인으로 새 페이지', '다국어판 제작', '시리즈 제작', '이미지 단건', '기타 제작'];
 const SHEET_TYPES = [...BUILD_KINDS, '콘텐츠 수정', '구성 변경', '기능·스타일'];
 /* 유형이 뜻하는 것 (하네스 scope.py KIND_INFO와 같은 글). 제작 요청은 종류로, 수정 요청은 항목이 하는 일로 나눈다 */
@@ -432,7 +440,11 @@ function renderCase() {
   if (d.eval) chips.append(chip(...EVAL[d.eval]));
   if (COMPLETION[d.completion]) chips.append(completionChip(d.completion));
   if (REPLAY[d.replay]) chips.append(replayChip(d.replay));
-  if (d.warns) chips.append(chip(`확인 필요 ${d.warns}`, 'warn'));
+  const fl = d.flags || {};
+  if (fl['오류']) chips.append(chip(`오류 ${fl['오류']}`, 'bad'));
+  if (fl['물어볼 것']) chips.append(chip(`물어볼 것 ${fl['물어볼 것']}`, 'warn'));
+  if (fl['할 일']) chips.append(chip(`할 일 ${fl['할 일']}`));
+  if (!d.flags && d.warns) chips.append(chip(`확인 필요 ${d.warns}`, 'warn'));
   if (d.versions.length > 1) chips.append(chip(`퍼블리셔 ${d.versions.length}판 (재납품)`, 'info'));
 
   const tabs = $('#fileTabs');
@@ -871,11 +883,28 @@ function renderDetails() {
   }
 
   if (m.findings?.length) {
+    // 확인 표시를 성격별로 묶는다 (harness/flags.py와 같은 묶음). 사람이 봐야 하는 것부터, 알림은 접어 둔다
     const s = section('검증');
-    m.findings.forEach(f => {
-      const row = el('div', 'finding');
-      row.append(chip(...(SEVERITY[f.severity] || [f.severity])), el('span', null, f.message));
-      s.append(row);
+    const by = {};
+    m.findings.forEach(f => { (by[f.group || (f.severity === 'error' ? '오류' : '물어볼 것')] ||= []).push(f); });
+    FLAG_GROUPS.forEach(([name, help, open]) => {
+      const list = by[name];
+      if (!list) return;
+      const box2 = el('details', 'flag-group');
+      box2.open = open;
+      const sum = el('summary');
+      sum.append(el('b', null, `${name} ${list.length}`), el('span', 'muted', ` ${help}`));
+      box2.append(sum);
+      list.forEach(f => {
+        const row = el('div', 'finding');
+        const text = f.message.replace(/^(에이전트 판단|요청서 확인 필요): /, '');
+        const from = f.message.startsWith('에이전트 판단') ? '제작 중' : f.message.startsWith('요청서 확인 필요') ? '요청 자료' : '';
+        if (name === '오류') row.append(chip(...(SEVERITY[f.severity] || [f.severity])));
+        else if (from) row.append(chip(from));
+        row.append(el('span', null, text));
+        box2.append(row);
+      });
+      s.append(box2);
     });
     box.append(s);
   }
